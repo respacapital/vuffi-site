@@ -25,8 +25,8 @@
   }
 }
 
-/* Sections */
-.vuffi-section {
+/* Sections (low specificity so each section can override spacing and overflow) */
+:where(.vuffi-section) {
   --vuffi-accent: var(--vuffi-green);
   --vuffi-line: rgb(var(--color-foreground-rgb) / 0.12);
   --vuffi-line-strong: rgb(var(--color-foreground-rgb) / 0.28);
@@ -39,7 +39,7 @@
   overflow: clip;
 }
 
-.vuffi-section[data-tone='dark'] {
+:where(.vuffi-section)[data-tone='dark'] {
   --vuffi-accent: var(--vuffi-lime);
   --vuffi-line: rgb(var(--color-foreground-rgb) / 0.16);
   --vuffi-soft: rgb(var(--color-foreground-rgb) / 0.06);
