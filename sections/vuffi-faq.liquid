@@ -1,0 +1,188 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section class="vuffi-section vuffi-faq color-custom-{{ section.id }}" data-tone="{{ tone }}" id="faq">
+  <div class="vuffi-wrap vuffi-faq__grid">
+    <div class="vuffi-faq__intro">
+      <div class="vuffi-head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="vuffi-h2" data-reveal style="--i: 1">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}
+          <div class="vuffi-lede" data-reveal style="--i: 2">{{ section.settings.text }}</div>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.button_label != blank -%}
+        <div class="vuffi-actions" data-reveal style="--i: 3">
+          {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link, style: 'ghost' -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="vuffi-faq__list" data-reveal style="--i: 2">
+      {%- for block in section.blocks -%}
+        <details class="vuffi-acc" {% if forloop.first and section.settings.open_first %}open{% endif %} {{ block.shopify_attributes }}>
+          <summary>
+            <span>{{ block.settings.question }}</span>
+            <span class="vuffi-acc__sign" aria-hidden="true"></span>
+          </summary>
+          <div class="vuffi-acc__body">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- if section.settings.schema_markup and section.blocks.size > 0 -%}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {%- for block in section.blocks -%}
+            {
+              "@type": "Question",
+              "name": {{ block.settings.question | json }},
+              "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | json }} }
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      }
+    </script>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+  .vuffi-faq__grid {
+    display: grid;
+    gap: 40px;
+  }
+
+  .vuffi-faq__intro {
+    display: grid;
+    gap: 28px;
+    align-content: start;
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-faq__grid {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 96px;
+    }
+
+    .vuffi-faq__intro {
+      position: sticky;
+      top: 120px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi FAQ",
+  "tag": "div",
+  "class": "vuffi-faq-section",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above",
+      "default": "Questions"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Good <em>questions.</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Still wondering about something? Email us and a real person will get back to you.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button",
+      "default": "Contact us"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open the first question",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "schema_markup",
+      "label": "Add FAQ data for Google",
+      "default": true,
+      "info": "Use on one page only, usually the FAQ page."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How long until I see a difference?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Many owners see easier mornings within a few weeks. Joint support builds with daily use, which is why we give you 90 days to decide.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi FAQ",
+      "blocks": [
+        { "type": "question" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,256 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section class="vuffi-section vuffi-timeline color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap">
+    <div class="vuffi-head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="vuffi-h2" data-reveal style="--i: 1">{{ section.settings.heading }}</h2>
+    </div>
+
+    <ol class="vuffi-timeline__list" role="list" data-reveal="fade" style="--count: {{ section.blocks.size }};">
+      {%- for block in section.blocks -%}
+        <li class="vuffi-timeline__step" style="--i: {{ forloop.index0 }};" {{ block.shopify_attributes }}>
+          <span class="vuffi-timeline__dot" aria-hidden="true"></span>
+          <p class="vuffi-timeline__when">{{ block.settings.when }}</p>
+          <h3 class="vuffi-h3 vuffi-timeline__title">{{ block.settings.title }}</h3>
+          <div class="vuffi-timeline__text">{{ block.settings.text }}</div>
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    {%- if section.settings.note != blank -%}
+      <p class="vuffi-small vuffi-timeline__note" data-reveal>{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-timeline .vuffi-head {
+    margin-bottom: 56px;
+  }
+
+  .vuffi-timeline__list {
+    position: relative;
+    display: grid;
+    gap: 36px;
+    margin: 0;
+    padding: 0 0 0 36px;
+    list-style: none;
+  }
+
+  .vuffi-timeline__list::before,
+  .vuffi-timeline__list::after {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    border-radius: 2px;
+    background: var(--vuffi-line);
+  }
+
+  .vuffi-timeline__list::after {
+    background: var(--vuffi-accent);
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform 2.2s var(--vuffi-ease) 0.2s;
+  }
+
+  .vuffi-timeline__list.is-in::after,
+  html:not(.vuffi-js) .vuffi-timeline__list::after,
+  html.vuffi-still .vuffi-timeline__list::after {
+    transform: none;
+  }
+
+  .vuffi-timeline__step {
+    position: relative;
+    display: grid;
+    gap: 8px;
+    opacity: 0.25;
+    transition: opacity 0.8s var(--vuffi-ease);
+    transition-delay: calc(var(--i) * 0.45s + 0.3s);
+  }
+
+  .vuffi-timeline__list.is-in .vuffi-timeline__step,
+  html.vuffi-still .vuffi-timeline__step,
+  html:not(.vuffi-js) .vuffi-timeline__step {
+    opacity: 1;
+  }
+
+  .vuffi-timeline__dot {
+    position: absolute;
+    left: -36px;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--vuffi-accent);
+    border-radius: 50%;
+    background: var(--color-background);
+  }
+
+  .vuffi-timeline__step:last-child .vuffi-timeline__dot {
+    background: var(--vuffi-accent);
+  }
+
+  .vuffi-timeline__when {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--vuffi-accent);
+  }
+
+  .vuffi-timeline__text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-timeline__text p {
+    margin: 0;
+  }
+
+  .vuffi-timeline__note {
+    margin: 40px 0 0;
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-timeline__list {
+      grid-template-columns: repeat(var(--count, 4), minmax(0, 1fr));
+      gap: 40px;
+      padding: 40px 0 0;
+    }
+
+    .vuffi-timeline__list::before,
+    .vuffi-timeline__list::after {
+      left: 8px;
+      right: 8px;
+      top: 7px;
+      bottom: auto;
+      width: auto;
+      height: 2px;
+    }
+
+    .vuffi-timeline__list::after {
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+
+    .vuffi-timeline__dot {
+      left: 0;
+      top: -40px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vuffi-timeline__list::after {
+      transform: none;
+      transition: none;
+    }
+
+    .vuffi-timeline__step {
+      opacity: 1;
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi timeline",
+  "tag": "div",
+  "class": "vuffi-timeline-section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above",
+      "default": "What to expect"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Give it <em>90 days.</em>"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Small print",
+      "default": "Every dog is different. Results build with daily use."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "when",
+          "label": "When",
+          "default": "Week 1"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "A treat they ask for"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>The daily chew becomes the best part of their morning.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi timeline",
+      "blocks": [
+        { "type": "step", "settings": { "when": "Week 1", "title": "A treat they ask for", "text": "<p>The daily chew becomes the best part of their morning, so the habit sticks from day one.</p>" } },
+        { "type": "step", "settings": { "when": "Weeks 2 to 4", "title": "Easier mornings", "text": "<p>Getting up from bed and the first steps of the walk start to look less stiff.</p>" } },
+        { "type": "step", "settings": { "when": "Weeks 4 to 8", "title": "More spring", "text": "<p>Stairs, the jump onto the couch and the leap into the car come easier.</p>" } },
+        { "type": "step", "settings": { "when": "Day 90", "title": "Moving like themselves", "text": "<p>The full effect of steady daily support. Not happy? Your money back.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

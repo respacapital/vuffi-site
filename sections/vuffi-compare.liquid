@@ -1,0 +1,283 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section class="vuffi-section vuffi-compare color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap">
+    <div class="vuffi-head vuffi-head--center">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="vuffi-h2" data-reveal style="--i: 1">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede" data-reveal style="--i: 2">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="vuffi-compare__table" role="table" aria-label="{{ section.settings.heading | strip_html | escape }}" data-reveal style="--i: 3">
+      <div class="vuffi-compare__row vuffi-compare__row--head" role="row">
+        <span role="columnheader"><span class="vuffi-visually-hidden">{{ section.settings.label_heading }}</span></span>
+        <span class="vuffi-compare__us" role="columnheader">
+          {%- render 'vuffi-logo', class: 'vuffi-compare__logo' -%}
+        </span>
+        <span class="vuffi-compare__them" role="columnheader">{{ section.settings.them_heading }}</span>
+      </div>
+      {%- for block in section.blocks -%}
+        <div class="vuffi-compare__row" role="row" {{ block.shopify_attributes }}>
+          <span class="vuffi-compare__label" role="rowheader">{{ block.settings.label }}</span>
+          {%- assign cells = block.settings.us | append: '|||' | append: block.settings.them | split: '|||' -%}
+          {%- for cell in cells -%}
+            {%- assign value = cell | strip -%}
+            {%- assign down = value | downcase -%}
+            <span class="{% if forloop.first %}vuffi-compare__us{% else %}vuffi-compare__them{% endif %}" role="cell">
+              {%- if down == 'yes' -%}
+                {%- render 'vuffi-icon', name: 'check', class: 'vuffi-compare__yes' -%}
+                <span class="vuffi-visually-hidden">Yes</span>
+              {%- elsif down == 'no' -%}
+                {%- render 'vuffi-icon', name: 'cross', class: 'vuffi-compare__no' -%}
+                <span class="vuffi-visually-hidden">No</span>
+              {%- else -%}
+                {{ value }}
+              {%- endif -%}
+            </span>
+          {%- endfor -%}
+        </div>
+      {%- endfor -%}
+      <div class="vuffi-compare__row vuffi-compare__row--foot" role="row">
+        <span role="cell"></span>
+        <span class="vuffi-compare__us" role="cell">
+          {%- if section.settings.button_label != blank -%}
+            {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link, class: 'vuffi-btn--block', arrow: false -%}
+          {%- endif -%}
+        </span>
+        <span role="cell"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-compare .vuffi-head {
+    margin-bottom: 48px;
+  }
+
+  .vuffi-compare__table {
+    max-width: 920px;
+    margin-inline: auto;
+  }
+
+  .vuffi-compare__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .vuffi-compare__row > span {
+    display: flex;
+    align-items: center;
+    min-height: 64px;
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--vuffi-line);
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  .vuffi-compare__label {
+    font-weight: 500;
+  }
+
+  .vuffi-compare__us,
+  .vuffi-compare__them {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .vuffi-compare__row > .vuffi-compare__us {
+    background: var(--vuffi-ink);
+    color: #ffffff;
+    border-bottom-color: rgb(255 255 255 / 0.12);
+    font-weight: 600;
+    --vuffi-accent: var(--vuffi-lime);
+  }
+
+  .vuffi-compare__row--head > span {
+    min-height: 84px;
+    border-bottom: 0;
+    font-weight: 600;
+  }
+
+  .vuffi-compare__row--head > .vuffi-compare__us {
+    border-radius: var(--vuffi-radius) var(--vuffi-radius) 0 0;
+  }
+
+  .vuffi-compare__row--foot > span {
+    border-bottom: 0;
+    min-height: 0;
+  }
+
+  .vuffi-compare__row--foot > .vuffi-compare__us {
+    padding: 8px 14px 20px;
+    border-radius: 0 0 var(--vuffi-radius) var(--vuffi-radius);
+  }
+
+  .vuffi-compare__logo {
+    width: 84px;
+    height: auto;
+    color: #ffffff;
+    --vuffi-logo-paw: var(--vuffi-lime);
+  }
+
+  .vuffi-compare__them {
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-compare__yes {
+    width: 26px;
+    height: 26px;
+    stroke-width: 2.2;
+  }
+
+  .vuffi-compare__no {
+    width: 22px;
+    height: 22px;
+    opacity: 0.45;
+  }
+
+  .vuffi-compare__row--foot .vuffi-btn {
+    min-height: 48px;
+    padding: 0 16px;
+    font-size: 14px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-compare__row > span {
+      padding: 14px 24px;
+      font-size: 16px;
+    }
+
+    .vuffi-compare__logo {
+      width: 104px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi comparison",
+  "tag": "div",
+  "class": "vuffi-compare-section",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above",
+      "default": "Why one chew"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Stop stacking <em>bottles.</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Most joint routines mean a cabinet of pills hidden in food. Vuffi puts the whole stack in one chew your dog asks for.</p>"
+    },
+    {
+      "type": "text",
+      "id": "label_heading",
+      "label": "First column name for screen readers",
+      "default": "What you get"
+    },
+    {
+      "type": "text",
+      "id": "them_heading",
+      "label": "Right column heading",
+      "default": "Stacking bottles"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button under the Vuffi column",
+      "default": "Shop Vuffi"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Row label",
+          "default": "Glucosamine and chondroitin"
+        },
+        {
+          "type": "text",
+          "id": "us",
+          "label": "Vuffi",
+          "default": "yes",
+          "info": "Type yes for a check mark or no for a cross. Anything else shows as text."
+        },
+        {
+          "type": "text",
+          "id": "them",
+          "label": "Other column",
+          "default": "Bottle 1"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi comparison",
+      "blocks": [
+        { "type": "row", "settings": { "label": "Glucosamine and chondroitin", "us": "yes", "them": "Bottle 1" } },
+        { "type": "row", "settings": { "label": "MSM", "us": "yes", "them": "Bottle 2" } },
+        { "type": "row", "settings": { "label": "Hyaluronic acid", "us": "yes", "them": "Bottle 3" } },
+        { "type": "row", "settings": { "label": "Green lipped mussel omegas", "us": "yes", "them": "Bottle 4" } },
+        { "type": "row", "settings": { "label": "Daily routine", "us": "One chew", "them": "Pills in food" } },
+        { "type": "row", "settings": { "label": "Tastes like a treat", "us": "yes", "them": "no" } },
+        { "type": "row", "settings": { "label": "90 day money back guarantee", "us": "yes", "them": "no" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

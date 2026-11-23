@@ -1,0 +1,365 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign start = section.settings.start_weight
+  assign span = section.settings.max_weight | minus: 5
+  assign fill = start | minus: 5 | times: 100.0 | divided_by: span
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+<script src="{{ 'vuffi-dose.js' | asset_url }}" defer></script>
+
+<section class="vuffi-section vuffi-dose color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap vuffi-dose__grid">
+    <div class="vuffi-head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="vuffi-h2" data-reveal style="--i: 1">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede" data-reveal style="--i: 2">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    <vuffi-dose class="vuffi-dose__card" data-reveal style="--i: 3" data-over="{{ section.settings.over_weight }}">
+      <script type="application/json" data-tiers>
+        [
+          {%- for block in section.blocks -%}
+            {"upTo": {{ block.settings.up_to }}, "result": {{ block.settings.result | json }}, "detail": {{ block.settings.detail | json }}}{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      </script>
+      <script type="application/json" data-over-copy>
+        {"result": {{ section.settings.over_result | json }}, "detail": {{ section.settings.over_detail | json }}}
+      </script>
+
+      <div class="vuffi-dose__input">
+        <label class="vuffi-dose__label" for="DoseWeight-{{ section.id }}">{{ section.settings.slider_label }}</label>
+        <output class="vuffi-dose__weight" for="DoseWeight-{{ section.id }}">
+          <span class="vuffi-num" data-weight>{{ start }}</span>
+          <span class="vuffi-dose__unit">lbs</span>
+        </output>
+        <input
+          class="vuffi-dose__range"
+          type="range"
+          id="DoseWeight-{{ section.id }}"
+          min="5"
+          max="{{ section.settings.max_weight }}"
+          step="1"
+          value="{{ start }}"
+          style="--fill: {{ fill }}%;"
+        >
+        <div class="vuffi-dose__ticks" aria-hidden="true">
+          <span>5</span><span>{{ section.settings.max_weight | divided_by: 2 }}</span><span>{{ section.settings.max_weight }}+</span>
+        </div>
+      </div>
+
+      <div class="vuffi-dose__result" aria-live="polite">
+        <span class="vuffi-icon-wrap">{%- render 'vuffi-icon', name: 'chew' -%}</span>
+        <p class="vuffi-dose__big" data-result>{{ section.blocks.first.settings.result }}</p>
+        <p class="vuffi-dose__detail" data-detail>{{ section.blocks.first.settings.detail }}</p>
+      </div>
+
+      {%- if section.settings.note != blank -%}
+        <p class="vuffi-small vuffi-dose__note">{{ section.settings.note }}</p>
+      {%- endif -%}
+    </vuffi-dose>
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-dose__grid {
+    display: grid;
+    gap: 40px;
+  }
+
+  .vuffi-dose__card {
+    display: grid;
+    gap: 28px;
+    padding: clamp(24px, 4vw, 48px);
+    border: 1px solid var(--vuffi-line);
+    border-radius: var(--vuffi-radius-lg);
+    background: var(--vuffi-card);
+  }
+
+  .vuffi-dose__input {
+    display: grid;
+    gap: 14px;
+  }
+
+  .vuffi-dose__label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .vuffi-dose__weight {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--font-heading--family);
+    font-size: clamp(72px, 9vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+  }
+
+  .vuffi-dose__unit {
+    font-family: var(--font-body--family);
+    font-size: 20px;
+    letter-spacing: 0;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-dose__range {
+    --fill: 40%;
+    width: 100%;
+    height: 28px;
+    margin: 0;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  }
+
+  .vuffi-dose__range::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--vuffi-accent) var(--fill), var(--vuffi-line) var(--fill));
+  }
+
+  .vuffi-dose__range::-moz-range-track {
+    height: 6px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--vuffi-accent) var(--fill), var(--vuffi-line) var(--fill));
+  }
+
+  .vuffi-dose__range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px;
+    height: 28px;
+    margin-top: -11px;
+    border: 2px solid var(--color-background);
+    border-radius: 50%;
+    background: var(--color-foreground);
+    box-shadow: 0 4px 14px rgb(11 20 16 / 0.25);
+  }
+
+  .vuffi-dose__range::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--color-background);
+    border-radius: 50%;
+    background: var(--color-foreground);
+  }
+
+  .vuffi-dose__range:focus-visible {
+    outline: 2px solid var(--vuffi-accent);
+    outline-offset: 6px;
+    border-radius: 8px;
+  }
+
+  .vuffi-dose__ticks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-dose__result {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 4px 16px;
+    padding: 24px;
+    border-radius: var(--vuffi-radius);
+    background: var(--vuffi-ink);
+    color: #ffffff;
+    --vuffi-accent: var(--vuffi-lime);
+  }
+
+  .vuffi-dose__result .vuffi-icon-wrap {
+    grid-row: span 2;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.08);
+  }
+
+  .vuffi-dose__big {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(30px, 3vw, 40px);
+    line-height: 1.05;
+  }
+
+  .vuffi-dose__detail {
+    margin: 0;
+    font-size: 15px;
+    opacity: 0.75;
+  }
+
+  .vuffi-dose__note {
+    margin: 0;
+  }
+
+  .vuffi-dose__result.is-swap .vuffi-dose__big,
+  .vuffi-dose__result.is-swap .vuffi-dose__detail {
+    animation: vuffi-tick 0.5s var(--vuffi-ease);
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-dose__grid {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: center;
+      gap: 72px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi dose finder",
+  "tag": "div",
+  "class": "vuffi-dose-section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above",
+      "default": "Daily dose"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Made for <em>their</em> size."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Slide to your dog's weight to see their daily dose and how long a jar lasts. Give it with a meal or as a treat, at the same time each day.</p>"
+    },
+    {
+      "type": "text",
+      "id": "slider_label",
+      "label": "Slider label",
+      "default": "Your dog's weight"
+    },
+    {
+      "type": "range",
+      "id": "start_weight",
+      "label": "Starting weight",
+      "min": 5,
+      "max": 100,
+      "step": 1,
+      "unit": "lb",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "max_weight",
+      "label": "Slider maximum",
+      "min": 70,
+      "max": 150,
+      "step": 10,
+      "unit": "lb",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "over_weight",
+      "label": "Heavier than the label covers, from",
+      "min": 40,
+      "max": 150,
+      "step": 1,
+      "unit": "lb",
+      "default": 66
+    },
+    {
+      "type": "text",
+      "id": "over_result",
+      "label": "Result for heavier dogs",
+      "default": "Ask your vet first"
+    },
+    {
+      "type": "text",
+      "id": "over_detail",
+      "label": "Detail for heavier dogs",
+      "default": "The label covers dogs up to 65 lbs. Your vet can set the right amount for a bigger dog."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Small print",
+      "default": "For dogs over 12 weeks old. Not for pregnant or nursing dogs without your vet's advice."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Weight band",
+      "settings": [
+        {
+          "type": "range",
+          "id": "up_to",
+          "label": "Up to",
+          "min": 5,
+          "max": 150,
+          "step": 1,
+          "unit": "lb",
+          "default": 35
+        },
+        {
+          "type": "text",
+          "id": "result",
+          "label": "Dose",
+          "default": "1 chew a day"
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Detail",
+          "default": "One jar lasts 30 days."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi dose finder",
+      "blocks": [
+        { "type": "tier", "settings": { "up_to": 35, "result": "1 chew a day", "detail": "One jar lasts 30 days." } },
+        { "type": "tier", "settings": { "up_to": 65, "result": "2 chews a day", "detail": "One jar lasts 15 days. Two jars a month covers it." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

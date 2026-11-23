@@ -1,0 +1,599 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+<script src="{{ 'vuffi-joint.js' | asset_url }}" defer></script>
+
+<section class="vuffi-section vuffi-joint color-custom-{{ section.id }}" data-tone="{{ tone }}" id="how-it-works">
+  <vuffi-joint class="vuffi-wrap vuffi-joint__grid" data-state="worn">
+    <div class="vuffi-joint__copy">
+      <div class="vuffi-head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="vuffi-h2" data-reveal style="--i: 1">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}
+          <div class="vuffi-lede" data-reveal style="--i: 2">{{ section.settings.text }}</div>
+        {%- endif -%}
+      </div>
+
+      <div class="vuffi-joint__toggle" role="group" aria-label="{{ section.settings.toggle_label | escape }}" data-reveal style="--i: 3">
+        <button type="button" class="vuffi-joint__switch" data-set="worn" aria-pressed="true">
+          {{- section.settings.worn_label -}}
+        </button>
+        <button type="button" class="vuffi-joint__switch" data-set="supported" aria-pressed="false">
+          {{- section.settings.supported_label -}}
+        </button>
+        <span class="vuffi-joint__thumb" aria-hidden="true"></span>
+      </div>
+
+      <ol class="vuffi-joint__list" role="list">
+        {%- for block in section.blocks -%}
+          <li class="vuffi-joint__item" data-reveal style="--i: {{ forloop.index | plus: 3 }}" {{ block.shopify_attributes }}>
+            <button
+              type="button"
+              class="vuffi-joint__ing"
+              data-spot="{{ block.settings.spot }}"
+              aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-controls="JointText-{{ block.id }}"
+            >
+              <span class="vuffi-joint__n vuffi-num">{{ forloop.index }}</span>
+              <span class="vuffi-joint__name">{{ block.settings.name }}</span>
+              <span class="vuffi-joint__role">{{ block.settings.role }}</span>
+            </button>
+            <div class="vuffi-joint__text" id="JointText-{{ block.id }}" {% unless forloop.first %}hidden{% endunless %}>
+              {{ block.settings.text }}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </div>
+
+    <div class="vuffi-joint__visual" data-reveal="scale">
+      <svg class="vuffi-joint__svg" viewBox="0 0 600 600" role="img" aria-labelledby="JointSvgTitle-{{ section.id }}">
+        <title id="JointSvgTitle-{{ section.id }}">{{ section.settings.diagram_alt | escape }}</title>
+        <defs>
+          <filter id="JointBlur-{{ section.id }}" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="14"/>
+          </filter>
+          <linearGradient id="JointBone-{{ section.id }}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FFFFFF"/>
+            <stop offset="1" stop-color="#E6ECE9"/>
+          </linearGradient>
+        </defs>
+
+        <path class="vj-capsule" d="M150 236 C150 214 166 206 190 206 L410 206 C434 206 450 214 450 236 L450 394 C450 416 434 424 410 424 L190 424 C166 424 150 416 150 394 Z"/>
+        <ellipse class="vj-fluid" cx="300" cy="314" rx="150" ry="34"/>
+
+        <g class="vj-heat" filter="url(#JointBlur-{{ section.id }})">
+          <circle cx="178" cy="318" r="34"/>
+          <circle cx="424" cy="316" r="30"/>
+          <circle cx="300" cy="300" r="22"/>
+        </g>
+
+        <g class="vj-femur">
+          <path class="vj-bone" fill="url(#JointBone-{{ section.id }})" d="M214 -10 L386 -10 L386 140 C386 196 430 214 430 254 C430 288 396 300 360 296 C330 292 320 282 300 282 C280 282 270 292 240 296 C204 300 170 288 170 254 C170 214 214 196 214 140 Z"/>
+          <path class="vj-cart vj-cart--top" d="M174 262 C180 292 208 300 240 296 C270 292 282 286 300 286 C318 286 330 292 360 296 C392 300 420 292 426 262"/>
+          <path class="vj-crack" d="M232 290 l8 10 l-6 6 M318 290 l-6 9 l7 7 M392 286 l-4 10"/>
+        </g>
+
+        <g class="vj-tibia">
+          <path class="vj-bone" fill="url(#JointBone-{{ section.id }})" d="M194 610 L194 452 C194 410 162 402 162 364 C162 344 178 334 206 334 L394 334 C422 334 438 344 438 364 C438 402 406 410 406 452 L406 610 Z"/>
+          <path class="vj-cart vj-cart--bottom" d="M166 350 C172 338 190 336 206 336 L394 336 C410 336 428 338 434 350"/>
+          <path class="vj-crack" d="M250 336 l6 -9 l6 9 M352 336 l5 -8 l5 8"/>
+        </g>
+
+        <g class="vj-spots">
+          <g class="vj-spot" data-spot="cartilage_top" transform="translate(300 286)"><circle r="15"/><text y="5">1</text></g>
+          <g class="vj-spot" data-spot="cartilage_bottom" transform="translate(240 337)"><circle r="15"/><text y="5">2</text></g>
+          <g class="vj-spot" data-spot="lining" transform="translate(432 312)"><circle r="15"/><text y="5">3</text></g>
+          <g class="vj-spot" data-spot="fluid" transform="translate(352 314)"><circle r="15"/><text y="5">4</text></g>
+          <g class="vj-spot" data-spot="around" transform="translate(166 300)"><circle r="15"/><text y="5">5</text></g>
+        </g>
+      </svg>
+
+      <div class="vuffi-joint__legend" aria-hidden="true">
+        <span><i class="vj-key vj-key--cart"></i>{{ section.settings.legend_cartilage }}</span>
+        <span><i class="vj-key vj-key--fluid"></i>{{ section.settings.legend_fluid }}</span>
+        <span><i class="vj-key vj-key--heat"></i>{{ section.settings.legend_inflammation }}</span>
+      </div>
+    </div>
+  </vuffi-joint>
+</section>
+
+{% stylesheet %}
+  .vuffi-joint__grid {
+    display: grid;
+    gap: 48px;
+  }
+
+  .vuffi-joint__copy {
+    display: grid;
+    gap: 32px;
+    align-content: start;
+  }
+
+  .vuffi-joint__toggle {
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    justify-self: start;
+    padding: 4px;
+    border: 1px solid var(--vuffi-line);
+    border-radius: 999px;
+    background: var(--vuffi-soft);
+  }
+
+  .vuffi-joint__switch {
+    position: relative;
+    z-index: 1;
+    min-height: 44px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.4s var(--vuffi-ease);
+  }
+
+  .vuffi-joint__switch[aria-pressed='true'] {
+    color: var(--color-background);
+  }
+
+  .vuffi-joint__thumb {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc(50% - 4px);
+    border-radius: 999px;
+    background: var(--color-foreground);
+    transition: transform 0.55s var(--vuffi-ease), background-color 0.4s;
+  }
+
+  [data-state='supported'] .vuffi-joint__thumb {
+    transform: translateX(100%);
+    background: var(--vuffi-accent);
+  }
+
+  .vuffi-joint__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-joint__item {
+    border-bottom: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-joint__ing {
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 18px 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .vuffi-joint__n {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--vuffi-line-strong);
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+
+  .vuffi-joint__name {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .vuffi-joint__role {
+    font-size: 14px;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-joint__ing[aria-expanded='true'] .vuffi-joint__n {
+    background: var(--vuffi-accent);
+    border-color: var(--vuffi-accent);
+    color: var(--color-background);
+  }
+
+  .vuffi-joint__text {
+    padding: 0 0 20px 46px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-joint__text p {
+    margin: 0;
+  }
+
+  .vuffi-joint__visual {
+    position: relative;
+    display: grid;
+    gap: 16px;
+    align-content: start;
+    padding: clamp(16px, 3vw, 40px);
+    border-radius: var(--vuffi-radius-lg);
+    background: var(--vuffi-paper);
+    color: var(--vuffi-ink);
+  }
+
+  [data-tone='dark'] .vuffi-joint__visual {
+    background: rgb(255 255 255 / 0.05);
+    color: #ffffff;
+  }
+
+  .vuffi-joint__svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .vj-bone {
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-opacity: 0.55;
+  }
+
+  [data-tone='dark'] .vj-bone {
+    fill: rgb(255 255 255 / 0.1);
+  }
+
+  .vj-cart {
+    fill: none;
+    stroke: var(--vuffi-green);
+    stroke-linecap: round;
+    stroke-width: 6;
+    transition: stroke-width 1.2s var(--vuffi-ease);
+  }
+
+  .vj-capsule {
+    fill: none;
+    stroke: currentColor;
+    stroke-opacity: 0.25;
+    stroke-width: 1.5;
+    stroke-dasharray: 5 7;
+  }
+
+  .vj-fluid {
+    fill: var(--vuffi-lime);
+    opacity: 0.16;
+    transform-origin: 300px 314px;
+    transform: scaleY(0.5);
+    transition: opacity 1.2s var(--vuffi-ease), transform 1.2s var(--vuffi-ease);
+  }
+
+  .vj-heat circle {
+    fill: #ff5a3d;
+  }
+
+  .vj-heat {
+    opacity: 0.75;
+    transition: opacity 1.2s var(--vuffi-ease);
+  }
+
+  .vj-crack {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.7;
+    transition: opacity 0.8s var(--vuffi-ease);
+  }
+
+  .vj-femur {
+    transform: translateY(12px);
+    transition: transform 1.2s var(--vuffi-ease);
+  }
+
+  [data-state='supported'] .vj-femur {
+    transform: none;
+  }
+
+  [data-state='supported'] .vj-cart {
+    stroke-width: 18;
+  }
+
+  [data-state='supported'] .vj-fluid {
+    opacity: 0.55;
+    transform: none;
+  }
+
+  [data-state='supported'] .vj-heat,
+  [data-state='supported'] .vj-crack {
+    opacity: 0;
+  }
+
+  .vj-spot circle {
+    fill: var(--color-background, #ffffff);
+    stroke: var(--vuffi-ink);
+    stroke-width: 1.5;
+    transition: fill 0.3s, stroke 0.3s, r 0.3s;
+  }
+
+  .vj-spot text {
+    fill: var(--vuffi-ink);
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 700;
+    text-anchor: middle;
+  }
+
+  .vj-spot.is-active circle {
+    fill: var(--vuffi-ink);
+    stroke: var(--vuffi-lime);
+    stroke-width: 3;
+  }
+
+  .vj-spot.is-active text {
+    fill: var(--vuffi-lime);
+  }
+
+  .vuffi-joint__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .vuffi-joint__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .vj-key {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+  }
+
+  .vj-key--cart {
+    background: var(--vuffi-green);
+  }
+
+  .vj-key--fluid {
+    background: var(--vuffi-lime);
+  }
+
+  .vj-key--heat {
+    background: #ff5a3d;
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-joint__grid {
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      align-items: start;
+      gap: 72px;
+    }
+
+    .vuffi-joint__visual {
+      position: sticky;
+      top: 100px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vj-cart,
+    .vj-fluid,
+    .vj-heat,
+    .vj-crack,
+    .vj-femur,
+    .vuffi-joint__thumb {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi joint diagram",
+  "tag": "div",
+  "class": "vuffi-joint-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "A drawn knee joint that switches from worn to supported as it scrolls into view. Visitors can flip between the two and tap each ingredient to see where it works."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above",
+      "default": "How it works"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "What happens <em>inside</em> the joint."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Cartilage cushions the ends of the bones and joint fluid keeps them gliding. Age, weight and years of play wear both down. Vuffi gives the joint what it needs to rebuild, protect and calm.</p>"
+    },
+    {
+      "type": "text",
+      "id": "toggle_label",
+      "label": "Switch name for screen readers",
+      "default": "Show the joint"
+    },
+    {
+      "type": "text",
+      "id": "worn_label",
+      "label": "Worn button",
+      "default": "Worn joint"
+    },
+    {
+      "type": "text",
+      "id": "supported_label",
+      "label": "Supported button",
+      "default": "Supported joint"
+    },
+    {
+      "type": "text",
+      "id": "legend_cartilage",
+      "label": "Legend: cartilage",
+      "default": "Cartilage"
+    },
+    {
+      "type": "text",
+      "id": "legend_fluid",
+      "label": "Legend: joint fluid",
+      "default": "Joint fluid"
+    },
+    {
+      "type": "text",
+      "id": "legend_inflammation",
+      "label": "Legend: inflammation",
+      "default": "Inflammation"
+    },
+    {
+      "type": "text",
+      "id": "diagram_alt",
+      "label": "Diagram description for screen readers",
+      "default": "A dog's knee joint. Worn: thin cracked cartilage, little joint fluid and inflammation. Supported: thick cartilage and full joint fluid."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Glucosamine"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "What it does, in a few words",
+          "default": "Rebuilds cartilage"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "More detail",
+          "default": "<p>The raw material your dog's body uses to build and repair the cushion on the ends of the bones.</p>"
+        },
+        {
+          "type": "select",
+          "id": "spot",
+          "label": "Marker on the diagram",
+          "options": [
+            { "value": "cartilage_top", "label": "1: Cartilage, top bone" },
+            { "value": "cartilage_bottom", "label": "2: Cartilage, bottom bone" },
+            { "value": "lining", "label": "3: Joint lining" },
+            { "value": "fluid", "label": "4: Joint fluid" },
+            { "value": "around", "label": "5: Around the joint" }
+          ],
+          "default": "cartilage_top"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi joint diagram",
+      "blocks": [
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Glucosamine",
+            "role": "Rebuilds cartilage",
+            "spot": "cartilage_top",
+            "text": "<p>The raw material your dog's body uses to build and repair the cushion on the ends of the bones. Dogs make less of it as they age.</p>"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Chondroitin",
+            "role": "Keeps it springy",
+            "spot": "cartilage_bottom",
+            "text": "<p>Pulls water into cartilage so it absorbs every landing, and slows the enzymes that wear it away.</p>"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "MSM",
+            "role": "Calms swelling",
+            "spot": "lining",
+            "text": "<p>A natural sulfur compound the body uses for cartilage, tendons and ligaments. It helps calm swelling inside sore joints.</p>"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Hyaluronic acid",
+            "role": "Keeps joints gliding",
+            "spot": "fluid",
+            "text": "<p>The main ingredient of joint fluid, the slick cushion that lets bones glide. Older and injured joints run low on it.</p>"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Green lipped mussel",
+            "role": "Cools inflammation",
+            "spot": "around",
+            "text": "<p>A New Zealand shellfish rich in omega fats that turn down inflammation, plus natural cartilage building blocks.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
