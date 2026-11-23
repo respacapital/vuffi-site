@@ -12,7 +12,7 @@
       {%- render 'vuffi-image',
         image: section.settings.image,
         label: section.settings.slot,
-        ratio: '4 / 5',
+        ratio: section.settings.image_shape,
         size: '1800 x 2250',
         sizes: '(min-width: 990px) 44vw, 100vw'
       -%}
@@ -89,6 +89,17 @@
       "id": "image",
       "label": "Photo",
       "info": "1800 x 2250 (4:5)"
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "label": "Photo shape",
+      "options": [
+        { "value": "4 / 5", "label": "Tall (4:5)" },
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "16 / 9", "label": "Wide (16:9)" }
+      ],
+      "default": "4 / 5"
     },
     {
       "type": "text",

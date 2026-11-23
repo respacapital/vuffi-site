@@ -95,7 +95,8 @@
       "type": "vuffi-cta",
       "settings": {
         "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#0B1410"
+        "background_color": "#0B1410",
+        "image": "shopify://shop_images/vuffi-jar-closed.png"
       }
     }
   },

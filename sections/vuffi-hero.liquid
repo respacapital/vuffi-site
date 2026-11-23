@@ -3,70 +3,85 @@
     render 'vuffi-tone', color: section.settings.background_color
   endcapture
   assign tone = tone | strip
+  assign desk = section.settings.image
+  assign mob = section.settings.image_mobile | default: desk
+  assign has_image = false
+  if desk != blank or mob != blank
+    assign has_image = true
+  endif
+  assign alt = section.settings.image_alt | default: mob.alt | escape
+  assign focal_mob = mob.presentation.focal_point | default: '50% 50%'
+  assign focal_desk = desk.presentation.focal_point | default: focal_mob
+  assign focal_style = '--focal-desk: ' | append: focal_desk | append: '; --focal-mob: ' | append: focal_mob | append: ';'
 -%}
 {%- render 'vuffi-section-style', section: section -%}
-{%- if section.settings.show_particles -%}
-  <script src="{{ 'vuffi-particles.js' | asset_url }}" defer></script>
-{%- endif -%}
 
-<section class="vuffi-section vuffi-hero color-custom-{{ section.id }}" data-tone="{{ tone }}">
-  <div class="vuffi-hero__bg" aria-hidden="true">
-    <div class="vuffi-hero__glow vuffi-hero__glow--a"></div>
-    <div class="vuffi-hero__glow vuffi-hero__glow--b"></div>
-    {%- if section.settings.show_particles -%}
-      <vuffi-particles
-        class="vuffi-hero__particles"
-        data-count="{{ section.settings.particle_count }}"
-        data-colors="{{ settings.color_palette.color2 | default: '#8FFB09' }},#FFFFFF"
-      ></vuffi-particles>
+<section
+  class="vuffi-section vuffi-hero color-custom-{{ section.id }}{% if has_image %} vuffi-hero--image{% endif %}{% if section.settings.show_scrim %} vuffi-hero--scrim{% endif %}"
+  data-tone="{{ tone }}"
+>
+  <div class="vuffi-hero__bg">
+    {%- if has_image -%}
+      <picture class="vuffi-hero__picture">
+        {%- if desk != blank and section.settings.image_mobile != blank -%}
+          <source
+            media="(min-width: 990px)"
+            srcset="
+              {{ desk | image_url: width: 1200 }} 1200w,
+              {{ desk | image_url: width: 1800 }} 1800w,
+              {{ desk | image_url: width: 2400 }} 2400w,
+              {{ desk | image_url: width: 3000 }} 3000w
+            "
+            sizes="100vw"
+            width="{{ desk.width }}"
+            height="{{ desk.height }}"
+          >
+        {%- endif -%}
+        {{-
+          mob
+          | image_url: width: 2400
+          | image_tag:
+            widths: '600, 900, 1200, 1600, 2000, 2400',
+            sizes: '100vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            alt: alt,
+            class: 'vuffi-hero__img',
+            style: focal_style
+        -}}
+      </picture>
     {%- endif -%}
   </div>
 
   <div class="vuffi-wrap vuffi-hero__grid">
     <div class="vuffi-hero__head">
       {%- if section.settings.eyebrow != blank -%}
-        <p class="vuffi-eyebrow vuffi-hero__in" style="--d: 0">{{ section.settings.eyebrow }}</p>
+        <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
       {%- endif -%}
-      <h1 class="vuffi-display vuffi-hero__title vuffi-hero__in" style="--d: 1">{{ section.settings.heading }}</h1>
+      <h1 class="vuffi-display vuffi-hero__title">{{ section.settings.heading }}</h1>
       {%- if section.settings.text != blank -%}
-        <div class="vuffi-lede vuffi-hero__in" style="--d: 2">{{ section.settings.text }}</div>
+        <div class="vuffi-lede">{{ section.settings.text }}</div>
       {%- endif -%}
     </div>
 
     <div class="vuffi-hero__stage">
-      <div class="vuffi-hero__halo" aria-hidden="true"></div>
-      <div class="vuffi-hero__float">
+      {%- unless has_image -%}
         {%- render 'vuffi-image',
           image: section.settings.jar_image,
-          label: 'hero-jar',
+          label: 'hero-desktop',
           ratio: '1 / 1',
-          size: '2048 x 2048 transparent PNG',
-          sizes: '(min-width: 990px) 540px, 78vw',
+          size: '2560 x 1440 and 1080 x 1920',
+          sizes: '(min-width: 990px) 520px, 72vw',
           priority: true,
           contain: true,
+          alt: section.settings.image_alt,
           class: 'vuffi-hero__jar'
         -%}
-      </div>
-      <div class="vuffi-hero__shadow" aria-hidden="true"></div>
-
-      {%- if section.settings.show_cards -%}
-        {%- if section.settings.card1_value != blank -%}
-          <div class="vuffi-hero__card vuffi-hero__card--1" style="--d: 5">
-            <span class="vuffi-hero__card-value">{{ section.settings.card1_value }}</span>
-            <span class="vuffi-hero__card-label">{{ section.settings.card1_label }}</span>
-          </div>
-        {%- endif -%}
-        {%- if section.settings.card2_value != blank -%}
-          <div class="vuffi-hero__card vuffi-hero__card--2" style="--d: 6">
-            <span class="vuffi-hero__card-value">{{ section.settings.card2_value }}</span>
-            <span class="vuffi-hero__card-label">{{ section.settings.card2_label }}</span>
-          </div>
-        {%- endif -%}
-      {%- endif -%}
+      {%- endunless -%}
     </div>
 
     <div class="vuffi-hero__cta">
-      <div class="vuffi-actions vuffi-hero__in" style="--d: 3">
+      <div class="vuffi-actions">
         {%- if section.settings.button_label != blank -%}
           {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
         {%- endif -%}
@@ -81,7 +96,7 @@
       </div>
 
       {%- if section.settings.show_countdown and section.settings.countdown_end != blank -%}
-        <div class="vuffi-hero__deal vuffi-hero__in" style="--d: 4" data-hide-when-done>
+        <div class="vuffi-hero__deal" data-hide-when-done>
           {%- if section.settings.badge_text != blank -%}
             <span class="vuffi-hero__badge">{{ section.settings.badge_text }}</span>
           {%- endif -%}
@@ -97,7 +112,7 @@
       {%- endif -%}
 
       {%- if section.blocks.size > 0 -%}
-        <ul class="vuffi-hero__trust vuffi-hero__in" style="--d: 5" role="list">
+        <ul class="vuffi-hero__trust" role="list">
           {%- for block in section.blocks -%}
             <li class="vuffi-hero__trust-item" {{ block.shopify_attributes }}>
               {%- render 'vuffi-icon', name: block.settings.icon -%}
@@ -114,7 +129,9 @@
   .vuffi-hero {
     --hero-top: max(76px, calc(var(--header-height, 64px) * var(--transparent-header-offset-boolean, 0)));
     isolation: isolate;
-    padding-block: calc(var(--vuffi-pt, 32px) + var(--hero-top)) var(--vuffi-pb, 56px);
+    display: grid;
+    min-height: max(100svh, 720px);
+    padding-block: calc(var(--vuffi-pt, 24px) + var(--hero-top)) var(--vuffi-pb, 40px);
     overflow: hidden;
   }
 
@@ -123,96 +140,74 @@
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(120% 70% at 50% 0%, color-mix(in srgb, var(--vuffi-green) 26%, transparent) 0%, transparent 60%),
-      linear-gradient(180deg, var(--color-background) 0%, color-mix(in srgb, var(--color-background) 82%, var(--vuffi-green)) 100%);
+      radial-gradient(90% 55% at 50% 52%, color-mix(in srgb, var(--vuffi-green) 42%, transparent) 0%, transparent 70%),
+      linear-gradient(180deg, var(--color-background) 0%, color-mix(in srgb, var(--color-background) 80%, var(--vuffi-green)) 100%);
   }
 
-  .vuffi-hero__glow {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(40px);
-    pointer-events: none;
+  .vuffi-hero--image .vuffi-hero__bg {
+    background: var(--color-background);
   }
 
-  .vuffi-hero__glow--a {
-    left: 50%;
-    top: 42%;
-    width: min(120vw, 760px);
-    aspect-ratio: 1;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, color-mix(in srgb, var(--vuffi-green) 70%, transparent) 0%, transparent 62%);
-    opacity: 0.75;
-  }
-
-  .vuffi-hero__glow--b {
-    left: -20%;
-    bottom: -30%;
-    width: 70vw;
-    aspect-ratio: 1;
-    background: radial-gradient(circle, color-mix(in srgb, var(--vuffi-lime) 22%, transparent) 0%, transparent 65%);
-  }
-
-  .vuffi-hero__particles {
-    position: absolute;
-    inset: 0;
-    display: block;
-  }
-
-  .vuffi-hero__particles canvas {
+  .vuffi-hero__picture,
+  .vuffi-hero__img {
     display: block;
     width: 100%;
     height: 100%;
   }
 
+  .vuffi-hero__img {
+    object-fit: cover;
+    object-position: var(--focal-mob, 50% 50%);
+  }
+
+  /* Darkens the top and bottom on phones and the left side on computers so the text stays easy to read */
+  .vuffi-hero--scrim .vuffi-hero__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-background) 70%, transparent) 0%,
+      transparent 34%,
+      transparent 62%,
+      color-mix(in srgb, var(--color-background) 80%, transparent) 100%
+    );
+    pointer-events: none;
+  }
+
   .vuffi-hero__grid {
     display: grid;
     grid-template-areas: 'head' 'stage' 'cta';
-    gap: 8px;
+    grid-template-rows: auto minmax(34svh, 1fr) auto;
+    gap: 12px;
   }
 
   .vuffi-hero__head {
     grid-area: head;
     display: grid;
     justify-items: center;
-    gap: 16px;
+    gap: 14px;
     text-align: center;
   }
 
   .vuffi-hero__title {
     max-width: 11ch;
-    font-size: clamp(44px, 12.5vw, 112px);
+    font-size: clamp(48px, 13.5vw, 120px);
   }
 
   .vuffi-hero .vuffi-lede {
-    max-width: 40ch;
+    max-width: 36ch;
     font-size: 16px;
   }
 
   .vuffi-hero__stage {
     grid-area: stage;
-    position: relative;
     display: grid;
     place-items: center;
-    width: min(100%, 340px);
-    margin: 4px auto 0;
   }
 
-  .vuffi-hero__halo {
-    position: absolute;
-    inset: 8%;
-    border-radius: 50%;
-    border: 1px solid color-mix(in srgb, var(--vuffi-lime) 30%, transparent);
-    box-shadow:
-      0 0 80px color-mix(in srgb, var(--vuffi-lime) 18%, transparent),
-      inset 0 0 60px color-mix(in srgb, var(--vuffi-lime) 10%, transparent);
-    animation: vuffi-hero-halo 7s ease-in-out infinite;
-  }
-
-  .vuffi-hero__float {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    animation: vuffi-hero-float 7s ease-in-out infinite;
+  .vuffi-hero__jar {
+    width: min(100%, 330px);
   }
 
   .vuffi-hero__jar.vuffi-media {
@@ -227,50 +222,11 @@
     background: rgb(255 255 255 / 0.04);
   }
 
-  .vuffi-hero__shadow {
-    width: 52%;
-    height: 18px;
-    margin-top: -6px;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, rgb(0 0 0 / 0.55), transparent 70%);
-    animation: vuffi-hero-shadow 7s ease-in-out infinite;
-  }
-
-  .vuffi-hero__card {
-    position: absolute;
-    z-index: 2;
-    display: none;
-    gap: 2px;
-    padding: 14px 18px;
-    border: 1px solid rgb(255 255 255 / 0.16);
-    border-radius: 18px;
-    background: rgb(255 255 255 / 0.08);
-    -webkit-backdrop-filter: blur(16px) saturate(1.3);
-    backdrop-filter: blur(16px) saturate(1.3);
-    color: #ffffff;
-    animation: vuffi-hero-rise 1s var(--vuffi-ease) both;
-    animation-delay: calc(var(--d, 0) * 90ms + 300ms);
-  }
-
-  .vuffi-hero__card-value {
-    font-family: var(--font-heading--family);
-    font-weight: var(--font-heading--weight);
-    font-size: 30px;
-    line-height: 1;
-    color: var(--vuffi-lime);
-  }
-
-  .vuffi-hero__card-label {
-    font-size: 13px;
-    font-weight: 500;
-    opacity: 0.8;
-  }
-
   .vuffi-hero__cta {
     grid-area: cta;
     display: grid;
     justify-items: center;
-    gap: 18px;
+    gap: 16px;
     text-align: center;
   }
 
@@ -299,7 +255,7 @@
     padding: 7px 14px 7px 11px;
     border: 1px solid color-mix(in srgb, var(--vuffi-lime) 45%, transparent);
     border-radius: 999px;
-    background: color-mix(in srgb, var(--vuffi-lime) 10%, transparent);
+    background: color-mix(in srgb, var(--color-background) 55%, transparent);
     color: var(--vuffi-lime);
     font-size: 13px;
     font-weight: 600;
@@ -311,7 +267,6 @@
     height: 8px;
     border-radius: 50%;
     background: var(--vuffi-lime);
-    animation: vuffi-hero-pulse 2.2s infinite;
   }
 
   .vuffi-hero__ends {
@@ -351,67 +306,7 @@
     height: 20px;
   }
 
-  .vuffi-hero__in {
-    animation: vuffi-hero-rise 1s var(--vuffi-ease) both;
-    animation-delay: calc(var(--d, 0) * 90ms);
-  }
-
-  @keyframes vuffi-hero-rise {
-    from {
-      opacity: 0;
-      transform: translateY(22px);
-    }
-  }
-
-  @keyframes vuffi-hero-float {
-    0%,
-    100% {
-      transform: translateY(0) rotate(-1.5deg);
-    }
-    50% {
-      transform: translateY(-16px) rotate(1.5deg);
-    }
-  }
-
-  @keyframes vuffi-hero-shadow {
-    0%,
-    100% {
-      transform: scaleX(1);
-      opacity: 1;
-    }
-    50% {
-      transform: scaleX(0.82);
-      opacity: 0.6;
-    }
-  }
-
-  @keyframes vuffi-hero-halo {
-    0%,
-    100% {
-      transform: scale(1);
-      opacity: 0.8;
-    }
-    50% {
-      transform: scale(1.04);
-      opacity: 1;
-    }
-  }
-
-  @keyframes vuffi-hero-pulse {
-    0% {
-      box-shadow: 0 0 0 0 rgb(143 251 9 / 0.6);
-    }
-    70%,
-    100% {
-      box-shadow: 0 0 0 8px rgb(143 251 9 / 0);
-    }
-  }
-
   @media screen and (min-width: 750px) {
-    .vuffi-hero__stage {
-      width: min(100%, 420px);
-    }
-
     .vuffi-hero .vuffi-lede {
       font-size: 18px;
     }
@@ -431,14 +326,30 @@
       flex-wrap: wrap;
       justify-content: center;
     }
+
+    .vuffi-hero__jar {
+      width: min(100%, 420px);
+    }
   }
 
   @media screen and (min-width: 990px) {
     .vuffi-hero {
-      display: grid;
       align-items: center;
-      min-height: min(100svh, 940px);
-      padding-block: calc(var(--vuffi-pt, 48px) + var(--hero-top)) var(--vuffi-pb, 64px);
+      min-height: min(max(100svh, 680px), 980px);
+      padding-block: calc(var(--vuffi-pt, 40px) + var(--hero-top)) var(--vuffi-pb, 64px);
+    }
+
+    .vuffi-hero__img {
+      object-position: var(--focal-desk, 70% 50%);
+    }
+
+    .vuffi-hero--scrim .vuffi-hero__bg::after {
+      background: linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--color-background) 72%, transparent) 0%,
+        color-mix(in srgb, var(--color-background) 30%, transparent) 38%,
+        transparent 56%
+      );
     }
 
     .vuffi-hero__grid {
@@ -462,7 +373,7 @@
     }
 
     .vuffi-hero__title {
-      font-size: clamp(64px, 6.6vw, 112px);
+      font-size: clamp(68px, 7vw, 120px);
     }
 
     .vuffi-hero__cta .vuffi-actions,
@@ -471,41 +382,8 @@
       justify-content: flex-start;
     }
 
-    .vuffi-hero__stage {
-      align-self: center;
-      width: min(100%, 560px);
-      margin: 0 auto;
-    }
-
-    .vuffi-hero__glow--a {
-      left: 74%;
-      top: 50%;
-      width: 900px;
-    }
-
-    .vuffi-hero__card {
-      display: grid;
-    }
-
-    .vuffi-hero__card--1 {
-      left: -6%;
-      top: 18%;
-    }
-
-    .vuffi-hero__card--2 {
-      right: -6%;
-      bottom: 16%;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .vuffi-hero__in,
-    .vuffi-hero__card,
-    .vuffi-hero__float,
-    .vuffi-hero__shadow,
-    .vuffi-hero__halo,
-    .vuffi-hero__badge::before {
-      animation: none;
+    .vuffi-hero__jar {
+      width: min(100%, 540px);
     }
   }
 {% endstylesheet %}
@@ -520,36 +398,44 @@
   "settings": [
     {
       "type": "header",
-      "content": "Jar and background"
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Computer image",
+      "info": "2560 x 1440 (16:9). The jar on the right, dark empty space on the left for the headline. Set the focal point on the jar so it stays in view on every screen."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Phone image",
+      "info": "1080 x 1920 (9:16). The jar in the middle, dark empty space at the top and bottom for the text."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image description for screen readers",
+      "default": "A jar of Vuffi Advanced Hip and Joint Support soft chews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scrim",
+      "label": "Darken the image behind the text",
+      "default": true
     },
     {
       "type": "image_picker",
       "id": "jar_image",
-      "label": "Floating jar",
-      "info": "Transparent PNG of the closed jar, 2048 x 2048, a little space around it."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_particles",
-      "label": "Show drifting particles",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "particle_count",
-      "label": "Particles",
-      "min": 10,
-      "max": 120,
-      "step": 5,
-      "default": 70,
-      "info": "Phones show about half as many."
+      "label": "Jar on its own",
+      "info": "Shows on the gradient until the images above are added. Transparent PNG of the closed jar."
     },
     {
       "type": "color",
       "id": "background_color",
       "label": "Background",
       "default": "#0B1410",
-      "info": "The green glow is added on top from the theme colors."
+      "info": "Sets the text color too. Match it to the darkest part of the image."
     },
     {
       "type": "header",
@@ -625,40 +511,6 @@
       "label": "Sale ends",
       "default": "2026-11-30T23:59:00-05:00",
       "info": "Year-month-day, then T, the time in 24 hour format, and -05:00 for Eastern time."
-    },
-    {
-      "type": "header",
-      "content": "Glass cards beside the jar (computers)"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_cards",
-      "label": "Show glass cards",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "card1_value",
-      "label": "Card 1 big text",
-      "default": "5 in 1"
-    },
-    {
-      "type": "text",
-      "id": "card1_label",
-      "label": "Card 1 small text",
-      "default": "joint actives per chew"
-    },
-    {
-      "type": "text",
-      "id": "card2_value",
-      "label": "Card 2 big text",
-      "default": "90 days"
-    },
-    {
-      "type": "text",
-      "id": "card2_label",
-      "label": "Card 2 small text",
-      "default": "money back guarantee"
     },
     {
       "type": "header",

@@ -8,7 +8,7 @@
 
 <section class="vuffi-section vuffi-formula color-custom-{{ section.id }}" data-tone="{{ tone }}" id="formula">
   <div class="vuffi-wrap">
-    <div class="vuffi-formula__top">
+    <div class="vuffi-formula__top{% if section.settings.diagram != blank %} vuffi-formula__top--diagram{% endif %}">
       <div class="vuffi-head">
         {%- if section.settings.eyebrow != blank -%}
           <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
@@ -17,6 +17,27 @@
       </div>
       {%- if section.settings.text != blank -%}
         <div class="vuffi-lede" data-reveal style="--i: 2">{{ section.settings.text }}</div>
+      {%- endif -%}
+      {%- if section.settings.diagram != blank -%}
+        <figure class="vuffi-formula__diagram" data-reveal="scale" style="--i: 3">
+          {%- render 'vuffi-image',
+            image: section.settings.diagram,
+            label: 'diagram-chew-cross',
+            ratio: '1 / 1',
+            sizes: '(min-width: 990px) 40vw, 92vw',
+            alt: section.settings.diagram_alt
+          -%}
+          <ul class="vuffi-formula__labels" role="list" aria-hidden="true">
+            {%- for block in section.blocks -%}
+              <li
+                class="vuffi-formula__label vuffi-formula__label--{{ block.settings.label_side }}"
+                style="--x: {{ block.settings.label_x }}%; --y: {{ block.settings.label_y }}%;"
+              >
+                {{- block.settings.name -}}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </figure>
       {%- endif -%}
     </div>
 
@@ -123,6 +144,46 @@
     margin: 32px 0 0;
   }
 
+  .vuffi-formula__diagram {
+    position: relative;
+    margin: 8px 0 0;
+  }
+
+  .vuffi-formula__diagram .vuffi-media {
+    background: #ffffff;
+  }
+
+  .vuffi-formula__labels {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Each name sits on the end of a leader line in the cut chew image */
+  .vuffi-formula__label {
+    position: absolute;
+    top: var(--y);
+    padding: 5px 10px;
+    border: 1px solid var(--vuffi-line);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--vuffi-ink);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-shadow: 0 6px 18px rgb(11 20 16 / 0.08);
+    transform: translateY(calc(-100% - 6px));
+  }
+
+  .vuffi-formula__label--left {
+    left: var(--x);
+  }
+
+  .vuffi-formula__label--right {
+    right: calc(100% - var(--x));
+  }
+
   @media screen and (min-width: 750px) {
     .vuffi-formula__grid {
       grid-auto-columns: 40%;
@@ -136,6 +197,34 @@
       align-items: end;
       gap: 64px;
       margin-bottom: 64px;
+    }
+
+    .vuffi-formula__top--diagram {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas: 'head figure' 'lede figure';
+      grid-template-rows: 1fr 1fr;
+      align-items: center;
+      row-gap: 24px;
+    }
+
+    .vuffi-formula__top--diagram > .vuffi-head {
+      grid-area: head;
+      align-self: end;
+    }
+
+    .vuffi-formula__top--diagram > .vuffi-lede {
+      grid-area: lede;
+      align-self: start;
+    }
+
+    .vuffi-formula__diagram {
+      grid-area: figure;
+      margin: 0;
+    }
+
+    .vuffi-formula__label {
+      padding: 6px 12px;
+      font-size: 14px;
     }
 
     .vuffi-formula__grid {
@@ -172,6 +261,18 @@
       "id": "text",
       "label": "Text",
       "default": "<p>Each pork flavored chew combines the joint ingredients vets reach for most, so your dog gets the full stack in a treat they actually want.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "diagram",
+      "label": "Cut chew diagram",
+      "info": "Optional. Square image of a chew cut in half with a leader line for each ingredient. Each ingredient's name sits on its line; set where in the ingredient blocks."
+    },
+    {
+      "type": "text",
+      "id": "diagram_alt",
+      "label": "Diagram description for screen readers",
+      "default": "A Vuffi soft chew cut in half, with all five ingredients labeled inside"
     },
     {
       "type": "text",
@@ -240,6 +341,40 @@
           "id": "text",
           "label": "Text",
           "default": "<p>Raw material for the cushion on the ends of the bones.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Name on the cut chew diagram"
+        },
+        {
+          "type": "range",
+          "id": "label_x",
+          "label": "Line end across",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "label_y",
+          "label": "Line end down",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 18
+        },
+        {
+          "type": "select",
+          "id": "label_side",
+          "label": "Line points to the",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
         }
       ]
     }
@@ -248,11 +383,11 @@
     {
       "name": "Vuffi formula",
       "blocks": [
-        { "type": "ingredient", "settings": { "slot": "ing-glucosamine", "name": "Glucosamine", "tagline": "Rebuilds cartilage", "text": "<p>Raw material for the cushion on the ends of the bones, so getting up and taking stairs feel easier.</p>" } },
-        { "type": "ingredient", "settings": { "slot": "ing-chondroitin", "name": "Chondroitin", "tagline": "Keeps it springy", "text": "<p>Holds water in cartilage to absorb every landing, and slows the wear.</p>" } },
-        { "type": "ingredient", "settings": { "slot": "ing-msm", "name": "MSM", "tagline": "Calms swelling", "text": "<p>Natural sulfur for cartilage, tendons and ligaments. Less soreness after play and long naps.</p>" } },
-        { "type": "ingredient", "settings": { "slot": "ing-hyaluronic", "name": "Hyaluronic acid", "tagline": "Keeps joints gliding", "text": "<p>The main part of joint fluid, so knees and hips bend with less grinding.</p>" } },
-        { "type": "ingredient", "settings": { "slot": "ing-mussel", "name": "Green lipped mussel", "tagline": "Cools inflammation", "text": "<p>Omega rich New Zealand shellfish that turns down inflammation inside the joint.</p>" } }
+        { "type": "ingredient", "settings": { "slot": "ing-glucosamine", "label_x": 3, "label_y": 18, "label_side": "left", "name": "Glucosamine", "tagline": "Rebuilds cartilage", "text": "<p>Raw material for the cushion on the ends of the bones, so getting up and taking stairs feel easier.</p>" } },
+        { "type": "ingredient", "settings": { "slot": "ing-chondroitin", "label_x": 97, "label_y": 18, "label_side": "right", "name": "Chondroitin", "tagline": "Keeps it springy", "text": "<p>Holds water in cartilage to absorb every landing, and slows the wear.</p>" } },
+        { "type": "ingredient", "settings": { "slot": "ing-msm", "label_x": 2, "label_y": 53, "label_side": "left", "name": "MSM", "tagline": "Calms swelling", "text": "<p>Natural sulfur for cartilage, tendons and ligaments. Less soreness after play and long naps.</p>" } },
+        { "type": "ingredient", "settings": { "slot": "ing-hyaluronic", "label_x": 98, "label_y": 54, "label_side": "right", "name": "Hyaluronic acid", "tagline": "Keeps joints gliding", "text": "<p>The main part of joint fluid, so knees and hips bend with less grinding.</p>" } },
+        { "type": "ingredient", "settings": { "slot": "ing-mussel", "label_x": 16, "label_y": 82, "label_side": "left", "name": "Green lipped mussel", "tagline": "Cools inflammation", "text": "<p>Omega rich New Zealand shellfish that turns down inflammation inside the joint.</p>" } }
       ]
     }
   ]

@@ -75,7 +75,6 @@
   .vuffi-guarantee__ring {
     width: 100%;
     height: 100%;
-    animation: vuffi-spin 40s linear infinite;
   }
 
   .vuffi-guarantee__disc {
@@ -120,12 +119,6 @@
     text-transform: uppercase;
   }
 
-  @keyframes vuffi-spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
   @media screen and (min-width: 990px) {
     .vuffi-guarantee__grid {
       grid-template-columns: auto minmax(0, 1fr);
@@ -149,11 +142,6 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .vuffi-guarantee__ring {
-      animation: none;
-    }
-  }
 {% endstylesheet %}
 
 {% schema %}

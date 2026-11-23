@@ -1,4 +1,4 @@
-/* Vuffi joint diagram: worn and supported states, plus ingredient markers. */
+/* Vuffi joint diagram: switches between the worn and supported images and lights up the number for the open ingredient. */
 (() => {
   if (customElements.get('vuffi-joint')) return;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -7,7 +7,7 @@
     connectedCallback() {
       this.switches = Array.from(this.querySelectorAll('[data-set]'));
       this.ings = Array.from(this.querySelectorAll('.vuffi-joint__ing'));
-      this.spots = Array.from(this.querySelectorAll('.vj-spot'));
+      this.marks = Array.from(this.querySelectorAll('[data-mark]:not(button)'));
       this.touched = false;
 
       this.switches.forEach((btn) =>
@@ -55,8 +55,11 @@
         const panel = document.getElementById(btn.getAttribute('aria-controls'));
         if (panel) panel.hidden = !on;
       });
-      this.spots.forEach((spot) => spot.classList.toggle('is-active', spot.dataset.spot === button.dataset.spot));
-      if (!silent) this.touched = true;
+      this.marks.forEach((mark) => mark.classList.toggle('is-active', mark.dataset.mark === button.dataset.mark));
+      if (!silent) {
+        this.touched = true;
+        this.setState('supported');
+      }
     }
   }
 

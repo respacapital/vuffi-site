@@ -13,6 +13,13 @@ Working notes for the Nov 2026 launch build. Newest decisions first in each list
 - Pages: Home, Product, Ingredients, FAQ, Our Story, Contact, policies. TPLO landing page after launch.
 - Big logo lockup with slogan at the bottom of the footer. Countdowns, reveal animations, pinned scroll story (text stacks, jar opens, chews rise).
 
+## Design version 3 (Nov 23, late)
+- Robin: serif headings back (rounded version saved on branch design/rounded-v2), hero is one still image (prompt in the image prompts file), animation only for toggles, sliders and scroll, new logo coming.
+- Removed: drifting particles (hero and story), floating jar, glass cards, page title rise, spinning guarantee ring, countdown roll, pulsing badge dot.
+- Robin's first image batch is in Shopify Files (vuffi-*.png): scroll story jar, lid and chews; five ingredient photos; joint worn and supported images (with numbers on the empty circles); cut chew diagram (with ingredient names on the lines); dog joints (Our story); product photos (closed jar, open jar, chews, chew, joint comparison). The jar shots also fill the hero (until the hero image), subscribe and closing offer slots.
+- The open jar sits under the lid photo, so the lid hides the chews until it pops.
+- The temporary branch media-upload on GitHub only held these images for the upload; it can be deleted.
+
 ## Design version 2 (Nov 23)
 - Robin: fonts should suit the rounded logo (serif version saved on branch design/serif-v1), hero = floating jar on dark gradient with particles, scroll story like Grüns, quieter footer logo, mobile fixes.
 - Headings Nunito Black 900; hero rebuilt; story rebuilt (lines slide up, jar rises, lid pops, chew peeks, floating chews); transparent header on home.

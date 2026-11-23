@@ -26,7 +26,11 @@
             "slot": "ing-glucosamine",
             "name": "Glucosamine",
             "tagline": "Rebuilds cartilage",
-            "text": "<p>Raw material for the cushion on the ends of the bones, so getting up and taking stairs feel easier.</p>"
+            "text": "<p>Raw material for the cushion on the ends of the bones, so getting up and taking stairs feel easier.</p>",
+            "image": "shopify://shop_images/vuffi-ing-glucosamine.png",
+            "label_x": 3,
+            "label_y": 18,
+            "label_side": "left"
           }
         },
         "ingredient_2": {
@@ -35,7 +39,11 @@
             "slot": "ing-chondroitin",
             "name": "Chondroitin",
             "tagline": "Keeps it springy",
-            "text": "<p>Holds water in cartilage to absorb every landing, and slows the wear.</p>"
+            "text": "<p>Holds water in cartilage to absorb every landing, and slows the wear.</p>",
+            "image": "shopify://shop_images/vuffi-ing-chondroitin.png",
+            "label_x": 97,
+            "label_y": 18,
+            "label_side": "right"
           }
         },
         "ingredient_3": {
@@ -44,7 +52,11 @@
             "slot": "ing-msm",
             "name": "MSM",
             "tagline": "Calms swelling",
-            "text": "<p>Natural sulfur for cartilage, tendons and ligaments. Less soreness after play and long naps.</p>"
+            "text": "<p>Natural sulfur for cartilage, tendons and ligaments. Less soreness after play and long naps.</p>",
+            "image": "shopify://shop_images/vuffi-ing-msm.png",
+            "label_x": 2,
+            "label_y": 53,
+            "label_side": "left"
           }
         },
         "ingredient_4": {
@@ -53,7 +65,11 @@
             "slot": "ing-hyaluronic",
             "name": "Hyaluronic acid",
             "tagline": "Keeps joints gliding",
-            "text": "<p>The main part of joint fluid, so knees and hips bend with less grinding.</p>"
+            "text": "<p>The main part of joint fluid, so knees and hips bend with less grinding.</p>",
+            "image": "shopify://shop_images/vuffi-ing-hyaluronic.png",
+            "label_x": 98,
+            "label_y": 54,
+            "label_side": "right"
           }
         },
         "ingredient_5": {
@@ -62,7 +78,11 @@
             "slot": "ing-mussel",
             "name": "Green lipped mussel",
             "tagline": "Cools inflammation",
-            "text": "<p>Omega rich New Zealand shellfish that turns down inflammation inside the joint.</p>"
+            "text": "<p>Omega rich New Zealand shellfish that turns down inflammation inside the joint.</p>",
+            "image": "shopify://shop_images/vuffi-ing-mussel.png",
+            "label_x": 16,
+            "label_y": 82,
+            "label_side": "left"
           }
         }
       },
@@ -74,7 +94,8 @@
         "ingredient_5"
       ],
       "settings": {
-        "background_color": "#F4F6F5"
+        "background_color": "#F4F6F5",
+        "diagram": "shopify://shop_images/vuffi-chew-cross.png"
       }
     },
     "joint": {
@@ -85,8 +106,9 @@
           "settings": {
             "name": "Glucosamine",
             "role": "Rebuilds cartilage",
-            "spot": "cartilage_top",
-            "text": "<p>The raw material your dog's body uses to build and repair the cushion on the ends of the bones. Dogs make less of it as they age.</p>"
+            "text": "<p>The raw material your dog's body uses to build and repair the cushion on the ends of the bones. Dogs make less of it as they age.</p>",
+            "x": 38,
+            "y": 42
           }
         },
         "ingredient_2": {
@@ -94,8 +116,9 @@
           "settings": {
             "name": "Chondroitin",
             "role": "Keeps it springy",
-            "spot": "cartilage_bottom",
-            "text": "<p>Pulls water into cartilage so it absorbs every landing, and slows the enzymes that wear it away.</p>"
+            "text": "<p>Pulls water into cartilage so it absorbs every landing, and slows the enzymes that wear it away.</p>",
+            "x": 43,
+            "y": 64
           }
         },
         "ingredient_3": {
@@ -103,8 +126,9 @@
           "settings": {
             "name": "MSM",
             "role": "Calms swelling",
-            "spot": "lining",
-            "text": "<p>A natural sulfur compound the body uses for cartilage, tendons and ligaments. It helps calm swelling inside sore joints.</p>"
+            "text": "<p>A natural sulfur compound the body uses for cartilage, tendons and ligaments. It helps calm swelling inside sore joints.</p>",
+            "x": 77,
+            "y": 45
           }
         },
         "ingredient_4": {
@@ -112,8 +136,9 @@
           "settings": {
             "name": "Hyaluronic acid",
             "role": "Keeps joints gliding",
-            "spot": "fluid",
-            "text": "<p>The main ingredient of joint fluid, the slick cushion that lets bones glide. Older and injured joints run low on it.</p>"
+            "text": "<p>The main ingredient of joint fluid, the slick cushion that lets bones glide. Older and injured joints run low on it.</p>",
+            "x": 48,
+            "y": 55
           }
         },
         "ingredient_5": {
@@ -121,8 +146,9 @@
           "settings": {
             "name": "Green lipped mussel",
             "role": "Cools inflammation",
-            "spot": "around",
-            "text": "<p>A New Zealand shellfish rich in omega fats that turn down inflammation, plus natural cartilage building blocks.</p>"
+            "text": "<p>A New Zealand shellfish rich in omega fats that turn down inflammation, plus natural cartilage building blocks.</p>",
+            "x": 79,
+            "y": 66
           }
         }
       },
@@ -133,7 +159,10 @@
         "ingredient_4",
         "ingredient_5"
       ],
-      "settings": {}
+      "settings": {
+        "worn_image": "shopify://shop_images/vuffi-joint-worn.png",
+        "supported_image": "shopify://shop_images/vuffi-joint-ingredients.png"
+      }
     },
     "dose": {
       "type": "vuffi-dose",
@@ -240,7 +269,8 @@
       "type": "vuffi-cta",
       "settings": {
         "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#0B1410"
+        "background_color": "#0B1410",
+        "image": "shopify://shop_images/vuffi-jar-closed.png"
       }
     }
   },

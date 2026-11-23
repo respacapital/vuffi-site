@@ -12,9 +12,6 @@
 {% comment %} Floating chews: left %, top %, depth, start rotation, size, 1 = hidden on phones {% endcomment %}
 {%- render 'vuffi-section-style', section: section -%}
 <script src="{{ 'vuffi-story.js' | asset_url }}" defer></script>
-{%- if section.settings.show_particles -%}
-  <script src="{{ 'vuffi-particles.js' | asset_url }}" defer></script>
-{%- endif -%}
 
 <section
   class="vuffi-section vuffi-story color-custom-{{ section.id }}"
@@ -23,14 +20,6 @@
 >
   <vuffi-story class="vuffi-story__track">
     <div class="vuffi-story__sticky">
-      {%- if section.settings.show_particles -%}
-        <vuffi-particles
-          class="vuffi-story__particles"
-          data-count="{{ section.settings.particle_count }}"
-          data-colors="{{ settings.color_palette.color2 | default: '#8FFB09' }},#FFFFFF"
-        ></vuffi-particles>
-      {%- endif -%}
-
       <div class="vuffi-story__floaters" aria-hidden="true">
         {%- for f in floaters -%}
           {%- liquid
@@ -136,20 +125,6 @@
     isolation: isolate;
   }
 
-  .vuffi-story__particles {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    display: block;
-    opacity: 0.6;
-  }
-
-  .vuffi-story__particles canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
   .vuffi-story__head {
     position: relative;
     z-index: 3;
@@ -166,10 +141,9 @@
     margin: 0;
     font-family: var(--font-heading--family);
     font-weight: var(--font-heading--weight);
-    font-size: clamp(34px, 9.4vw, 96px);
-    line-height: 1.02;
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
+    font-size: clamp(40px, 11vw, 112px);
+    line-height: 1;
+    letter-spacing: -0.02em;
     color: var(--color-foreground);
   }
 
@@ -185,11 +159,12 @@
   }
 
   .vuffi-story__line em {
-    font-style: normal;
+    font-style: italic;
     color: var(--vuffi-accent);
   }
 
   .vuffi-story__line--accent {
+    font-style: italic;
     color: var(--vuffi-accent);
   }
 
@@ -216,15 +191,16 @@
     z-index: 2;
   }
 
+  /* Sized and placed for the lid photo (2:1) sitting on the open jar photo, so the chews stay hidden until it pops */
   .vuffi-story__lid {
     position: absolute;
     z-index: 3;
-    left: 21%;
-    right: 21%;
-    top: 2%;
+    left: 7.75%;
+    right: 7.75%;
+    top: -5.9%;
     transform:
-      translate(calc(var(--lid) * 30%), calc(var(--lid) * -70%))
-      rotate(calc(var(--lid) * 16deg));
+      translate(calc(var(--lid) * 34%), calc(var(--lid) * -88%))
+      rotate(calc(var(--lid) * 18deg));
   }
 
   .vuffi-story__peek {
@@ -405,13 +381,13 @@
       "type": "image_picker",
       "id": "jar_image",
       "label": "Open jar, no lid",
-      "info": "2048 x 2048 transparent PNG"
+      "info": "Square transparent PNG with chews heaped at the top."
     },
     {
       "type": "image_picker",
       "id": "lid_image",
       "label": "Lid",
-      "info": "Transparent PNG, sized to sit on the jar"
+      "info": "Transparent PNG, 2:1, the lid alone at the same angle as the jar. It sits on the open jar and covers the chews until it pops off."
     },
     {
       "type": "image_picker",
@@ -443,21 +419,6 @@
       "id": "background_color",
       "label": "Background",
       "default": "#00843F"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_particles",
-      "label": "Show drifting particles",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "particle_count",
-      "label": "Particles",
-      "min": 10,
-      "max": 100,
-      "step": 5,
-      "default": 35
     }
   ],
   "blocks": [

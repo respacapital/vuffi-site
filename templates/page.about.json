@@ -25,7 +25,9 @@
         "image_side": "left",
         "eyebrow": "Why one chew",
         "heading": "Five bottles became <em>one chew.</em>",
-        "text": "<p>Joint care for dogs usually means a shelf of bottles: glucosamine here, fish oil there, something else your vet mentioned. Most of it ends up hidden in food or forgotten in the cupboard.</p><p>We built Vuffi around one idea. Put the joint actives that matter into a single soft chew your dog actually wants, and make it easy to give every day. <strong>Glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel, in one pork flavored chew.</strong></p>"
+        "text": "<p>Joint care for dogs usually means a shelf of bottles: glucosamine here, fish oil there, something else your vet mentioned. Most of it ends up hidden in food or forgotten in the cupboard.</p><p>We built Vuffi around one idea. Put the joint actives that matter into a single soft chew your dog actually wants, and make it easy to give every day. <strong>Glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel, in one pork flavored chew.</strong></p>",
+        "image": "shopify://shop_images/vuffi-chews-cluster.png",
+        "image_shape": "1 / 1"
       }
     },
     "prevent": {
@@ -38,7 +40,9 @@
         "text": "<p>Cartilage wears quietly. By the time a dog limps, the cushion in the joint has been thinning for a while. That's why Vuffi is made for all dogs, not only seniors: young athletes, big breeds and dogs getting back on their feet all lean on their joints every day.</p><p>Every dog is different, so every order comes with a 90 day money back guarantee. If you don't see the difference, you don't pay.</p>",
         "button_label": "Shop Vuffi",
         "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#F4F6F5"
+        "background_color": "#F4F6F5",
+        "image": "shopify://shop_images/vuffi-dog-joints.png",
+        "image_shape": "16 / 9"
       }
     },
     "guarantee": {
@@ -53,7 +57,8 @@
       "type": "vuffi-cta",
       "settings": {
         "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#0B1410"
+        "background_color": "#0B1410",
+        "image": "shopify://shop_images/vuffi-jar-closed.png"
       }
     }
   },
