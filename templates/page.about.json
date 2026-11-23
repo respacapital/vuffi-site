@@ -14,7 +14,8 @@
       "settings": {
         "eyebrow": "Our story",
         "heading": "Built for dogs who <em>never</em> slow down.",
-        "text": "<p>Vuffi makes daily joint care simple: one soft chew with the ingredients that matter, for every dog at every age.</p>"
+        "text": "<p>Vuffi makes daily joint care simple: one soft chew with the ingredients that matter, for every dog at every age.</p>",
+        "background_color": "#FFFFFF"
       }
     },
     "why": {

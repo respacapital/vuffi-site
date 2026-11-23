@@ -79,7 +79,9 @@
         "tab_4",
         "tab_5"
       ],
-      "settings": {}
+      "settings": {
+        "default_subscribe": true
+      }
     },
     "ticker": {
       "type": "vuffi-ticker",

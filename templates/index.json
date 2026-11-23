@@ -41,6 +41,7 @@
       ],
       "settings": {
         "layout": "full",
+        "show_cards": true,
         "button_link": "/products/hip-and-joint-soft-chews",
         "button2_link": "/pages/ingredients",
         "padding_top": 48,
