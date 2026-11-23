@@ -1,0 +1,237 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section class="vuffi-section vuffi-contact color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap vuffi-contact__grid">
+    <div class="vuffi-contact__aside">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="vuffi-h3">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede">{{ section.settings.text }}</div>
+      {%- endif -%}
+      {%- if section.settings.email != blank -%}
+        <a class="vuffi-contact__email" href="mailto:{{ section.settings.email }}">
+          {%- render 'vuffi-icon', name: 'heart' -%}
+          <span>{{ section.settings.email }}</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- form 'contact', id: 'VuffiContactForm', class: 'vuffi-contact__form vuffi-card' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="vuffi-contact__status" role="status">{{ section.settings.success }}</p>
+      {%- elsif form.errors -%}
+        <div class="vuffi-contact__status vuffi-contact__status--error" role="alert">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+      <div class="vuffi-contact__row">
+        <label class="vuffi-field">
+          <span>{{ section.settings.name_label }}</span>
+          <input type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}">
+        </label>
+        <label class="vuffi-field">
+          <span>{{ section.settings.email_label }}</span>
+          <input type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}">
+        </label>
+      </div>
+      <label class="vuffi-field">
+        <span>{{ section.settings.order_label }}</span>
+        <input type="text" name="contact[order]" value="{{ form.order }}">
+      </label>
+      <label class="vuffi-field">
+        <span>{{ section.settings.message_label }}</span>
+        <textarea name="contact[body]" rows="6" required>{{ form.body }}</textarea>
+      </label>
+      {%- render 'vuffi-button', label: section.settings.button_label, type: 'submit' -%}
+    {%- endform -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-contact__grid {
+    display: grid;
+    gap: 40px;
+  }
+
+  .vuffi-contact__aside {
+    display: grid;
+    gap: 18px;
+    align-content: start;
+  }
+
+  .vuffi-contact__email {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: inherit;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .vuffi-contact__form {
+    display: grid;
+    gap: 18px;
+    padding: clamp(22px, 4vw, 40px);
+  }
+
+  .vuffi-contact__row {
+    display: grid;
+    gap: 18px;
+  }
+
+  .vuffi-field {
+    display: grid;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .vuffi-field input,
+  .vuffi-field textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--vuffi-line-strong);
+    border-radius: 14px;
+    background: var(--color-background);
+    color: inherit;
+    font: inherit;
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  .vuffi-field input:focus-visible,
+  .vuffi-field textarea:focus-visible {
+    outline: 2px solid var(--vuffi-accent);
+    outline-offset: 1px;
+  }
+
+  .vuffi-contact__status {
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: rgb(0 132 63 / 0.08);
+    color: var(--vuffi-green);
+    font-weight: 600;
+  }
+
+  .vuffi-contact__status--error {
+    background: rgb(196 50 28 / 0.08);
+    color: #c4321c;
+  }
+
+  .vuffi-contact__form .vuffi-btn {
+    justify-self: start;
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-contact__row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-contact__grid {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 96px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi contact form",
+  "tag": "div",
+  "class": "vuffi-contact-section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real people, real answers."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Questions about your dog, your order or your plan? Send a note and we'll get back to you.</p>"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Support email",
+      "default": "support@getvuffi.com"
+    },
+    {
+      "type": "text",
+      "id": "name_label",
+      "label": "Name label",
+      "default": "Name"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email label",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "order_label",
+      "label": "Order number label",
+      "default": "Order number (optional)"
+    },
+    {
+      "type": "text",
+      "id": "message_label",
+      "label": "Message label",
+      "default": "Message"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button",
+      "default": "Send message"
+    },
+    {
+      "type": "text",
+      "id": "success",
+      "label": "Thank you message",
+      "default": "Thanks. Your message is in and we'll reply by email."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi contact form"
+    }
+  ]
+}
+{% endschema %}

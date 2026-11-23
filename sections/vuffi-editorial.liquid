@@ -1,0 +1,166 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section class="vuffi-section vuffi-edit vuffi-edit--{{ section.settings.image_side }} color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap vuffi-edit__grid">
+    <div class="vuffi-edit__media" data-reveal="scale">
+      {%- render 'vuffi-image',
+        image: section.settings.image,
+        label: section.settings.slot,
+        ratio: '4 / 5',
+        size: '1800 x 2250',
+        sizes: '(min-width: 990px) 44vw, 100vw'
+      -%}
+    </div>
+    <div class="vuffi-edit__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="vuffi-h2" data-reveal style="--i: 1">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      <div class="vuffi-edit__text" data-reveal style="--i: 2">{{ section.settings.text }}</div>
+      {%- if section.settings.button_label != blank -%}
+        <div class="vuffi-actions" data-reveal style="--i: 3">
+          {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-edit__grid {
+    display: grid;
+    gap: 40px;
+  }
+
+  .vuffi-edit__copy {
+    display: grid;
+    gap: 22px;
+    align-content: center;
+  }
+
+  .vuffi-edit__text {
+    font-size: clamp(17px, 1.4vw, 20px);
+    line-height: 1.65;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-edit__text p {
+    margin: 0 0 18px;
+  }
+
+  .vuffi-edit__text p:last-child {
+    margin: 0;
+  }
+
+  .vuffi-edit__text strong {
+    color: var(--color-foreground);
+    font-weight: 600;
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-edit__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+      gap: 96px;
+    }
+
+    .vuffi-edit--right .vuffi-edit__media {
+      order: 2;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi photo and story",
+  "tag": "div",
+  "class": "vuffi-edit-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo",
+      "info": "1800 x 2250 (4:5)"
+    },
+    {
+      "type": "text",
+      "id": "slot",
+      "label": "Placeholder label",
+      "default": "story-photo"
+    },
+    {
+      "type": "select",
+      "id": "image_side",
+      "label": "Photo side on computers",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Tell the story here.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi photo and story"
+    }
+  ]
+}
+{% endschema %}

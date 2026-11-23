@@ -1,0 +1,255 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "vuffi-page-hero",
+      "settings": {
+        "eyebrow": "Ingredients",
+        "heading": "What goes <em>into</em> every chew.",
+        "text": "<p>Five joint actives, chosen for what they do inside the joint, in one pork flavored soft chew.</p>"
+      }
+    },
+    "formula": {
+      "type": "vuffi-formula",
+      "blocks": {
+        "ingredient_1": {
+          "type": "ingredient",
+          "settings": {
+            "slot": "ing-glucosamine",
+            "name": "Glucosamine",
+            "tagline": "Rebuilds cartilage",
+            "text": "<p>Raw material for the cushion on the ends of the bones, so getting up and taking stairs feel easier.</p>"
+          }
+        },
+        "ingredient_2": {
+          "type": "ingredient",
+          "settings": {
+            "slot": "ing-chondroitin",
+            "name": "Chondroitin",
+            "tagline": "Keeps it springy",
+            "text": "<p>Holds water in cartilage to absorb every landing, and slows the wear.</p>"
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "settings": {
+            "slot": "ing-msm",
+            "name": "MSM",
+            "tagline": "Calms swelling",
+            "text": "<p>Natural sulfur for cartilage, tendons and ligaments. Less soreness after play and long naps.</p>"
+          }
+        },
+        "ingredient_4": {
+          "type": "ingredient",
+          "settings": {
+            "slot": "ing-hyaluronic",
+            "name": "Hyaluronic acid",
+            "tagline": "Keeps joints gliding",
+            "text": "<p>The main part of joint fluid, so knees and hips bend with less grinding.</p>"
+          }
+        },
+        "ingredient_5": {
+          "type": "ingredient",
+          "settings": {
+            "slot": "ing-mussel",
+            "name": "Green lipped mussel",
+            "tagline": "Cools inflammation",
+            "text": "<p>Omega rich New Zealand shellfish that turns down inflammation inside the joint.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3",
+        "ingredient_4",
+        "ingredient_5"
+      ],
+      "settings": {
+        "background_color": "#F4F6F5"
+      }
+    },
+    "joint": {
+      "type": "vuffi-joint",
+      "blocks": {
+        "ingredient_1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Glucosamine",
+            "role": "Rebuilds cartilage",
+            "spot": "cartilage_top",
+            "text": "<p>The raw material your dog's body uses to build and repair the cushion on the ends of the bones. Dogs make less of it as they age.</p>"
+          }
+        },
+        "ingredient_2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Chondroitin",
+            "role": "Keeps it springy",
+            "spot": "cartilage_bottom",
+            "text": "<p>Pulls water into cartilage so it absorbs every landing, and slows the enzymes that wear it away.</p>"
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "MSM",
+            "role": "Calms swelling",
+            "spot": "lining",
+            "text": "<p>A natural sulfur compound the body uses for cartilage, tendons and ligaments. It helps calm swelling inside sore joints.</p>"
+          }
+        },
+        "ingredient_4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Hyaluronic acid",
+            "role": "Keeps joints gliding",
+            "spot": "fluid",
+            "text": "<p>The main ingredient of joint fluid, the slick cushion that lets bones glide. Older and injured joints run low on it.</p>"
+          }
+        },
+        "ingredient_5": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Green lipped mussel",
+            "role": "Cools inflammation",
+            "spot": "around",
+            "text": "<p>A New Zealand shellfish rich in omega fats that turn down inflammation, plus natural cartilage building blocks.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3",
+        "ingredient_4",
+        "ingredient_5"
+      ],
+      "settings": {}
+    },
+    "dose": {
+      "type": "vuffi-dose",
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "up_to": 35,
+            "result": "1 chew a day",
+            "detail": "One jar lasts 30 days."
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "up_to": 65,
+            "result": "2 chews a day",
+            "detail": "One jar lasts 15 days. Two jars a month covers it."
+          }
+        }
+      },
+      "block_order": [
+        "tier_1",
+        "tier_2"
+      ],
+      "settings": {
+        "start_weight": 30
+      }
+    },
+    "compare": {
+      "type": "vuffi-compare",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "label": "Glucosamine and chondroitin",
+            "us": "yes",
+            "them": "Bottle 1"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "label": "MSM",
+            "us": "yes",
+            "them": "Bottle 2"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "label": "Hyaluronic acid",
+            "us": "yes",
+            "them": "Bottle 3"
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "label": "Green lipped mussel omegas",
+            "us": "yes",
+            "them": "Bottle 4"
+          }
+        },
+        "row_5": {
+          "type": "row",
+          "settings": {
+            "label": "Daily routine",
+            "us": "One chew",
+            "them": "Pills in food"
+          }
+        },
+        "row_6": {
+          "type": "row",
+          "settings": {
+            "label": "Tastes like a treat",
+            "us": "yes",
+            "them": "no"
+          }
+        },
+        "row_7": {
+          "type": "row",
+          "settings": {
+            "label": "90 day money back guarantee",
+            "us": "yes",
+            "them": "no"
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4",
+        "row_5",
+        "row_6",
+        "row_7"
+      ],
+      "settings": {
+        "button_link": "/products/hip-and-joint-soft-chews"
+      }
+    },
+    "cta": {
+      "type": "vuffi-cta",
+      "settings": {
+        "button_link": "/products/hip-and-joint-soft-chews",
+        "background_color": "#0B1410"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "formula",
+    "joint",
+    "dose",
+    "compare",
+    "cta"
+  ]
+}

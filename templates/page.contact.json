@@ -9,138 +9,65 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
-      "blocks": {
-        "title": {
-          "type": "text",
-          "name": "t:names.title",
-          "settings": {
-            "text": "<h1>{{ closest.page.title }}</h1>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "content": {
-          "type": "text",
-          "name": "t:names.content",
-          "settings": {
-            "text": "{{ closest.page.content }}",
-            "width": "100%",
-            "max_width": "narrow",
-            "alignment": "center",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "title",
-        "content"
-      ],
+    "hero": {
+      "type": "vuffi-page-hero",
       "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "padding-block-start": 40,
-        "padding-block-end": 0
+        "eyebrow": "Contact",
+        "heading": "We're here to <em>help.</em>"
       }
     },
-    "form": {
-      "type": "section",
+    "contact": {
+      "type": "vuffi-contact",
+      "settings": {}
+    },
+    "faq": {
+      "type": "vuffi-faq",
       "blocks": {
-        "contact_form_UwiCkQ": {
-          "type": "contact-form",
+        "question_1": {
+          "type": "question",
           "settings": {
-            "width": "custom",
-            "custom_width": 50,
-            "width_mobile": "custom",
-            "custom_width_mobile": 100,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "submit-button": {
-              "type": "contact-form-submit-button",
-              "static": true,
-              "settings": {
-                "label": "Submit",
-                "style_class": "button",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": []
+            "question": "How long until I see a difference?",
+            "answer": "<p>Joint support builds with daily use. Watch for easier mornings over the first few weeks; the full effect takes about 90 days. That's why every order comes with a 90 day money back guarantee.</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "How many chews does my dog need?",
+            "answer": "<p>Under 35 lbs: 1 chew a day. 36 to 65 lbs: 2 chews a day. Over 65 lbs, ask your vet for the right amount. Give it with a meal or as a treat.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Is it right for puppies and senior dogs?",
+            "answer": "<p>Vuffi is for dogs over 12 weeks old, seniors included. If your dog is pregnant, nursing or taking medication, check with your vet first.</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "Does it contain allergens?",
+            "answer": "<p>Yes. Green lipped mussel is a shellfish, and glucosamine often comes from shellfish too. If your dog has a shellfish allergy, skip Vuffi. The chews are pork flavored.</p>"
+          }
         }
       },
       "block_order": [
-        "contact_form_UwiCkQ"
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4"
       ],
-      "name": "t:names.contact_form",
       "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 32,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "padding-block-start": 32,
-        "padding-block-end": 84
+        "button_link": "/pages/contact",
+        "schema_markup": false,
+        "heading": "Quick <em>answers.</em>"
       }
     }
   },
   "order": [
-    "main",
-    "form"
+    "hero",
+    "contact",
+    "faq"
   ]
 }

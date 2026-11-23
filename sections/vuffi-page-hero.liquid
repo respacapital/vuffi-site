@@ -1,0 +1,111 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign heading = section.settings.heading | default: page.title
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section class="vuffi-section vuffi-phero color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap">
+    <div class="vuffi-head{% if section.settings.center %} vuffi-head--center{% endif %} vuffi-phero__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vuffi-eyebrow vuffi-hero__in" style="--d: 0">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="vuffi-display vuffi-phero__title vuffi-hero__in" style="--d: 1">{{ heading }}</h1>
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede vuffi-hero__in" style="--d: 2">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-phero__head {
+    max-width: 920px;
+  }
+
+  .vuffi-phero__title {
+    font-size: clamp(48px, 8vw, 112px);
+  }
+
+  .vuffi-phero .vuffi-hero__in {
+    animation: vuffi-phero-rise 1s var(--vuffi-ease) both;
+    animation-delay: calc(var(--d, 0) * 90ms);
+  }
+
+  @keyframes vuffi-phero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vuffi-phero .vuffi-hero__in {
+      animation: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi page title",
+  "tag": "div",
+  "class": "vuffi-phero-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "info": "Leave empty to use the page title."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "center",
+      "label": "Center the text",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi page title"
+    }
+  ]
+}
+{% endschema %}

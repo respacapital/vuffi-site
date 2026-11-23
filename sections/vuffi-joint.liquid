@@ -52,12 +52,21 @@
     </div>
 
     <div class="vuffi-joint__visual" data-reveal="scale">
-      <svg class="vuffi-joint__svg" viewBox="0 0 600 600" role="img" aria-labelledby="JointSvgTitle-{{ section.id }}">
+      <svg class="vuffi-joint__svg" viewBox="120 130 360 360" role="img" aria-labelledby="JointSvgTitle-{{ section.id }}">
         <title id="JointSvgTitle-{{ section.id }}">{{ section.settings.diagram_alt | escape }}</title>
         <defs>
           <filter id="JointBlur-{{ section.id }}" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="14"/>
           </filter>
+          <linearGradient id="JointFade-{{ section.id }}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#000"/>
+            <stop offset="0.2" stop-color="#fff"/>
+            <stop offset="0.8" stop-color="#fff"/>
+            <stop offset="1" stop-color="#000"/>
+          </linearGradient>
+          <mask id="JointMask-{{ section.id }}" maskUnits="userSpaceOnUse" x="120" y="130" width="360" height="360">
+            <rect x="120" y="130" width="360" height="360" fill="url(#JointFade-{{ section.id }})"/>
+          </mask>
           <linearGradient id="JointBone-{{ section.id }}" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stop-color="#FFFFFF"/>
             <stop offset="1" stop-color="#E6ECE9"/>
@@ -73,6 +82,7 @@
           <circle cx="300" cy="300" r="22"/>
         </g>
 
+        <g mask="url(#JointMask-{{ section.id }})">
         <g class="vj-femur">
           <path class="vj-bone" fill="url(#JointBone-{{ section.id }})" d="M214 -10 L386 -10 L386 140 C386 196 430 214 430 254 C430 288 396 300 360 296 C330 292 320 282 300 282 C280 282 270 292 240 296 C204 300 170 288 170 254 C170 214 214 196 214 140 Z"/>
           <path class="vj-cart vj-cart--top" d="M174 262 C180 292 208 300 240 296 C270 292 282 286 300 286 C318 286 330 292 360 296 C392 300 420 292 426 262"/>
@@ -83,6 +93,7 @@
           <path class="vj-bone" fill="url(#JointBone-{{ section.id }})" d="M194 610 L194 452 C194 410 162 402 162 364 C162 344 178 334 206 334 L394 334 C422 334 438 344 438 364 C438 402 406 410 406 452 L406 610 Z"/>
           <path class="vj-cart vj-cart--bottom" d="M166 350 C172 338 190 336 206 336 L394 336 C410 336 428 338 434 350"/>
           <path class="vj-crack" d="M250 336 l6 -9 l6 9 M352 336 l5 -8 l5 8"/>
+        </g>
         </g>
 
         <g class="vj-spots">

@@ -1,0 +1,107 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "vuffi-page-hero",
+      "settings": {
+        "eyebrow": "Help",
+        "heading": "Questions, <em>answered.</em>"
+      }
+    },
+    "faq": {
+      "type": "vuffi-faq",
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "How long until I see a difference?",
+            "answer": "<p>Joint support builds with daily use. Watch for easier mornings over the first few weeks; the full effect takes about 90 days. That's why every order comes with a 90 day money back guarantee.</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "How many chews does my dog need?",
+            "answer": "<p>Under 35 lbs: 1 chew a day. 36 to 65 lbs: 2 chews a day. Over 65 lbs, ask your vet for the right amount. Give it with a meal or as a treat.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Is it right for puppies and senior dogs?",
+            "answer": "<p>Vuffi is for dogs over 12 weeks old, seniors included. If your dog is pregnant, nursing or taking medication, check with your vet first.</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "Does it contain allergens?",
+            "answer": "<p>Yes. Green lipped mussel is a shellfish, and glucosamine often comes from shellfish too. If your dog has a shellfish allergy, skip Vuffi. The chews are pork flavored.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "How does the subscription work?",
+            "answer": "<p>Choose Subscribe and save to get 15% off every jar, shipped every month. Skip, change or cancel anytime from your account. During Black Friday, your first box is 25% off.</p>"
+          }
+        },
+        "question_6": {
+          "type": "question",
+          "settings": {
+            "question": "What is your guarantee?",
+            "answer": "<p>Try Vuffi for 90 days. If you're not happy, email us and we'll refund your order. You keep the jar.</p>"
+          }
+        },
+        "question_7": {
+          "type": "question",
+          "settings": {
+            "question": "Do you charge for shipping?",
+            "answer": "<p>Shipping is free on every US order. Delivery details are in our shipping policy.</p>"
+          }
+        },
+        "question_8": {
+          "type": "question",
+          "settings": {
+            "question": "Can I give it with other supplements or medication?",
+            "answer": "<p>Vuffi is a supplement, not a medicine. If your dog takes medication or other joint products, ask your vet before adding it.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4",
+        "question_5",
+        "question_6",
+        "question_7",
+        "question_8"
+      ],
+      "settings": {
+        "button_link": "/pages/contact",
+        "schema_markup": true
+      }
+    },
+    "cta": {
+      "type": "vuffi-cta",
+      "settings": {
+        "button_link": "/products/hip-and-joint-soft-chews",
+        "background_color": "#0B1410"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "faq",
+    "cta"
+  ]
+}
