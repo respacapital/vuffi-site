@@ -3,113 +3,110 @@
     render 'vuffi-tone', color: section.settings.background_color
   endcapture
   assign tone = tone | strip
-  assign line_count = section.blocks.size
   assign chew_1 = section.settings.chew_1
   assign chew_2 = section.settings.chew_2 | default: chew_1
   assign chew_3 = section.settings.chew_3 | default: chew_1
   assign chew_4 = section.settings.chew_4 | default: chew_2
-  assign chew_positions = '-120,-230,-28,1.05|130,-260,24,0.92|-235,-80,42,0.82|228,-110,-36,0.88|-30,-340,12,0.74|70,-150,-18,1|-170,40,58,0.7' | split: '|'
+  assign floaters = '6,22,1.2,-18,1,0|84,14,0.7,24,0.8,0|14,58,0.5,40,0.7,1|90,52,1.1,-30,1,0|28,84,0.8,12,0.75,1|74,80,1.3,-8,0.9,0' | split: '|'
 -%}
+{% comment %} Floating chews: left %, top %, depth, start rotation, size, 1 = hidden on phones {% endcomment %}
 {%- render 'vuffi-section-style', section: section -%}
 <script src="{{ 'vuffi-story.js' | asset_url }}" defer></script>
+{%- if section.settings.show_particles -%}
+  <script src="{{ 'vuffi-particles.js' | asset_url }}" defer></script>
+{%- endif -%}
 
 <section
   class="vuffi-section vuffi-story color-custom-{{ section.id }}"
   data-tone="{{ tone }}"
   style="--story-len: {{ section.settings.scroll_length | divided_by: 100.0 }};"
-  aria-label="{{ section.settings.heading | strip_html | escape }}"
 >
   <vuffi-story class="vuffi-story__track">
     <div class="vuffi-story__sticky">
-      <div class="vuffi-wrap vuffi-story__grid">
-        <div class="vuffi-story__copy">
-          {%- if section.settings.eyebrow != blank -%}
-            <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
-          {%- endif -%}
+      {%- if section.settings.show_particles -%}
+        <vuffi-particles
+          class="vuffi-story__particles"
+          data-count="{{ section.settings.particle_count }}"
+          data-colors="{{ settings.color_palette.color2 | default: '#8FFB09' }},#FFFFFF"
+        ></vuffi-particles>
+      {%- endif -%}
 
-          {%- if line_count > 0 -%}
-            <ol class="vuffi-story__lines" role="list">
-              {%- for block in section.blocks -%}
-                <li class="vuffi-story__line" data-line="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
-                  <span class="vuffi-story__num vuffi-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
-                  <span class="vuffi-story__text">{{ block.settings.text }}</span>
-                </li>
-              {%- endfor -%}
-            </ol>
-          {%- endif -%}
-
-          <div class="vuffi-story__final">
-            <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
-            {%- if section.settings.button_label != blank -%}
-              {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
+      <div class="vuffi-story__floaters" aria-hidden="true">
+        {%- for f in floaters -%}
+          {%- liquid
+            assign v = f | split: ','
+            assign pick = forloop.index0 | modulo: 4
+            case pick
+              when 0
+                assign img = chew_1
+              when 1
+                assign img = chew_2
+              when 2
+                assign img = chew_3
+              else
+                assign img = chew_4
+            endcase
+          -%}
+          <div
+            class="vuffi-story__floater{% if v[5] == '1' %} vuffi-story__floater--desktop{% endif %}"
+            style="--x: {{ v[0] }}%; --y: {{ v[1] }}%; --depth: {{ v[2] }}; --r: {{ v[3] }}deg; --s: {{ v[4] }}; --k: {{ forloop.index0 }};"
+          >
+            {%- if img != blank -%}
+              {%- render 'vuffi-image', image: img, label: 'scroll-chew', ratio: '1 / 1', sizes: '140px', contain: true, class: 'vuffi-story__layer' -%}
+            {%- else -%}
+              <span class="vuffi-story__chew-ph">chew</span>
             {%- endif -%}
           </div>
-        </div>
+        {%- endfor -%}
+      </div>
 
-        <div class="vuffi-story__stage" aria-hidden="true">
-          <div class="vuffi-story__glow"></div>
-          <div class="vuffi-story__product">
-            <div class="vuffi-story__chews">
-              {%- for pos in chew_positions -%}
-                {%- liquid
-                  assign p = pos | split: ','
-                  assign k = forloop.index0
-                  assign pick = forloop.index0 | modulo: 4
-                  case pick
-                    when 0
-                      assign chew_img = chew_1
-                      assign chew_label = 'scroll-chew-1'
-                    when 1
-                      assign chew_img = chew_2
-                      assign chew_label = 'scroll-chew-2'
-                    when 2
-                      assign chew_img = chew_3
-                      assign chew_label = 'scroll-chew-3'
-                    else
-                      assign chew_img = chew_4
-                      assign chew_label = 'scroll-chew-4'
-                  endcase
-                -%}
-                <div
-                  class="vuffi-story__chew"
-                  style="--x: {{ p[0] }}; --y: {{ p[1] }}; --r: {{ p[2] }}deg; --s: {{ p[3] }}; --k: {{ k }};"
-                >
-                  {%- render 'vuffi-image',
-                    image: chew_img,
-                    label: chew_label,
-                    ratio: '1 / 1',
-                    sizes: '160px',
-                    contain: true,
-                    class: 'vuffi-story__layer'
-                  -%}
-                </div>
-              {%- endfor -%}
-            </div>
-            <div class="vuffi-story__jar">
-              {%- render 'vuffi-image',
-                image: section.settings.jar_image,
-                label: 'scroll-jar-open',
-                ratio: '1 / 1',
-                size: '2048 x 2048 PNG',
-                sizes: '(min-width: 990px) 520px, 80vw',
-                contain: true,
-                class: 'vuffi-story__layer'
-              -%}
-            </div>
-            <div class="vuffi-story__lid">
-              {%- render 'vuffi-image',
-                image: section.settings.lid_image,
-                label: 'scroll-lid',
-                ratio: '2 / 1',
-                sizes: '(min-width: 990px) 320px, 50vw',
-                contain: true,
-                class: 'vuffi-story__layer'
-              -%}
-            </div>
-          </div>
+      <div class="vuffi-wrap vuffi-story__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="vuffi-eyebrow vuffi-story__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="vuffi-story__lines">
+          {%- for block in section.blocks -%}
+            <span class="vuffi-story__mask" {{ block.shopify_attributes }}>
+              <span class="vuffi-story__line{% if block.settings.accent %} vuffi-story__line--accent{% endif %}" data-line>
+                {{- block.settings.text -}}
+              </span>
+            </span>
+          {%- endfor -%}
+        </h2>
+      </div>
+
+      <div class="vuffi-story__product" aria-hidden="true">
+        <div class="vuffi-story__peek">
+          {%- render 'vuffi-image', image: chew_1, label: 'scroll-chew-1', ratio: '1 / 1', sizes: '160px', contain: true, class: 'vuffi-story__layer' -%}
+        </div>
+        <div class="vuffi-story__jar">
+          {%- render 'vuffi-image',
+            image: section.settings.jar_image,
+            label: 'scroll-jar-open',
+            ratio: '1 / 1',
+            size: '2048 x 2048 PNG',
+            sizes: '(min-width: 990px) 520px, 70vw',
+            contain: true,
+            class: 'vuffi-story__layer'
+          -%}
+        </div>
+        <div class="vuffi-story__lid">
+          {%- render 'vuffi-image',
+            image: section.settings.lid_image,
+            label: 'scroll-lid',
+            ratio: '2 / 1',
+            sizes: '(min-width: 990px) 320px, 45vw',
+            contain: true,
+            class: 'vuffi-story__layer'
+          -%}
         </div>
       </div>
-      <div class="vuffi-story__progress" aria-hidden="true"><span></span></div>
+
+      {%- if section.settings.button_label != blank -%}
+        <div class="vuffi-story__cta">
+          {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
+        </div>
+      {%- endif -%}
     </div>
   </vuffi-story>
 </section>
@@ -117,9 +114,10 @@
 {% stylesheet %}
   .vuffi-story {
     --p: 0;
-    --in: 0;
+    --jy: 1;
     --lid: 0;
-    --c: 0;
+    --peek: 0;
+    --unit: min(72vw, 46svh, 520px);
     padding: 0;
     overflow: visible;
   }
@@ -127,7 +125,7 @@
   .vuffi-story__track {
     display: block;
     position: relative;
-    height: calc(var(--story-len, 4) * 100svh);
+    height: calc(var(--story-len, 3.8) * 100svh);
   }
 
   .vuffi-story__sticky {
@@ -135,180 +133,107 @@
     top: 0;
     height: 100svh;
     overflow: hidden;
-    display: grid;
-    align-items: center;
+    isolation: isolate;
   }
 
-  .vuffi-story__grid {
-    display: grid;
-    grid-template-rows: minmax(0, 1fr) auto;
+  .vuffi-story__particles {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    display: block;
+    opacity: 0.6;
+  }
+
+  .vuffi-story__particles canvas {
+    display: block;
+    width: 100%;
     height: 100%;
-    padding-block: 28px 40px;
-    gap: 12px;
   }
 
-  .vuffi-story__copy {
-    grid-row: 2;
+  .vuffi-story__head {
     position: relative;
+    z-index: 3;
     display: grid;
-    gap: 16px;
-    align-content: end;
-    min-height: 260px;
+    justify-items: center;
+    gap: 18px;
+    padding-top: max(88px, 12svh);
+    text-align: center;
   }
 
   .vuffi-story__lines {
     display: grid;
-    gap: 6px;
+    justify-items: center;
     margin: 0;
-    padding: 0;
-    list-style: none;
-    transition: opacity 0.6s var(--vuffi-ease), transform 0.6s var(--vuffi-ease);
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: clamp(34px, 9.4vw, 96px);
+    line-height: 1.02;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+
+  .vuffi-story__mask {
+    display: block;
+    overflow: hidden;
+    padding: 0.04em 0.06em 0.06em;
   }
 
   .vuffi-story__line {
-    display: grid;
-    grid-template-columns: 30px 1fr;
-    align-items: baseline;
-    font-size: clamp(18px, 2vw, 28px);
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-    transition:
-      opacity 0.7s var(--vuffi-ease),
-      transform 0.7s var(--vuffi-ease),
-      color 0.7s var(--vuffi-ease);
+    display: block;
+    text-wrap: balance;
   }
 
-  .vuffi-story__num {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+  .vuffi-story__line em {
+    font-style: normal;
     color: var(--vuffi-accent);
   }
 
-  .vuffi-story__text em {
-    font-style: italic;
+  .vuffi-story__line--accent {
     color: var(--vuffi-accent);
-  }
-
-  .vuffi-story__final {
-    display: grid;
-    justify-items: start;
-    gap: 22px;
   }
 
   .vuffi-story.is-live .vuffi-story__line {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-
-  .vuffi-story.is-live .vuffi-story__line.is-on {
-    opacity: 0.42;
-    transform: none;
-  }
-
-  .vuffi-story.is-live .vuffi-story__line.is-current {
-    opacity: 1;
-  }
-
-  .vuffi-story.is-live .vuffi-story__final {
-    position: absolute;
-    inset: auto 0 0 0;
-    opacity: 0;
-    transform: translateY(24px);
-    pointer-events: none;
-    transition: opacity 0.8s var(--vuffi-ease), transform 0.8s var(--vuffi-ease);
-  }
-
-  .vuffi-story.is-live.is-final .vuffi-story__final {
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
-  }
-
-  .vuffi-story.is-live.is-final .vuffi-story__lines {
-    opacity: 0;
-    transform: translateY(-24px);
-  }
-
-  .vuffi-story__stage {
-    grid-row: 1;
-    position: relative;
-    display: grid;
-    place-items: center;
-    min-height: 0;
-  }
-
-  .vuffi-story__glow {
-    position: absolute;
-    left: 50%;
-    top: 58%;
-    width: min(120vw, 900px);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgb(143 251 9 / 0.22) 0%, rgb(0 154 73 / 0.12) 32%, transparent 66%);
-    transform: translate(-50%, -50%) scale(calc(0.7 + var(--c) * 0.45));
-    opacity: calc(0.35 + var(--in) * 0.4 + var(--c) * 0.25);
-    pointer-events: none;
-  }
-
-  [data-tone='light'] .vuffi-story__glow {
-    background: radial-gradient(circle, rgb(0 154 73 / 0.16) 0%, rgb(0 154 73 / 0.06) 34%, transparent 66%);
+    transform: translateY(calc((1 - var(--r, 0)) * 110%));
+    opacity: calc(0.2 + var(--r, 0) * 0.8);
+    will-change: transform;
   }
 
   .vuffi-story__product {
-    position: relative;
-    width: min(62vw, 44svh, 520px);
-    aspect-ratio: 1;
-    transform: translateY(calc((1 - var(--in)) * 14%)) scale(calc(0.9 + var(--in) * 0.1 - var(--c) * 0.06));
-  }
-
-  .vuffi-story__jar,
-  .vuffi-story__lid,
-  .vuffi-story__chews {
     position: absolute;
+    z-index: 2;
+    left: 50%;
+    bottom: 0;
+    width: var(--unit);
+    aspect-ratio: 1;
+    transform: translate(-50%, calc(var(--jy) * 72% + 6%));
+    will-change: transform;
   }
 
   .vuffi-story__jar {
+    position: absolute;
     inset: 0;
     z-index: 2;
   }
 
   .vuffi-story__lid {
-    z-index: 3;
-    left: 23%;
-    right: 23%;
-    top: 4%;
-    transform:
-      translate(calc(var(--lid) * 46%), calc(var(--lid) * -150%))
-      rotate(calc(var(--lid) * 32deg));
-    opacity: clamp(0, calc(1.6 - var(--lid) * 1.6), 1);
-  }
-
-  .vuffi-story__chews {
-    z-index: 4;
-    left: 50%;
-    top: 26%;
-    width: 0;
-    height: 0;
-  }
-
-  .vuffi-story__chew {
-    --ci: clamp(0, calc(var(--c) * 1.45 - var(--k) * 0.07), 1);
     position: absolute;
-    left: 0;
-    top: 0;
-    width: calc(min(62vw, 44svh, 520px) * 0.22);
-    margin-left: calc(min(62vw, 44svh, 520px) * -0.11);
-    margin-top: calc(min(62vw, 44svh, 520px) * -0.11);
-    opacity: clamp(0, calc(var(--ci) * 5), 1);
+    z-index: 3;
+    left: 21%;
+    right: 21%;
+    top: 2%;
     transform:
-      translate(
-        calc(var(--ci) * var(--x) * min(62vw, 44svh, 520px) / 520),
-        calc(var(--ci) * var(--y) * min(62vw, 44svh, 520px) / 520 + (1 - var(--ci)) * 40px)
-      )
-      rotate(calc(var(--ci) * var(--r)))
-      scale(calc((0.4 + var(--ci) * 0.6) * var(--s)));
-    filter: drop-shadow(0 18px 24px rgb(0 0 0 / 0.28));
+      translate(calc(var(--lid) * 30%), calc(var(--lid) * -70%))
+      rotate(calc(var(--lid) * 16deg));
+  }
+
+  .vuffi-story__peek {
+    position: absolute;
+    z-index: 1;
+    left: 36%;
+    width: 28%;
+    top: 4%;
+    transform: translateY(calc((1 - var(--peek)) * 70% - var(--peek) * 46%)) rotate(calc(var(--peek) * -14deg));
   }
 
   .vuffi-story__layer.vuffi-media {
@@ -316,40 +241,82 @@
     border-radius: 0;
   }
 
-  .vuffi-story__chew .vuffi-ph {
+  .vuffi-story__jar .vuffi-media {
+    filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.35));
+  }
+
+  .vuffi-story__product .vuffi-ph {
+    border-color: rgb(255 255 255 / 0.4);
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  .vuffi-story__peek .vuffi-ph,
+  .vuffi-story__lid .vuffi-ph {
     padding: 4px;
     border-radius: 14px;
   }
 
-  .vuffi-story__chew .vuffi-ph__label {
+  .vuffi-story__peek .vuffi-ph__label,
+  .vuffi-story__lid .vuffi-ph__label {
     font-size: 8px;
     letter-spacing: 0.04em;
   }
 
-  .vuffi-story__lid .vuffi-ph {
-    padding: 6px;
-  }
-
-  .vuffi-story__progress {
+  .vuffi-story__floaters {
     position: absolute;
-    left: var(--vuffi-gutter);
-    right: var(--vuffi-gutter);
-    bottom: 16px;
-    height: 2px;
-    background: var(--vuffi-line);
-    border-radius: 2px;
-    overflow: hidden;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
   }
 
-  .vuffi-story__progress span {
-    display: block;
-    height: 100%;
-    background: var(--vuffi-accent);
-    transform-origin: left;
-    transform: scaleX(var(--p));
+  .vuffi-story__floater {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: calc(clamp(56px, 13vw, 130px) * var(--s));
+    transform:
+      translate(-50%, calc((0.5 - var(--p)) * var(--depth) * 34svh))
+      rotate(calc(var(--r) + var(--p) * var(--depth) * 60deg));
+    opacity: calc(0.35 + var(--depth) * 0.5);
+    filter: blur(calc((1.3 - var(--depth)) * 2px)) drop-shadow(0 16px 20px rgb(0 0 0 / 0.25));
   }
 
-  /* Without the pinned animation: everything shows in its final state */
+  .vuffi-story__floater--desktop {
+    display: none;
+  }
+
+  .vuffi-story__chew-ph {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1.15;
+    border-radius: 34% 38% 36% 32%;
+    background: linear-gradient(160deg, #8a5a33, #5b3519);
+    color: rgb(255 255 255 / 0.6);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .vuffi-story__cta {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    bottom: max(24px, 4svh);
+    transform: translate(-50%, 24px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s var(--vuffi-ease), transform 0.6s var(--vuffi-ease);
+  }
+
+  .vuffi-story.is-final .vuffi-story__cta,
+  .vuffi-story.is-static .vuffi-story__cta {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    pointer-events: auto;
+  }
+
+  /* Without the pinned animation: the finished scene */
   .vuffi-story.is-static .vuffi-story__track {
     height: auto;
   }
@@ -357,78 +324,35 @@
   .vuffi-story.is-static .vuffi-story__sticky {
     position: relative;
     height: auto;
-    padding-block: var(--vuffi-space);
+    min-height: 760px;
+    padding-bottom: calc(var(--unit) * 0.9);
   }
 
-  .vuffi-story.is-static .vuffi-story__grid {
-    height: auto;
-  }
-
-  .vuffi-story.is-static .vuffi-story__stage {
-    min-height: 420px;
-  }
-
-  .vuffi-story.is-static .vuffi-story__progress {
-    display: none;
+  @media screen and (min-width: 750px) {
+    .vuffi-story__floater--desktop {
+      display: block;
+    }
   }
 
   @media screen and (min-width: 990px) {
-    .vuffi-story__grid {
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-      grid-template-rows: 1fr;
-      align-items: center;
-      gap: 48px;
-      padding-block: 64px;
+    .vuffi-story {
+      --unit: min(40vw, 52svh, 540px);
     }
 
-    .vuffi-story__copy {
-      grid-row: 1;
-      align-content: center;
-      min-height: 440px;
-      gap: 28px;
+    .vuffi-story__head {
+      padding-top: max(96px, 11svh);
     }
 
-    .vuffi-story__lines {
-      gap: 14px;
+    .vuffi-story__cta {
+      left: auto;
+      right: var(--vuffi-gutter);
+      bottom: 48px;
+      transform: translate(0, 24px);
     }
 
-    .vuffi-story__line {
-      grid-template-columns: 44px 1fr;
-    }
-
-    .vuffi-story.is-live .vuffi-story__final {
-      inset: 50% 0 auto 0;
-      transform: translateY(calc(-50% + 24px));
-    }
-
-    .vuffi-story.is-live.is-final .vuffi-story__final {
-      transform: translateY(-50%);
-    }
-
-    .vuffi-story__stage {
-      grid-row: 1;
-      height: 100%;
-    }
-
-    .vuffi-story__product {
-      width: min(40vw, 64svh, 560px);
-    }
-
-    .vuffi-story__chew {
-      width: calc(min(40vw, 64svh, 560px) * 0.22);
-      margin-left: calc(min(40vw, 64svh, 560px) * -0.11);
-      margin-top: calc(min(40vw, 64svh, 560px) * -0.11);
-      transform:
-        translate(
-          calc(var(--ci) * var(--x) * min(40vw, 64svh, 560px) / 520),
-          calc(var(--ci) * var(--y) * min(40vw, 64svh, 560px) / 520 + (1 - var(--ci)) * 40px)
-        )
-        rotate(calc(var(--ci) * var(--r)))
-        scale(calc((0.4 + var(--ci) * 0.6) * var(--s)));
-    }
-
-    .vuffi-story__progress {
-      bottom: 28px;
+    .vuffi-story.is-final .vuffi-story__cta,
+    .vuffi-story.is-static .vuffi-story__cta {
+      transform: none;
     }
   }
 {% endstylesheet %}
@@ -438,29 +362,22 @@
   "name": "Vuffi scroll story",
   "tag": "div",
   "class": "vuffi-story-section",
-  "max_blocks": 7,
+  "max_blocks": 6,
   "settings": [
     {
       "type": "paragraph",
-      "content": "Pins to the screen while people scroll: the lines stack one by one, then the lid lifts off and the chews rise out of the jar. People who ask their device for less motion see the finished scene."
+      "content": "Pins to the screen while people scroll: the lines slide up one by one, the jar rises from the bottom, the lid pops and a chew peeks out, with chews floating around. People who ask their device for less motion see the finished scene."
     },
     {
       "type": "text",
       "id": "eyebrow",
       "label": "Small line above",
-      "default": "Inside every chew"
-    },
-    {
-      "type": "inline_richtext",
-      "id": "heading",
-      "label": "Final headline",
-      "default": "Five joint actives. <em>One daily chew.</em>",
-      "info": "Shows after the last line, as the chews come out."
+      "default": "Inside every jar"
     },
     {
       "type": "text",
       "id": "button_label",
-      "label": "Button",
+      "label": "Button at the end",
       "default": "Shop the chews"
     },
     {
@@ -476,7 +393,7 @@
       "max": 600,
       "step": 25,
       "unit": "%",
-      "default": 425,
+      "default": 375,
       "info": "How long the scene stays pinned, as a share of the screen height."
     },
     {
@@ -499,7 +416,8 @@
     {
       "type": "image_picker",
       "id": "chew_1",
-      "label": "Chew 1"
+      "label": "Chew 1",
+      "info": "Also the chew that peeks out of the jar."
     },
     {
       "type": "image_picker",
@@ -517,10 +435,29 @@
       "label": "Chew 4"
     },
     {
+      "type": "header",
+      "content": "Background"
+    },
+    {
       "type": "color",
       "id": "background_color",
       "label": "Background",
-      "default": "#0B1410"
+      "default": "#00843F"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_particles",
+      "label": "Show drifting particles",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "particle_count",
+      "label": "Particles",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 35
     }
   ],
   "blocks": [
@@ -529,10 +466,17 @@
       "name": "Line",
       "settings": [
         {
-          "type": "inline_richtext",
+          "type": "text",
           "id": "text",
           "label": "Text",
-          "default": "Glucosamine <em>rebuilds</em> the cushion."
+          "default": "5 joint actives"
+        },
+        {
+          "type": "checkbox",
+          "id": "accent",
+          "label": "Lime line",
+          "default": false,
+          "info": "Use on the last line."
         }
       ]
     }
@@ -541,11 +485,10 @@
     {
       "name": "Vuffi scroll story",
       "blocks": [
-        { "type": "line", "settings": { "text": "Glucosamine <em>rebuilds</em> the cushion." } },
-        { "type": "line", "settings": { "text": "Chondroitin keeps it <em>springy.</em>" } },
-        { "type": "line", "settings": { "text": "MSM <em>calms</em> the swelling." } },
-        { "type": "line", "settings": { "text": "Hyaluronic acid keeps joints <em>gliding.</em>" } },
-        { "type": "line", "settings": { "text": "Green lipped mussel <em>cools</em> inflammation." } }
+        { "type": "line", "settings": { "text": "5 joint actives" } },
+        { "type": "line", "settings": { "text": "30 soft chews" } },
+        { "type": "line", "settings": { "text": "0 pills to hide" } },
+        { "type": "line", "settings": { "text": "Every step, supported.", "accent": true } }
       ]
     }
   ]

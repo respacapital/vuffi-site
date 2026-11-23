@@ -40,11 +40,13 @@
         "trust_shipping"
       ],
       "settings": {
-        "layout": "full",
         "show_cards": true,
+        "show_particles": true,
+        "particle_count": 70,
+        "background_color": "#0B1410",
         "button_link": "/products/hip-and-joint-soft-chews",
         "button2_link": "/pages/ingredients",
-        "padding_top": 48,
+        "padding_top": 40,
         "padding_bottom": 64
       }
     },
@@ -131,31 +133,26 @@
         "line_1": {
           "type": "line",
           "settings": {
-            "text": "Glucosamine <em>rebuilds</em> the cushion."
+            "text": "5 joint actives"
           }
         },
         "line_2": {
           "type": "line",
           "settings": {
-            "text": "Chondroitin keeps it <em>springy.</em>"
+            "text": "30 soft chews"
           }
         },
         "line_3": {
           "type": "line",
           "settings": {
-            "text": "MSM <em>calms</em> the swelling."
+            "text": "0 pills to hide"
           }
         },
         "line_4": {
           "type": "line",
           "settings": {
-            "text": "Hyaluronic acid keeps joints <em>gliding.</em>"
-          }
-        },
-        "line_5": {
-          "type": "line",
-          "settings": {
-            "text": "Green lipped mussel <em>cools</em> inflammation."
+            "text": "Every step, supported.",
+            "accent": true
           }
         }
       },
@@ -163,13 +160,15 @@
         "line_1",
         "line_2",
         "line_3",
-        "line_4",
-        "line_5"
+        "line_4"
       ],
       "settings": {
+        "eyebrow": "Inside every jar",
         "button_link": "/products/hip-and-joint-soft-chews",
-        "scroll_length": 425,
-        "background_color": "#0B1410"
+        "scroll_length": 375,
+        "background_color": "#00843F",
+        "show_particles": true,
+        "particle_count": 35
       }
     },
     "joint": {

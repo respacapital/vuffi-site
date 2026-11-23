@@ -118,13 +118,27 @@
 {% stylesheet %}
   .vuffi-joint__grid {
     display: grid;
-    gap: 48px;
+    gap: 28px;
   }
 
   .vuffi-joint__copy {
-    display: grid;
-    gap: 32px;
-    align-content: start;
+    display: contents;
+  }
+
+  .vuffi-joint__copy > .vuffi-head {
+    order: 1;
+  }
+
+  .vuffi-joint__visual {
+    order: 2;
+  }
+
+  .vuffi-joint__toggle {
+    order: 3;
+  }
+
+  .vuffi-joint__list {
+    order: 4;
   }
 
   .vuffi-joint__toggle {
@@ -399,6 +413,12 @@
       grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
       align-items: start;
       gap: 72px;
+    }
+
+    .vuffi-joint__copy {
+      display: grid;
+      gap: 32px;
+      align-content: start;
     }
 
     .vuffi-joint__visual {

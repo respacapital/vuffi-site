@@ -1,5 +1,9 @@
-/* Vuffi scroll story: pins a scene while the page scrolls and drives it with --p (0 to 1).
-   Lines stack in order, then the lid lifts (--lid) and the chews rise (--c). */
+/* Vuffi scroll story: pins a scene while the page scrolls and drives it with CSS variables.
+   --p    overall progress 0 to 1 (floating chews drift with it)
+   --r    per line reveal, lines slide up out of a mask one by one
+   --jy   jar position, 1 hidden low, 0 risen
+   --lid  lid pops off near the end
+   --peek a chew peeks out of the jar */
 (() => {
   if (customElements.get('vuffi-story')) return;
 
@@ -11,12 +15,13 @@
   class VuffiStory extends HTMLElement {
     connectedCallback() {
       this.section = this.closest('.vuffi-story');
-      this.lines = Array.from(this.querySelectorAll('.vuffi-story__line'));
+      this.lines = Array.from(this.querySelectorAll('[data-line]'));
       this.onScroll = () => this.request();
       this.frame = 0;
 
       if (reduced.matches || (window.Shopify && window.Shopify.designMode)) {
-        this.renderStatic();
+        this.section.classList.add('is-static');
+        this.apply(1);
         return;
       }
 
@@ -32,7 +37,7 @@
             window.removeEventListener('resize', this.onScroll);
           }
         },
-        { rootMargin: '20% 0px 20% 0px' }
+        { rootMargin: '25% 0px 25% 0px' }
       );
       this.observer.observe(this);
       this.update();
@@ -42,12 +47,6 @@
       if (this.observer) this.observer.disconnect();
       window.removeEventListener('scroll', this.onScroll);
       window.removeEventListener('resize', this.onScroll);
-    }
-
-    renderStatic() {
-      this.section.classList.add('is-static');
-      this.section.classList.remove('is-live');
-      this.apply(1);
     }
 
     request() {
@@ -61,27 +60,22 @@
     update() {
       const rect = this.getBoundingClientRect();
       const travel = rect.height - window.innerHeight;
-      const p = travel > 0 ? clamp(-rect.top / travel) : 1;
-      this.apply(p);
+      this.apply(travel > 0 ? clamp(-rect.top / travel) : 1);
     }
 
     apply(p) {
-      const count = this.lines.length;
-      const linesEnd = 0.56;
       const style = this.section.style;
-      style.setProperty('--p', p.toFixed(4));
-      style.setProperty('--in', easeOut(clamp(p / 0.12)).toFixed(4));
-      style.setProperty('--lid', easeInOut(clamp((p - 0.6) / 0.14)).toFixed(4));
-      style.setProperty('--c', easeOut(clamp((p - 0.68) / 0.26)).toFixed(4));
-
-      let current = -1;
+      const count = Math.max(1, this.lines.length);
+      const span = 0.56 / count;
       this.lines.forEach((line, i) => {
-        const on = p >= 0.04 + (i * (linesEnd - 0.04)) / Math.max(1, count);
-        line.classList.toggle('is-on', on);
-        if (on) current = i;
+        const r = easeOut(clamp((p - 0.03 - i * span) / (span * 1.1)));
+        line.style.setProperty('--r', r.toFixed(3));
       });
-      this.lines.forEach((line, i) => line.classList.toggle('is-current', i === current));
-      this.section.classList.toggle('is-final', p >= 0.62);
+      style.setProperty('--p', p.toFixed(4));
+      style.setProperty('--jy', (1 - easeOut(clamp((p - 0.04) / 0.7))).toFixed(4));
+      style.setProperty('--lid', easeInOut(clamp((p - 0.74) / 0.12)).toFixed(4));
+      style.setProperty('--peek', easeOut(clamp((p - 0.8) / 0.14)).toFixed(4));
+      this.section.classList.toggle('is-final', p >= 0.86);
     }
   }
 

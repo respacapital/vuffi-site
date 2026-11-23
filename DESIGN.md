@@ -1,6 +1,6 @@
 # Vuffi Design System
 
-Version 1, November 22, 2026. Source of truth for color, type, shape, motion and voice on getvuffi.com. Change this file before changing the theme.
+Version 2, November 23, 2026. Source of truth for color, type, shape, motion and voice on getvuffi.com. Change this file before changing the theme.
 
 ## 1. Feeling
 
@@ -31,12 +31,15 @@ From the Logo Kit (Nov 22): main logo is ink letters with the green paw (header,
 
 ## 4. Type
 
+Version 2 (Nov 23): headings match the rounded logo. The first version used Instrument Serif headings with an italic accent word; it is saved on the branch `design/serif-v1` in case the logo is redesigned toward a serif.
+
 | Role | Font | Notes |
 | --- | --- | --- |
-| Headings | Display serif (Theme settings > Typography > Heading) | Large, tight, light. One word per headline can be italic and green: type it in italics in the editor |
-| Body, buttons, labels | Clean sans (Body, Subheading, Accent) | 16 to 18px body, 600 weight buttons |
-| Eyebrows | Sans 600, 12px, letter spaced, uppercase | Always paired with a small green or lime mark |
-| Numbers | Sans with tabular figures | Prices, countdowns, stats |
+| Headings | Nunito Black 900 (Theme settings > Typography > Heading) | Rounded like the wordmark. Tight tracking. One word per headline can be lime or green: type it in italics in the editor |
+| Story lines | Nunito Black, uppercase | Big stacked lines in the scroll story, Grüns style |
+| Body, buttons, labels | Inter (Body, Subheading, Accent) | 16 to 18px body, 600 weight buttons |
+| Eyebrows | Inter 600, 12px, letter spaced, uppercase | Always paired with a small green or lime mark |
+| Numbers | Tabular figures | Prices, countdowns, stats |
 
 ## 5. Shape
 
@@ -51,7 +54,8 @@ From the Logo Kit (Nov 22): main logo is ink letters with the green paw (header,
 1. Content rises 24px and fades in once as it enters the screen, 700ms, easing cubic-bezier(.16, 1, .3, 1), items staggered 80ms.
 2. Numbers count up once when they enter.
 3. Countdown digits roll when they change.
-4. The scroll story pins to the screen: lines of text stack one by one, then the jar opens and the chews rise out.
+4. The scroll story pins to the screen like Grüns: big uppercase lines slide up one by one, the jar rises from the bottom, the lid pops, a chew peeks out, and chews float around at different depths.
+4b. The hero floats the jar on an ink background with a green glow and drifting lime particles.
 5. Ticker strips move slowly and pause on hover.
 6. Everything stops for people who ask their device for less motion.
 
