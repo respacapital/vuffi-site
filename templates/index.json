@@ -41,14 +41,140 @@
       ],
       "settings": {
         "layout": "full",
-        "button_link": "shopify://products/hip-and-joint-soft-chews",
+        "button_link": "/products/hip-and-joint-soft-chews",
         "button2_link": "/pages/ingredients",
         "padding_top": 48,
         "padding_bottom": 64
       }
+    },
+    "ticker": {
+      "type": "vuffi-ticker",
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "text": "Vet recommended",
+            "icon": "vet"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "text": "Glucosamine",
+            "icon": "molecule"
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "text": "Chondroitin",
+            "icon": "cushion"
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "text": "MSM",
+            "icon": "crystal"
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "text": "Hyaluronic acid",
+            "icon": "drop"
+          }
+        },
+        "item_6": {
+          "type": "item",
+          "settings": {
+            "text": "Green lipped mussel",
+            "icon": "shell"
+          }
+        },
+        "item_7": {
+          "type": "item",
+          "settings": {
+            "text": "Pork flavor dogs love",
+            "icon": "chew"
+          }
+        },
+        "item_8": {
+          "type": "item",
+          "settings": {
+            "text": "90 day money back guarantee",
+            "icon": "shield"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4",
+        "item_5",
+        "item_6",
+        "item_7",
+        "item_8"
+      ],
+      "settings": {
+        "style": "chips",
+        "speed": 45,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "story": {
+      "type": "vuffi-scroll-story",
+      "blocks": {
+        "line_1": {
+          "type": "line",
+          "settings": {
+            "text": "Glucosamine <em>rebuilds</em> the cushion."
+          }
+        },
+        "line_2": {
+          "type": "line",
+          "settings": {
+            "text": "Chondroitin keeps it <em>springy.</em>"
+          }
+        },
+        "line_3": {
+          "type": "line",
+          "settings": {
+            "text": "MSM <em>calms</em> the swelling."
+          }
+        },
+        "line_4": {
+          "type": "line",
+          "settings": {
+            "text": "Hyaluronic acid keeps joints <em>gliding.</em>"
+          }
+        },
+        "line_5": {
+          "type": "line",
+          "settings": {
+            "text": "Green lipped mussel <em>cools</em> inflammation."
+          }
+        }
+      },
+      "block_order": [
+        "line_1",
+        "line_2",
+        "line_3",
+        "line_4",
+        "line_5"
+      ],
+      "settings": {
+        "button_link": "/products/hip-and-joint-soft-chews",
+        "scroll_length": 425,
+        "background_color": "#0B1410"
+      }
     }
   },
   "order": [
-    "hero"
+    "hero",
+    "ticker",
+    "story"
   ]
 }

@@ -1,0 +1,552 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign line_count = section.blocks.size
+  assign chew_1 = section.settings.chew_1
+  assign chew_2 = section.settings.chew_2 | default: chew_1
+  assign chew_3 = section.settings.chew_3 | default: chew_1
+  assign chew_4 = section.settings.chew_4 | default: chew_2
+  assign chew_positions = '-120,-230,-28,1.05|130,-260,24,0.92|-235,-80,42,0.82|228,-110,-36,0.88|-30,-340,12,0.74|70,-150,-18,1|-170,40,58,0.7' | split: '|'
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+<script src="{{ 'vuffi-story.js' | asset_url }}" defer></script>
+
+<section
+  class="vuffi-section vuffi-story color-custom-{{ section.id }}"
+  data-tone="{{ tone }}"
+  style="--story-len: {{ section.settings.scroll_length | divided_by: 100.0 }};"
+  aria-label="{{ section.settings.heading | strip_html | escape }}"
+>
+  <vuffi-story class="vuffi-story__track">
+    <div class="vuffi-story__sticky">
+      <div class="vuffi-wrap vuffi-story__grid">
+        <div class="vuffi-story__copy">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
+          {%- endif -%}
+
+          {%- if line_count > 0 -%}
+            <ol class="vuffi-story__lines" role="list">
+              {%- for block in section.blocks -%}
+                <li class="vuffi-story__line" data-line="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+                  <span class="vuffi-story__num vuffi-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                  <span class="vuffi-story__text">{{ block.settings.text }}</span>
+                </li>
+              {%- endfor -%}
+            </ol>
+          {%- endif -%}
+
+          <div class="vuffi-story__final">
+            <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
+            {%- if section.settings.button_label != blank -%}
+              {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
+            {%- endif -%}
+          </div>
+        </div>
+
+        <div class="vuffi-story__stage" aria-hidden="true">
+          <div class="vuffi-story__glow"></div>
+          <div class="vuffi-story__product">
+            <div class="vuffi-story__chews">
+              {%- for pos in chew_positions -%}
+                {%- liquid
+                  assign p = pos | split: ','
+                  assign k = forloop.index0
+                  assign pick = forloop.index0 | modulo: 4
+                  case pick
+                    when 0
+                      assign chew_img = chew_1
+                      assign chew_label = 'scroll-chew-1'
+                    when 1
+                      assign chew_img = chew_2
+                      assign chew_label = 'scroll-chew-2'
+                    when 2
+                      assign chew_img = chew_3
+                      assign chew_label = 'scroll-chew-3'
+                    else
+                      assign chew_img = chew_4
+                      assign chew_label = 'scroll-chew-4'
+                  endcase
+                -%}
+                <div
+                  class="vuffi-story__chew"
+                  style="--x: {{ p[0] }}; --y: {{ p[1] }}; --r: {{ p[2] }}deg; --s: {{ p[3] }}; --k: {{ k }};"
+                >
+                  {%- render 'vuffi-image',
+                    image: chew_img,
+                    label: chew_label,
+                    ratio: '1 / 1',
+                    sizes: '160px',
+                    contain: true,
+                    class: 'vuffi-story__layer'
+                  -%}
+                </div>
+              {%- endfor -%}
+            </div>
+            <div class="vuffi-story__jar">
+              {%- render 'vuffi-image',
+                image: section.settings.jar_image,
+                label: 'scroll-jar-open',
+                ratio: '1 / 1',
+                size: '2048 x 2048 PNG',
+                sizes: '(min-width: 990px) 520px, 80vw',
+                contain: true,
+                class: 'vuffi-story__layer'
+              -%}
+            </div>
+            <div class="vuffi-story__lid">
+              {%- render 'vuffi-image',
+                image: section.settings.lid_image,
+                label: 'scroll-lid',
+                ratio: '2 / 1',
+                sizes: '(min-width: 990px) 320px, 50vw',
+                contain: true,
+                class: 'vuffi-story__layer'
+              -%}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="vuffi-story__progress" aria-hidden="true"><span></span></div>
+    </div>
+  </vuffi-story>
+</section>
+
+{% stylesheet %}
+  .vuffi-story {
+    --p: 0;
+    --in: 0;
+    --lid: 0;
+    --c: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .vuffi-story__track {
+    display: block;
+    position: relative;
+    height: calc(var(--story-len, 4) * 100svh);
+  }
+
+  .vuffi-story__sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    display: grid;
+    align-items: center;
+  }
+
+  .vuffi-story__grid {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    height: 100%;
+    padding-block: 28px 40px;
+    gap: 12px;
+  }
+
+  .vuffi-story__copy {
+    grid-row: 2;
+    position: relative;
+    display: grid;
+    gap: 16px;
+    align-content: end;
+    min-height: 260px;
+  }
+
+  .vuffi-story__lines {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transition: opacity 0.6s var(--vuffi-ease), transform 0.6s var(--vuffi-ease);
+  }
+
+  .vuffi-story__line {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    align-items: baseline;
+    font-size: clamp(18px, 2vw, 28px);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    transition:
+      opacity 0.7s var(--vuffi-ease),
+      transform 0.7s var(--vuffi-ease),
+      color 0.7s var(--vuffi-ease);
+  }
+
+  .vuffi-story__num {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--vuffi-accent);
+  }
+
+  .vuffi-story__text em {
+    font-style: italic;
+    color: var(--vuffi-accent);
+  }
+
+  .vuffi-story__final {
+    display: grid;
+    justify-items: start;
+    gap: 22px;
+  }
+
+  .vuffi-story.is-live .vuffi-story__line {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  .vuffi-story.is-live .vuffi-story__line.is-on {
+    opacity: 0.42;
+    transform: none;
+  }
+
+  .vuffi-story.is-live .vuffi-story__line.is-current {
+    opacity: 1;
+  }
+
+  .vuffi-story.is-live .vuffi-story__final {
+    position: absolute;
+    inset: auto 0 0 0;
+    opacity: 0;
+    transform: translateY(24px);
+    pointer-events: none;
+    transition: opacity 0.8s var(--vuffi-ease), transform 0.8s var(--vuffi-ease);
+  }
+
+  .vuffi-story.is-live.is-final .vuffi-story__final {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .vuffi-story.is-live.is-final .vuffi-story__lines {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+
+  .vuffi-story__stage {
+    grid-row: 1;
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 0;
+  }
+
+  .vuffi-story__glow {
+    position: absolute;
+    left: 50%;
+    top: 58%;
+    width: min(120vw, 900px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(143 251 9 / 0.22) 0%, rgb(0 154 73 / 0.12) 32%, transparent 66%);
+    transform: translate(-50%, -50%) scale(calc(0.7 + var(--c) * 0.45));
+    opacity: calc(0.35 + var(--in) * 0.4 + var(--c) * 0.25);
+    pointer-events: none;
+  }
+
+  [data-tone='light'] .vuffi-story__glow {
+    background: radial-gradient(circle, rgb(0 154 73 / 0.16) 0%, rgb(0 154 73 / 0.06) 34%, transparent 66%);
+  }
+
+  .vuffi-story__product {
+    position: relative;
+    width: min(62vw, 44svh, 520px);
+    aspect-ratio: 1;
+    transform: translateY(calc((1 - var(--in)) * 14%)) scale(calc(0.9 + var(--in) * 0.1 - var(--c) * 0.06));
+  }
+
+  .vuffi-story__jar,
+  .vuffi-story__lid,
+  .vuffi-story__chews {
+    position: absolute;
+  }
+
+  .vuffi-story__jar {
+    inset: 0;
+    z-index: 2;
+  }
+
+  .vuffi-story__lid {
+    z-index: 3;
+    left: 23%;
+    right: 23%;
+    top: 4%;
+    transform:
+      translate(calc(var(--lid) * 46%), calc(var(--lid) * -150%))
+      rotate(calc(var(--lid) * 32deg));
+    opacity: clamp(0, calc(1.6 - var(--lid) * 1.6), 1);
+  }
+
+  .vuffi-story__chews {
+    z-index: 4;
+    left: 50%;
+    top: 26%;
+    width: 0;
+    height: 0;
+  }
+
+  .vuffi-story__chew {
+    --ci: clamp(0, calc(var(--c) * 1.45 - var(--k) * 0.07), 1);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: calc(min(62vw, 44svh, 520px) * 0.22);
+    margin-left: calc(min(62vw, 44svh, 520px) * -0.11);
+    margin-top: calc(min(62vw, 44svh, 520px) * -0.11);
+    opacity: clamp(0, calc(var(--ci) * 5), 1);
+    transform:
+      translate(
+        calc(var(--ci) * var(--x) * min(62vw, 44svh, 520px) / 520),
+        calc(var(--ci) * var(--y) * min(62vw, 44svh, 520px) / 520 + (1 - var(--ci)) * 40px)
+      )
+      rotate(calc(var(--ci) * var(--r)))
+      scale(calc((0.4 + var(--ci) * 0.6) * var(--s)));
+    filter: drop-shadow(0 18px 24px rgb(0 0 0 / 0.28));
+  }
+
+  .vuffi-story__layer.vuffi-media {
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .vuffi-story__chew .vuffi-ph {
+    padding: 4px;
+    border-radius: 14px;
+  }
+
+  .vuffi-story__chew .vuffi-ph__label {
+    font-size: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .vuffi-story__lid .vuffi-ph {
+    padding: 6px;
+  }
+
+  .vuffi-story__progress {
+    position: absolute;
+    left: var(--vuffi-gutter);
+    right: var(--vuffi-gutter);
+    bottom: 16px;
+    height: 2px;
+    background: var(--vuffi-line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .vuffi-story__progress span {
+    display: block;
+    height: 100%;
+    background: var(--vuffi-accent);
+    transform-origin: left;
+    transform: scaleX(var(--p));
+  }
+
+  /* Without the pinned animation: everything shows in its final state */
+  .vuffi-story.is-static .vuffi-story__track {
+    height: auto;
+  }
+
+  .vuffi-story.is-static .vuffi-story__sticky {
+    position: relative;
+    height: auto;
+    padding-block: var(--vuffi-space);
+  }
+
+  .vuffi-story.is-static .vuffi-story__grid {
+    height: auto;
+  }
+
+  .vuffi-story.is-static .vuffi-story__stage {
+    min-height: 420px;
+  }
+
+  .vuffi-story.is-static .vuffi-story__progress {
+    display: none;
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-story__grid {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      grid-template-rows: 1fr;
+      align-items: center;
+      gap: 48px;
+      padding-block: 64px;
+    }
+
+    .vuffi-story__copy {
+      grid-row: 1;
+      align-content: center;
+      min-height: 440px;
+      gap: 28px;
+    }
+
+    .vuffi-story__lines {
+      gap: 14px;
+    }
+
+    .vuffi-story__line {
+      grid-template-columns: 44px 1fr;
+    }
+
+    .vuffi-story.is-live .vuffi-story__final {
+      inset: 50% 0 auto 0;
+      transform: translateY(calc(-50% + 24px));
+    }
+
+    .vuffi-story.is-live.is-final .vuffi-story__final {
+      transform: translateY(-50%);
+    }
+
+    .vuffi-story__stage {
+      grid-row: 1;
+      height: 100%;
+    }
+
+    .vuffi-story__product {
+      width: min(40vw, 64svh, 560px);
+    }
+
+    .vuffi-story__chew {
+      width: calc(min(40vw, 64svh, 560px) * 0.22);
+      margin-left: calc(min(40vw, 64svh, 560px) * -0.11);
+      margin-top: calc(min(40vw, 64svh, 560px) * -0.11);
+      transform:
+        translate(
+          calc(var(--ci) * var(--x) * min(40vw, 64svh, 560px) / 520),
+          calc(var(--ci) * var(--y) * min(40vw, 64svh, 560px) / 520 + (1 - var(--ci)) * 40px)
+        )
+        rotate(calc(var(--ci) * var(--r)))
+        scale(calc((0.4 + var(--ci) * 0.6) * var(--s)));
+    }
+
+    .vuffi-story__progress {
+      bottom: 28px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi scroll story",
+  "tag": "div",
+  "class": "vuffi-story-section",
+  "max_blocks": 7,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Pins to the screen while people scroll: the lines stack one by one, then the lid lifts off and the chews rise out of the jar. People who ask their device for less motion see the finished scene."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above",
+      "default": "Inside every chew"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Final headline",
+      "default": "Five joint actives. <em>One daily chew.</em>",
+      "info": "Shows after the last line, as the chews come out."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button",
+      "default": "Shop the chews"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "scroll_length",
+      "label": "Scroll length",
+      "min": 250,
+      "max": 600,
+      "step": 25,
+      "unit": "%",
+      "default": 425,
+      "info": "How long the scene stays pinned, as a share of the screen height."
+    },
+    {
+      "type": "header",
+      "content": "Product layers",
+      "info": "Transparent PNGs from the same camera angle and light."
+    },
+    {
+      "type": "image_picker",
+      "id": "jar_image",
+      "label": "Open jar, no lid",
+      "info": "2048 x 2048 transparent PNG"
+    },
+    {
+      "type": "image_picker",
+      "id": "lid_image",
+      "label": "Lid",
+      "info": "Transparent PNG, sized to sit on the jar"
+    },
+    {
+      "type": "image_picker",
+      "id": "chew_1",
+      "label": "Chew 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "chew_2",
+      "label": "Chew 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "chew_3",
+      "label": "Chew 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "chew_4",
+      "label": "Chew 4"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#0B1410"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "line",
+      "name": "Line",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "Glucosamine <em>rebuilds</em> the cushion."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi scroll story",
+      "blocks": [
+        { "type": "line", "settings": { "text": "Glucosamine <em>rebuilds</em> the cushion." } },
+        { "type": "line", "settings": { "text": "Chondroitin keeps it <em>springy.</em>" } },
+        { "type": "line", "settings": { "text": "MSM <em>calms</em> the swelling." } },
+        { "type": "line", "settings": { "text": "Hyaluronic acid keeps joints <em>gliding.</em>" } },
+        { "type": "line", "settings": { "text": "Green lipped mussel <em>cools</em> inflammation." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
