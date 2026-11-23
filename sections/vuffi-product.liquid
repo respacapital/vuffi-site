@@ -2,6 +2,7 @@
   capture tone
     render 'vuffi-tone', color: section.settings.background_color
   endcapture
+  assign tone = tone | strip
   assign product = product | default: section.settings.product
   assign slide_total = product.media.size
   if slide_total == 0

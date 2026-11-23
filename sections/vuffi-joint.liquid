@@ -2,6 +2,7 @@
   capture tone
     render 'vuffi-tone', color: section.settings.background_color
   endcapture
+  assign tone = tone | strip
 -%}
 {%- render 'vuffi-section-style', section: section -%}
 <script src="{{ 'vuffi-joint.js' | asset_url }}" defer></script>

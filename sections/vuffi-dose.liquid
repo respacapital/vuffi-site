@@ -2,6 +2,7 @@
   capture tone
     render 'vuffi-tone', color: section.settings.background_color
   endcapture
+  assign tone = tone | strip
   assign start = section.settings.start_weight
   assign span = section.settings.max_weight | minus: 5
   assign fill = start | minus: 5 | times: 100.0 | divided_by: span

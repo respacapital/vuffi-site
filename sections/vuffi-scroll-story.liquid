@@ -2,6 +2,7 @@
   capture tone
     render 'vuffi-tone', color: section.settings.background_color
   endcapture
+  assign tone = tone | strip
   assign line_count = section.blocks.size
   assign chew_1 = section.settings.chew_1
   assign chew_2 = section.settings.chew_2 | default: chew_1

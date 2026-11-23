@@ -2,6 +2,7 @@
   capture tone
     render 'vuffi-tone', color: section.settings.background_color
   endcapture
+  assign tone = tone | strip
   assign product = section.settings.product
   assign one_time_price = nil
   assign sub_price = nil

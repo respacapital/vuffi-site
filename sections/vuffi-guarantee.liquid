@@ -2,6 +2,7 @@
   capture tone
     render 'vuffi-tone', color: section.settings.background_color
   endcapture
+  assign tone = tone | strip
   assign ring = section.settings.seal_text | append: ' · ' | append: section.settings.seal_text | append: ' · '
 -%}
 {%- render 'vuffi-section-style', section: section -%}
