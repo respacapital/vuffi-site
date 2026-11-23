@@ -91,7 +91,10 @@
     "palette_secondary_button_border": "#0B1410",
     "palette_selected_variant_background": "#0B1410",
     "palette_selected_variant_text": "#FFFFFF",
-    "palette_selected_variant_border": "#0B1410"
+    "palette_selected_variant_border": "#0B1410",
+    "logo": "shopify://shop_images/vuffi-logo-ink.png",
+    "logo_inverse": "shopify://shop_images/vuffi-logo-white.png",
+    "favicon": "shopify://shop_images/vuffi-icon-512.png"
   },
   "presets": {
     "Default": {
