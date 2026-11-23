@@ -58,7 +58,7 @@
           "type": "tab",
           "settings": {
             "title": "Shipping and subscriptions",
-            "content": "<p>Free shipping on every order. Subscriptions ship every month; skip, change or cancel anytime from your account.</p><p>Delivery details are in our <a href=\"/policies/shipping-policy\">shipping policy</a>.</p>"
+            "content": "<p>Free shipping on every order. Subscriptions ship every month; skip, change or cancel anytime from your account.</p><p>Delivery details are in our <a href=\"/pages/shipping-policy\">shipping policy</a>.</p>"
           }
         },
         "tab_5": {
@@ -428,7 +428,7 @@
       "settings": {
         "background_color": "#F4F6F5",
         "button_link": "/products/hip-and-joint-soft-chews",
-        "link": "/policies/refund-policy"
+        "link": "/pages/return-policy"
       }
     },
     "faq": {
