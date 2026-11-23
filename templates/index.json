@@ -562,7 +562,8 @@
         "question_8"
       ],
       "settings": {
-        "button_link": "/pages/contact"
+        "button_link": "/pages/contact",
+        "schema_markup": true
       }
     },
     "cta": {

@@ -10,406 +10,512 @@
 {
   "sections": {
     "main": {
-      "type": "product-information",
+      "type": "vuffi-product",
       "blocks": {
-        "media-gallery": {
-          "type": "_product-media-gallery",
-          "static": true,
+        "chip_1": {
+          "type": "chip",
           "settings": {
-            "media_presentation": "grid",
-            "media_columns": "two",
-            "image_gap": 4,
-            "large_first_image": false,
-            "icons_style": "arrow",
-            "slideshow_controls_style": "counter",
-            "slideshow_mobile_controls_style": "dots",
-            "thumbnail_position": "right",
-            "thumbnail_width": 44,
-            "aspect_ratio": "adapt",
-            "constrain_to_viewport": true,
-            "media_fit": "contain",
-            "media_radius": 0,
-            "extend_media": false,
-            "zoom": true,
-            "video_loop": false,
-            "hide_variants": true,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "icon": "vet",
+            "text": "Vet recommended"
+          }
         },
-        "product-details": {
-          "type": "_product-details",
-          "static": true,
+        "chip_2": {
+          "type": "chip",
           "settings": {
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "details_position": "flex-start",
-            "gap": 28,
-            "sticky_details_desktop": true,
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 24,
-            "padding-block-end": 24,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "group_icgrde": {
-              "type": "group",
-              "name": "t:names.header",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "text_xpVMaM": {
-                  "type": "text",
-                  "name": "t:names.title",
-                  "settings": {
-                    "text": "<h1>{{ closest.product.title }}</h1>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "h3",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "price_tVjtKg": {
-                  "type": "price",
-                  "settings": {
-                    "show_sale_price_first": true,
-                    "show_installments": true,
-                    "show_tax_info": true,
-                    "type_preset": "paragraph",
-                    "width": "100%",
-                    "alignment": "left",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "padding-block-start": 4,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_xpVMaM",
-                "price_tVjtKg"
-              ]
-            },
-            "divider_VJhene": {
-              "type": "_divider",
-              "name": "t:names.divider",
-              "settings": {
-                "thickness": 1,
-                "corner_radius": "square",
-                "divider_color": "{{ settings.color_palette.color3 }}",
-                "width_percent": 100,
-                "padding-block-start": 0,
-                "padding-block-end": 0
-              },
-              "blocks": {}
-            },
-            "variant_picker_R3rGDr": {
-              "type": "variant-picker",
-              "settings": {
-                "variant_style": "buttons",
-                "show_swatches": false,
-                "alignment": "left",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "buy_buttons_eYQEYi": {
-              "type": "buy-buttons",
-              "settings": {
-                "stacking": true,
-                "show_pickup_availability": false,
-                "gift_card_form": true,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "quantity": {
-                  "type": "quantity",
-                  "static": true,
-                  "settings": {},
-                  "blocks": {}
-                },
-                "add-to-cart": {
-                  "type": "add-to-cart",
-                  "static": true,
-                  "settings": {
-                    "style_class": "button"
-                  },
-                  "blocks": {}
-                },
-                "accelerated-checkout": {
-                  "type": "accelerated-checkout",
-                  "static": true,
-                  "settings": {},
-                  "blocks": {}
-                }
-              },
-              "block_order": []
-            },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "t:names.product_description",
-              "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "group_icgrde",
-            "divider_VJhene",
-            "variant_picker_R3rGDr",
-            "buy_buttons_eYQEYi",
-            "text_aEtTtq"
-          ]
+            "icon": "chew",
+            "text": "Pork flavor"
+          }
         },
-        "disclosures": {
-          "type": "disclosures",
+        "chip_3": {
+          "type": "chip",
           "settings": {
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
+            "icon": "joint",
+            "text": "Hips, knees, elbows"
+          }
+        },
+        "tab_1": {
+          "type": "tab",
+          "settings": {
+            "title": "About Advanced Hip & Joint Support",
+            "use_description": true
+          }
+        },
+        "tab_2": {
+          "type": "tab",
+          "settings": {
+            "title": "What's inside",
+            "content": "<p><strong>Joint actives in every chew:</strong> glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel.</p><p>Pork flavored soft chew. Contains shellfish (green lipped mussel). The full ingredient list and amounts are printed on the jar.</p>"
+          }
+        },
+        "tab_3": {
+          "type": "tab",
+          "settings": {
+            "title": "How to use",
+            "content": "<ul><li>Under 35 lbs: 1 chew a day</li><li>36 to 65 lbs: 2 chews a day</li><li>Over 65 lbs: ask your vet</li></ul><p>For dogs over 12 weeks old. Give with a meal or as a treat, at the same time each day.</p>"
+          }
+        },
+        "tab_4": {
+          "type": "tab",
+          "settings": {
+            "title": "Shipping and subscriptions",
+            "content": "<p>Free shipping on every order. Subscriptions ship every month; skip, change or cancel anytime from your account.</p><p>Delivery details are in our <a href=\"/policies/shipping-policy\">shipping policy</a>.</p>"
+          }
+        },
+        "tab_5": {
+          "type": "tab",
+          "settings": {
+            "title": "90 day money back guarantee",
+            "content": "<p>Try Vuffi for 90 days. If you're not happy, email us and we'll refund your order. You keep the jar.</p>"
+          }
         }
       },
       "block_order": [
-        "disclosures"
+        "chip_1",
+        "chip_2",
+        "chip_3",
+        "tab_1",
+        "tab_2",
+        "tab_3",
+        "tab_4",
+        "tab_5"
+      ],
+      "settings": {}
+    },
+    "ticker": {
+      "type": "vuffi-ticker",
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "text": "Vet recommended",
+            "icon": "vet"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "text": "Glucosamine",
+            "icon": "molecule"
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "text": "Chondroitin",
+            "icon": "cushion"
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "text": "MSM",
+            "icon": "crystal"
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "text": "Hyaluronic acid",
+            "icon": "drop"
+          }
+        },
+        "item_6": {
+          "type": "item",
+          "settings": {
+            "text": "Green lipped mussel",
+            "icon": "shell"
+          }
+        },
+        "item_7": {
+          "type": "item",
+          "settings": {
+            "text": "Pork flavor dogs love",
+            "icon": "chew"
+          }
+        },
+        "item_8": {
+          "type": "item",
+          "settings": {
+            "text": "90 day money back guarantee",
+            "icon": "shield"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4",
+        "item_5",
+        "item_6",
+        "item_7",
+        "item_8"
       ],
       "settings": {
-        "content_width": "content-center-aligned",
-        "desktop_media_position": "left",
-        "equal_columns": false,
-        "limit_details_width": false,
-        "gap": 48,
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "style": "chips",
+        "speed": 45,
+        "padding_top": 20,
+        "padding_bottom": 20
       }
     },
-    "product_recommendations_qggXJq": {
-      "type": "product-recommendations",
+    "joint": {
+      "type": "vuffi-joint",
       "blocks": {
-        "text_cbcgyb": {
-          "type": "text",
-          "name": "t:names.header",
+        "ingredient_1": {
+          "type": "ingredient",
           "settings": {
-            "text": "<h2>You may also like </h2>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h4",
-            "font": "var(--font-body--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "name": "Glucosamine",
+            "role": "Rebuilds cartilage",
+            "spot": "cartilage_top",
+            "text": "<p>The raw material your dog's body uses to build and repair the cushion on the ends of the bones. Dogs make less of it as they age.</p>"
+          }
         },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
+        "ingredient_2": {
+          "type": "ingredient",
           "settings": {
-            "product_card_gap": 8,
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 8,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_DNizbJ": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_M7MJkb": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_gLWgA6": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_DNizbJ",
-            "product_title_M7MJkb",
-            "price_gLWgA6"
-          ]
+            "name": "Chondroitin",
+            "role": "Keeps it springy",
+            "spot": "cartilage_bottom",
+            "text": "<p>Pulls water into cartilage so it absorbs every landing, and slows the enzymes that wear it away.</p>"
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "MSM",
+            "role": "Calms swelling",
+            "spot": "lining",
+            "text": "<p>A natural sulfur compound the body uses for cartilage, tendons and ligaments. It helps calm swelling inside sore joints.</p>"
+          }
+        },
+        "ingredient_4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Hyaluronic acid",
+            "role": "Keeps joints gliding",
+            "spot": "fluid",
+            "text": "<p>The main ingredient of joint fluid, the slick cushion that lets bones glide. Older and injured joints run low on it.</p>"
+          }
+        },
+        "ingredient_5": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Green lipped mussel",
+            "role": "Cools inflammation",
+            "spot": "around",
+            "text": "<p>A New Zealand shellfish rich in omega fats that turn down inflammation, plus natural cartilage building blocks.</p>"
+          }
         }
       },
       "block_order": [
-        "text_cbcgyb"
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3",
+        "ingredient_4",
+        "ingredient_5"
       ],
-      "name": "t:names.product_recommendations",
+      "settings": {}
+    },
+    "formula": {
+      "type": "vuffi-formula",
+      "blocks": {
+        "ingredient_1": {
+          "type": "ingredient",
+          "settings": {
+            "slot": "ing-glucosamine",
+            "name": "Glucosamine",
+            "tagline": "Rebuilds cartilage",
+            "text": "<p>Raw material for the cushion on the ends of the bones, so getting up and taking stairs feel easier.</p>"
+          }
+        },
+        "ingredient_2": {
+          "type": "ingredient",
+          "settings": {
+            "slot": "ing-chondroitin",
+            "name": "Chondroitin",
+            "tagline": "Keeps it springy",
+            "text": "<p>Holds water in cartilage to absorb every landing, and slows the wear.</p>"
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "settings": {
+            "slot": "ing-msm",
+            "name": "MSM",
+            "tagline": "Calms swelling",
+            "text": "<p>Natural sulfur for cartilage, tendons and ligaments. Less soreness after play and long naps.</p>"
+          }
+        },
+        "ingredient_4": {
+          "type": "ingredient",
+          "settings": {
+            "slot": "ing-hyaluronic",
+            "name": "Hyaluronic acid",
+            "tagline": "Keeps joints gliding",
+            "text": "<p>The main part of joint fluid, so knees and hips bend with less grinding.</p>"
+          }
+        },
+        "ingredient_5": {
+          "type": "ingredient",
+          "settings": {
+            "slot": "ing-mussel",
+            "name": "Green lipped mussel",
+            "tagline": "Cools inflammation",
+            "text": "<p>Omega rich New Zealand shellfish that turns down inflammation inside the joint.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3",
+        "ingredient_4",
+        "ingredient_5"
+      ],
       "settings": {
-        "product": "{{ closest.product }}",
-        "recommendation_type": "related",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 4,
-        "columns": 4,
-        "mobile_columns": "2",
-        "columns_gap": 12,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "gap": 28,
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "background_color": "#F4F6F5"
+      }
+    },
+    "dose": {
+      "type": "vuffi-dose",
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "up_to": 35,
+            "result": "1 chew a day",
+            "detail": "One jar lasts 30 days."
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "up_to": 65,
+            "result": "2 chews a day",
+            "detail": "One jar lasts 15 days. Two jars a month covers it."
+          }
+        }
+      },
+      "block_order": [
+        "tier_1",
+        "tier_2"
+      ],
+      "settings": {
+        "start_weight": 30
+      }
+    },
+    "timeline": {
+      "type": "vuffi-timeline",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "when": "Week 1",
+            "title": "A treat they ask for",
+            "text": "<p>The daily chew becomes the best part of their morning, so the habit sticks from day one.</p>"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "when": "Weeks 2 to 4",
+            "title": "Easier mornings",
+            "text": "<p>Getting up from bed and the first steps of the walk start to look less stiff.</p>"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "when": "Weeks 4 to 8",
+            "title": "More spring",
+            "text": "<p>Stairs, the jump onto the couch and the leap into the car come easier.</p>"
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "when": "Day 90",
+            "title": "Moving like themselves",
+            "text": "<p>The full effect of steady daily support. Not happy? Your money back.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4"
+      ],
+      "settings": {
+        "background_color": "#F4F6F5"
+      }
+    },
+    "compare": {
+      "type": "vuffi-compare",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "label": "Glucosamine and chondroitin",
+            "us": "yes",
+            "them": "Bottle 1"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "label": "MSM",
+            "us": "yes",
+            "them": "Bottle 2"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "label": "Hyaluronic acid",
+            "us": "yes",
+            "them": "Bottle 3"
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "label": "Green lipped mussel omegas",
+            "us": "yes",
+            "them": "Bottle 4"
+          }
+        },
+        "row_5": {
+          "type": "row",
+          "settings": {
+            "label": "Daily routine",
+            "us": "One chew",
+            "them": "Pills in food"
+          }
+        },
+        "row_6": {
+          "type": "row",
+          "settings": {
+            "label": "Tastes like a treat",
+            "us": "yes",
+            "them": "no"
+          }
+        },
+        "row_7": {
+          "type": "row",
+          "settings": {
+            "label": "90 day money back guarantee",
+            "us": "yes",
+            "them": "no"
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4",
+        "row_5",
+        "row_6",
+        "row_7"
+      ],
+      "settings": {
+        "button_link": "/products/hip-and-joint-soft-chews"
+      }
+    },
+    "guarantee": {
+      "type": "vuffi-guarantee",
+      "settings": {
+        "background_color": "#F4F6F5",
+        "button_link": "/products/hip-and-joint-soft-chews",
+        "link": "/policies/refund-policy"
+      }
+    },
+    "faq": {
+      "type": "vuffi-faq",
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "How long until I see a difference?",
+            "answer": "<p>Joint support builds with daily use. Watch for easier mornings over the first few weeks; the full effect takes about 90 days. That's why every order comes with a 90 day money back guarantee.</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "How many chews does my dog need?",
+            "answer": "<p>Under 35 lbs: 1 chew a day. 36 to 65 lbs: 2 chews a day. Over 65 lbs, ask your vet for the right amount. Give it with a meal or as a treat.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Is it right for puppies and senior dogs?",
+            "answer": "<p>Vuffi is for dogs over 12 weeks old, seniors included. If your dog is pregnant, nursing or taking medication, check with your vet first.</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "Does it contain allergens?",
+            "answer": "<p>Yes. Green lipped mussel is a shellfish, and glucosamine often comes from shellfish too. If your dog has a shellfish allergy, skip Vuffi. The chews are pork flavored.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "How does the subscription work?",
+            "answer": "<p>Choose Subscribe and save to get 15% off every jar, shipped every month. Skip, change or cancel anytime from your account. During Black Friday, your first box is 25% off.</p>"
+          }
+        },
+        "question_6": {
+          "type": "question",
+          "settings": {
+            "question": "What is your guarantee?",
+            "answer": "<p>Try Vuffi for 90 days. If you're not happy, email us and we'll refund your order. You keep the jar.</p>"
+          }
+        },
+        "question_7": {
+          "type": "question",
+          "settings": {
+            "question": "Do you charge for shipping?",
+            "answer": "<p>Shipping is free on every US order. Delivery details are in our shipping policy.</p>"
+          }
+        },
+        "question_8": {
+          "type": "question",
+          "settings": {
+            "question": "Can I give it with other supplements or medication?",
+            "answer": "<p>Vuffi is a supplement, not a medicine. If your dog takes medication or other joint products, ask your vet before adding it.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4",
+        "question_5",
+        "question_6",
+        "question_7",
+        "question_8"
+      ],
+      "settings": {
+        "button_link": "/pages/contact",
+        "schema_markup": false
       }
     }
   },
   "order": [
     "main",
-    "product_recommendations_qggXJq"
+    "ticker",
+    "joint",
+    "formula",
+    "dose",
+    "timeline",
+    "compare",
+    "guarantee",
+    "faq"
   ]
 }
