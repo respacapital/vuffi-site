@@ -1,0 +1,557 @@
+/* Vuffi base: shared layout, type, buttons, motion and placeholders for every vuffi- section.
+   Colors come from the theme palette (set as --vuffi-* in sections/vuffi-site-styles.liquid)
+   and from each section's background color through Horizon's contrast-override snippet. */
+
+:root {
+  --vuffi-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --vuffi-radius: 20px;
+  --vuffi-radius-lg: 28px;
+  --vuffi-max: 1280px;
+  --vuffi-gutter: 20px;
+  --vuffi-space: 72px;
+}
+
+@media screen and (min-width: 750px) {
+  :root {
+    --vuffi-gutter: 32px;
+    --vuffi-space: 96px;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  :root {
+    --vuffi-gutter: 48px;
+    --vuffi-space: 120px;
+  }
+}
+
+/* Sections */
+.vuffi-section {
+  --vuffi-accent: var(--vuffi-green);
+  --vuffi-line: rgb(var(--color-foreground-rgb) / 0.12);
+  --vuffi-line-strong: rgb(var(--color-foreground-rgb) / 0.28);
+  --vuffi-soft: rgb(var(--color-foreground-rgb) / 0.04);
+  --vuffi-card: var(--color-background);
+  position: relative;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  padding-block: var(--vuffi-pt, var(--vuffi-space)) var(--vuffi-pb, var(--vuffi-space));
+  overflow: clip;
+}
+
+.vuffi-section[data-tone='dark'] {
+  --vuffi-accent: var(--vuffi-lime);
+  --vuffi-line: rgb(var(--color-foreground-rgb) / 0.16);
+  --vuffi-soft: rgb(var(--color-foreground-rgb) / 0.06);
+  --vuffi-card: rgb(var(--color-foreground-rgb) / 0.04);
+}
+
+.vuffi-section *,
+.vuffi-section *::before,
+.vuffi-section *::after {
+  box-sizing: border-box;
+}
+
+.vuffi-wrap {
+  width: 100%;
+  max-width: calc(var(--vuffi-max) + var(--vuffi-gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--vuffi-gutter);
+}
+
+/* Type */
+.vuffi-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--font-subheading--family);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.vuffi-eyebrow::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--vuffi-accent);
+  flex: none;
+}
+
+.vuffi-display,
+.vuffi-h2,
+.vuffi-h3 {
+  margin: 0;
+  font-family: var(--font-heading--family);
+  font-weight: var(--font-heading--weight);
+  font-style: var(--font-heading--style);
+  color: inherit;
+  text-wrap: balance;
+}
+
+.vuffi-display {
+  font-size: clamp(46px, 7.4vw, 108px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+
+.vuffi-h2 {
+  font-size: clamp(38px, 5.2vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+}
+
+.vuffi-h3 {
+  font-size: clamp(24px, 2.2vw, 32px);
+  line-height: 1.12;
+  letter-spacing: -0.012em;
+}
+
+.vuffi-display em,
+.vuffi-h2 em,
+.vuffi-h3 em,
+.vuffi-accent {
+  font-style: italic;
+  color: var(--vuffi-accent);
+}
+
+.vuffi-display p,
+.vuffi-h2 p,
+.vuffi-h3 p {
+  margin: 0;
+}
+
+.vuffi-lede {
+  margin: 0;
+  max-width: 54ch;
+  font-size: clamp(17px, 1.35vw, 20px);
+  line-height: 1.55;
+  color: var(--color-foreground-muted, currentColor);
+}
+
+.vuffi-lede p {
+  margin: 0;
+}
+
+.vuffi-small {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-foreground-muted, currentColor);
+}
+
+.vuffi-head {
+  display: grid;
+  gap: 20px;
+  max-width: 780px;
+}
+
+.vuffi-head--center {
+  margin-inline: auto;
+  text-align: center;
+  justify-items: center;
+}
+
+.vuffi-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* Buttons */
+.vuffi-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 0 28px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--font-body--family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.35s var(--vuffi-ease),
+    color 0.35s var(--vuffi-ease),
+    border-color 0.35s var(--vuffi-ease),
+    transform 0.35s var(--vuffi-ease);
+}
+
+.vuffi-btn:active {
+  transform: scale(0.98);
+}
+
+.vuffi-btn:focus-visible {
+  outline: 2px solid var(--vuffi-accent);
+  outline-offset: 3px;
+}
+
+.vuffi-btn--primary {
+  background: var(--color-primary-button-background);
+  color: var(--color-primary-button-text);
+  border-color: var(--color-primary-button-border);
+}
+
+.vuffi-btn--primary:hover {
+  background: var(--color-primary-button-hover-background);
+  color: var(--color-primary-button-hover-text);
+  border-color: var(--color-primary-button-hover-border);
+}
+
+.vuffi-btn--ghost {
+  background: transparent;
+  color: inherit;
+  border-color: var(--vuffi-line-strong);
+}
+
+.vuffi-btn--ghost:hover {
+  border-color: currentColor;
+}
+
+[data-tone='dark'] .vuffi-btn--primary {
+  background: var(--vuffi-lime);
+  color: var(--vuffi-ink);
+  border-color: var(--vuffi-lime);
+}
+
+[data-tone='dark'] .vuffi-btn--primary:hover {
+  background: #ffffff;
+  color: var(--vuffi-ink);
+  border-color: #ffffff;
+}
+
+.vuffi-btn__arrow {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  transition: transform 0.35s var(--vuffi-ease);
+}
+
+.vuffi-btn:hover .vuffi-btn__arrow {
+  transform: translateX(3px);
+}
+
+.vuffi-btn--block {
+  width: 100%;
+}
+
+@media screen and (min-width: 990px) {
+  .vuffi-btn {
+    min-height: 56px;
+    padding: 0 32px;
+  }
+}
+
+.vuffi-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Chips, cards, media */
+.vuffi-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--vuffi-line);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.vuffi-chip svg {
+  width: 16px;
+  height: 16px;
+  color: var(--vuffi-accent);
+  flex: none;
+}
+
+.vuffi-card {
+  background: var(--vuffi-card);
+  border: 1px solid var(--vuffi-line);
+  border-radius: var(--vuffi-radius);
+}
+
+.vuffi-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--vuffi-radius);
+  background: var(--vuffi-soft);
+  aspect-ratio: var(--ratio, auto);
+}
+
+.vuffi-media > img,
+.vuffi-media > picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vuffi-media--contain > img {
+  object-fit: contain;
+}
+
+/* Placeholders: labeled boxes at the right ratio until the real photo is uploaded */
+.vuffi-ph {
+  position: relative;
+  display: grid;
+  place-content: center;
+  gap: 6px;
+  width: 100%;
+  aspect-ratio: var(--ratio, 1);
+  padding: 20px;
+  border: 1px dashed var(--vuffi-line-strong, rgb(11 20 16 / 0.28));
+  border-radius: var(--vuffi-radius);
+  background:
+    repeating-linear-gradient(
+      135deg,
+      var(--vuffi-soft, rgb(11 20 16 / 0.04)) 0 14px,
+      transparent 14px 28px
+    );
+  color: inherit;
+  text-align: center;
+}
+
+.vuffi-ph__label {
+  font-family: var(--font-subheading--family);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.vuffi-ph__size {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* Icons */
+.vuffi-icon {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.vuffi-icon .a {
+  stroke: var(--vuffi-accent);
+}
+
+.vuffi-icon .f {
+  fill: var(--vuffi-accent);
+  stroke: none;
+}
+
+/* Accordion */
+.vuffi-acc {
+  border-top: 1px solid var(--vuffi-line);
+}
+
+.vuffi-acc:last-child {
+  border-bottom: 1px solid var(--vuffi-line);
+}
+
+.vuffi-acc summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: clamp(17px, 1.4vw, 20px);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.vuffi-acc summary::-webkit-details-marker {
+  display: none;
+}
+
+.vuffi-acc summary:focus-visible {
+  outline: 2px solid var(--vuffi-accent);
+  outline-offset: 4px;
+}
+
+.vuffi-acc__sign {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border: 1px solid var(--vuffi-line-strong);
+  border-radius: 50%;
+  transition:
+    transform 0.4s var(--vuffi-ease),
+    background-color 0.3s;
+}
+
+.vuffi-acc__sign::before,
+.vuffi-acc__sign::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 12px;
+  height: 1.5px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+
+.vuffi-acc__sign::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  transition: transform 0.4s var(--vuffi-ease);
+}
+
+.vuffi-acc[open] .vuffi-acc__sign {
+  background: var(--vuffi-accent);
+  border-color: var(--vuffi-accent);
+  color: var(--color-background);
+}
+
+.vuffi-acc[open] .vuffi-acc__sign::after {
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.vuffi-acc__body {
+  padding: 0 56px 28px 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--color-foreground-muted, currentColor);
+}
+
+.vuffi-acc__body p {
+  margin: 0 0 12px;
+}
+
+.vuffi-acc__body p:last-child {
+  margin: 0;
+}
+
+/* Ticker strips */
+.vuffi-marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.vuffi-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: vuffi-marquee var(--vuffi-marquee-time, 40s) linear infinite;
+}
+
+.vuffi-marquee:hover .vuffi-marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes vuffi-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Countdown digits */
+.vuffi-count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.vuffi-count__unit {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.vuffi-count__num {
+  display: inline-block;
+  min-width: 2ch;
+  text-align: center;
+}
+
+.vuffi-count__num.is-tick {
+  animation: vuffi-tick 0.5s var(--vuffi-ease);
+}
+
+.vuffi-count__label {
+  font-size: 0.72em;
+  opacity: 0.7;
+}
+
+@keyframes vuffi-tick {
+  from {
+    opacity: 0;
+    transform: translateY(-40%);
+  }
+}
+
+/* Motion: content rises in once as it enters the screen */
+html.vuffi-js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.9s var(--vuffi-ease),
+    transform 0.9s var(--vuffi-ease);
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+
+html.vuffi-js [data-reveal='fade'] {
+  transform: none;
+}
+
+html.vuffi-js [data-reveal='scale'] {
+  transform: scale(0.96);
+}
+
+html.vuffi-js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+html.vuffi-still [data-reveal],
+html.vuffi-js.vuffi-design [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.vuffi-js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .vuffi-marquee__track,
+  .vuffi-count__num.is-tick {
+    animation: none;
+  }
+}
+
+.vuffi-visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,16 @@
+{% doc %}
+  Prints "dark" when a background color is dark and "light" otherwise.
+  Sections use it to switch the accent between green (light) and lime (dark).
+
+  @param {color} [color] - The section background color. Blank means the page background
+{% enddoc %}
+{%- liquid
+  assign tone_value = 'light'
+  if color != blank and color.alpha != 0
+    assign tone_brightness = color | color_brightness
+    if tone_brightness < 128
+      assign tone_value = 'dark'
+    endif
+  endif
+  echo tone_value
+-%}

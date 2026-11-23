@@ -1,0 +1,20 @@
+{% doc %}
+  A labeled box at the right aspect ratio for a photo that has not been uploaded yet.
+  Every slot that uses it is listed in PLACEHOLDERS.md.
+
+  @param {string} label - Slot name, for example "hero-desktop"
+  @param {string} [ratio] - CSS aspect ratio, for example "4 / 5". Defaults to "1 / 1"
+  @param {string} [size] - Recommended upload size, for example "2400 x 1350"
+  @param {string} [class] - Extra classes
+{% enddoc %}
+<div
+  class="vuffi-ph {{ class }}"
+  style="--ratio: {{ ratio | default: '1 / 1' }};"
+  role="img"
+  aria-label="Photo coming soon"
+>
+  <span class="vuffi-ph__label">{{ label }}</span>
+  {%- if size != blank -%}
+    <span class="vuffi-ph__size">{{ size }}</span>
+  {%- endif -%}
+</div>
