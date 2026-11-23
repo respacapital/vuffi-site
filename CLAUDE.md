@@ -38,7 +38,7 @@ Product images come from the supplier and Robin's own content, uploaded to Shopi
 Established, premium brand. No emojis. No hyphens or dashes in compound words. Strong function claims are fine (supports joints, eases stiffness, helps mobility). No disease claims (treats, cures, prevents arthritis or dysplasia). No delivery time promises on the site; shipping times live in the shipping policy and must match what the supplier actually delivers. Keep the supplement disclaimer in the footer.
 
 ## Guardrails
-- One section per pull request (staging into main). Show the schema in plain language before moving on.
+- One section per pull request (staging into main). Show the schema in plain language before moving on. Exception: the pre launch build (Nov 2026) went to Robin as one review pull request with every section listed, because nothing was live yet.
 - Never edit `templates/*.json`, `sections/*-group.json` or `config/settings_data.json` without saying so first.
 - Never invent a Liquid filter or object. Check shopify.dev; if still unsure, stop and ask.
 - Do not rewrite a whole file for a small change. Check `git diff --stat` before committing.
