@@ -112,7 +112,7 @@
 
 {% stylesheet %}
   .vuffi-hero {
-    --hero-top: calc(var(--header-height, 64px) * var(--transparent-header-offset-boolean, 0));
+    --hero-top: max(76px, calc(var(--header-height, 64px) * var(--transparent-header-offset-boolean, 0)));
     isolation: isolate;
     padding-block: calc(var(--vuffi-pt, 32px) + var(--hero-top)) var(--vuffi-pb, 56px);
     overflow: hidden;
@@ -444,7 +444,7 @@
     .vuffi-hero__grid {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-areas: 'head stage' 'cta stage';
-      grid-template-rows: auto 1fr;
+      grid-template-rows: 1fr 1fr;
       align-items: start;
       column-gap: 48px;
       row-gap: 32px;

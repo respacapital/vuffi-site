@@ -13,11 +13,15 @@ Working notes for the Nov 2026 launch build. Newest decisions first in each list
 - Pages: Home, Product, Ingredients, FAQ, Our Story, Contact, policies. TPLO landing page after launch.
 - Big logo lockup with slogan at the bottom of the footer. Countdowns, reveal animations, pinned scroll story (text stacks, jar opens, chews rise).
 
+## Design version 2 (Nov 23)
+- Robin: fonts should suit the rounded logo (serif version saved on branch design/serif-v1), hero = floating jar on dark gradient with particles, scroll story like Grüns, quieter footer logo, mobile fixes.
+- Headings Nunito Black 900; hero rebuilt; story rebuilt (lines slide up, jar rises, lid pops, chew peeks, floating chews); transparent header on home.
+
 ## Store setup (Nov 22, 10 pm)
 - Product: Advanced Hip & Joint Support, handle hip-and-joint-soft-chews (gid Product/9210731724998). Variants 1 jar $39.99 (VUF-HJ-30), 2 jars $79.98 (VUF-HJ-30x2). Inventory not tracked (dropship). DSers mapping to AliExpress 3256812459223529 still to do.
 - Loop selling plan "Subscribe and Save" / "Delivered every month", 15% off, both variants (Loop plan 72492, SellingPlan 15623454918). Loop Free plan.
 - Automatic discounts (end 2026-11-30 11:59 PM ET): 25% off first subscription box (recurring cycle limit 1); 10% off one time orders.
-- Kaching uninstalled. Themes: vuffi-site/staging 157145202886, vuffi-site/main 157145366726. Preview copies for screenshots (theme_screenshot snapshots a theme the first time it is captured, so make a fresh copy with themeDuplicate to see new changes): 157145727174, 157146218694, 157146579142, 157146644678, 157146742982 (all safe to delete).
+- Kaching uninstalled. Themes: vuffi-site/staging 157145202886, vuffi-site/main 157145366726. Preview copies for screenshots (theme_screenshot snapshots a theme the first time it is captured, so make a fresh copy with themeDuplicate to see new changes): 157145727174, 157146218694, 157146579142, 157146644678, 157146742982, 157151133894 (all safe to delete).
 - Never run theme_bash or theme_commit on the staging theme: its workspace snapshot goes stale and would overwrite newer files.
 
 ## Sections (home order)
