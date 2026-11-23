@@ -1,0 +1,19 @@
+# Runs Shopify Theme Check on every pull request.
+# A pull request with any error cannot be approved until it is fixed.
+name: Theme Check
+on:
+  pull_request:
+    branches: [main, staging]
+  workflow_dispatch:
+jobs:
+  theme-check:
+    name: Theme Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Theme Check
+        uses: shopify/theme-check-action@v2
+        with:
+          theme_root: '.'
+          token: ${{ github.token }}
+          base: ${{ github.base_ref }}
