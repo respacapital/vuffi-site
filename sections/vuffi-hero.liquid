@@ -1,0 +1,622 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign layout = section.settings.layout
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section
+  class="vuffi-section vuffi-hero vuffi-hero--{{ layout }} color-custom-{{ section.id }}"
+  data-tone="{{ tone }}"
+  style="--hero-fade: {{ section.settings.overlay_strength | divided_by: 100.0 }};"
+>
+  {%- if layout == 'full' -%}
+    <div class="vuffi-hero__bg">
+      {%- render 'vuffi-image',
+        image: section.settings.image_desktop,
+        label: 'hero-desktop',
+        ratio: '16 / 9',
+        size: '2400 x 1350',
+        sizes: '100vw',
+        priority: true,
+        class: 'vuffi-hero__bg-media'
+      -%}
+    </div>
+  {%- endif -%}
+
+  <div class="vuffi-wrap vuffi-hero__grid">
+    <div class="vuffi-hero__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vuffi-eyebrow vuffi-hero__in" style="--d: 0">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      <h1 class="vuffi-display vuffi-hero__title vuffi-hero__in" style="--d: 1">{{ section.settings.heading }}</h1>
+
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede vuffi-hero__in" style="--d: 2">{{ section.settings.text }}</div>
+      {%- endif -%}
+
+      <div class="vuffi-actions vuffi-hero__in" style="--d: 3">
+        {%- if section.settings.button_label != blank -%}
+          {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
+        {%- endif -%}
+        {%- if section.settings.button2_label != blank -%}
+          {%- render 'vuffi-button',
+            label: section.settings.button2_label,
+            url: section.settings.button2_link,
+            style: 'ghost',
+            arrow: false
+          -%}
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_countdown and section.settings.countdown_end != blank -%}
+        <div class="vuffi-hero__deal vuffi-hero__in" style="--d: 4" data-hide-when-done>
+          {%- if section.settings.badge_text != blank -%}
+            <span class="vuffi-hero__badge">{{ section.settings.badge_text }}</span>
+          {%- endif -%}
+          <span class="vuffi-hero__ends">
+            <span>{{ section.settings.countdown_label }}</span>
+            {%- render 'vuffi-countdown',
+              end: section.settings.countdown_end,
+              label: section.settings.countdown_label,
+              class: 'vuffi-hero__count'
+            -%}
+          </span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="vuffi-hero__trust vuffi-hero__in" style="--d: 5" role="list">
+          {%- for block in section.blocks -%}
+            <li class="vuffi-hero__trust-item" {{ block.shopify_attributes }}>
+              {%- render 'vuffi-icon', name: block.settings.icon -%}
+              <span>{{ block.settings.text }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <div class="vuffi-hero__media">
+      {%- if layout == 'split' -%}
+        <div class="vuffi-hero__desktop-only">
+          {%- render 'vuffi-image',
+            image: section.settings.image_desktop,
+            label: 'hero-desktop',
+            ratio: '4 / 5',
+            size: '1800 x 2250',
+            sizes: '(min-width: 990px) 50vw, 100vw',
+            priority: true
+          -%}
+        </div>
+      {%- endif -%}
+      <div class="vuffi-hero__mobile-only">
+        {%- liquid
+          assign mobile_image = section.settings.image_mobile | default: section.settings.image_desktop
+        -%}
+        {%- render 'vuffi-image',
+          image: mobile_image,
+          label: 'hero-mobile',
+          ratio: '4 / 5',
+          size: '1440 x 1800',
+          sizes: '100vw'
+        -%}
+      </div>
+
+      {%- if section.settings.show_cards -%}
+        <div class="vuffi-hero__cards">
+          {%- if section.settings.card1_value != blank -%}
+            <div class="vuffi-hero__card" style="--d: 6">
+              <span class="vuffi-hero__card-value">{{ section.settings.card1_value }}</span>
+              <span class="vuffi-hero__card-label">{{ section.settings.card1_label }}</span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.card2_value != blank -%}
+            <div class="vuffi-hero__card" style="--d: 7">
+              <span class="vuffi-hero__card-value">{{ section.settings.card2_value }}</span>
+              <span class="vuffi-hero__card-label">{{ section.settings.card2_label }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-hero {
+    padding-block: var(--vuffi-pt, 32px) var(--vuffi-pb, 56px);
+  }
+
+  .vuffi-hero__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 40px;
+  }
+
+  .vuffi-hero__copy {
+    display: grid;
+    align-content: center;
+    justify-items: start;
+    gap: 22px;
+  }
+
+  .vuffi-hero__title {
+    max-width: 12ch;
+  }
+
+  .vuffi-hero .vuffi-lede {
+    max-width: 46ch;
+  }
+
+  .vuffi-hero__deal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .vuffi-hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px 7px 10px;
+    border-radius: 999px;
+    background: var(--vuffi-ink);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .vuffi-hero__badge::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--vuffi-lime);
+    box-shadow: 0 0 0 0 rgb(143 251 9 / 0.6);
+    animation: vuffi-hero-pulse 2.2s infinite;
+  }
+
+  .vuffi-hero__ends {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-hero__count {
+    color: var(--color-foreground);
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .vuffi-hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin: 8px 0 0;
+    padding: 18px 0 0;
+    list-style: none;
+    border-top: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-hero__trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .vuffi-hero__trust-item .vuffi-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .vuffi-hero__media {
+    position: relative;
+  }
+
+  .vuffi-hero__desktop-only {
+    display: none;
+  }
+
+  .vuffi-hero__bg {
+    display: none;
+  }
+
+  .vuffi-hero__cards {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    display: grid;
+    gap: 10px;
+    justify-items: end;
+  }
+
+  .vuffi-hero__card {
+    display: grid;
+    gap: 2px;
+    min-width: 168px;
+    padding: 14px 18px;
+    border: 1px solid rgb(255 255 255 / 0.6);
+    border-radius: 16px;
+    background: rgb(255 255 255 / 0.78);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    color: var(--vuffi-ink);
+    box-shadow: 0 10px 30px rgb(11 20 16 / 0.12);
+    animation: vuffi-hero-rise 1s var(--vuffi-ease) both;
+    animation-delay: calc(var(--d, 0) * 90ms + 200ms);
+  }
+
+  .vuffi-hero__card-value {
+    font-family: var(--font-heading--family);
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .vuffi-hero__card-label {
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0.75;
+  }
+
+  .vuffi-hero__in {
+    animation: vuffi-hero-rise 1s var(--vuffi-ease) both;
+    animation-delay: calc(var(--d, 0) * 90ms);
+  }
+
+  @keyframes vuffi-hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+  }
+
+  @keyframes vuffi-hero-pulse {
+    70% {
+      box-shadow: 0 0 0 8px rgb(143 251 9 / 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgb(143 251 9 / 0);
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-hero {
+      padding-block: var(--vuffi-pt, 48px) var(--vuffi-pb, 72px);
+    }
+
+    .vuffi-hero__mobile-only {
+      display: none;
+    }
+
+    .vuffi-hero--split .vuffi-hero__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+      align-items: center;
+      gap: 64px;
+    }
+
+    .vuffi-hero--split .vuffi-hero__desktop-only {
+      display: block;
+    }
+
+    .vuffi-hero--full {
+      display: grid;
+      align-items: center;
+      min-height: clamp(640px, calc(100svh - 120px), 920px);
+      padding-block: var(--vuffi-pt, 64px) var(--vuffi-pb, 64px);
+    }
+
+    .vuffi-hero--full .vuffi-hero__bg {
+      display: block;
+      position: absolute;
+      inset: 0;
+    }
+
+    .vuffi-hero--full .vuffi-hero__bg .vuffi-media,
+    .vuffi-hero--full .vuffi-hero__bg .vuffi-ph {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+      border-radius: 0;
+      border: 0;
+    }
+
+    .vuffi-hero--full .vuffi-hero__bg .vuffi-media img {
+      animation: vuffi-hero-zoom 2.4s var(--vuffi-ease) both;
+    }
+
+    .vuffi-hero--full .vuffi-hero__bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        rgb(var(--color-background-rgb) / var(--hero-fade)) 0%,
+        rgb(var(--color-background-rgb) / calc(var(--hero-fade) * 0.6)) 38%,
+        rgb(var(--color-background-rgb) / 0) 62%
+      );
+      pointer-events: none;
+    }
+
+    .vuffi-hero--full .vuffi-hero__copy {
+      max-width: 600px;
+    }
+
+    .vuffi-hero--full .vuffi-hero__media {
+      position: absolute;
+      inset: auto var(--vuffi-gutter) 0 auto;
+    }
+
+    .vuffi-hero__cards {
+      right: 0;
+      bottom: 0;
+    }
+
+    .vuffi-hero--split .vuffi-hero__cards {
+      right: 24px;
+      bottom: 24px;
+    }
+
+    .vuffi-hero__card {
+      min-width: 200px;
+      padding: 16px 22px;
+    }
+
+    .vuffi-hero__card-value {
+      font-size: 34px;
+    }
+  }
+
+  @keyframes vuffi-hero-zoom {
+    from {
+      transform: scale(1.06);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vuffi-hero__in,
+    .vuffi-hero__card,
+    .vuffi-hero--full .vuffi-hero__bg .vuffi-media img,
+    .vuffi-hero__badge::before {
+      animation: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi hero",
+  "tag": "div",
+  "class": "vuffi-hero-section",
+  "limit": 1,
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout and photos"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout on computers",
+      "options": [
+        { "value": "full", "label": "Photo fills the screen behind the text" },
+        { "value": "split", "label": "Photo beside the text" }
+      ],
+      "default": "full",
+      "info": "On phones the photo always sits under the text."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Computer photo",
+      "info": "Full screen: 2400 x 1350, dog and jar on the right, empty space on the left. Beside the text: 1800 x 2250."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Phone photo",
+      "info": "1440 x 1800 (4:5). Uses the computer photo if empty."
+    },
+    {
+      "type": "range",
+      "id": "overlay_strength",
+      "label": "White fade behind the text",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 70,
+      "info": "Full screen layout only. Keeps the text readable over the photo."
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above the headline",
+      "default": "Vet recommended joint support"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Every step, <em>supported.</em>",
+      "info": "Put one word in italics to make it green."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Five clinical joint ingredients in one daily soft chew. Glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel, working together for hips, knees and elbows.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button",
+      "default": "Shop Black Friday"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "button2_label",
+      "label": "Second button",
+      "default": "See what's inside"
+    },
+    {
+      "type": "url",
+      "id": "button2_link",
+      "label": "Second button link"
+    },
+    {
+      "type": "header",
+      "content": "Sale and countdown"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_countdown",
+      "label": "Show the sale and countdown",
+      "default": true,
+      "info": "Hides itself when the countdown reaches zero."
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Sale badge",
+      "default": "Black Friday: 25% off your first box"
+    },
+    {
+      "type": "text",
+      "id": "countdown_label",
+      "label": "Countdown text",
+      "default": "Ends in"
+    },
+    {
+      "type": "text",
+      "id": "countdown_end",
+      "label": "Sale ends",
+      "default": "2026-11-30T23:59:00-05:00",
+      "info": "Year-month-day, then T, the time in 24 hour format, and -05:00 for Eastern time."
+    },
+    {
+      "type": "header",
+      "content": "Floating cards on the photo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cards",
+      "label": "Show floating cards",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card1_value",
+      "label": "Card 1 big text",
+      "default": "5 in 1"
+    },
+    {
+      "type": "text",
+      "id": "card1_label",
+      "label": "Card 1 small text",
+      "default": "joint actives per chew"
+    },
+    {
+      "type": "text",
+      "id": "card2_value",
+      "label": "Card 2 big text",
+      "default": "90 days"
+    },
+    {
+      "type": "text",
+      "id": "card2_label",
+      "label": "Card 2 small text",
+      "default": "money back guarantee"
+    },
+    {
+      "type": "header",
+      "content": "Colors and spacing"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "info": "Leave empty for the page background."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust",
+      "name": "Trust point",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "vet", "label": "Stethoscope" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "refresh", "label": "Cancel anytime" },
+            { "value": "paw", "label": "Paw" },
+            { "value": "chew", "label": "Soft chew" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "star", "label": "Star" }
+          ],
+          "default": "vet"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Vet recommended"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi hero",
+      "blocks": [
+        { "type": "trust", "settings": { "icon": "vet", "text": "Vet recommended" } },
+        { "type": "trust", "settings": { "icon": "shield", "text": "90 day guarantee" } },
+        { "type": "trust", "settings": { "icon": "truck", "text": "Free shipping" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
