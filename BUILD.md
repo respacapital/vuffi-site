@@ -157,3 +157,14 @@ Status: todo, built, PR open, merged.
 - Shop app: brand assets set in Settings > General > Brand (ink logo, square paw icon, colors #0E3B2C and #C6E35A, cover vuffi-brand-cover.jpg, slogan, short description). Shop eligibility rechecks within 48 hours now that the store is public.
 - Redo pack for the old photos: "Photos To Redo - Vuffi - 2026.11.24.zip" (22 photos, references, prompts).
 - Left for Robin: home page title and meta description in Online Store > Preferences (still the toothbrush text; the field sits in a frame the agent browser cannot type into), social links, DSers automatic price updates, the empty "Dental Plan" collection.
+
+## Launch round 2 (Nov 24, 5 am)
+- Robin's redone photos (v5): detail-jar, detail-hand, detail-label, scroll-jar-open (and the closed jar made from it), subscribe-jar, bf-banner, why-guarantee.
+- Black Friday box in Subscribe and save is round; the 25% sticker on the product page and in Subscribe and save is now an ink seal with "25%" in lime and "off everything" in small caps.
+- Knee photos fade into the section at the edges (radial mask, no card behind them).
+- The jar, explained: Robin's dark jar photo (vuffi-photo-07-dark), the section takes the photo's own shape, fades it into the background, and lists the five label points beside it on computers and under it on phones.
+- How to give it: the weight reading and the title are centered, the answer sits on a round card, the tips sit three across on computers.
+- Contact page: photo behind the title (band-rest, the spaniel asleep on a sofa).
+- Home page title "Vuffi | Hip and Joint Soft Chews for Dogs" and the new meta description saved in Online Store > Preferences (the toothbrush text is gone).
+- DSers: no pricing template exists and Automatic Price Update is set to Do Nothing, so DSers never changes the store's prices.
+- The nine preview copies (vuffi check 1124a to f) deleted from the theme library.
