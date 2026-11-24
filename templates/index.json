@@ -685,6 +685,71 @@
         "padding_top": 120,
         "padding_bottom": 120
       }
+    },
+    "social": {
+      "type": "vuffi-social",
+      "blocks": {
+        "photo_1": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v2-popup-dog.jpg",
+            "alt": "A border collie sitting on a warm white backdrop",
+            "slot": "social-1"
+          }
+        },
+        "photo_2": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v2-detail-hand.jpg",
+            "alt": "Fingers holding a Vuffi chew for a waiting dog",
+            "slot": "social-2"
+          }
+        },
+        "photo_3": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v2-story-2.jpg",
+            "alt": "A young dog and a senior dog walking a forest path",
+            "slot": "social-3"
+          }
+        },
+        "photo_4": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v2-pdp-5.jpg",
+            "alt": "A beagle and an Australian shepherd beside a jar of Vuffi",
+            "slot": "social-4"
+          }
+        },
+        "photo_5": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v2-band-about.jpg",
+            "alt": "A dog resting its chin on its owner's knee",
+            "slot": "social-5"
+          }
+        },
+        "photo_6": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v2-band-pdp.jpg",
+            "alt": "A whippet bounding up a grassy hill",
+            "slot": "social-6"
+          }
+        }
+      },
+      "block_order": [
+        "photo_1",
+        "photo_2",
+        "photo_3",
+        "photo_4",
+        "photo_5",
+        "photo_6"
+      ],
+      "settings": {
+        "background_color": "#FFFFFF",
+        "padding_bottom": 0
+      }
     }
   },
   "order": [
@@ -700,6 +765,7 @@
     "guarantee",
     "life",
     "faq",
+    "social",
     "cta"
   ]
 }

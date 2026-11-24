@@ -1,0 +1,288 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+{%- comment -%}
+  The jar, explained: the real jar with numbered markers on parts of its label, and a numbered list that says what each part means.
+{%- endcomment -%}
+<section class="vuffi-section vuffi-label{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap">
+    <div class="vuffi-intro">
+      <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="vuffi-label__stage">
+      <figure class="vuffi-label__jar">
+        {%- render 'vuffi-image',
+          image: section.settings.image,
+          label: 'label-jar',
+          ratio: '1 / 1',
+          size: '1254 x 1254, see through PNG',
+          sizes: '(min-width: 990px) 560px, 92vw',
+          alt: section.settings.image_alt,
+          class: 'vuffi-melt'
+        -%}
+        <ol class="vuffi-label__marks" role="list" aria-hidden="true">
+          {%- for block in section.blocks -%}
+            <li class="vuffi-label__mark vuffi-num" style="--x: {{ block.settings.x }}%; --y: {{ block.settings.y }}%;">
+              <span>{{ forloop.index }}</span>
+            </li>
+          {%- endfor -%}
+        </ol>
+      </figure>
+
+      <ol class="vuffi-label__list" role="list">
+        {%- for block in section.blocks -%}
+          <li class="vuffi-label__item" {{ block.shopify_attributes }}>
+            <span class="vuffi-label__n vuffi-num" aria-hidden="true"><span>{{ forloop.index }}</span></span>
+            <div class="vuffi-label__copy">
+              <h3 class="vuffi-label__title">{{ block.settings.title }}</h3>
+              {%- if block.settings.text != blank -%}
+                <p class="vuffi-label__text">{{ block.settings.text }}</p>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-label__stage {
+    display: grid;
+    gap: 36px;
+    align-items: center;
+  }
+
+  .vuffi-label__jar {
+    position: relative;
+    width: min(100%, 560px);
+    margin: 0 auto;
+  }
+
+  .vuffi-label__jar .vuffi-media {
+    filter: drop-shadow(0 40px 50px rgb(0 0 0 / 0.45));
+  }
+
+  .vuffi-label__marks {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Numbered markers that sit on parts of the label */
+  .vuffi-label__mark,
+  .vuffi-label__n {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--vuffi-lime);
+    color: var(--vuffi-ink);
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .vuffi-label__mark {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    box-shadow: 0 0 0 5px rgb(198 227 90 / 0.25);
+    transform: translate(-50%, -50%);
+  }
+
+  .vuffi-label__mark > span,
+  .vuffi-label__n > span {
+    display: block;
+    text-box: trim-both cap alphabetic;
+  }
+
+  .vuffi-label__list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-label__item {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-label__n {
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+  }
+
+  .vuffi-label__copy {
+    display: grid;
+    gap: 6px;
+    padding-top: 6px;
+  }
+
+  .vuffi-label__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: clamp(19px, 1.6vw, 23px);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .vuffi-label__text {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-foreground-muted);
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-label__stage {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 72px;
+    }
+
+    .vuffi-label__mark {
+      width: 34px;
+      height: 34px;
+      font-size: 15px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi jar explained",
+  "tag": "div",
+  "class": "vuffi-label-section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "The jar, <em>explained.</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Everything printed on the label, and what it means for your dog.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Jar photo",
+      "info": "Square, see through PNG of the closed jar, front on. Each number's position is set in its block."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Jar description for screen readers",
+      "default": "A jar of Vuffi Advanced Hip and Joint Support with numbered points on its label"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#0B1411"
+    },
+    {
+      "type": "checkbox",
+      "id": "glow",
+      "label": "Natural light on dark backgrounds",
+      "default": true,
+      "info": "Sunlight through a window falling across the section. It never moves."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Label point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Small and medium breeds"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "What it means"
+        },
+        {
+          "type": "range",
+          "id": "x",
+          "label": "Number position across",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "info": "From the left edge of the jar photo."
+        },
+        {
+          "type": "range",
+          "id": "y",
+          "label": "Number position down",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "info": "From the top edge."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi jar explained",
+      "blocks": [
+        { "type": "point", "settings": { "title": "Small and medium breeds", "x": 22, "y": 30 } },
+        { "type": "point", "settings": { "title": "Vet recommended", "x": 59, "y": 32 } },
+        { "type": "point", "settings": { "title": "Protect and Support", "x": 60, "y": 64 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

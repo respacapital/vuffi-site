@@ -14,7 +14,7 @@
         <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
       {%- endif -%}
       {%- if section.settings.text != blank -%}
-        <div class="vuffi-lede" data-reveal style="--i: 1">{{ section.settings.text }}</div>
+        <div class="vuffi-lede">{{ section.settings.text }}</div>
       {%- endif -%}
     </div>
   {%- endif -%}
@@ -35,7 +35,7 @@
         endif
       -%}
       <li
-        class="vuffi-ings__row vuffi-ings__row--{{ side }}{% if is_dark %} vuffi-ings__row--dark{% endif %}"
+        class="vuffi-ings__row vuffi-ings__row--{{ side }}{% if is_dark %} vuffi-ings__row--dark vuffi-glow{% if side == 'right' %} vuffi-glow--right{% endif %}{% endif %}"
         {{ block.shopify_attributes }}
       >
         <div class="vuffi-ings__media">
@@ -50,11 +50,11 @@
         </div>
         <div class="vuffi-ings__copy">
           {%- if block.settings.tagline != blank -%}
-            <p class="vuffi-ings__tag" data-reveal>{{ block.settings.tagline }}</p>
+            <p class="vuffi-ings__tag">{{ block.settings.tagline }}</p>
           {%- endif -%}
-          <h3 class="vuffi-ings__name" data-reveal style="--i: 1">{{ block.settings.name }}</h3>
+          <h3 class="vuffi-ings__name">{{ block.settings.name }}</h3>
           {%- if block.settings.text != blank -%}
-            <div class="vuffi-ings__text" data-reveal style="--i: 2">{{ block.settings.text }}</div>
+            <div class="vuffi-ings__text">{{ block.settings.text }}</div>
           {%- endif -%}
           {%- liquid
             assign points = ''
@@ -70,7 +70,7 @@
             assign point_list = points | split: '|'
           -%}
           {%- if point_list.size > 0 -%}
-            <ul class="vuffi-ings__points" role="list" data-reveal style="--i: 3">
+            <ul class="vuffi-ings__points" role="list">
               {%- for point in point_list -%}
                 <li>
                   <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 10.5l3.2 3L15 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -79,14 +79,14 @@
               {%- endfor -%}
             </ul>
           {%- endif -%}
+          {%- comment -%} The small print sits inside the last row, so the list runs straight into the next section {%- endcomment -%}
+          {%- if forloop.last and section.settings.note != blank -%}
+            <p class="vuffi-ings__note">{{ section.settings.note }}</p>
+          {%- endif -%}
         </div>
       </li>
     {%- endfor -%}
   </ol>
-
-  {%- if section.settings.note != blank -%}
-    <p class="vuffi-wrap vuffi-small vuffi-ings__note">{{ section.settings.note }}</p>
-  {%- endif -%}
 </section>
 
 {% stylesheet %}
@@ -200,7 +200,12 @@
   }
 
   .vuffi-ings__note {
-    padding-block: 32px var(--vuffi-pb, var(--vuffi-space));
+    margin: 8px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid color-mix(in srgb, var(--row-fg) 16%, transparent);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--row-muted);
   }
 
   /* Computers: photo fills its half and runs to the screen edge, text in the other half */

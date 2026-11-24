@@ -7,7 +7,7 @@
 -%}
 {%- render 'vuffi-section-style', section: section -%}
 
-<section class="vuffi-section vuffi-guarantee color-custom-{{ section.id }}" data-tone="{{ tone }}">
+<section class="vuffi-section vuffi-guarantee{% if section.settings.glow and tone == 'dark' %} vuffi-glow vuffi-glow--right{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
   <div class="vuffi-wrap vuffi-guarantee__grid">
     <div class="vuffi-guarantee__seal" data-reveal="scale" aria-hidden="true">
       <svg class="vuffi-guarantee__ring" viewBox="0 0 300 300">
@@ -231,6 +231,13 @@
       "type": "color",
       "id": "background_color",
       "label": "Background"
+    },
+    {
+      "type": "checkbox",
+      "id": "glow",
+      "label": "Natural light on dark backgrounds",
+      "default": true,
+      "info": "Sunlight through a window falling across the section. It never moves."
     },
     {
       "type": "range",

@@ -6,7 +6,7 @@
 -%}
 {%- render 'vuffi-section-style', section: section -%}
 
-<section class="vuffi-section vuffi-timeline{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
+<section class="vuffi-section vuffi-timeline{% if section.settings.glow and tone == 'dark' %} vuffi-glow vuffi-glow--right{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
   <div class="vuffi-wrap">
     <div class="vuffi-intro">
       {%- if section.settings.eyebrow != blank -%}
@@ -244,9 +244,9 @@
     {
       "type": "checkbox",
       "id": "glow",
-      "label": "Soft light behind, like the hero",
+      "label": "Natural light on dark backgrounds",
       "default": true,
-      "info": "Shows on dark and green backgrounds."
+      "info": "Sunlight through a window falling across the section. It never moves."
     },
     {
       "type": "range",

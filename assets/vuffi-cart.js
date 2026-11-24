@@ -1,12 +1,24 @@
-/* Vuffi cart savings: adds a bar above the total in the cart drawer and on the cart page
-   with everything the shopper saves (subscription price plus automatic discounts).
-   Horizon re-renders the cart after every change, so a watcher puts the bar back and refreshes it. */
+/* Vuffi cart: adds a bar above the total in the cart drawer and on the cart page with everything the
+   shopper saves (subscription price plus automatic discounts), and a trust line with the payment icons
+   under the checkout button (from <template id="VuffiCartTrust">).
+   Horizon re-renders the cart after every change, so a watcher puts both back and refreshes them. */
 (() => {
   const config = document.getElementById('VuffiCartSavings');
   if (!config || window.vuffiCartSavings) return;
   window.vuffiCartSavings = true;
 
   const template = config.dataset.text || 'You save [amount].';
+  const showSavings = config.dataset.savings !== 'false';
+  const trust = document.getElementById('VuffiCartTrust');
+
+  /* Payment icons and the trust line, once under each checkout button */
+  const paintTrust = () => {
+    if (!trust) return;
+    document.querySelectorAll('.cart__ctas').forEach((ctas) => {
+      if (ctas.querySelector(':scope > .vuffi-cart-trust')) return;
+      ctas.append(trust.content.cloneNode(true));
+    });
+  };
   const format = config.dataset.money;
 
   const formatMoney = (cents) => {
@@ -34,6 +46,8 @@
   let busy = false;
 
   const paint = () => {
+    paintTrust();
+    if (!showSavings) return;
     document.querySelectorAll('.cart-totals').forEach((totals) => {
       let bar = totals.querySelector(':scope > .vuffi-cart-save');
       if (saved <= 0) {
@@ -76,7 +90,7 @@
     const touchesCart = records.some((record) => {
       const target = record.target;
       if (!(target instanceof Element)) return false;
-      if (target.closest('.vuffi-cart-save')) return false;
+      if (target.closest('.vuffi-cart-save, .vuffi-cart-trust')) return false;
       return Boolean(target.closest('cart-items-component, .cart-totals, cart-drawer-component, .cart-drawer__content'));
     });
     if (touchesCart) schedule();
@@ -84,6 +98,7 @@
 
   const start = () => {
     watcher.observe(document.body, { childList: true, subtree: true, characterData: true });
+    paintTrust();
     if (document.querySelector('.cart-totals')) refresh();
   };
 

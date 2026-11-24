@@ -171,11 +171,115 @@
         "show_judgeme": true,
         "background_color": "#FFFFFF"
       }
+    },
+    "label": {
+      "type": "vuffi-label",
+      "blocks": {
+        "point_1": {
+          "type": "point",
+          "settings": {
+            "title": "Small and medium breeds",
+            "text": "Made for dogs up to 65 lbs. Under 35 lbs, one chew a day. 36 to 65 lbs, two.",
+            "x": 21,
+            "y": 30
+          }
+        },
+        "point_2": {
+          "type": "point",
+          "settings": {
+            "title": "Veterinarian recommended",
+            "text": "Built on the joint ingredients vets recommend most.",
+            "x": 59,
+            "y": 32
+          }
+        },
+        "point_3": {
+          "type": "point",
+          "settings": {
+            "title": "Advanced Hip & Joint Support",
+            "text": "Five joint actives in one chew: glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel.",
+            "x": 70,
+            "y": 53
+          }
+        },
+        "point_4": {
+          "type": "point",
+          "settings": {
+            "title": "Helps reduce occasional discomfort",
+            "text": "Supports cartilage, joint fluid and easy movement, so stairs, jumps and long walks come easier.",
+            "x": 21,
+            "y": 73
+          }
+        },
+        "point_5": {
+          "type": "point",
+          "settings": {
+            "title": "30 soft chews",
+            "text": "Pork flavored and soft, so most dogs take it like a treat. Contains shellfish.",
+            "x": 68,
+            "y": 81
+          }
+        }
+      },
+      "block_order": [
+        "point_1",
+        "point_2",
+        "point_3",
+        "point_4",
+        "point_5"
+      ],
+      "settings": {
+        "heading": "The jar, <em>explained.</em>",
+        "text": "<p>Everything printed on the label, and what it means for your dog.</p>",
+        "image": "shopify://shop_images/vuffi-jar-closed.png",
+        "background_color": "#0B1411",
+        "glow": true
+      }
+    },
+    "steps": {
+      "type": "vuffi-steps",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "icon": "chew",
+            "title": "One a day, with breakfast",
+            "text": "<p>Under 35 lbs: 1 chew. 36 to 65 lbs: 2 chews. Over 65 lbs: ask your vet.</p>"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "icon": "clock",
+            "title": "Same time, every day",
+            "text": "<p>Joint support builds with steady daily use, so make it part of the morning routine.</p>"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "icon": "calendar",
+            "title": "Give it 90 days",
+            "text": "<p>Results build over weeks. If you don't see a difference in 90 days, we refund you.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "heading": "How to <em>give it.</em>",
+        "background_color": "#FFFFFF"
+      }
     }
   },
   "order": [
     "main",
     "detail",
+    "label",
+    "steps",
     "band_pdp",
     "reviews"
   ]

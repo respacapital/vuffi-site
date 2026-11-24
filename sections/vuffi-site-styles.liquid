@@ -10,12 +10,31 @@
 </script>
 {{ 'vuffi-base.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'vuffi-motion.js' | asset_url }}" defer></script>
-{%- if section.settings.cart_savings -%}
+{%- if section.settings.cart_trust -%}
+  {%- comment -%} Copied under the checkout button in the cart drawer and on the cart page by vuffi-cart.js {%- endcomment -%}
+  <template id="VuffiCartTrust">
+    <div class="vuffi-cart-trust">
+      {%- if section.settings.cart_trust_text != blank -%}
+        <p class="vuffi-cart-trust__text">
+          {%- render 'vuffi-icon', name: 'lock' -%}
+          <span>{{ section.settings.cart_trust_text }}</span>
+        </p>
+      {%- endif -%}
+      <ul class="vuffi-cart-trust__pay" role="list" aria-label="{{ section.settings.cart_pay_label | escape }}">
+        {%- for type in shop.enabled_payment_types -%}
+          <li>{{ type | payment_type_svg_tag: class: 'vuffi-cart-trust__icon' }}</li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </template>
+{%- endif -%}
+{%- if section.settings.cart_savings or section.settings.cart_trust -%}
   <script
     src="{{ 'vuffi-cart.js' | asset_url }}"
     defer
     id="VuffiCartSavings"
     data-text="{{ section.settings.cart_savings_text | escape }}"
+    data-savings="{{ section.settings.cart_savings }}"
     data-money="{{ shop.money_format | strip_html | escape }}"
   ></script>
 {%- endif -%}
@@ -27,6 +46,7 @@
     --vuffi-green: {{ settings.color_palette.color1 | default: '#0E3B2C' }};
     --vuffi-lime: {{ settings.color_palette.color2 | default: '#C6E35A' }};
     --vuffi-paper: {{ settings.color_palette.color3 | default: '#F3F2EE' }};
+    --vuffi-light-img: url('{{ 'vuffi-light.jpg' | asset_url }}');
   }
 
   {%- if section.settings.dark_page_header %}
@@ -94,6 +114,29 @@
       "id": "dark_header_color",
       "label": "Dark header color",
       "default": "#0B1411"
+    },
+    {
+      "type": "header",
+      "content": "Cart trust"
+    },
+    {
+      "type": "checkbox",
+      "id": "cart_trust",
+      "label": "Show payment icons under the checkout button",
+      "default": true,
+      "info": "In the cart drawer and on the cart page."
+    },
+    {
+      "type": "text",
+      "id": "cart_trust_text",
+      "label": "Line above the payment icons",
+      "default": "Secure checkout. Free shipping. 90 day money back guarantee."
+    },
+    {
+      "type": "text",
+      "id": "cart_pay_label",
+      "label": "Payment icons name for screen readers",
+      "default": "Payment methods we accept"
     },
     {
       "type": "header",

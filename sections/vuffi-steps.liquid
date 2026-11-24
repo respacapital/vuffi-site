@@ -1,0 +1,226 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+{%- comment -%} How to give it: a few simple steps side by side on hairlines, each with a line icon {%- endcomment -%}
+<section class="vuffi-section vuffi-steps{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap">
+    <div class="vuffi-intro">
+      <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    <ol class="vuffi-steps__list" role="list" style="--count: {{ section.blocks.size }};">
+      {%- for block in section.blocks -%}
+        <li class="vuffi-steps__item" {{ block.shopify_attributes }}>
+          <span class="vuffi-steps__icon">{%- render 'vuffi-icon', name: block.settings.icon -%}</span>
+          <h3 class="vuffi-steps__title">{{ block.settings.title }}</h3>
+          {%- if block.settings.text != blank -%}
+            <div class="vuffi-steps__text">{{ block.settings.text }}</div>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="vuffi-steps__actions">
+        {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-steps__list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-steps__item {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding: 28px 0 32px;
+    border-bottom: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-steps__icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 6px;
+    border: 1px solid var(--vuffi-line-strong);
+    border-radius: 50%;
+    color: var(--vuffi-accent);
+  }
+
+  .vuffi-steps__icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .vuffi-steps__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: clamp(21px, 1.8vw, 26px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .vuffi-steps__text {
+    max-width: 38ch;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-steps__text p {
+    margin: 0;
+  }
+
+  .vuffi-steps__actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-steps__list {
+      grid-template-columns: repeat(var(--count, 3), minmax(0, 1fr));
+      border-bottom: 1px solid var(--vuffi-line);
+    }
+
+    .vuffi-steps__item {
+      padding: 40px 40px 48px;
+      border-bottom: 0;
+    }
+
+    .vuffi-steps__item:first-child {
+      padding-left: 0;
+    }
+
+    .vuffi-steps__item + .vuffi-steps__item {
+      border-left: 1px solid var(--vuffi-line);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi steps",
+  "tag": "div",
+  "class": "vuffi-steps-section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "How to <em>give it.</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "checkbox",
+      "id": "glow",
+      "label": "Natural light on dark backgrounds",
+      "default": true,
+      "info": "Sunlight through a window falling across the section. It never moves."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "chew", "label": "Soft chew" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "scale", "label": "Scale" },
+            { "value": "paw", "label": "Paw" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "joint", "label": "Joint" }
+          ],
+          "default": "chew"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "One a day, with breakfast"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi steps",
+      "blocks": [
+        { "type": "step", "settings": { "icon": "chew", "title": "One a day, with breakfast" } },
+        { "type": "step", "settings": { "icon": "clock", "title": "Same time, every day" } },
+        { "type": "step", "settings": { "icon": "calendar", "title": "Give it 90 days" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
