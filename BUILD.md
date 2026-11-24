@@ -198,6 +198,6 @@ Status: todo, built, PR open, merged.
 - Robin's call: no delivery times anywhere on the site. Removed "Most orders arrive within 3 to 4 weeks" from the Shipping page and the store shipping policy (now a Tracking section), and cleared the old "Ships within 3 business days, then 7 to 15 business days to arrive" description from both checkout shipping rates. The theme itself only points to the shipping policy. The old toothbrush FAQ metaobjects still mention times but are not shown anywhere on the site.
 
 ## Shop app and social (Nov 24, 10 am)
-- New square logo for the Shop app: the full vuffi wordmark (white letters, lime paw) on bottle green, in Files as vuffi-shop-square-logo.jpg. To be picked in Settings > General > Brand > Square logo, and the white logo picked for the Shop Store header over the cover photo.
+- New square logo for the Shop app: the full vuffi wordmark (white letters, lime paw) on bottle green, in Files as vuffi-shop-square-logo.jpg. Set as the Brand square logo. Shop Store header now uses the white logo (vuffi-logo-white) on a bottle green #0E3B2C background, saved Nov 24 at noon.
 - New collection "Hip and Joint Support" (hip-and-joint-support) with the chews, a photo and a description, published to Shop and the online store, so the Shop Store has a proper collection row. The old "Home page" collection only holds the archived toothbrush.
 - Social files in the work folder (social/): Profile Picture, X Header 1500x500, Facebook Cover 1640x624, all dated 2026.11.24.
