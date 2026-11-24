@@ -133,8 +133,8 @@
   .vuffi-cta__media .vuffi-media,
   .vuffi-cta__media .vuffi-ph {
     border-radius: 0;
-    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
-    mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 58%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 58%, transparent 100%);
   }
 
   body:has(.vuffi-cta-section:last-child) .vuffi-foot {
@@ -158,6 +158,7 @@
     .vuffi-cta__media {
       position: relative;
       min-height: 720px;
+      margin-top: calc(var(--vuffi-pt, 120px) * -1);
     }
 
     .vuffi-cta__media .vuffi-media,
@@ -168,11 +169,11 @@
       height: 100%;
       aspect-ratio: auto;
       -webkit-mask-image:
-        linear-gradient(180deg, #000 0%, #000 55%, transparent 100%),
+        linear-gradient(180deg, transparent 0%, #000 16%, #000 55%, transparent 100%),
         linear-gradient(90deg, transparent 0%, #000 14%);
       -webkit-mask-composite: source-in;
       mask-image:
-        linear-gradient(180deg, #000 0%, #000 55%, transparent 100%),
+        linear-gradient(180deg, transparent 0%, #000 16%, #000 55%, transparent 100%),
         linear-gradient(90deg, transparent 0%, #000 14%);
       mask-composite: intersect;
     }
