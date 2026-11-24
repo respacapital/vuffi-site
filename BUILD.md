@@ -168,3 +168,11 @@ Status: todo, built, PR open, merged.
 - Home page title "Vuffi | Hip and Joint Soft Chews for Dogs" and the new meta description saved in Online Store > Preferences (the toothbrush text is gone).
 - DSers: no pricing template exists and Automatic Price Update is set to Do Nothing, so DSers never changes the store's prices.
 - The nine preview copies (vuffi check 1124a to f) deleted from the theme library.
+
+## Launch round 3 (Nov 24, 5 am)
+- Policies: Refund, Shipping, Subscription (cancellation) and Terms in Settings > Policies now match the site's own policy pages (90 day guarantee, keep the jar, monthly plan, 3 to 4 weeks delivery). The Terms page and policy also carry the chew safety lines (dogs over 12 weeks, shellfish, vet first) and 90 days in place of 1 year. Approved by Robin. Set in the admin because the store connection has no legal policies permission.
+- Shopify policy pages (/policies/...): styled in vuffi-base.css like the Vuffi policy pages: dark title band in the dark header color with the hero light, text lined up with the logo, 32px headings. The header turns dark on them too.
+- Buy box: the picked jar option is bottle green with a soft gradient, white words and a lime check. The three chips are now a stone strip of three proof points, each with a green seal, a title and a short line (new "Short line under the title" setting on each Chip block).
+- Email popup: the photo no longer covers the headline on computers (it fills its column instead of sizing it); rounded corners; on phones a short photo strip sits above the form.
+- Judge.me: the review widget uses Judge.me's current code (data-auto-install false plus the review data script), the star badge uses Judge.me's badge code, and both stay off the store until the product has a review ("Hide until the first review" setting on Vuffi reviews; the editor still shows the section with a note).
+- Socials: on hold, Follow along section kept as is.
