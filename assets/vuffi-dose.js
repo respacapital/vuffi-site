@@ -1,4 +1,4 @@
-/* Vuffi dose finder: maps the weight slider to the daily dose bands. */
+/* Vuffi how to give it: maps the weight slider to the dose bands and fills the answer rows. */
 (() => {
   if (customElements.get('vuffi-dose')) return;
 
@@ -6,17 +6,21 @@
     connectedCallback() {
       this.range = this.querySelector('input[type="range"]');
       this.weight = this.querySelector('[data-weight]');
-      this.result = this.querySelector('[data-result]');
-      this.detail = this.querySelector('[data-detail]');
-      this.box = this.querySelector('.vuffi-dose__result');
+      this.rows = this.querySelector('[data-rows]');
+      this.overCopy = this.querySelector('[data-over-copy]');
+      this.amount = this.querySelector('[data-amount]');
+      this.lasts = this.querySelector('[data-lasts]');
+      this.order = this.querySelector('[data-order]');
+      this.chews = Array.from(this.querySelectorAll('[data-chews] > *'));
+      this.answer = this.querySelector('.vuffi-dose__answer');
+      if (!this.range) return;
       try {
         this.tiers = JSON.parse(this.querySelector('[data-tiers]').textContent).sort((a, b) => a.upTo - b.upTo);
-        this.over = JSON.parse(this.querySelector('[data-over-copy]').textContent);
       } catch (e) {
-        return;
+        this.tiers = [];
       }
       this.overFrom = parseInt(this.dataset.over || '66', 10);
-      this.last = '';
+      this.last = null;
       this.range.addEventListener('input', () => this.update());
       this.update();
     }
@@ -27,17 +31,31 @@
       const value = parseFloat(this.range.value);
       this.range.style.setProperty('--fill', `${((value - min) / (max - min)) * 100}%`);
       this.weight.textContent = value >= max ? `${max}+` : String(value);
-      this.range.setAttribute('aria-valuetext', `${value} pounds`);
+      this.range.setAttribute('aria-valuetext', `${value >= max ? `${max} or more` : value} pounds`);
 
-      let copy = this.over;
-      if (value < this.overFrom) copy = this.tiers.find((t) => value <= t.upTo) || this.over;
-      if (copy.result === this.last) return;
-      this.last = copy.result;
-      this.result.textContent = copy.result;
-      this.detail.textContent = copy.detail;
-      this.box.classList.remove('is-swap');
-      void this.box.offsetWidth;
-      this.box.classList.add('is-swap');
+      const tier = value < this.overFrom ? this.tiers.find((t) => value <= t.upTo) : null;
+      if (tier === this.last) return;
+      const first = this.last === null;
+      this.last = tier;
+
+      if (tier) {
+        this.rows.hidden = false;
+        this.overCopy.hidden = true;
+        this.amount.textContent = tier.amount;
+        this.lasts.textContent = tier.lasts;
+        this.order.textContent = tier.order;
+        this.chews.forEach((chew, i) => {
+          chew.hidden = i >= tier.chews;
+        });
+      } else {
+        this.rows.hidden = true;
+        this.overCopy.hidden = false;
+      }
+
+      if (first) return;
+      this.answer.classList.remove('is-swap');
+      void this.answer.offsetWidth;
+      this.answer.classList.add('is-swap');
     }
   }
 

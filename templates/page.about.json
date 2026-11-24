@@ -19,7 +19,7 @@
         "show_photo": true,
         "slot": "page-story",
         "image_alt": "A person and their dog walking a field path at golden hour",
-        "image": "shopify://shop_images/vuffi-v4-page-story.jpg"
+        "image": "shopify://shop_images/vuffi-v2-page-story.jpg"
       }
     },
     "why": {
@@ -30,7 +30,7 @@
         "eyebrow": "",
         "heading": "Five bottles became <em>one chew.</em>",
         "text": "<p>Joint care for dogs usually means a shelf of bottles: glucosamine here, fish oil there, something else your vet mentioned. Most of it ends up hidden in food or forgotten in the cupboard.</p><p>We built Vuffi around one idea. Put the joint actives that matter into a single soft chew your dog actually wants, and make it easy to give every day. <strong>Glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel, in one pork flavored chew.</strong></p>",
-        "image": "shopify://shop_images/vuffi-v4-story-1.jpg",
+        "image": "shopify://shop_images/vuffi-v2-story-1.jpg",
         "image_shape": "1 / 1"
       }
     },
@@ -45,7 +45,7 @@
         "button_label": "Shop Vuffi",
         "button_link": "/products/hip-and-joint-soft-chews",
         "background_color": "#F3F2EE",
-        "image": "shopify://shop_images/vuffi-v4-story-2.jpg",
+        "image": "shopify://shop_images/vuffi-v2-story-2.jpg",
         "image_shape": "16 / 9"
       }
     },
@@ -59,7 +59,7 @@
         "background_color": "#111A16",
         "heading": "Every step, <em>supported.</em>",
         "image_alt": "A dog resting its head on its owner's knee",
-        "image": "shopify://shop_images/vuffi-v4-band-about.jpg",
+        "image": "shopify://shop_images/vuffi-v2-band-about.jpg",
         "button_label": "Shop Vuffi",
         "button_link": "/products/hip-and-joint-soft-chews"
       }

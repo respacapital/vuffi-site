@@ -140,3 +140,10 @@ Status: todo, built, PR open, merged.
 - Product gallery: ten images, five built ones (rebuilt with the real chew color, vuffi-product-v2-*) alternating with five photos with the real jar. Old gallery images detached from the product, still in Files.
 - Product title is "Vuffi Advanced Hip & Joint Support".
 - Image prompts round 2: "Image Prompts Round 2 - Vuffi - 2026.11.24.txt" (knee pair and the open jar from above), sent with "Real Jar - Vuffi - 2026.11.24.png".
+
+## Design version 12 (Nov 24, 3:30 am)
+- Photos: Robin preferred the old photos, so every slot on the site is back on the vuffi-v2 set (hero, rows, scroll story, pages). The v4 set (real jar put into each photo, chews recolored) stays in Files and in the work folder (v4/) if wanted later. Kept: the jar explained photo (vuffi-v4-label-jar.jpg) and the product gallery with the real jar.
+- Product photos: "Product Image Prompts - Vuffi - 2026.11.24.txt" (ten gallery photos of the actual jar and chews).
+- How to give it is now the weight slider again (vuffi-dose, rebuilt in the current look): drag to your dog's weight, the answer rows show chews a day (with chew icons), how long one jar lasts and what to order for a month; over 65 lbs it says to ask your vet. Three habits on hairlines under the headline. vuffi-steps (the table) is no longer on any page.
+- Product gallery: one photo at a time with thumbnails under it (tap to pick a photo), arrows on computers, swipe on phones, counter on phones (vuffi-gallery.js).
+- Scroll story: smoother. The chews' depth blur no longer changes every frame, the open jar and chews stay painted at 1 percent opacity so nothing appears with a hitch, the jar layers have their own layer, and every image in the scene is decoded ahead of time.

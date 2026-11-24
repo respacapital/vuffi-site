@@ -6,38 +6,52 @@
   assign start = section.settings.start_weight
   assign span = section.settings.max_weight | minus: 5
   assign fill = start | minus: 5 | times: 100.0 | divided_by: span
+  assign tiers = section.blocks | where: 'type', 'tier'
+  assign tips = section.blocks | where: 'type', 'tip'
+  assign first = tiers.first
 -%}
 {%- render 'vuffi-section-style', section: section -%}
 <script src="{{ 'vuffi-dose.js' | asset_url }}" defer></script>
 
-<section class="vuffi-section vuffi-dose color-custom-{{ section.id }}" data-tone="{{ tone }}">
+{%- comment -%}
+  How to give it: slide to your dog's weight and the dose, how long one jar lasts and what to order for a month update.
+  Left: headline, text and a few habits on hairlines. Right: the slider and the answer rows.
+{%- endcomment -%}
+<section class="vuffi-section vuffi-dose{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
   <div class="vuffi-wrap vuffi-dose__grid">
-    <div class="vuffi-head">
-      {%- if section.settings.eyebrow != blank -%}
-        <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
-      {%- endif -%}
-      <h2 class="vuffi-h2" data-reveal style="--i: 1">{{ section.settings.heading }}</h2>
+    <div class="vuffi-dose__head">
+      <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
       {%- if section.settings.text != blank -%}
-        <div class="vuffi-lede" data-reveal style="--i: 2">{{ section.settings.text }}</div>
+        <div class="vuffi-lede">{{ section.settings.text }}</div>
+      {%- endif -%}
+
+      {%- if tips.size > 0 -%}
+        <ul class="vuffi-dose__tips" role="list">
+          {%- for block in tips -%}
+            <li class="vuffi-dose__tip" {{ block.shopify_attributes }}>
+              <h3 class="vuffi-dose__tip-title">{{ block.settings.title }}</h3>
+              {%- if block.settings.text != blank -%}
+                <p class="vuffi-dose__tip-text">{{ block.settings.text }}</p>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
       {%- endif -%}
     </div>
 
-    <vuffi-dose class="vuffi-dose__card" data-reveal style="--i: 3" data-over="{{ section.settings.over_weight }}">
+    <vuffi-dose class="vuffi-dose__finder" data-over="{{ section.settings.over_weight }}">
       <script type="application/json" data-tiers>
         [
-          {%- for block in section.blocks -%}
-            {"upTo": {{ block.settings.up_to }}, "result": {{ block.settings.result | json }}, "detail": {{ block.settings.detail | json }}}{% unless forloop.last %},{% endunless %}
+          {%- for block in tiers -%}
+            {"upTo": {{ block.settings.up_to }}, "chews": {{ block.settings.chews }}, "amount": {{ block.settings.amount | json }}, "lasts": {{ block.settings.lasts | json }}, "order": {{ block.settings.order | json }}}{% unless forloop.last %},{% endunless %}
           {%- endfor -%}
         ]
-      </script>
-      <script type="application/json" data-over-copy>
-        {"result": {{ section.settings.over_result | json }}, "detail": {{ section.settings.over_detail | json }}}
       </script>
 
       <div class="vuffi-dose__input">
         <label class="vuffi-dose__label" for="DoseWeight-{{ section.id }}">{{ section.settings.slider_label }}</label>
-        <output class="vuffi-dose__weight" for="DoseWeight-{{ section.id }}">
-          <span class="vuffi-num" data-weight>{{ start }}</span>
+        <output class="vuffi-dose__weight vuffi-num" for="DoseWeight-{{ section.id }}">
+          <span data-weight>{{ start }}</span>
           <span class="vuffi-dose__unit">lbs</span>
         </output>
         <input
@@ -48,17 +62,42 @@
           max="{{ section.settings.max_weight }}"
           step="1"
           value="{{ start }}"
+          aria-valuetext="{{ start }} pounds"
           style="--fill: {{ fill }}%;"
         >
-        <div class="vuffi-dose__ticks" aria-hidden="true">
-          <span>5</span><span>{{ section.settings.max_weight | divided_by: 2 }}</span><span>{{ section.settings.max_weight }}+</span>
+        <div class="vuffi-dose__ticks vuffi-num" aria-hidden="true">
+          <span>5</span>
+          {%- for block in tiers -%}
+            {%- assign at = block.settings.up_to | minus: 5 | times: 100.0 | divided_by: span -%}
+            <span style="--at: {{ at }}%;">{{ block.settings.up_to }}</span>
+          {%- endfor -%}
+          <span>{{ section.settings.max_weight }}+</span>
         </div>
       </div>
 
-      <div class="vuffi-dose__result" aria-live="polite">
-        <span class="vuffi-icon-wrap">{%- render 'vuffi-icon', name: 'chew' -%}</span>
-        <p class="vuffi-dose__big" data-result>{{ section.blocks.first.settings.result }}</p>
-        <p class="vuffi-dose__detail" data-detail>{{ section.blocks.first.settings.detail }}</p>
+      <div class="vuffi-dose__answer" aria-live="polite">
+        <dl class="vuffi-dose__rows" data-rows>
+          <div class="vuffi-dose__row">
+            <dt>{{ section.settings.label_amount }}</dt>
+            <dd>
+              <span class="vuffi-dose__chews" data-chews aria-hidden="true">
+                {%- for i in (1..4) -%}
+                  <span class="vuffi-dose__chew"{% if forloop.index > first.settings.chews %} hidden{% endif %}>{%- render 'vuffi-icon', name: 'chew' -%}</span>
+                {%- endfor -%}
+              </span>
+              <span data-amount>{{ first.settings.amount }}</span>
+            </dd>
+          </div>
+          <div class="vuffi-dose__row">
+            <dt>{{ section.settings.label_lasts }}</dt>
+            <dd class="vuffi-num" data-lasts>{{ first.settings.lasts }}</dd>
+          </div>
+          <div class="vuffi-dose__row">
+            <dt>{{ section.settings.label_order }}</dt>
+            <dd data-order>{{ first.settings.order }}</dd>
+          </div>
+        </dl>
+        <p class="vuffi-dose__over" data-over-copy hidden>{{ section.settings.over_text }}</p>
       </div>
 
       {%- if section.settings.note != blank -%}
@@ -74,22 +113,53 @@
     gap: 40px;
   }
 
-  .vuffi-dose__card {
+  .vuffi-dose__head {
     display: grid;
-    gap: 28px;
-    padding: clamp(24px, 4vw, 48px);
-    border: 1px solid var(--vuffi-line);
-    border-radius: var(--vuffi-radius-lg);
-    background: var(--vuffi-card);
+    align-content: start;
+    gap: 18px;
+  }
+
+  .vuffi-dose__tips {
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-dose__tip {
+    display: grid;
+    gap: 4px;
+    padding: 16px 0 18px;
+    border-bottom: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-dose__tip-title {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  .vuffi-dose__tip-text {
+    margin: 0;
+    max-width: 48ch;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-dose__finder {
+    display: grid;
+    gap: 32px;
   }
 
   .vuffi-dose__input {
     display: grid;
-    gap: 14px;
+    gap: 12px;
   }
 
   .vuffi-dose__label {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
   }
 
@@ -97,163 +167,214 @@
     display: flex;
     align-items: baseline;
     gap: 10px;
-    font-family: var(--font-subheading--family);
-    text-transform: uppercase;
-    font-size: clamp(72px, 9vw, 120px);
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: clamp(72px, 9vw, 128px);
     line-height: 0.9;
-    letter-spacing: 0;
+    letter-spacing: -0.04em;
   }
 
   .vuffi-dose__unit {
     font-family: var(--font-body--family);
+    font-weight: 400;
     font-size: 20px;
     letter-spacing: 0;
     color: var(--color-foreground-muted);
   }
 
+  /* Slider: hairline track that fills with the accent color, round thumb (things you press stay round) */
   .vuffi-dose__range {
     --fill: 40%;
     width: 100%;
-    height: 28px;
-    margin: 0;
+    height: 32px;
+    margin: 8px 0 0;
     background: transparent;
     -webkit-appearance: none;
     appearance: none;
     cursor: pointer;
+    touch-action: pan-y;
   }
 
   .vuffi-dose__range::-webkit-slider-runnable-track {
-    height: 6px;
-    border-radius: var(--vuffi-radius-btn);
-    background: linear-gradient(90deg, var(--vuffi-accent) var(--fill), var(--vuffi-line) var(--fill));
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--vuffi-accent) var(--fill), var(--vuffi-line-strong) var(--fill));
   }
 
   .vuffi-dose__range::-moz-range-track {
-    height: 6px;
-    border-radius: var(--vuffi-radius-btn);
-    background: linear-gradient(90deg, var(--vuffi-accent) var(--fill), var(--vuffi-line) var(--fill));
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--vuffi-accent) var(--fill), var(--vuffi-line-strong) var(--fill));
   }
 
   .vuffi-dose__range::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 28px;
-    height: 28px;
-    margin-top: -11px;
-    border: 2px solid var(--color-background);
+    width: 30px;
+    height: 30px;
+    margin-top: -13px;
+    border: 3px solid var(--color-background);
     border-radius: 50%;
-    background: var(--color-foreground);
-    box-shadow: 0 4px 14px rgb(11 20 16 / 0.25);
+    background: var(--vuffi-accent);
+    box-shadow: 0 0 0 1px var(--vuffi-line-strong), 0 6px 16px rgb(11 20 17 / 0.18);
   }
 
   .vuffi-dose__range::-moz-range-thumb {
     width: 24px;
     height: 24px;
-    border: 2px solid var(--color-background);
+    border: 3px solid var(--color-background);
     border-radius: 50%;
-    background: var(--color-foreground);
+    background: var(--vuffi-accent);
+    box-shadow: 0 0 0 1px var(--vuffi-line-strong), 0 6px 16px rgb(11 20 17 / 0.18);
   }
 
   .vuffi-dose__range:focus-visible {
     outline: 2px solid var(--vuffi-accent);
     outline-offset: 6px;
-    border-radius: var(--vuffi-radius-btn);
   }
 
   .vuffi-dose__ticks {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
+    position: relative;
+    height: 18px;
+    font-size: 13px;
     color: var(--color-foreground-muted);
   }
 
-  .vuffi-dose__result {
-    display: grid;
-    grid-template-columns: auto 1fr;
+  .vuffi-dose__ticks span {
+    position: absolute;
+    top: 0;
+    left: var(--at, 0%);
+    transform: translateX(-50%);
+  }
+
+  .vuffi-dose__ticks span:first-child {
+    left: 0;
+    transform: none;
+  }
+
+  .vuffi-dose__ticks span:last-child {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+
+  .vuffi-dose__rows {
+    margin: 0;
+    border-top: 1px solid var(--vuffi-line-strong);
+  }
+
+  .vuffi-dose__row {
+    display: flex;
     align-items: center;
-    gap: 4px 16px;
-    padding: 24px;
-    border-radius: var(--vuffi-radius);
-    background: var(--vuffi-ink);
-    color: #ffffff;
-    --vuffi-accent: var(--vuffi-lime);
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 72px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--vuffi-line);
   }
 
-  /* On a dark band the answer becomes a leaf green panel so it still stands out */
-  .vuffi-dose[data-tone='dark'] .vuffi-dose__result {
-    background: var(--vuffi-lime);
-    color: var(--vuffi-ink);
-    --vuffi-accent: var(--vuffi-ink);
-  }
-
-  .vuffi-dose[data-tone='dark'] .vuffi-dose__result .vuffi-icon-wrap {
-    background: rgb(11 20 17 / 0.1);
-  }
-
-  .vuffi-dose__result .vuffi-icon-wrap {
-    grid-row: span 2;
-    display: grid;
-    place-items: center;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: rgb(255 255 255 / 0.08);
-  }
-
-  .vuffi-dose__big {
-    margin: 0;
-    font-family: var(--font-subheading--family);
-    text-transform: uppercase;
-    font-size: clamp(30px, 3vw, 40px);
-    line-height: 1.05;
-  }
-
-  .vuffi-dose__detail {
-    margin: 0;
+  .vuffi-dose__row dt {
     font-size: 15px;
-    opacity: 0.75;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-dose__row dd {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-align: right;
+  }
+
+  .vuffi-dose__chews {
+    display: flex;
+    gap: 2px;
+    color: var(--vuffi-accent);
+  }
+
+  .vuffi-dose__chew[hidden] {
+    display: none;
+  }
+
+  .vuffi-dose .vuffi-dose__chew svg {
+    display: block;
+    width: 34px;
+    height: 34px;
+  }
+
+  .vuffi-dose__over {
+    margin: 0;
+    padding: 22px 0;
+    border-top: 1px solid var(--vuffi-line-strong);
+    border-bottom: 1px solid var(--vuffi-line);
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+
+  .vuffi-dose__over[hidden],
+  .vuffi-dose__rows[hidden] {
+    display: none;
   }
 
   .vuffi-dose__note {
     margin: 0;
   }
 
-  .vuffi-dose__result.is-swap .vuffi-dose__big,
-  .vuffi-dose__result.is-swap .vuffi-dose__detail {
-    animation: vuffi-tick 0.5s var(--vuffi-ease);
+  .vuffi-dose__answer.is-swap dd {
+    animation: vuffi-dose-swap 0.35s var(--vuffi-ease);
+  }
+
+  @keyframes vuffi-dose-swap {
+    from {
+      opacity: 0.2;
+      transform: translateY(6px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vuffi-dose__answer.is-swap dd {
+      animation: none;
+    }
   }
 
   @media screen and (min-width: 990px) {
     .vuffi-dose__grid {
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-      align-items: center;
-      gap: 72px;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: 96px;
+      align-items: start;
     }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "Vuffi dose finder",
+  "name": "Vuffi how to give it",
   "tag": "div",
   "class": "vuffi-dose-section",
-  "max_blocks": 4,
+  "max_blocks": 8,
   "settings": [
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Small line above"
-    },
     {
       "type": "inline_richtext",
       "id": "heading",
       "label": "Headline",
-      "default": "Made for <em>their</em> size."
+      "default": "How to <em>give it.</em>"
     },
     {
       "type": "richtext",
       "id": "text",
       "label": "Text",
-      "default": "<p>Slide to your dog's weight to see their daily dose and how long a jar lasts. Give it with a meal or as a treat, at the same time each day.</p>"
+      "default": "<p>Slide to your dog's weight to see how many chews a day, how long one jar lasts and what to order for a full month.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Slider"
     },
     {
       "type": "text",
@@ -266,7 +387,7 @@
       "id": "start_weight",
       "label": "Starting weight",
       "min": 5,
-      "max": 100,
+      "max": 80,
       "step": 1,
       "unit": "lb",
       "default": 30
@@ -274,45 +395,73 @@
     {
       "type": "range",
       "id": "max_weight",
-      "label": "Slider maximum",
+      "label": "Highest weight on the slider",
       "min": 70,
-      "max": 150,
-      "step": 10,
+      "max": 120,
+      "step": 5,
       "unit": "lb",
-      "default": 100
+      "default": 80
     },
     {
       "type": "range",
       "id": "over_weight",
-      "label": "Heavier than the label covers, from",
+      "label": "Ask your vet from",
       "min": 40,
-      "max": 140,
+      "max": 120,
       "step": 1,
       "unit": "lb",
       "default": 66
     },
     {
       "type": "text",
-      "id": "over_result",
-      "label": "Result for heavier dogs",
-      "default": "Ask your vet first"
+      "id": "over_text",
+      "label": "Text for heavier dogs",
+      "default": "This jar is made for dogs up to 65 lbs. Ask your vet for the right amount."
+    },
+    {
+      "type": "header",
+      "content": "Answer rows"
     },
     {
       "type": "text",
-      "id": "over_detail",
-      "label": "Detail for heavier dogs",
-      "default": "The label covers dogs up to 65 lbs. Your vet can set the right amount for a bigger dog."
+      "id": "label_amount",
+      "label": "Amount row",
+      "default": "Each day"
+    },
+    {
+      "type": "text",
+      "id": "label_lasts",
+      "label": "Jar row",
+      "default": "One jar lasts"
+    },
+    {
+      "type": "text",
+      "id": "label_order",
+      "label": "Order row",
+      "default": "For a full month"
     },
     {
       "type": "text",
       "id": "note",
       "label": "Small print",
-      "default": "For dogs over 12 weeks old. Not for pregnant or nursing dogs without your vet's advice."
+      "default": "For dogs over 12 weeks old. Contains shellfish (green lipped mussel)."
+    },
+    {
+      "type": "header",
+      "content": "Look"
     },
     {
       "type": "color",
       "id": "background_color",
-      "label": "Background"
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "glow",
+      "label": "Soft natural light on dark backgrounds",
+      "default": true,
+      "info": "A faint warm light from the top corner, like the hero photo. It never moves."
     },
     {
       "type": "range",
@@ -344,33 +493,68 @@
           "type": "range",
           "id": "up_to",
           "label": "Up to",
-          "min": 5,
-          "max": 105,
+          "min": 10,
+          "max": 110,
           "step": 1,
           "unit": "lb",
           "default": 35
         },
         {
-          "type": "text",
-          "id": "result",
-          "label": "Dose",
-          "default": "1 chew a day"
+          "type": "range",
+          "id": "chews",
+          "label": "Chews a day (icons)",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "default": 1
         },
         {
           "type": "text",
-          "id": "detail",
-          "label": "Detail",
-          "default": "One jar lasts 30 days."
+          "id": "amount",
+          "label": "Amount",
+          "default": "1 chew"
+        },
+        {
+          "type": "text",
+          "id": "lasts",
+          "label": "One jar lasts",
+          "default": "30 days"
+        },
+        {
+          "type": "text",
+          "id": "order",
+          "label": "For a full month",
+          "default": "1 jar"
+        }
+      ]
+    },
+    {
+      "type": "tip",
+      "name": "Habit",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "With a meal"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Vuffi dose finder",
+      "name": "Vuffi how to give it",
       "blocks": [
-        { "type": "tier", "settings": { "up_to": 35, "result": "1 chew a day", "detail": "One jar lasts 30 days." } },
-        { "type": "tier", "settings": { "up_to": 65, "result": "2 chews a day", "detail": "One jar lasts 15 days. Two jars a month covers it." } }
+        { "type": "tier", "settings": { "up_to": 35, "chews": 1, "amount": "1 chew", "lasts": "30 days", "order": "1 jar" } },
+        { "type": "tier", "settings": { "up_to": 65, "chews": 2, "amount": "2 chews", "lasts": "15 days", "order": "2 jars" } },
+        { "type": "tip", "settings": { "title": "With a meal" } },
+        { "type": "tip", "settings": { "title": "Every day, no gaps" } },
+        { "type": "tip", "settings": { "title": "Judge it at 90 days" } }
       ]
     }
   ]

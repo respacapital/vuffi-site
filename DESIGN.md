@@ -65,7 +65,7 @@ Luxury and clinical: no rounded tiles anywhere.
 Photos carry the brand. Every prompt is in "Image Prompts - Vuffi - 2026.11.23.txt".
 
 1. Real photography, never illustration style or CGI look. Natural colors exactly as things look in life: true white plastic, the real bottle green label, real dog coats, real light.
-2a. The jar in every photo is the real jar (the supplier render), placed into the scene by scripts/swap.py in the work folder with the scene's light carried over. Image tools always redraw the label, so their jar is only a stand in: it must be upright, straight on, whole and unblocked so it can be replaced.
+2a. Image tools always redraw the label. scripts/swap.py in the work folder can put the real jar (the supplier render) into a photo with the scene's light carried over, as long as the jar in the photo is upright, straight on, whole and unblocked. The site photos currently use the v2 set as generated (Robin's choice, Nov 24).
 2b. Chews are dark chocolate brown (about #62402B), matte, dense and slightly fibrous, about 2 cm wide and 1.3 cm tall. No oat flakes, seeds, white specks, shine or orange tint. scripts/swap.py regrade() pulls any chew to this color.
 2. The product is always the same jar, from Robin's reference photo, label unchanged. Never the Vuffi logo on the jar.
 3. Light: soft window light, golden hour sun, a single hard sunbeam (god light) through a window or trees, rim light on the jar. Fine haze or dust in the beam is fine; glowing particles and neon are not.

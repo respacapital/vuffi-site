@@ -45,14 +45,15 @@
 -%}
 {%- render 'vuffi-section-style', section: section -%}
 <script src="{{ 'vuffi-buy.js' | asset_url }}" type="module"></script>
+<script src="{{ 'vuffi-gallery.js' | asset_url }}" defer></script>
 
 <section class="vuffi-section vuffi-pdp color-custom-{{ section.id }}" data-tone="{{ tone }}">
   <div class="vuffi-wrap vuffi-pdp__grid">
-    <div class="vuffi-pdp__gallery">
+    <vuffi-gallery class="vuffi-pdp__gallery">
       {%- if product.media.size > 0 -%}
         <ul class="vuffi-pdp__media" role="list" aria-label="{{ product.title | escape }}">
           {%- for media in product.media -%}
-            <li class="vuffi-pdp__slide{% if forloop.first %} vuffi-pdp__slide--lead{% endif %}">
+            <li class="vuffi-pdp__slide{% if forloop.first %} vuffi-pdp__slide--lead{% endif %}" data-slide>
               {%- if media.media_type == 'image' -%}
                 {%- liquid
                   assign is_first = false
@@ -94,7 +95,36 @@
       <p class="vuffi-pdp__count vuffi-num" aria-hidden="true">
         <span data-slide-index>1</span> / {{ slide_total }}
       </p>
-    </div>
+
+      {%- if product.media.size > 1 -%}
+        <button type="button" class="vuffi-pdp__arrow vuffi-pdp__arrow--prev" data-prev aria-label="{{ section.settings.gallery_prev_label | escape }}">
+          {%- render 'vuffi-icon', name: 'arrow' -%}
+        </button>
+        <button type="button" class="vuffi-pdp__arrow" data-next aria-label="{{ section.settings.gallery_next_label | escape }}">
+          {%- render 'vuffi-icon', name: 'arrow' -%}
+        </button>
+
+        <ul class="vuffi-pdp__thumbs" role="list">
+          {%- for media in product.media -%}
+            <li>
+              <button
+                type="button"
+                class="vuffi-pdp__thumb"
+                data-thumb="{{ forloop.index0 }}"
+                aria-label="{{ section.settings.gallery_thumb_label | escape }} {{ forloop.index }} / {{ product.media.size }}"
+                {% if forloop.first %}aria-current="true"{% endif %}
+              >
+                {{-
+                  media.preview_image
+                  | image_url: width: 240
+                  | image_tag: widths: '120, 180, 240', sizes: '(min-width: 990px) 88px, 64px', loading: 'lazy', alt: ''
+                -}}
+              </button>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </vuffi-gallery>
 
     <div class="vuffi-pdp__info">
       <vuffi-buy
@@ -340,6 +370,7 @@
 
   .vuffi-pdp__gallery {
     position: relative;
+    display: block;
     min-width: 0;
   }
 
@@ -372,10 +403,67 @@
     border-radius: 0;
   }
 
+  /* Thumbnails: tap one to show that photo. The one on show is outlined. */
+  .vuffi-pdp__thumbs {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 64px;
+    gap: 8px;
+    margin: 12px 0 0;
+    padding: 2px;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .vuffi-pdp__thumbs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vuffi-pdp__thumb {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 10px;
+    background: var(--vuffi-paper);
+    opacity: 0.55;
+    cursor: pointer;
+    transition: opacity 0.2s var(--vuffi-ease), box-shadow 0.2s var(--vuffi-ease);
+  }
+
+  .vuffi-pdp__thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .vuffi-pdp__thumb:hover {
+    opacity: 0.85;
+  }
+
+  .vuffi-pdp__thumb[aria-current='true'] {
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-foreground);
+  }
+
+  .vuffi-pdp__thumb:focus-visible {
+    outline: 2px solid var(--vuffi-accent);
+    outline-offset: 3px;
+  }
+
+  /* Arrows over the photo on computers */
+  .vuffi-pdp__arrow {
+    display: none;
+  }
+
   .vuffi-pdp__count {
     position: absolute;
     right: 12px;
-    bottom: 12px;
+    top: calc(100vw - 44px);
     margin: 0;
     padding: 6px 12px;
     border-radius: var(--vuffi-radius-btn);
@@ -787,17 +875,7 @@
     }
 
     .vuffi-pdp__media {
-      grid-auto-flow: row;
-      grid-template-columns: 1fr 1fr;
-      grid-auto-columns: auto;
-      gap: 12px;
       margin: 0;
-      padding: 0;
-      overflow: visible;
-    }
-
-    .vuffi-pdp__slide--lead {
-      grid-column: 1 / -1;
     }
 
     .vuffi-pdp__slide .vuffi-media,
@@ -807,6 +885,59 @@
 
     .vuffi-pdp__count {
       display: none;
+    }
+
+    .vuffi-pdp__thumbs {
+      grid-auto-columns: 88px;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .vuffi-pdp__arrow {
+      position: absolute;
+      z-index: 2;
+      top: calc((100% - 106px) / 2);
+      left: 16px;
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border: 1px solid var(--vuffi-line);
+      border-radius: 50%;
+      background: rgb(255 255 255 / 0.92);
+      color: var(--vuffi-ink);
+      cursor: pointer;
+      transform: translateY(-50%);
+      transition: background 0.2s var(--vuffi-ease), opacity 0.2s var(--vuffi-ease);
+    }
+
+    .vuffi-pdp__arrow:not(.vuffi-pdp__arrow--prev) {
+      left: auto;
+      right: 16px;
+    }
+
+    .vuffi-pdp__arrow--prev .vuffi-icon {
+      transform: rotate(180deg);
+    }
+
+    .vuffi-pdp__arrow .vuffi-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .vuffi-pdp__arrow:hover {
+      background: #ffffff;
+    }
+
+    .vuffi-pdp__arrow[disabled] {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .vuffi-pdp__arrow:focus-visible {
+      outline: 2px solid var(--vuffi-accent);
+      outline-offset: 3px;
     }
 
     .vuffi-pdp__sticker {
@@ -845,6 +976,28 @@
       "label": "Show the Judge.me star rating under the name",
       "default": true,
       "info": "Needs Judge.me turned on in Theme settings > App embeds. Hidden until the first review."
+    },
+    {
+      "type": "header",
+      "content": "Photo gallery"
+    },
+    {
+      "type": "text",
+      "id": "gallery_thumb_label",
+      "label": "Thumbnail button, for screen readers",
+      "default": "Show photo"
+    },
+    {
+      "type": "text",
+      "id": "gallery_prev_label",
+      "label": "Previous arrow, for screen readers",
+      "default": "Previous photo"
+    },
+    {
+      "type": "text",
+      "id": "gallery_next_label",
+      "label": "Next arrow, for screen readers",
+      "default": "Next photo"
     },
     {
       "type": "text",

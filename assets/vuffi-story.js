@@ -43,6 +43,10 @@
       }
 
       this.section.classList.add('is-live');
+      /* Decode every layer of the scene ahead of time, so nothing decodes mid scroll */
+      this.querySelectorAll('img').forEach((img) => {
+        if (img.decode) img.decode().catch(() => {});
+      });
       this.measure();
       /* Listen to every scroll on the page (capture catches scrolls of any container, which the
          theme editor and some browsers use instead of the window), plus resizes. */

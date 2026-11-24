@@ -93,7 +93,7 @@
             "slot": "detail-jar",
             "label": "",
             "title": "30 soft chews",
-            "image": "shopify://shop_images/vuffi-v4-detail-jar.jpg"
+            "image": "shopify://shop_images/vuffi-v2-detail-jar.jpg"
           }
         },
         "photo_2": {
@@ -102,7 +102,7 @@
             "slot": "detail-open",
             "label": "",
             "title": "Soft and easy to chew",
-            "image": "shopify://shop_images/vuffi-v4-detail-open.jpg"
+            "image": "shopify://shop_images/vuffi-v2-detail-open.jpg"
           }
         },
         "photo_3": {
@@ -111,7 +111,7 @@
             "slot": "detail-macro",
             "label": "",
             "title": "A real chew, not a tablet",
-            "image": "shopify://shop_images/vuffi-v4-detail-macro.jpg"
+            "image": "shopify://shop_images/vuffi-v2-detail-macro.jpg"
           }
         },
         "photo_4": {
@@ -120,7 +120,7 @@
             "slot": "detail-hand",
             "label": "",
             "title": "One a day under 35 lbs",
-            "image": "shopify://shop_images/vuffi-v4-detail-hand.jpg"
+            "image": "shopify://shop_images/vuffi-v2-detail-hand.jpg"
           }
         },
         "photo_5": {
@@ -129,7 +129,7 @@
             "slot": "detail-label",
             "label": "",
             "title": "Every ingredient listed",
-            "image": "shopify://shop_images/vuffi-v4-detail-label.jpg"
+            "image": "shopify://shop_images/vuffi-v2-detail-label.jpg"
           }
         }
       },
@@ -160,7 +160,7 @@
         "heading": "Tastes like a treat. <em>Works like a routine.</em>",
         "caption": "",
         "image_alt": "A dog bounding up a grassy hill in late sun",
-        "image": "shopify://shop_images/vuffi-v4-band-pdp.jpg"
+        "image": "shopify://shop_images/vuffi-v2-band-pdp.jpg"
       }
     },
     "reviews": {
@@ -227,86 +227,70 @@
         "image_alt": "A jar of Vuffi Advanced Hip and Joint Support on a stone plinth with two soft chews"
       }
     },
-    "steps": {
-      "type": "vuffi-steps",
+    "dose": {
+      "type": "vuffi-dose",
       "blocks": {
-        "dose_1": {
-          "type": "dose",
+        "tier_1": {
+          "type": "tier",
           "settings": {
-            "weight": "Under 35 lbs",
+            "up_to": 35,
             "chews": 1,
             "amount": "1 chew",
             "lasts": "30 days",
             "order": "1 jar"
           }
         },
-        "dose_2": {
-          "type": "dose",
+        "tier_2": {
+          "type": "tier",
           "settings": {
-            "weight": "36 to 65 lbs",
+            "up_to": 65,
             "chews": 2,
             "amount": "2 chews",
             "lasts": "15 days",
             "order": "2 jars"
           }
         },
-        "dose_3": {
-          "type": "dose",
-          "settings": {
-            "weight": "Over 65 lbs",
-            "chews": 0,
-            "amount": "This jar is made for dogs up to 65 lbs. Ask your vet for the right amount.",
-            "lasts": "",
-            "order": ""
-          }
-        },
         "tip_1": {
           "type": "tip",
           "settings": {
             "title": "With a meal",
-            "text": "<p>Hand it over at breakfast as a treat, or break it up over food. Giving two? One at breakfast and one at dinner is fine.</p>"
+            "text": "Hand it over at breakfast as a treat, or break it up over food. Giving two? One at breakfast and one at dinner is fine."
           }
         },
         "tip_2": {
           "type": "tip",
           "settings": {
             "title": "Every day, no gaps",
-            "text": "<p>Joint support builds with steady daily use. Missed a day? Carry on as normal the next day. Never double up.</p>"
+            "text": "Joint support builds with steady daily use. Missed a day? Carry on as normal. Never double up."
           }
         },
         "tip_3": {
           "type": "tip",
           "settings": {
             "title": "Judge it at 90 days",
-            "text": "<p>Changes come over weeks, not days. Give it a full 90 days. If you are not happy, email us and we refund you.</p>"
-          }
-        },
-        "tip_4": {
-          "type": "tip",
-          "settings": {
-            "title": "Ask your vet first if",
-            "text": "<p>Your dog is pregnant, nursing, on medication, has a health condition or is allergic to shellfish.</p>"
+            "text": "Changes come over weeks, not days. If you are not happy after 90 days, email us and we refund you."
           }
         }
       },
       "block_order": [
-        "dose_1",
-        "dose_2",
-        "dose_3",
+        "tier_1",
+        "tier_2",
         "tip_1",
         "tip_2",
-        "tip_3",
-        "tip_4"
+        "tip_3"
       ],
       "settings": {
         "heading": "How to <em>give it.</em>",
-        "text": "<p>Find your dog's weight. The row tells you how many chews a day, how long one jar lasts and what to order for a full month.</p>",
-        "col_weight": "Your dog",
-        "col_amount": "Each day",
-        "col_lasts": "One jar lasts",
-        "col_order": "For a full month",
-        "tips_heading": "Good habits",
-        "note": "For dogs over 12 weeks old. Store with the lid closed in a cool, dry place. Contains shellfish (green lipped mussel).",
+        "text": "<p>Slide to your dog's weight to see how many chews a day, how long one jar lasts and what to order for a full month.</p>",
+        "slider_label": "Your dog's weight",
+        "start_weight": 30,
+        "max_weight": 80,
+        "over_weight": 66,
+        "over_text": "This jar is made for dogs up to 65 lbs. Ask your vet for the right amount.",
+        "label_amount": "Each day",
+        "label_lasts": "One jar lasts",
+        "label_order": "For a full month",
+        "note": "For dogs over 12 weeks old. Ask your vet first if your dog is pregnant, nursing, on medication or allergic to shellfish.",
         "background_color": "#FFFFFF",
         "padding_top": 120,
         "padding_bottom": 120
@@ -317,7 +301,7 @@
     "main",
     "detail",
     "label",
-    "steps",
+    "dose",
     "band_pdp",
     "reviews"
   ]

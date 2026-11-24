@@ -40,8 +40,8 @@
         "trust_shipping"
       ],
       "settings": {
-        "image": "shopify://shop_images/vuffi-v5-hero-desktop.jpg",
-        "image_mobile": "shopify://shop_images/vuffi-v4-hero-mobile.jpg",
+        "image": "shopify://shop_images/vuffi-hero-desktop_1d2b14f2-51bc-4eeb-860c-d0cd60369ccd.jpg",
+        "image_mobile": "shopify://shop_images/vuffi-hero-mobile.jpg",
         "image_alt": "A jar of Vuffi Advanced Hip and Joint Support soft chews floating in a beam of light, chews drifting around it",
         "desk_crop": "top",
         "phone_size": 112,
@@ -171,13 +171,13 @@
         "eyebrow": "",
         "button_link": "/products/hip-and-joint-soft-chews",
         "scroll_length": 375,
-        "jar_image": "shopify://shop_images/vuffi-v4-scroll-jar-open.png",
+        "jar_image": "shopify://shop_images/vuffi-v2-scroll-jar-open.png",
         "jar_closed_image": "shopify://shop_images/vuffi-v3-scroll-jar-base.png",
         "lid_image": "shopify://shop_images/vuffi-v2-scroll-lid.png",
-        "chew_1": "shopify://shop_images/vuffi-v4-scroll-chew-1.png",
-        "chew_2": "shopify://shop_images/vuffi-v4-scroll-chew-2.png",
-        "chew_3": "shopify://shop_images/vuffi-v4-scroll-chew-3.png",
-        "chew_4": "shopify://shop_images/vuffi-v4-scroll-chew-4.png",
+        "chew_1": "shopify://shop_images/vuffi-v2-scroll-chew-1.png",
+        "chew_2": "shopify://shop_images/vuffi-v2-scroll-chew-2.png",
+        "chew_3": "shopify://shop_images/vuffi-v2-scroll-chew-3.png",
+        "chew_4": "shopify://shop_images/vuffi-v2-scroll-chew-4.png",
         "background_color": "#0E3B2C",
         "background_color_2": "#7DA23A"
       }
@@ -255,7 +255,7 @@
         "ingredient_1": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-ing-glucosamine.jpg",
+            "image": "shopify://shop_images/vuffi-v2-ing-glucosamine.jpg",
             "slot": "ing-glucosamine",
             "name": "Glucosamine",
             "tagline": "Rebuilds cartilage",
@@ -268,7 +268,7 @@
         "ingredient_2": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-ing-chondroitin.jpg",
+            "image": "shopify://shop_images/vuffi-v2-ing-chondroitin.jpg",
             "slot": "ing-chondroitin",
             "name": "Chondroitin",
             "tagline": "Keeps it springy",
@@ -281,7 +281,7 @@
         "ingredient_3": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-ing-msm.jpg",
+            "image": "shopify://shop_images/vuffi-v2-ing-msm.jpg",
             "slot": "ing-msm",
             "name": "MSM",
             "tagline": "Calms swelling",
@@ -294,7 +294,7 @@
         "ingredient_4": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-ing-hyaluronic.jpg",
+            "image": "shopify://shop_images/vuffi-v2-ing-hyaluronic.jpg",
             "slot": "ing-hyaluronic",
             "name": "Hyaluronic acid",
             "tagline": "Keeps joints gliding",
@@ -307,7 +307,7 @@
         "ingredient_5": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-ing-mussel.jpg",
+            "image": "shopify://shop_images/vuffi-v2-ing-mussel.jpg",
             "slot": "ing-mussel",
             "name": "Green lipped mussel",
             "tagline": "Cools inflammation",
@@ -326,7 +326,7 @@
         "ingredient_5"
       ],
       "settings": {
-        "diagram": "shopify://shop_images/vuffi-v4-diagram-chew-cross.png",
+        "diagram": "shopify://shop_images/vuffi-v3-diagram-chew-cross.png",
         "background_color": "#F3F2EE"
       }
     },
@@ -493,7 +493,7 @@
         "perk_4"
       ],
       "settings": {
-        "image": "shopify://shop_images/vuffi-v4-subscribe-jar.jpg",
+        "image": "shopify://shop_images/vuffi-v2-subscribe-jar.jpg",
         "product": "hip-and-joint-soft-chews",
         "button_link": "/products/hip-and-joint-soft-chews",
         "background_color": "#F3F2EE"
@@ -556,7 +556,7 @@
     "cta": {
       "type": "vuffi-cta",
       "settings": {
-        "image": "shopify://shop_images/vuffi-v4-bf-banner.jpg",
+        "image": "shopify://shop_images/vuffi-v2-bf-banner.jpg",
         "button_link": "/products/hip-and-joint-soft-chews",
         "background_color": "#0E3B2C"
       }
@@ -567,7 +567,7 @@
         "photo_1": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-why-actives.jpg",
+            "image": "shopify://shop_images/vuffi-v2-why-actives.jpg",
             "slot": "why-actives",
             "label": "",
             "title": "Five joint actives",
@@ -577,7 +577,7 @@
         "photo_2": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-why-taste.jpg",
+            "image": "shopify://shop_images/vuffi-v2-why-taste.jpg",
             "slot": "why-taste",
             "label": "",
             "title": "Pork flavor, zero fuss",
@@ -587,7 +587,7 @@
         "photo_3": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-why-vet.jpg",
+            "image": "shopify://shop_images/vuffi-v2-why-vet.jpg",
             "slot": "why-vet",
             "label": "",
             "title": "Vet recommended",
@@ -597,7 +597,7 @@
         "photo_4": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-why-guarantee.jpg",
+            "image": "shopify://shop_images/vuffi-v2-why-guarantee.jpg",
             "slot": "why-guarantee",
             "label": "",
             "title": "90 days to feel it",
@@ -627,7 +627,7 @@
         "photo_1": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-life-walk.jpg",
+            "image": "shopify://shop_images/vuffi-v2-life-walk.jpg",
             "slot": "life-walk",
             "label": "",
             "title": "The morning loop"
@@ -636,7 +636,7 @@
         "photo_2": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-life-car.jpg",
+            "image": "shopify://shop_images/vuffi-v2-life-car.jpg",
             "slot": "life-car",
             "label": "",
             "title": "Ready for the car"
@@ -645,7 +645,7 @@
         "photo_3": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-life-couch.jpg",
+            "image": "shopify://shop_images/vuffi-v2-life-couch.jpg",
             "slot": "life-couch",
             "label": "",
             "title": "Couch, claimed"
@@ -654,7 +654,7 @@
         "photo_4": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-life-beach.jpg",
+            "image": "shopify://shop_images/vuffi-v2-life-beach.jpg",
             "slot": "life-beach",
             "label": "",
             "title": "Off leash, all in"
@@ -663,7 +663,7 @@
         "photo_5": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-life-stairs.jpg",
+            "image": "shopify://shop_images/vuffi-v2-life-stairs.jpg",
             "slot": "life-stairs",
             "label": "",
             "title": "Up the stairs to bed"
@@ -700,7 +700,7 @@
         "photo_2": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-detail-hand.jpg",
+            "image": "shopify://shop_images/vuffi-v2-detail-hand.jpg",
             "alt": "Fingers holding a Vuffi chew for a waiting dog",
             "slot": "social-2"
           }
@@ -708,7 +708,7 @@
         "photo_3": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-story-2.jpg",
+            "image": "shopify://shop_images/vuffi-v2-story-2.jpg",
             "alt": "A young dog and a senior dog walking a forest path",
             "slot": "social-3"
           }
@@ -716,7 +716,7 @@
         "photo_4": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-pdp-4.jpg",
+            "image": "shopify://shop_images/vuffi-v2-pdp-5.jpg",
             "alt": "A beagle and an Australian shepherd beside a jar of Vuffi",
             "slot": "social-4"
           }
@@ -724,7 +724,7 @@
         "photo_5": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-band-about.jpg",
+            "image": "shopify://shop_images/vuffi-v2-band-about.jpg",
             "alt": "A dog resting its chin on its owner's knee",
             "slot": "social-5"
           }
@@ -732,7 +732,7 @@
         "photo_6": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v4-band-pdp.jpg",
+            "image": "shopify://shop_images/vuffi-v2-band-pdp.jpg",
             "alt": "A whippet bounding up a grassy hill",
             "slot": "social-6"
           }
