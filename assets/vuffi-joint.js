@@ -21,8 +21,10 @@
       const first = this.ings.find((b) => b.getAttribute('aria-expanded') === 'true') || this.ings[0];
       if (first) this.select(first, true);
 
-      if (reduced.matches) {
-        this.setState('supported');
+      /* Starting on the supported joint: the numbers are there from the start, nothing to wait for */
+      if (reduced.matches || this.dataset.start !== 'worn') {
+        this.setState(this.dataset.state || 'supported');
+        this.classList.remove('is-switched');
         return;
       }
 

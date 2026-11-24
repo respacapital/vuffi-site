@@ -1,17 +1,17 @@
-/* Vuffi moving row: an endless row of cards that drifts on its own and can be dragged or swiped.
+/* Vuffi moving row: an endless row of cards that is always drifting and can be nudged by a swipe.
    <vuffi-marquee data-seconds="45" data-copies="3"> holds a [data-track] with the cards repeated
    data-copies times. The row moves by one copy every data-seconds, then starts over without a jump.
 
-   - Touch: a sideways swipe moves the row and carries on a little after letting go; scrolling the
-     page up and down over the row works as usual. The row picks up its drift again by itself.
-   - Mouse: hovering pauses it, dragging moves it.
-   - Keyboard focus inside the row pauses it.
+   - It never stops: hovering, tapping and focus do not pause it.
+   - A sideways swipe or drag moves the row and it drifts on straight after; scrolling the page up
+     and down over the row works as usual.
+   - A tap or click on a card is left to the card (the ingredient opens bigger); a drag never counts as a click.
    - Less motion: the row stands still but can still be dragged.
    - Nothing runs while the row is off screen. */
 (() => {
   if (customElements.get('vuffi-marquee')) return;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const RESUME_AFTER = 1600;
+  const RESUME_AFTER = 0;
 
   class VuffiMarquee extends HTMLElement {
     connectedCallback() {
@@ -52,22 +52,17 @@
       ['pointerup', 'pointercancel', 'lostpointercapture'].forEach((type) =>
         this.addEventListener(type, (e) => this.onUp(e))
       );
-      this.addEventListener('pointerenter', (e) => {
-        if (e.pointerType === 'mouse') this.hover = true;
-      });
-      this.addEventListener('pointerleave', (e) => {
-        if (e.pointerType !== 'mouse') return;
-        this.hover = false;
-        this.holdUntil = performance.now() + 300;
-        this.start();
-      });
-      this.addEventListener('focusin', () => {
-        this.focused = true;
-      });
-      this.addEventListener('focusout', () => {
-        this.focused = false;
-        this.start();
-      });
+      /* A drag that moved the row is not a click on the card under it */
+      this.addEventListener(
+        'click',
+        (e) => {
+          if (!this.dragged) return;
+          this.dragged = false;
+          e.preventDefault();
+          e.stopPropagation();
+        },
+        true
+      );
       /* Pictures inside never start a native image drag */
       this.addEventListener('dragstart', (e) => e.preventDefault());
     }
@@ -185,6 +180,7 @@
       if (!drag.locked) this.velocity = 0;
       if (performance.now() - drag.lastT > 80) this.velocity = 0;
       this.velocity = Math.max(-2400, Math.min(2400, this.velocity));
+      this.dragged = drag.locked;
       this.drag = null;
       this.classList.remove('is-dragging');
       this.holdUntil = performance.now() + RESUME_AFTER;

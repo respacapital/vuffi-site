@@ -56,15 +56,26 @@
           {%- for block in section.blocks -%}
             <li
               class="vuffi-formula__card"
+              data-card="{{ block.id }}"
               {% if copy == 1 %}{{ block.shopify_attributes }}{% else %}aria-hidden="true" data-copy{% endif %}
             >
+              <button
+                type="button"
+                class="vuffi-formula__open"
+                data-open="{{ block.id }}"
+                aria-haspopup="dialog"
+                aria-label="{{ section.settings.open_label | escape }} {{ block.settings.name | escape }}"
+                {% if copy != 1 %}tabindex="-1"{% endif %}
+              >
+                <span class="vuffi-formula__plus" aria-hidden="true">{%- render 'vuffi-icon', name: 'plus' -%}</span>
+              </button>
               {%- render 'vuffi-image',
                 image: block.settings.image,
                 label: block.settings.slot,
                 ratio: '1 / 1',
                 size: '2048 x 2048',
                 sizes: '(min-width: 990px) 360px, 300px',
-                widths: '300, 360, 540, 720, 900',
+                widths: '300, 360, 540, 720, 900, 1200',
                 class: 'vuffi-formula__media'
               -%}
               <div class="vuffi-formula__body">
@@ -81,6 +92,20 @@
         {%- endfor -%}
       </ul>
     </vuffi-marquee>
+
+    {%- comment -%} One shared window that shows the tapped ingredient bigger {%- endcomment -%}
+    <script src="{{ 'vuffi-formula.js' | asset_url }}" defer></script>
+    <vuffi-formula-zoom>
+      <dialog class="vuffi-formula__zoom" aria-labelledby="FormulaZoomTitle-{{ section.id }}">
+        <div class="vuffi-formula__zoom-panel">
+          <button type="button" class="vuffi-formula__zoom-close" data-close aria-label="{{ section.settings.close_label | escape }}">
+            {%- render 'vuffi-icon', name: 'cross' -%}
+          </button>
+          <div class="vuffi-formula__zoom-media" data-zoom-media></div>
+          <div class="vuffi-formula__zoom-body" data-zoom-body data-title-id="FormulaZoomTitle-{{ section.id }}"></div>
+        </div>
+      </dialog>
+    </vuffi-formula-zoom>
   {%- endif -%}
 
   {%- if section.settings.note != blank -%}
@@ -183,6 +208,147 @@
   .vuffi-formula__track img {
     -webkit-user-drag: none;
     user-select: none;
+  }
+
+  /* The whole card opens the ingredient bigger; a small + in the photo corner hints at it */
+  .vuffi-formula__card {
+    position: relative;
+  }
+
+  .vuffi-formula__open {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .vuffi-formula__open:focus-visible {
+    outline: 2px solid var(--vuffi-accent);
+    outline-offset: -4px;
+  }
+
+  .vuffi-formula__plus {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.92);
+    color: var(--vuffi-ink);
+    box-shadow: 0 6px 16px rgb(11 20 17 / 0.14);
+    transition: transform 0.25s var(--vuffi-ease), background-color 0.25s;
+  }
+
+  .vuffi-formula__plus .vuffi-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .vuffi-formula__open:hover .vuffi-formula__plus {
+    transform: scale(1.08);
+    background: var(--vuffi-lime);
+  }
+
+  .vuffi-formula__loop.is-dragging .vuffi-formula__open {
+    cursor: grabbing;
+  }
+
+  /* The bigger view */
+  .vuffi-formula__zoom {
+    width: min(560px, calc(100vw - 24px));
+    max-height: calc(100svh - 24px);
+    padding: 0;
+    border: 0;
+    border-radius: calc(var(--vuffi-radius-ui, 18px) + 6px);
+    background: var(--vuffi-white, #ffffff);
+    color: var(--vuffi-ink, #0b1411);
+    overflow: auto;
+    box-shadow: 0 40px 120px rgb(11 20 17 / 0.35);
+  }
+
+  .vuffi-formula__zoom::backdrop {
+    background: rgb(11 20 17 / 0.6);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+
+  .vuffi-formula__zoom[open] {
+    animation: vuffi-zoom-in 0.3s var(--vuffi-ease) both;
+  }
+
+  @keyframes vuffi-zoom-in {
+    from {
+      opacity: 0;
+      transform: scale(0.94);
+    }
+  }
+
+  .vuffi-formula__zoom-panel {
+    position: relative;
+  }
+
+  .vuffi-formula__zoom-close {
+    position: absolute;
+    z-index: 2;
+    top: 12px;
+    right: 12px;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.92);
+    color: var(--vuffi-ink, #0b1411);
+    cursor: pointer;
+  }
+
+  .vuffi-formula__zoom-close .vuffi-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .vuffi-formula__zoom-media .vuffi-media,
+  .vuffi-formula__zoom-media .vuffi-ph {
+    border-radius: 0;
+  }
+
+  .vuffi-formula__zoom-body {
+    display: grid;
+    gap: 10px;
+    padding: 24px 24px 28px;
+    --color-foreground: var(--vuffi-ink, #0b1411);
+    --color-foreground-muted: rgb(11 20 17 / 0.66);
+  }
+
+  .vuffi-formula__zoom-body .vuffi-formula__name {
+    font-size: clamp(28px, 6vw, 36px);
+  }
+
+  .vuffi-formula__zoom-body .vuffi-formula__text {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-formula__zoom-body {
+      padding: 28px 36px 36px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vuffi-formula__zoom[open] {
+      animation: none;
+    }
   }
 
   /* Each ingredient: a flush photo, then its words below, columns split by hairlines like a lab index */
@@ -315,7 +481,19 @@
       "step": 1,
       "unit": "s",
       "default": 9,
-      "info": "Higher is slower. The row pauses while someone hovers, swipes or drags it, then carries on."
+      "info": "Higher is slower. The row never stops; a swipe nudges it and a tap on a card opens that ingredient bigger."
+    },
+    {
+      "type": "text",
+      "id": "open_label",
+      "label": "Card button name for screen readers",
+      "default": "See more about"
+    },
+    {
+      "type": "text",
+      "id": "close_label",
+      "label": "Close button name for screen readers",
+      "default": "Close"
     },
     {
       "type": "text",

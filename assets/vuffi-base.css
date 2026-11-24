@@ -903,3 +903,50 @@
 .menu-drawer__menu-item--mainlist {
   letter-spacing: -0.02em;
 }
+
+/* Phones: the logo sits in the middle of the header, so headlines, intro text, countdowns and buttons
+   sit centered under it on every page. Long legal text, list rows and the buy box stay left aligned. */
+@media screen and (max-width: 749px) {
+  .vuffi-phero__head,
+  .vuffi-cta__copy,
+  .vuffi-band__content,
+  .vuffi-edit__copy,
+  .vuffi-contact__aside,
+  .vuffi-ings__copy,
+  .vuffi-sub__copy > .vuffi-head {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .vuffi-jarx__copy > .vuffi-h2,
+  .vuffi-jarx__copy > .vuffi-lede {
+    text-align: center;
+    justify-self: center;
+  }
+
+  .vuffi-phero__head .vuffi-lede,
+  .vuffi-cta__copy .vuffi-lede,
+  .vuffi-band__content .vuffi-lede,
+  .vuffi-edit__text,
+  .vuffi-ings__text,
+  .vuffi-jarx__copy > .vuffi-lede {
+    margin-inline: auto;
+  }
+
+  .vuffi-cta__copy .vuffi-actions,
+  .vuffi-band__content .vuffi-actions,
+  .vuffi-edit__copy .vuffi-actions,
+  .vuffi-cta__count {
+    justify-content: center;
+  }
+
+  .vuffi-contact__email {
+    justify-self: center;
+  }
+
+  /* Checklists keep their ticks lined up, as one centered block */
+  .vuffi-ings__points {
+    justify-self: center;
+    text-align: left;
+  }
+}
