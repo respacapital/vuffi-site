@@ -18,7 +18,7 @@
         "show_photo": true,
         "slot": "page-ingredients",
         "image_alt": "The five Vuffi ingredients laid out on stone",
-        "image": "shopify://shop_images/vuffi-v2-page-ingredients.jpg",
+        "image": "shopify://shop_images/vuffi-v4-page-ingredients.jpg",
         "background_color": "#0B1411"
       }
     },
@@ -32,7 +32,7 @@
         "background_color": "#111A16",
         "caption": "",
         "image_alt": "A Vuffi soft chew, close up",
-        "image": "shopify://shop_images/vuffi-v2-band-chew.jpg",
+        "image": "shopify://shop_images/vuffi-v4-band-chew.jpg",
         "heading": "Ready when <em>they are.</em>",
         "button_label": "Shop Vuffi",
         "button_link": "/products/hip-and-joint-soft-chews"
@@ -44,7 +44,7 @@
         "ing_1": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v2-ing-glucosamine.jpg",
+            "image": "shopify://shop_images/vuffi-v4-ing-glucosamine.jpg",
             "slot": "ing-glucosamine",
             "tagline": "Rebuilds cartilage",
             "name": "Glucosamine",
@@ -57,7 +57,7 @@
         "ing_2": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v2-ing-chondroitin.jpg",
+            "image": "shopify://shop_images/vuffi-v4-ing-chondroitin.jpg",
             "slot": "ing-chondroitin",
             "tagline": "Keeps it springy",
             "name": "Chondroitin",
@@ -70,7 +70,7 @@
         "ing_3": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v2-ing-msm.jpg",
+            "image": "shopify://shop_images/vuffi-v4-ing-msm.jpg",
             "slot": "ing-msm",
             "tagline": "Calms swelling",
             "name": "MSM",
@@ -83,7 +83,7 @@
         "ing_4": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v2-ing-hyaluronic.jpg",
+            "image": "shopify://shop_images/vuffi-v4-ing-hyaluronic.jpg",
             "slot": "ing-hyaluronic",
             "tagline": "Keeps joints gliding",
             "name": "Hyaluronic acid",
@@ -96,7 +96,7 @@
         "ing_5": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v2-ing-mussel.jpg",
+            "image": "shopify://shop_images/vuffi-v4-ing-mussel.jpg",
             "slot": "ing-mussel",
             "tagline": "Cools inflammation",
             "name": "Green lipped mussel",

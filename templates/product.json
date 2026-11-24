@@ -93,7 +93,7 @@
             "slot": "detail-jar",
             "label": "",
             "title": "30 soft chews",
-            "image": "shopify://shop_images/vuffi-v2-detail-jar.jpg"
+            "image": "shopify://shop_images/vuffi-v4-detail-jar.jpg"
           }
         },
         "photo_2": {
@@ -102,7 +102,7 @@
             "slot": "detail-open",
             "label": "",
             "title": "Soft and easy to chew",
-            "image": "shopify://shop_images/vuffi-v2-detail-open.jpg"
+            "image": "shopify://shop_images/vuffi-v4-detail-open.jpg"
           }
         },
         "photo_3": {
@@ -111,7 +111,7 @@
             "slot": "detail-macro",
             "label": "",
             "title": "A real chew, not a tablet",
-            "image": "shopify://shop_images/vuffi-v2-detail-macro.jpg"
+            "image": "shopify://shop_images/vuffi-v4-detail-macro.jpg"
           }
         },
         "photo_4": {
@@ -120,7 +120,7 @@
             "slot": "detail-hand",
             "label": "",
             "title": "One a day under 35 lbs",
-            "image": "shopify://shop_images/vuffi-v2-detail-hand.jpg"
+            "image": "shopify://shop_images/vuffi-v4-detail-hand.jpg"
           }
         },
         "photo_5": {
@@ -129,7 +129,7 @@
             "slot": "detail-label",
             "label": "",
             "title": "Every ingredient listed",
-            "image": "shopify://shop_images/vuffi-v2-detail-label.jpg"
+            "image": "shopify://shop_images/vuffi-v4-detail-label.jpg"
           }
         }
       },
@@ -160,7 +160,7 @@
         "heading": "Tastes like a treat. <em>Works like a routine.</em>",
         "caption": "",
         "image_alt": "A dog bounding up a grassy hill in late sun",
-        "image": "shopify://shop_images/vuffi-v2-band-pdp.jpg"
+        "image": "shopify://shop_images/vuffi-v4-band-pdp.jpg"
       }
     },
     "reviews": {
@@ -179,45 +179,35 @@
           "type": "point",
           "settings": {
             "title": "Small and medium breeds",
-            "text": "Made for dogs up to 65 lbs. Under 35 lbs, one chew a day. 36 to 65 lbs, two.",
-            "x": 21,
-            "y": 30
+            "text": "Sized for dogs up to 65 lbs. The dose chart below shows how many chews your dog needs."
           }
         },
         "point_2": {
           "type": "point",
           "settings": {
             "title": "Veterinarian recommended",
-            "text": "Built on the joint ingredients vets recommend most.",
-            "x": 59,
-            "y": 32
+            "text": "Built on the joint ingredients vets recommend most."
           }
         },
         "point_3": {
           "type": "point",
           "settings": {
             "title": "Advanced Hip & Joint Support",
-            "text": "Five joint actives in one chew: glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel.",
-            "x": 70,
-            "y": 53
+            "text": "Five joint actives in one chew: glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel."
           }
         },
         "point_4": {
           "type": "point",
           "settings": {
             "title": "Helps reduce occasional discomfort",
-            "text": "Supports cartilage, joint fluid and easy movement, so stairs, jumps and long walks come easier.",
-            "x": 21,
-            "y": 73
+            "text": "Supports cartilage, joint fluid and easy movement, so stairs, jumps and long walks come easier."
           }
         },
         "point_5": {
           "type": "point",
           "settings": {
             "title": "30 soft chews",
-            "text": "Pork flavored and soft, so most dogs take it like a treat. Contains shellfish.",
-            "x": 68,
-            "y": 81
+            "text": "Pork flavored and soft, so most dogs take it like a treat. Contains shellfish."
           }
         }
       },
@@ -231,47 +221,95 @@
       "settings": {
         "heading": "The jar, <em>explained.</em>",
         "text": "<p>Everything printed on the label, and what it means for your dog.</p>",
-        "image": "shopify://shop_images/vuffi-jar-closed.png",
+        "image": "shopify://shop_images/vuffi-v4-label-jar.jpg",
         "background_color": "#0B1411",
-        "glow": true
+        "glow": true,
+        "image_alt": "A jar of Vuffi Advanced Hip and Joint Support on a stone plinth with two soft chews"
       }
     },
     "steps": {
       "type": "vuffi-steps",
       "blocks": {
-        "step_1": {
-          "type": "step",
+        "dose_1": {
+          "type": "dose",
           "settings": {
-            "icon": "chew",
-            "title": "One a day, with breakfast",
-            "text": "<p>Under 35 lbs: 1 chew. 36 to 65 lbs: 2 chews. Over 65 lbs: ask your vet.</p>"
+            "weight": "Under 35 lbs",
+            "chews": 1,
+            "amount": "1 chew",
+            "lasts": "30 days",
+            "order": "1 jar"
           }
         },
-        "step_2": {
-          "type": "step",
+        "dose_2": {
+          "type": "dose",
           "settings": {
-            "icon": "clock",
-            "title": "Same time, every day",
-            "text": "<p>Joint support builds with steady daily use, so make it part of the morning routine.</p>"
+            "weight": "36 to 65 lbs",
+            "chews": 2,
+            "amount": "2 chews",
+            "lasts": "15 days",
+            "order": "2 jars"
           }
         },
-        "step_3": {
-          "type": "step",
+        "dose_3": {
+          "type": "dose",
           "settings": {
-            "icon": "calendar",
-            "title": "Give it 90 days",
-            "text": "<p>Results build over weeks. If you don't see a difference in 90 days, we refund you.</p>"
+            "weight": "Over 65 lbs",
+            "chews": 0,
+            "amount": "This jar is made for dogs up to 65 lbs. Ask your vet for the right amount.",
+            "lasts": "",
+            "order": ""
+          }
+        },
+        "tip_1": {
+          "type": "tip",
+          "settings": {
+            "title": "With a meal",
+            "text": "<p>Hand it over at breakfast as a treat, or break it up over food. Giving two? One at breakfast and one at dinner is fine.</p>"
+          }
+        },
+        "tip_2": {
+          "type": "tip",
+          "settings": {
+            "title": "Every day, no gaps",
+            "text": "<p>Joint support builds with steady daily use. Missed a day? Carry on as normal the next day. Never double up.</p>"
+          }
+        },
+        "tip_3": {
+          "type": "tip",
+          "settings": {
+            "title": "Judge it at 90 days",
+            "text": "<p>Changes come over weeks, not days. Give it a full 90 days. If you are not happy, email us and we refund you.</p>"
+          }
+        },
+        "tip_4": {
+          "type": "tip",
+          "settings": {
+            "title": "Ask your vet first if",
+            "text": "<p>Your dog is pregnant, nursing, on medication, has a health condition or is allergic to shellfish.</p>"
           }
         }
       },
       "block_order": [
-        "step_1",
-        "step_2",
-        "step_3"
+        "dose_1",
+        "dose_2",
+        "dose_3",
+        "tip_1",
+        "tip_2",
+        "tip_3",
+        "tip_4"
       ],
       "settings": {
         "heading": "How to <em>give it.</em>",
-        "background_color": "#FFFFFF"
+        "text": "<p>Find your dog's weight. The row tells you how many chews a day, how long one jar lasts and what to order for a full month.</p>",
+        "col_weight": "Your dog",
+        "col_amount": "Each day",
+        "col_lasts": "One jar lasts",
+        "col_order": "For a full month",
+        "tips_heading": "Good habits",
+        "note": "For dogs over 12 weeks old. Store with the lid closed in a cool, dry place. Contains shellfish (green lipped mussel).",
+        "background_color": "#FFFFFF",
+        "padding_top": 120,
+        "padding_bottom": 120
       }
     }
   },
