@@ -1,5 +1,5 @@
 {% doc %}
-  A responsive photo in a rounded frame, or a labeled placeholder when no photo is set.
+  A responsive photo in a square cornered frame, cropped around the focal point set in Shopify, or a labeled placeholder when no photo is set.
 
   @param {image} [image] - The photo
   @param {string} label - Placeholder slot name
@@ -21,6 +21,8 @@
     assign img_priority = 'high'
   endif
   assign img_alt = alt | default: image.alt | escape
+  assign img_focal = image.presentation.focal_point | default: '50% 50%'
+  assign img_style = 'object-position: ' | append: img_focal | append: ';'
 -%}
 {%- if image != blank -%}
   <div class="vuffi-media{% if contain %} vuffi-media--contain{% endif %} {{ class }}" style="--ratio: {{ img_ratio }};">
@@ -32,7 +34,8 @@
         sizes: img_sizes,
         loading: img_loading,
         fetchpriority: img_priority,
-        alt: img_alt
+        alt: img_alt,
+        style: img_style
     -}}
   </div>
 {%- else -%}

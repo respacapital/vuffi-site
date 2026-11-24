@@ -40,7 +40,7 @@
         "trust_shipping"
       ],
       "settings": {
-        "background_color": "#0B1410",
+        "background_color": "#111A16",
         "button_link": "/products/hip-and-joint-soft-chews",
         "button2_link": "/pages/ingredients",
         "padding_top": 40,
@@ -164,7 +164,7 @@
         "eyebrow": "Inside every jar",
         "button_link": "/products/hip-and-joint-soft-chews",
         "scroll_length": 375,
-        "background_color": "#00843F",
+        "background_color": "#0E3B2C",
         "jar_image": "shopify://shop_images/vuffi-jar-open.png",
         "lid_image": "shopify://shop_images/vuffi-lid.png",
         "chew_1": "shopify://shop_images/vuffi-chew-side.png",
@@ -315,7 +315,7 @@
         "ingredient_5"
       ],
       "settings": {
-        "background_color": "#F4F6F5",
+        "background_color": "#F3F2EE",
         "diagram": "shopify://shop_images/vuffi-chew-cross.png"
       }
     },
@@ -463,7 +463,7 @@
         "step_4"
       ],
       "settings": {
-        "background_color": "#F4F6F5"
+        "background_color": "#F3F2EE"
       }
     },
     "subscribe": {
@@ -517,7 +517,7 @@
     "guarantee": {
       "type": "vuffi-guarantee",
       "settings": {
-        "background_color": "#F4F6F5",
+        "background_color": "#F3F2EE",
         "button_link": "/products/hip-and-joint-soft-chews",
         "link": "/pages/return-policy"
       }
@@ -601,8 +601,167 @@
       "type": "vuffi-cta",
       "settings": {
         "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#0B1410",
+        "background_color": "#0E3B2C",
         "image": "shopify://shop_images/vuffi-jar-closed.png"
+      }
+    },
+    "why": {
+      "type": "vuffi-gallery",
+      "blocks": {
+        "photo_1": {
+          "type": "photo",
+          "settings": {
+            "slot": "why-actives",
+            "label": "Nº 01 · Formula",
+            "title": "Five joint actives",
+            "text": "Glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel in every chew."
+          }
+        },
+        "photo_2": {
+          "type": "photo",
+          "settings": {
+            "slot": "why-taste",
+            "label": "Nº 02 · Taste",
+            "title": "Pork flavor, zero fuss",
+            "text": "No pills to hide in food. Most dogs take it like a treat."
+          }
+        },
+        "photo_3": {
+          "type": "photo",
+          "settings": {
+            "slot": "why-vet",
+            "label": "Nº 03 · Trust",
+            "title": "Vet recommended",
+            "text": "Built on the joint ingredients vets recommend most."
+          }
+        },
+        "photo_4": {
+          "type": "photo",
+          "settings": {
+            "slot": "why-guarantee",
+            "label": "Nº 04 · Promise",
+            "title": "90 days to feel it",
+            "text": "Give it a full 90 days. If you don't see a difference, we refund you."
+          }
+        }
+      },
+      "block_order": [
+        "photo_1",
+        "photo_2",
+        "photo_3",
+        "photo_4"
+      ],
+      "settings": {
+        "eyebrow": "Why Vuffi",
+        "heading": "One chew. <em>Every joint.</em>",
+        "text": "<p>Five actives vets reach for, in a soft chew dogs treat like a reward.</p>",
+        "shape": "4 / 5",
+        "card_width": "regular",
+        "padding_top": 120,
+        "padding_bottom": 120
+      }
+    },
+    "band_run": {
+      "type": "vuffi-image-band",
+      "settings": {
+        "slot": "band-run",
+        "height": "full",
+        "position": "bottom-left",
+        "shade": 55,
+        "background_color": "#111A16",
+        "heading": "Built for the <em>long run.</em>",
+        "text": "<p>Daily support for hips, knees and elbows, from the first walk of the day to the last game of fetch.</p>",
+        "button_label": "Shop the chews",
+        "button_link": "/products/hip-and-joint-soft-chews",
+        "caption": "Fig. 01 · Hips, knees, elbows",
+        "image_alt": "A dog running along the shore at golden hour"
+      }
+    },
+    "ritual": {
+      "type": "vuffi-editorial",
+      "settings": {
+        "slot": "ritual",
+        "image_shape": "4 / 5",
+        "image_side": "right",
+        "eyebrow": "The daily ritual",
+        "heading": "One chew, <em>every morning.</em>",
+        "text": "<p>Hand it over with breakfast or after the morning walk. The same time every day builds the habit, and the joint support builds with it.</p><p>Under 35 lbs: one chew a day. 36 to 65 lbs: two.</p>",
+        "button_label": "Shop the chews",
+        "button_link": "/products/hip-and-joint-soft-chews",
+        "background_color": "#F3F2EE"
+      }
+    },
+    "band_rest": {
+      "type": "vuffi-image-band",
+      "settings": {
+        "slot": "band-rest",
+        "height": "medium",
+        "position": "center",
+        "shade": 35,
+        "background_color": "#111A16",
+        "heading": "Move freely. <em>Rest easy.</em>",
+        "caption": "Fig. 02 · The daily chew",
+        "image_alt": "A dog asleep on a sofa in a beam of afternoon sun"
+      }
+    },
+    "life": {
+      "type": "vuffi-gallery",
+      "blocks": {
+        "photo_1": {
+          "type": "photo",
+          "settings": {
+            "slot": "life-walk",
+            "label": "06:45 · First walk",
+            "title": "The morning loop"
+          }
+        },
+        "photo_2": {
+          "type": "photo",
+          "settings": {
+            "slot": "life-car",
+            "label": "09:10 · Road trip",
+            "title": "Ready for the car"
+          }
+        },
+        "photo_3": {
+          "type": "photo",
+          "settings": {
+            "slot": "life-couch",
+            "label": "13:00 · Nap",
+            "title": "Couch, claimed"
+          }
+        },
+        "photo_4": {
+          "type": "photo",
+          "settings": {
+            "slot": "life-beach",
+            "label": "17:30 · Beach",
+            "title": "Off leash, all in"
+          }
+        },
+        "photo_5": {
+          "type": "photo",
+          "settings": {
+            "slot": "life-stairs",
+            "label": "21:00 · Bedtime",
+            "title": "Up the stairs to bed"
+          }
+        }
+      },
+      "block_order": [
+        "photo_1",
+        "photo_2",
+        "photo_3",
+        "photo_4",
+        "photo_5"
+      ],
+      "settings": {
+        "eyebrow": "Life with Vuffi",
+        "heading": "Made for dogs who <em>never slow down.</em>",
+        "shape": "3 / 4",
+        "card_width": "regular",
+        "padding_top": 120,
+        "padding_bottom": 120
       }
     }
   },
@@ -610,13 +769,18 @@
     "hero",
     "ticker",
     "story",
+    "why",
     "joint",
+    "band_run",
     "formula",
     "dose",
+    "ritual",
     "compare",
     "timeline",
+    "band_rest",
     "subscribe",
     "guarantee",
+    "life",
     "faq",
     "cta"
   ]

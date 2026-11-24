@@ -53,7 +53,7 @@
             class: 'vuffi-formula__media'
           -%}
           <div class="vuffi-formula__body">
-            <span class="vuffi-formula__n vuffi-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <span class="vuffi-formula__n vuffi-label vuffi-num">Nº {{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
             <h3 class="vuffi-h3 vuffi-formula__name">{{ block.settings.name }}</h3>
             {%- if block.settings.tagline != blank -%}
               <p class="vuffi-formula__tag">{{ block.settings.tagline }}</p>
@@ -118,9 +118,6 @@
   }
 
   .vuffi-formula__n {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
     color: var(--vuffi-accent);
   }
 
@@ -165,12 +162,14 @@
     top: var(--y);
     padding: 5px 10px;
     border: 1px solid var(--vuffi-line);
-    border-radius: 999px;
+    border-radius: var(--vuffi-radius-sm);
     background: #ffffff;
     color: var(--vuffi-ink);
-    font-size: 12px;
-    font-weight: 600;
+    font-family: var(--font-accent--family);
+    font-size: 11px;
     line-height: 1.2;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
     white-space: nowrap;
     box-shadow: 0 6px 18px rgb(11 20 16 / 0.08);
     transform: translateY(calc(-100% - 6px));
@@ -223,8 +222,8 @@
     }
 
     .vuffi-formula__label {
-      padding: 6px 12px;
-      font-size: 14px;
+      padding: 6px 10px;
+      font-size: 12px;
     }
 
     .vuffi-formula__grid {

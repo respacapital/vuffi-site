@@ -303,7 +303,7 @@
         "ingredient_5"
       ],
       "settings": {
-        "background_color": "#F4F6F5",
+        "background_color": "#F3F2EE",
         "diagram": "shopify://shop_images/vuffi-chew-cross.png"
       }
     },
@@ -378,7 +378,7 @@
         "step_4"
       ],
       "settings": {
-        "background_color": "#F4F6F5"
+        "background_color": "#F3F2EE"
       }
     },
     "compare": {
@@ -457,7 +457,7 @@
     "guarantee": {
       "type": "vuffi-guarantee",
       "settings": {
-        "background_color": "#F4F6F5",
+        "background_color": "#F3F2EE",
         "button_link": "/products/hip-and-joint-soft-chews",
         "link": "/pages/return-policy"
       }
@@ -536,12 +536,87 @@
         "button_link": "/pages/contact",
         "schema_markup": false
       }
+    },
+    "detail": {
+      "type": "vuffi-gallery",
+      "blocks": {
+        "photo_1": {
+          "type": "photo",
+          "settings": {
+            "slot": "detail-jar",
+            "label": "Nº 01 · The jar",
+            "title": "30 soft chews"
+          }
+        },
+        "photo_2": {
+          "type": "photo",
+          "settings": {
+            "slot": "detail-open",
+            "label": "Nº 02 · Inside",
+            "title": "Soft and easy to chew"
+          }
+        },
+        "photo_3": {
+          "type": "photo",
+          "settings": {
+            "slot": "detail-macro",
+            "label": "Nº 03 · Texture",
+            "title": "A real chew, not a tablet"
+          }
+        },
+        "photo_4": {
+          "type": "photo",
+          "settings": {
+            "slot": "detail-hand",
+            "label": "Nº 04 · Serving",
+            "title": "One a day under 35 lbs"
+          }
+        },
+        "photo_5": {
+          "type": "photo",
+          "settings": {
+            "slot": "detail-label",
+            "label": "Nº 05 · Label",
+            "title": "Every ingredient listed"
+          }
+        }
+      },
+      "block_order": [
+        "photo_1",
+        "photo_2",
+        "photo_3",
+        "photo_4",
+        "photo_5"
+      ],
+      "settings": {
+        "eyebrow": "Up close",
+        "heading": "Made to be <em>given daily.</em>",
+        "shape": "1 / 1",
+        "card_width": "regular",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "band_pdp": {
+      "type": "vuffi-image-band",
+      "settings": {
+        "slot": "band-pdp",
+        "height": "full",
+        "position": "bottom-left",
+        "shade": 55,
+        "background_color": "#111A16",
+        "heading": "Every step, <em>supported.</em>",
+        "caption": "Fig. 01 · Hips, knees, elbows",
+        "image_alt": "A dog bounding up a grassy hill in late sun"
+      }
     }
   },
   "order": [
     "main",
     "ticker",
+    "detail",
     "joint",
+    "band_pdp",
     "formula",
     "dose",
     "timeline",

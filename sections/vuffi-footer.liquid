@@ -165,7 +165,7 @@
     min-height: 54px;
     padding: 0 22px;
     border: 1px solid var(--vuffi-line-strong);
-    border-radius: 999px;
+    border-radius: var(--vuffi-radius-sm);
     background: transparent;
     color: inherit;
     font: inherit;
@@ -245,7 +245,7 @@
     width: 44px;
     height: 44px;
     border: 1px solid var(--vuffi-line);
-    border-radius: 50%;
+    border-radius: var(--vuffi-radius-sm);
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
   }
 
@@ -328,7 +328,8 @@
   .vuffi-foot__slogan {
     margin: 18px 0 0;
     font-family: var(--font-heading--family);
-    font-style: italic;
+    font-weight: var(--font-heading--weight);
+    letter-spacing: -0.035em;
     font-size: clamp(24px, 3vw, 40px);
     line-height: 1.1;
     text-align: right;
@@ -528,7 +529,7 @@
       "type": "color",
       "id": "background_color",
       "label": "Background",
-      "default": "#0B1410"
+      "default": "#0E3B2C"
     }
   ],
   "presets": [

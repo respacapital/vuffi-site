@@ -142,11 +142,12 @@
     display: grid;
     justify-items: center;
     margin: 0;
-    font-family: var(--font-heading--family);
-    font-weight: var(--font-heading--weight);
-    font-size: clamp(40px, 11vw, 112px);
-    line-height: 1;
-    letter-spacing: -0.02em;
+    font-family: var(--font-subheading--family);
+    font-weight: var(--font-subheading--weight);
+    font-size: clamp(48px, 14vw, 132px);
+    line-height: 0.92;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
     color: var(--color-foreground);
   }
 
@@ -162,12 +163,12 @@
   }
 
   .vuffi-story__line em {
-    font-style: italic;
+    font-style: normal;
     color: var(--vuffi-accent);
   }
 
   .vuffi-story__line--accent {
-    font-style: italic;
+    font-style: normal;
     color: var(--vuffi-accent);
   }
 
@@ -232,7 +233,7 @@
   .vuffi-story__peek .vuffi-ph,
   .vuffi-story__lid .vuffi-ph {
     padding: 4px;
-    border-radius: 14px;
+    border-radius: var(--vuffi-radius);
   }
 
   .vuffi-story__peek .vuffi-ph__label,
@@ -338,7 +339,7 @@
 
     .vuffi-story__lines {
       justify-items: start;
-      font-size: min(clamp(40px, 7vw, 104px), 10svh);
+      font-size: min(clamp(56px, 8.4vw, 128px), 12svh);
     }
 
     .vuffi-story__product {
@@ -443,7 +444,7 @@
       "type": "color",
       "id": "background_color",
       "label": "Background",
-      "default": "#00843F"
+      "default": "#0E3B2C"
     }
   ],
   "blocks": [

@@ -18,6 +18,19 @@
         <div class="vuffi-lede">{{ section.settings.text }}</div>
       {%- endif -%}
     </div>
+    {%- if section.settings.show_photo -%}
+      <div class="vuffi-phero__photo">
+        {%- render 'vuffi-image',
+          image: section.settings.image,
+          label: section.settings.slot,
+          ratio: '21 / 9',
+          size: '3840 x 1646 (21:9)',
+          sizes: '(min-width: 1360px) 1280px, 100vw',
+          priority: true,
+          alt: section.settings.image_alt
+        -%}
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -27,7 +40,25 @@
   }
 
   .vuffi-phero__title {
-    font-size: clamp(48px, 8vw, 112px);
+    font-size: clamp(44px, 7vw, 100px);
+  }
+
+  .vuffi-phero__photo {
+    margin-top: 40px;
+  }
+
+  /* Taller crop on phones so the photo still reads */
+  @media screen and (max-width: 749px) {
+    .vuffi-phero__photo .vuffi-media,
+    .vuffi-phero__photo .vuffi-ph {
+      --ratio: 4 / 5 !important;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-phero__photo {
+      margin-top: 64px;
+    }
   }
 
 {% endstylesheet %}
@@ -59,6 +90,33 @@
       "id": "center",
       "label": "Center the text",
       "default": false
+    },
+    {
+      "type": "header",
+      "content": "Photo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_photo",
+      "label": "Show a wide photo under the text",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo",
+      "info": "3840 x 1646 (21:9). Cropped to 4:5 on phones, so keep the subject in the middle and set the focal point."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Photo description for screen readers"
+    },
+    {
+      "type": "text",
+      "id": "slot",
+      "label": "Placeholder label",
+      "default": "page-hero"
     },
     {
       "type": "color",

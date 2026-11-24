@@ -15,7 +15,10 @@
         "eyebrow": "Our story",
         "heading": "Built for dogs who <em>never</em> slow down.",
         "text": "<p>Vuffi makes daily joint care simple: one soft chew with the ingredients that matter, for every dog at every age.</p>",
-        "background_color": "#FFFFFF"
+        "background_color": "#FFFFFF",
+        "show_photo": true,
+        "slot": "page-story",
+        "image_alt": "A person and their dog walking a field path at golden hour"
       }
     },
     "why": {
@@ -40,7 +43,7 @@
         "text": "<p>Cartilage wears quietly. By the time a dog limps, the cushion in the joint has been thinning for a while. That's why Vuffi is made for all dogs, not only seniors: young athletes, big breeds and dogs getting back on their feet all lean on their joints every day.</p><p>Every dog is different, so every order comes with a 90 day money back guarantee. If you don't see the difference, you don't pay.</p>",
         "button_label": "Shop Vuffi",
         "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#F4F6F5",
+        "background_color": "#F3F2EE",
         "image": "shopify://shop_images/vuffi-dog-joints.png",
         "image_shape": "16 / 9"
       }
@@ -48,7 +51,7 @@
     "guarantee": {
       "type": "vuffi-guarantee",
       "settings": {
-        "background_color": "#F4F6F5",
+        "background_color": "#F3F2EE",
         "button_link": "/products/hip-and-joint-soft-chews",
         "link": "/pages/return-policy"
       }
@@ -57,14 +60,27 @@
       "type": "vuffi-cta",
       "settings": {
         "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#0B1410",
+        "background_color": "#0E3B2C",
         "image": "shopify://shop_images/vuffi-jar-closed.png"
+      }
+    },
+    "band_about": {
+      "type": "vuffi-image-band",
+      "settings": {
+        "slot": "band-about",
+        "height": "medium",
+        "position": "center",
+        "shade": 30,
+        "background_color": "#111A16",
+        "heading": "Every step, <em>supported.</em>",
+        "image_alt": "A dog resting its head on its owner's knee"
       }
     }
   },
   "order": [
     "hero",
     "why",
+    "band_about",
     "prevent",
     "guarantee",
     "cta"

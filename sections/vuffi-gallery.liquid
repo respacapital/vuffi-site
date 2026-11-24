@@ -1,0 +1,342 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+<script src="{{ 'vuffi-rail.js' | asset_url }}" defer></script>
+
+<section
+  class="vuffi-section vuffi-gallery vuffi-gallery--{{ section.settings.card_width }} color-custom-{{ section.id }}"
+  data-tone="{{ tone }}"
+  style="--card-ratio: {{ section.settings.shape }};"
+>
+  <vuffi-rail class="vuffi-gallery__rail">
+    <div class="vuffi-wrap vuffi-gallery__top">
+      <div class="vuffi-head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="vuffi-h2" data-reveal style="--i: 1">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="vuffi-lede" data-reveal style="--i: 2">{{ section.settings.text }}</div>
+        {%- endif -%}
+      </div>
+      {%- if section.blocks.size > 1 -%}
+        <div class="vuffi-gallery__controls">
+          <button type="button" class="vuffi-gallery__btn" data-rail-prev aria-label="{{ section.settings.prev_label | escape }}">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="vuffi-icon"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button type="button" class="vuffi-gallery__btn" data-rail-next aria-label="{{ section.settings.next_label | escape }}">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="vuffi-icon"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <ul class="vuffi-gallery__track" role="list" data-rail-track tabindex="0" aria-label="{{ section.settings.heading | strip_html | escape }}">
+      {%- for block in section.blocks -%}
+        <li class="vuffi-gallery__item" {{ block.shopify_attributes }}>
+          <figure class="vuffi-gallery__figure">
+            {%- render 'vuffi-image',
+              image: block.settings.image,
+              label: block.settings.slot,
+              ratio: section.settings.shape,
+              size: '2000 x 2500',
+              sizes: '(min-width: 990px) 34vw, 80vw',
+              alt: block.settings.alt
+            -%}
+            {%- if block.settings.label != blank or block.settings.title != blank or block.settings.text != blank -%}
+              <figcaption class="vuffi-gallery__caption">
+                {%- if block.settings.label != blank -%}
+                  <span class="vuffi-label">{{ block.settings.label }}</span>
+                {%- endif -%}
+                {%- if block.settings.title != blank -%}
+                  <span class="vuffi-gallery__title">{{ block.settings.title }}</span>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <span class="vuffi-gallery__text">{{ block.settings.text }}</span>
+                {%- endif -%}
+              </figcaption>
+            {%- endif -%}
+          </figure>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </vuffi-rail>
+</section>
+
+{% stylesheet %}
+  .vuffi-gallery {
+    --card-w: 80vw;
+  }
+
+  .vuffi-gallery__top {
+    display: grid;
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+
+  .vuffi-gallery__controls {
+    display: none;
+    gap: 8px;
+  }
+
+  .vuffi-gallery__btn {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid var(--vuffi-line-strong);
+    border-radius: var(--vuffi-radius-sm);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s, opacity 0.3s;
+  }
+
+  .vuffi-gallery__btn:hover {
+    border-color: currentColor;
+  }
+
+  .vuffi-gallery__btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .vuffi-gallery__btn .vuffi-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .vuffi-gallery__track {
+    --edge: max(var(--vuffi-gutter), calc((100vw - var(--vuffi-max)) / 2));
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: var(--card-w);
+    gap: 16px;
+    margin: 0;
+    padding: 0 var(--edge) 4px;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--edge);
+    scrollbar-width: none;
+  }
+
+  .vuffi-gallery__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vuffi-gallery__track:focus-visible {
+    outline: 2px solid var(--vuffi-accent);
+    outline-offset: 4px;
+  }
+
+  .vuffi-gallery__item {
+    scroll-snap-align: start;
+  }
+
+  .vuffi-gallery__figure {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+  }
+
+  .vuffi-gallery__caption {
+    display: grid;
+    gap: 6px;
+  }
+
+  .vuffi-gallery__title {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: 19px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  .vuffi-gallery__text {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-foreground-muted, currentColor);
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-gallery {
+      --card-w: 44vw;
+    }
+
+    .vuffi-gallery__track {
+      gap: 20px;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-gallery {
+      --card-w: calc((min(100vw, var(--vuffi-max)) - 3 * 20px) / 3.3);
+    }
+
+    .vuffi-gallery--wide {
+      --card-w: calc((min(100vw, var(--vuffi-max)) - 20px) / 1.6);
+    }
+
+    .vuffi-gallery--narrow {
+      --card-w: calc((min(100vw, var(--vuffi-max)) - 4 * 20px) / 4.4);
+    }
+
+    .vuffi-gallery__top {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      margin-bottom: 48px;
+    }
+
+    .vuffi-gallery__controls {
+      display: flex;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi photo row",
+  "tag": "div",
+  "class": "vuffi-gallery-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Life, <em>supported.</em>",
+      "info": "Put a word in italics to color it."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "shape",
+      "label": "Photo shape",
+      "options": [
+        { "value": "4 / 5", "label": "Tall (4:5)" },
+        { "value": "3 / 4", "label": "Taller (3:4)" },
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "3 / 2", "label": "Wide (3:2)" }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "select",
+      "id": "card_width",
+      "label": "Photo size on computers",
+      "options": [
+        { "value": "narrow", "label": "Small, about 4 in view" },
+        { "value": "regular", "label": "Medium, about 3 in view" },
+        { "value": "wide", "label": "Large, about 1.5 in view" }
+      ],
+      "default": "regular"
+    },
+    {
+      "type": "text",
+      "id": "prev_label",
+      "label": "Previous button (screen readers)",
+      "default": "Previous photos"
+    },
+    {
+      "type": "text",
+      "id": "next_label",
+      "label": "Next button (screen readers)",
+      "default": "More photos"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Photo description for screen readers"
+        },
+        {
+          "type": "text",
+          "id": "slot",
+          "label": "Placeholder label",
+          "default": "row-photo"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Small label",
+          "info": "For example: 07:30, breakfast."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi photo row",
+      "blocks": [
+        { "type": "photo", "settings": { "slot": "row-photo-1" } },
+        { "type": "photo", "settings": { "slot": "row-photo-2" } },
+        { "type": "photo", "settings": { "slot": "row-photo-3" } },
+        { "type": "photo", "settings": { "slot": "row-photo-4" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -54,7 +54,7 @@
     top: 8px;
     bottom: 8px;
     width: 2px;
-    border-radius: 2px;
+    border-radius: var(--vuffi-radius-sm);
     background: var(--vuffi-line);
   }
 
@@ -93,7 +93,7 @@
     width: 16px;
     height: 16px;
     border: 2px solid var(--vuffi-accent);
-    border-radius: 50%;
+    border-radius: var(--vuffi-radius-sm);
     background: var(--color-background);
   }
 
@@ -103,9 +103,9 @@
 
   .vuffi-timeline__when {
     margin: 0;
+    font-family: var(--font-accent--family);
     font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--vuffi-accent);
   }

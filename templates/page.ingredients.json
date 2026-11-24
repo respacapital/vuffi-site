@@ -14,7 +14,10 @@
       "settings": {
         "eyebrow": "Ingredients",
         "heading": "What goes <em>into</em> every chew.",
-        "text": "<p>Five joint actives, chosen for what they do inside the joint, in one pork flavored soft chew.</p>"
+        "text": "<p>Five joint actives, chosen for what they do inside the joint, in one pork flavored soft chew.</p>",
+        "show_photo": true,
+        "slot": "page-ingredients",
+        "image_alt": "The five Vuffi ingredients laid out on stone"
       }
     },
     "formula": {
@@ -94,7 +97,7 @@
         "ingredient_5"
       ],
       "settings": {
-        "background_color": "#F4F6F5",
+        "background_color": "#F3F2EE",
         "diagram": "shopify://shop_images/vuffi-chew-cross.png"
       }
     },
@@ -269,14 +272,27 @@
       "type": "vuffi-cta",
       "settings": {
         "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#0B1410",
+        "background_color": "#0E3B2C",
         "image": "shopify://shop_images/vuffi-jar-closed.png"
+      }
+    },
+    "band_ing": {
+      "type": "vuffi-image-band",
+      "settings": {
+        "slot": "band-chew",
+        "height": "short",
+        "position": "bottom-left",
+        "shade": 0,
+        "background_color": "#111A16",
+        "caption": "Fig. 03 · Five actives, one chew",
+        "image_alt": "A Vuffi soft chew, close up"
       }
     }
   },
   "order": [
     "hero",
     "formula",
+    "band_ing",
     "joint",
     "dose",
     "compare",

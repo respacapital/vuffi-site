@@ -39,7 +39,6 @@
     </div>
 
     <div class="vuffi-cta__media" data-reveal="scale" style="--i: 2">
-      <div class="vuffi-cta__glow" aria-hidden="true"></div>
       {%- render 'vuffi-image',
         image: section.settings.image,
         label: 'bf-banner',
@@ -83,7 +82,8 @@
 
   .vuffi-cta__count .vuffi-count {
     gap: 14px;
-    font-family: var(--font-heading--family);
+    font-family: var(--font-subheading--family);
+    text-transform: uppercase;
     font-size: clamp(44px, 5vw, 72px);
     line-height: 1;
     color: var(--vuffi-accent);
@@ -109,15 +109,6 @@
 
   .vuffi-cta__media {
     position: relative;
-  }
-
-  .vuffi-cta__glow {
-    position: absolute;
-    inset: 10% -10%;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgb(143 251 9 / 0.22), transparent 65%);
-    filter: blur(20px);
-    pointer-events: none;
   }
 
   .vuffi-cta__media .vuffi-media,
@@ -203,7 +194,7 @@
       "type": "color",
       "id": "background_color",
       "label": "Background",
-      "default": "#0B1410"
+      "default": "#0E3B2C"
     },
     {
       "type": "range",
