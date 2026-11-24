@@ -130,3 +130,13 @@ Status: todo, built, PR open, merged.
 - Ingredients page: the small print now sits inside the last row, so there is no white strip before the photo band.
 - Checkout (Settings > Checkout > Customize, saved in the admin): ink Vuffi logo, palette green #0E3B2C for accents and buttons, Figtree headings and body. The old sage logo and Fredoka headings are gone.
 - Preview copies for screenshots: 157195403462, 157195501766, 157196288198, 157196484806, 157197205702 (safe to delete).
+
+## Design version 11 (Nov 24, morning)
+- Light: the window light texture is gone (assets/vuffi-light.jpg deleted). Dark bands are back to the faint warm beam from the top corner. Removed from the scroll story and the footer.
+- Closing offer: the photo has no bottom padding and fades into the footer on every screen size; on computers it fills the right half from the top of the section to the footer.
+- How to give it (vuffi-steps, renamed "Vuffi how to give it"): a dose chart by weight as a real table (your dog, each day with chew icons, how long one jar lasts, what to order for a full month), a row for dogs over 65 lbs that sends them to their vet, four habits (with a meal, every day, judge it at 90 days, ask your vet first if) and small print. Blocks: Dose row, Habit.
+- The jar, explained (vuffi-label): one large photo of the real jar on a stone plinth that melts into the ink background, the five label points as a hairline list beside it. Numbered markers removed.
+- Photos: every photo with the jar now shows the real jar (scripts/swap.py, v4 set) and every chew is the real chew brown. Hero rebuilt from the new hero photo with the real jar. New photos from the Nov 24 set used where they were good: why taste, why vet, five ingredients, five life photos, band pdp, page story, band about, story 2, closing offer. Files are vuffi-v4-<slot> (hero desktop is vuffi-v5).
+- Product gallery: ten images, five built ones (rebuilt with the real chew color, vuffi-product-v2-*) alternating with five photos with the real jar. Old gallery images detached from the product, still in Files.
+- Product title is "Vuffi Advanced Hip & Joint Support".
+- Image prompts round 2: "Image Prompts Round 2 - Vuffi - 2026.11.24.txt" (knee pair and the open jar from above), sent with "Real Jar - Vuffi - 2026.11.24.png".

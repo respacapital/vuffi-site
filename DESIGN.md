@@ -25,7 +25,7 @@ Rules:
 1. Bottle green is the jar label green. White text on it passes contrast easily.
 2. Leaf is the jar's lime, softened so it reads natural on screen. It never sits on white and never fills large areas.
 3. Dark bands are bottle green or ink, never bright green.
-4. No saturated color fields or neon. Dark bands get natural light: warm sun through a window with leaf shadows falling across the wall (assets/vuffi-light.jpg, built by scripts/light.py in the work folder), a faint film grain and a slightly darker floor. It never moves. It is on the scroll story, How it works, What to expect (mirrored), the guarantee (mirrored), the jar explained, the closing offer, the footer, the plain page titles and the dark ingredient rows; each section has a switch for it.
+4. No saturated color fields or neon. Dark bands get a faint natural light: one soft warm beam from the top corner, like the hero photo, and a slightly darker floor. No texture, no leaf shadows, no grain. It never moves. It is on How it works, What to expect (mirrored), the guarantee (mirrored), the jar explained, How to give it (when dark), the closing offer, the social section, the plain page titles and the dark ingredient rows; each section has a switch for it. Never on the scroll story or the footer.
 
 ## 3. Logo
 
@@ -64,7 +64,9 @@ Luxury and clinical: no rounded tiles anywhere.
 
 Photos carry the brand. Every prompt is in "Image Prompts - Vuffi - 2026.11.23.txt".
 
-1. Real photography, never illustration style or CGI look. Natural colors exactly as things look in life: true white plastic, the real bottle green label, warm brown chews, real dog coats, real light.
+1. Real photography, never illustration style or CGI look. Natural colors exactly as things look in life: true white plastic, the real bottle green label, real dog coats, real light.
+2a. The jar in every photo is the real jar (the supplier render), placed into the scene by scripts/swap.py in the work folder with the scene's light carried over. Image tools always redraw the label, so their jar is only a stand in: it must be upright, straight on, whole and unblocked so it can be replaced.
+2b. Chews are dark chocolate brown (about #62402B), matte, dense and slightly fibrous, about 2 cm wide and 1.3 cm tall. No oat flakes, seeds, white specks, shine or orange tint. scripts/swap.py regrade() pulls any chew to this color.
 2. The product is always the same jar, from Robin's reference photo, label unchanged. Never the Vuffi logo on the jar.
 3. Light: soft window light, golden hour sun, a single hard sunbeam (god light) through a window or trees, rim light on the jar. Fine haze or dust in the beam is fine; glowing particles and neon are not.
 4. Variety: floating product shots, still lifes on stone and wood, hands, kitchen counters, morning routines, walks, stairs, sofas, beaches, fields. Shot like a 2026 campaign: medium format, shallow depth of field, editorial crop.
