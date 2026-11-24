@@ -9,7 +9,7 @@
 {%- comment -%}
   The jar, explained: the real jar with numbered markers on parts of its label, and a numbered list that says what each part means.
 {%- endcomment -%}
-<section class="vuffi-section vuffi-label{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
+<section class="vuffi-section vuffi-jarx{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
   <div class="vuffi-wrap">
     <div class="vuffi-intro">
       <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
@@ -18,8 +18,8 @@
       {%- endif -%}
     </div>
 
-    <div class="vuffi-label__stage">
-      <figure class="vuffi-label__jar">
+    <div class="vuffi-jarx__stage">
+      <figure class="vuffi-jarx__jar">
         {%- render 'vuffi-image',
           image: section.settings.image,
           label: 'label-jar',
@@ -29,23 +29,23 @@
           alt: section.settings.image_alt,
           class: 'vuffi-melt'
         -%}
-        <ol class="vuffi-label__marks" role="list" aria-hidden="true">
+        <ol class="vuffi-jarx__marks" role="list" aria-hidden="true">
           {%- for block in section.blocks -%}
-            <li class="vuffi-label__mark vuffi-num" style="--x: {{ block.settings.x }}%; --y: {{ block.settings.y }}%;">
+            <li class="vuffi-jarx__mark vuffi-num" style="--x: {{ block.settings.x }}%; --y: {{ block.settings.y }}%;">
               <span>{{ forloop.index }}</span>
             </li>
           {%- endfor -%}
         </ol>
       </figure>
 
-      <ol class="vuffi-label__list" role="list">
+      <ol class="vuffi-jarx__list" role="list">
         {%- for block in section.blocks -%}
-          <li class="vuffi-label__item" {{ block.shopify_attributes }}>
-            <span class="vuffi-label__n vuffi-num" aria-hidden="true"><span>{{ forloop.index }}</span></span>
-            <div class="vuffi-label__copy">
-              <h3 class="vuffi-label__title">{{ block.settings.title }}</h3>
+          <li class="vuffi-jarx__item" {{ block.shopify_attributes }}>
+            <span class="vuffi-jarx__n vuffi-num" aria-hidden="true"><span>{{ forloop.index }}</span></span>
+            <div class="vuffi-jarx__copy">
+              <h3 class="vuffi-jarx__title">{{ block.settings.title }}</h3>
               {%- if block.settings.text != blank -%}
-                <p class="vuffi-label__text">{{ block.settings.text }}</p>
+                <p class="vuffi-jarx__text">{{ block.settings.text }}</p>
               {%- endif -%}
             </div>
           </li>
@@ -56,31 +56,31 @@
 </section>
 
 {% stylesheet %}
-  .vuffi-label__stage {
+  .vuffi-jarx__stage {
     display: grid;
     gap: 36px;
     align-items: center;
   }
 
-  .vuffi-label__jar {
+  .vuffi-jarx__jar {
     position: relative;
-    width: min(100%, 560px);
+    width: min(100%, 620px);
     margin: 0 auto;
   }
 
-  .vuffi-label__jar .vuffi-media {
+  .vuffi-jarx__jar .vuffi-media {
     filter: drop-shadow(0 40px 50px rgb(0 0 0 / 0.45));
   }
 
-  .vuffi-label__marks {
+  .vuffi-jarx__marks {
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
   /* Numbered markers that sit on parts of the label */
-  .vuffi-label__mark,
-  .vuffi-label__n {
+  .vuffi-jarx__mark,
+  .vuffi-jarx__n {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -92,7 +92,7 @@
     line-height: 1;
   }
 
-  .vuffi-label__mark {
+  .vuffi-jarx__mark {
     position: absolute;
     left: var(--x);
     top: var(--y);
@@ -103,13 +103,13 @@
     transform: translate(-50%, -50%);
   }
 
-  .vuffi-label__mark > span,
-  .vuffi-label__n > span {
+  .vuffi-jarx__mark > span,
+  .vuffi-jarx__n > span {
     display: block;
     text-box: trim-both cap alphabetic;
   }
 
-  .vuffi-label__list {
+  .vuffi-jarx__list {
     display: grid;
     margin: 0;
     padding: 0;
@@ -117,7 +117,7 @@
     border-top: 1px solid var(--vuffi-line);
   }
 
-  .vuffi-label__item {
+  .vuffi-jarx__item {
     display: grid;
     grid-template-columns: 36px minmax(0, 1fr);
     gap: 18px;
@@ -126,19 +126,19 @@
     border-bottom: 1px solid var(--vuffi-line);
   }
 
-  .vuffi-label__n {
+  .vuffi-jarx__n {
     width: 36px;
     height: 36px;
     font-size: 15px;
   }
 
-  .vuffi-label__copy {
+  .vuffi-jarx__copy {
     display: grid;
     gap: 6px;
     padding-top: 6px;
   }
 
-  .vuffi-label__title {
+  .vuffi-jarx__title {
     margin: 0;
     font-family: var(--font-heading--family);
     font-weight: var(--font-heading--weight);
@@ -147,7 +147,7 @@
     letter-spacing: -0.01em;
   }
 
-  .vuffi-label__text {
+  .vuffi-jarx__text {
     margin: 0;
     font-size: 15px;
     line-height: 1.6;
@@ -155,12 +155,12 @@
   }
 
   @media screen and (min-width: 990px) {
-    .vuffi-label__stage {
+    .vuffi-jarx__stage {
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
       gap: 72px;
     }
 
-    .vuffi-label__mark {
+    .vuffi-jarx__mark {
       width: 34px;
       height: 34px;
       font-size: 15px;
