@@ -13,6 +13,15 @@ Working notes for the Nov 2026 launch build. Newest decisions first in each list
 - Pages: Home, Product, Ingredients, FAQ, Our Story, Contact, policies. TPLO landing page after launch.
 - Big logo lockup with slogan at the bottom of the footer. Countdowns, reveal animations, pinned scroll story (text stacks, jar opens, chews rise).
 
+## Design version 6 (Nov 24)
+- Robin: remove the small labels on the hero and scroll story and the FIG captions, drop the No. numbers, chews should come out of the jar on scroll with the text, fix the phone hero, spin the 90 day seal again, make the cart discount obvious, no sharp edged photos (run them to the edge of the screen), round buttons everywhere.
+- Scroll story rebuilt: jar rises, lid pops, chews pop up out of the jar one by one and glide to where they land; each line slides up as its chew clears. Runs in the theme editor too (Robin reviews there).
+- Phone hero photo centered with its overflow split evenly; lower fade starts above the buttons.
+- Photos: feature photos full width on phones and off the outer side on computers; page title photos full width; product photos edge to edge on phones; formula photo row nearly edge to edge on computers; diagrams have no box (cut chew diagram is now a see through PNG, vuffi-v3-diagram-chew-cross.png).
+- Round: chips, tags, badges, inputs, slider handle, joint numbers, accordion signs, stickers. Cards 16px, small boxes 10px. Horizon corner settings changed to match (settings_data.json, Robin told first).
+- Cart: vuffi-cart.js adds a lime savings bar above the total in the drawer and cart page (subscription savings plus automatic discounts; text is a setting in Vuffi site styles), discount names show as lime tags, sale prices green.
+- New ingredient prompts sent: "Ingredient Image Prompts - Vuffi - 2026.11.24.txt".
+
 ## Photo set 2 (Nov 23, late night)
 - Robin is keeping the current logo; no new logo file coming.
 - All 16 preview themes deleted from Shopify (store back to 4 themes: vuffi-site staging and main, vuffi-theme staging and live).

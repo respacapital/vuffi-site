@@ -80,7 +80,8 @@
         "tab_5"
       ],
       "settings": {
-        "default_subscribe": true
+        "default_subscribe": true,
+        "eyebrow": ""
       }
     },
     "ticker": {

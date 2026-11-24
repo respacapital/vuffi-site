@@ -16,7 +16,8 @@ Label check: in these jar shots the label lettering was redrawn by the image too
 | why-actives, why-taste, why-vet, why-guarantee | Why Vuffi photo row | 2:3, shown 3:4 | Vuffi photo row (why) > each Photo | Filled (why-guarantee: label check) |
 | diagram-joint-worn, diagram-joint-ingredients | How it works switch | 1:1 | Vuffi joint diagram | Filled. The five numbers sit on the white circles in the supported image; a new image needs them measured again |
 | band-run | Full width photo after How it works | 3:2 | Vuffi photo band (band_run) | Filled (shade 85 so the text reads over the bright sand) |
-| diagram-chew-cross, ing-* | Formula | 1:1 | Vuffi formula | Filled. The five name tags sit on the ends of the leader lines; a new image needs them measured again |
+| diagram-chew-cross | Formula | 1:1, see through PNG | Vuffi formula > Diagram | Filled (vuffi-v3, white made see through so it sits on the stone band). The five name tags sit on the ends of the leader lines; a new image needs them measured again |
+| ing-glucosamine, ing-chondroitin, ing-msm, ing-hyaluronic, ing-mussel | Formula photo row | 4:5, 1600 x 2000 | Vuffi formula > each Ingredient | Filled, to be replaced: new prompts in "Ingredient Image Prompts - Vuffi - 2026.11.24.txt" (no seashells, background matches the page) |
 | ritual | The daily ritual, beside the text | 2:3, shown 4:5 | Vuffi photo and story (ritual) | Filled (label check) |
 | band-rest | Full width photo after the timeline | 3:2 | Vuffi photo band (band_rest) | Filled |
 | subscribe-jar | Subscribe and save | 2:3 | Vuffi subscribe and save | Filled |
