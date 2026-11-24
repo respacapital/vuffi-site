@@ -562,9 +562,9 @@
   }
 }
 
-/* Natural light for dark and green sections: sun through a window with leaf shadows falling across
-   the wall (assets/vuffi-light.jpg, screen blended so only the light shows), a faint film grain and a
-   slightly darker floor. It never moves. Add vuffi-glow to a dark section, or vuffi-glow--right to mirror it. */
+/* Natural light for dark and green sections: a soft warm beam falling from the top left, a gentle lift
+   in the middle and a slightly darker floor, like the light in the hero photo. Barely there, never moves.
+   Add vuffi-glow to a dark section, plus vuffi-glow--right to let the light come from the top right. */
 .vuffi-glow {
   position: relative;
   isolation: isolate;
@@ -574,38 +574,30 @@
 .vuffi-glow::after {
   content: '';
   position: absolute;
-  inset: 0;
   z-index: -1;
   pointer-events: none;
 }
 
 .vuffi-glow::before {
-  background: var(--vuffi-light-img, none) no-repeat 0 0 / max(1500px, 112%) auto;
-  mix-blend-mode: screen;
-  opacity: var(--vuffi-light, 0.5);
+  top: -12%;
+  left: -30%;
+  width: 110%;
+  height: min(90%, 1200px);
+  background: radial-gradient(closest-side, rgb(238 224 190 / 0.2), rgb(238 224 190 / 0.07) 55%, transparent);
+  transform: rotate(26deg) scaleY(0.36);
 }
 
 .vuffi-glow--right::before {
-  transform: scaleX(-1);
-}
-
-/* Softer where small text sits right on the light */
-.vuffi-foot.vuffi-glow {
-  --vuffi-light: 0.32;
+  left: auto;
+  right: -30%;
+  transform: rotate(-26deg) scaleY(0.36);
 }
 
 .vuffi-glow::after {
+  inset: 0;
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
-    radial-gradient(ellipse 70% 55% at 60% 45%, rgb(255 255 255 / 0.035), transparent 70%),
-    linear-gradient(180deg, transparent 55%, rgb(0 0 0 / 0.22) 100%);
-}
-
-@media screen and (max-width: 749px) {
-  .vuffi-glow::before {
-    background-size: 1150px auto;
-    background-position: -140px 0;
-  }
+    radial-gradient(ellipse 60% 50% at 62% 48%, rgb(255 255 255 / 0.045), transparent 70%),
+    linear-gradient(180deg, transparent 50%, rgb(0 0 0 / 0.22) 100%);
 }
 
 /* Centered section intro used by the redesigned sections */

@@ -136,25 +136,6 @@
     background: linear-gradient(180deg, var(--story-top, var(--color-background)) 0%, var(--story-bottom, var(--color-background)) 100%);
   }
 
-  /* Natural light: sun through a window with leaf shadows falling across the green wall behind the jar. Still. */
-  .vuffi-story__sticky::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background: var(--vuffi-light-img, none) no-repeat 0 0 / max(1500px, 112%) auto;
-    mix-blend-mode: screen;
-    opacity: 0.42;
-    pointer-events: none;
-  }
-
-  @media screen and (max-width: 749px) {
-    .vuffi-story__sticky::before {
-      background-size: 1150px auto;
-      background-position: -140px 0;
-    }
-  }
-
   .vuffi-story__head {
     position: relative;
     z-index: 3;

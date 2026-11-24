@@ -6,7 +6,7 @@
 -%}
 {%- render 'vuffi-section-style', section: section -%}
 
-<footer class="vuffi-section vuffi-foot{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
+<footer class="vuffi-section vuffi-foot color-custom-{{ section.id }}" data-tone="{{ tone }}">
   <div class="vuffi-wrap">
     <div class="vuffi-foot__top">
       <div class="vuffi-foot__signup">
@@ -530,13 +530,6 @@
       "id": "background_color",
       "label": "Background",
       "default": "#0E3B2C"
-    },
-    {
-      "type": "checkbox",
-      "id": "glow",
-      "label": "Natural light on dark backgrounds",
-      "default": true,
-      "info": "Sunlight through a window falling across the footer. It never moves."
     }
   ],
   "presets": [
