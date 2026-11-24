@@ -12,6 +12,12 @@
   assign alt = section.settings.image_alt | default: mob.alt | escape
   assign focal_mob = mob.presentation.focal_point | default: '50% 50%'
   assign focal_desk = desk.presentation.focal_point | default: focal_mob
+  case section.settings.desk_crop
+    when 'top'
+      assign focal_desk = '50% 8%'
+    when 'bottom'
+      assign focal_desk = '50% 92%'
+  endcase
   assign focal_style = '--focal-desk: ' | append: focal_desk | append: '; --focal-mob: ' | append: focal_mob | append: ';'
   assign bg_img = desk | default: mob
   assign phone_sizes = section.settings.phone_size | append: 'vw'
@@ -456,6 +462,18 @@
       "id": "image_alt",
       "label": "Image description for screen readers",
       "default": "A jar of Vuffi Advanced Hip and Joint Support soft chews"
+    },
+    {
+      "type": "select",
+      "id": "desk_crop",
+      "label": "On wide screens, keep",
+      "options": [
+        { "value": "top", "label": "The top of the photo" },
+        { "value": "focal", "label": "The focal point set in Shopify" },
+        { "value": "bottom", "label": "The bottom of the photo" }
+      ],
+      "default": "top",
+      "info": "Wide screens crop the computer photo a little. Keep the top so the jar stays clear of the header."
     },
     {
       "type": "range",

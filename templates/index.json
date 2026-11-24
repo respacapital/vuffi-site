@@ -49,7 +49,8 @@
         "image": "shopify://shop_images/vuffi-hero-desktop_1d2b14f2-51bc-4eeb-860c-d0cd60369ccd.jpg",
         "image_mobile": "shopify://shop_images/vuffi-hero-mobile.jpg",
         "phone_size": 124,
-        "image_alt": "A jar of Vuffi Advanced Hip and Joint Support soft chews floating in a beam of light, chews drifting around it"
+        "image_alt": "A jar of Vuffi Advanced Hip and Joint Support soft chews floating in a beam of light, chews drifting around it",
+        "desk_crop": "top"
       }
     },
     "ticker": {
