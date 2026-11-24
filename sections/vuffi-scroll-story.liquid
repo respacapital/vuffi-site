@@ -106,8 +106,8 @@
     --jy: 1;
     --lid: 0;
     --peek: 0;
-    --unit: min(80vw, 40svh, 520px);
-    --rest-y: 52svh;
+    --unit: min(84vw, 44svh, 520px);
+    --rest-y: 60svh;
     padding: 0;
     overflow: visible;
   }
@@ -143,7 +143,7 @@
     margin: 0;
     font-family: var(--font-subheading--family);
     font-weight: var(--font-subheading--weight);
-    font-size: clamp(38px, 11vw, 120px);
+    font-size: clamp(34px, 10vw, 120px);
     line-height: 0.94;
     letter-spacing: -0.025em;
     text-transform: uppercase;
@@ -284,7 +284,9 @@
     text-transform: uppercase;
   }
 
+  /* Phones: the jar runs off the bottom like the Grüns pack, so the button only shows on larger screens */
   .vuffi-story__cta {
+    display: none;
     position: absolute;
     z-index: 4;
     left: 50%;
@@ -316,20 +318,24 @@
     .vuffi-story__floater--desktop {
       display: block;
     }
+
+    .vuffi-story__cta {
+      display: block;
+    }
   }
 
   @media screen and (min-width: 990px) {
     .vuffi-story {
       --unit: min(40vw, 62svh, 620px);
-      --rest-y: 60svh;
+      --rest-y: 64svh;
     }
 
     .vuffi-story__head {
-      padding-top: max(104px, 12svh);
+      padding-top: max(96px, 11svh);
     }
 
     .vuffi-story__lines {
-      font-size: min(clamp(56px, 7vw, 120px), 9.6svh);
+      font-size: min(clamp(56px, 7vw, 120px), 8.6svh);
     }
 
     .vuffi-story__cta {
