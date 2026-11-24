@@ -13,6 +13,13 @@ Working notes for the Nov 2026 launch build. Newest decisions first in each list
 - Pages: Home, Product, Ingredients, FAQ, Our Story, Contact, policies. TPLO landing page after launch.
 - Big logo lockup with slogan at the bottom of the footer. Countdowns, reveal animations, pinned scroll story (text stacks, jar opens, chews rise).
 
+## Design version 5 (Nov 23, night)
+- Robin sent the Grüns scroll section as the model for ours, asked for the font on the jar, round buttons, good animations and a one sheet prompt for ChatGPT.
+- Jar lettering matched to Figtree (closest in Shopify's library). Buttons are pills with a sweep fill on hover.
+- Scroll story rebuilt like Grüns: centered on every screen, gradient from bottle green to moss (two color settings), jar runs off the bottom, lid pops off in an arc.
+- New motion: headlines rise word by word, photos wipe in with a slow zoom, full width photos drift (scroll driven CSS, Chrome, Edge and Safari), joint numbers pop in.
+- "Image Prompt Sheet - Vuffi - 2026.11.23.txt": one ChatGPT message, 49 images in priority order.
+
 ## Design version 4 (Nov 23, evening)
 - Robin: look like Grüns, Bloom, Pawfy and Apple but for dogs, Grüns or Wuffes font, lots of photos, medical and premium, no rounded look, keep every section, natural colors, new prompts for every image.
 - Fonts checked on their live sites: Grüns uses Work Sans; Wuffes uses a custom condensed (Gravity Condensed) with Barlow Condensed as backup. Theme now: Work Sans headings and body, Barlow Condensed labels and big numbers, IBM Plex Mono clinical labels.

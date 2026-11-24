@@ -1,6 +1,6 @@
 # Vuffi Placeholders and Shot List
 
-Every labeled box on the site is a photo slot. Prompts for every slot are in "Image Prompts - Vuffi - 2026.11.23.txt" (design version 4). Rules: real photography with natural colors, the jar always identical to Robin's reference photo, never the Vuffi logo on the jar, dogs only as lifestyle (never customers, reviews or before and after), no text inside images.
+Every labeled box on the site is a photo slot. Prompts for every slot are in "Image Prompt Sheet - Vuffi - 2026.11.23.txt", one message for ChatGPT that makes all 49 images in order (variations are in "Image Prompts - Vuffi - 2026.11.23.txt"). Band phone versions are cropped from the landscape photo, so bands need one image each. Rules: real photography with natural colors, the jar always identical to Robin's reference photo, never the Vuffi logo on the jar, dogs only as lifestyle (never customers, reviews or before and after), no text inside images.
 
 Status: Needed means a labeled box shows. First batch means one of Robin's Nov 23 images is in the slot and gets replaced by the new natural color version.
 
