@@ -40,6 +40,11 @@
 {%- endif -%}
 
 {% style %}
+  /* Shopify policy pages: the title band uses the same ink as the dark header */
+  .shopify-policy__title {
+    background: {{ section.settings.dark_header_color }};
+  }
+
   :root {
     --vuffi-white: {{ settings.color_palette.background }};
     --vuffi-ink: {{ settings.color_palette.foreground }};
