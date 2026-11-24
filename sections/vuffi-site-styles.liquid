@@ -32,14 +32,17 @@
   {%- if section.settings.dark_page_header %}
   /* Pages that open on a Vuffi page title (Our story, Ingredients, FAQ, Contact, policies):
      the header turns ink with a white logo so it runs straight into the dark title, like the home page */
+  /* !important beats the colors Horizon writes inline on the header */
   body:has(.vuffi-phero) #header-component {
-    --color-background-top-row: {{ section.settings.dark_header_color }};
-    --color-background-bottom-row: {{ section.settings.dark_header_color }};
-    --cart-bubble-background: var(--vuffi-lime);
-    --cart-bubble-text: var(--vuffi-ink);
+    --color-background-top-row: {{ section.settings.dark_header_color }} !important;
+    --color-background-bottom-row: {{ section.settings.dark_header_color }} !important;
+    --cart-bubble-background: var(--vuffi-lime) !important;
+    --cart-bubble-text: var(--vuffi-ink) !important;
   }
 
   body:has(.vuffi-phero) #header-component .header__row {
+    --color-background: {{ section.settings.dark_header_color }};
+    --color-background-rgb: {{ section.settings.dark_header_color.rgb }};
     --color-foreground: #ffffff;
     --color-foreground-rgb: 255 255 255;
     --color-border: rgb(255 255 255 / 0.16);
