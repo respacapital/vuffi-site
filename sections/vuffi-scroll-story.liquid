@@ -119,6 +119,10 @@
         </div>
       {%- endif -%}
     </div>
+    {%- if section.settings.blend_color != blank -%}
+      {%- comment -%} Covers the seam with the next section, which sits on a fraction of a pixel {%- endcomment -%}
+      <span class="vuffi-story__seam" aria-hidden="true" style="background: {{ section.settings.blend_color }};"></span>
+    {%- endif -%}
   </vuffi-story>
 </section>
 
@@ -324,6 +328,16 @@
 
   .vuffi-story.is-live .vuffi-story__blend {
     opacity: 0;
+  }
+
+  .vuffi-story__seam {
+    position: absolute;
+    z-index: 5;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 3px;
+    pointer-events: none;
   }
 
   .vuffi-story__floater--desktop {
