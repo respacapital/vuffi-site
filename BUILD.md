@@ -193,3 +193,6 @@ Status: todo, built, PR open, merged.
 - Ingredient row: never stops (no pause on hover, tap or focus); a swipe nudges it and it drifts on straight away. A tap or click on any card opens that ingredient bigger in a window (larger photo, tagline, name, text; vuffi-formula.js). A small + in the photo corner hints at it.
 - The jar, explained on phones and tablets: the photo starts at the top of the section and fades in and out, so there is no hard edge across the light; headline and intro centered under it.
 - Phones: headlines, intro text, countdowns and buttons centered on every page (page titles, closing offer, Subscribe and save, photo bands, Our story text, ingredient rows with their checklist as one centered block, contact). Long legal text, list rows and the buy box stay left aligned. Computers unchanged.
+
+## No shipping times (Nov 24, 9 am)
+- Robin's call: no delivery times anywhere on the site. Removed "Most orders arrive within 3 to 4 weeks" from the Shipping page and the store shipping policy (now a Tracking section), and cleared the old "Ships within 3 business days, then 7 to 15 business days to arrive" description from both checkout shipping rates. The theme itself only points to the shipping policy. The old toothbrush FAQ metaobjects still mention times but are not shown anywhere on the site.
