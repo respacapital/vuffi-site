@@ -14,6 +14,8 @@ Working notes for the Nov 2026 launch build. Newest decisions first in each list
 - Big logo lockup with slogan at the bottom of the footer. Countdowns, reveal animations, pinned scroll story (text stacks, jar opens, chews rise).
 
 ## Photo set 2 (Nov 23, late night)
+- Robin is keeping the current logo; no new logo file coming.
+- All 16 preview themes deleted from Shopify (store back to 4 themes: vuffi-site staging and main, vuffi-theme staging and live).
 - Robin sent all 49 photos from the prompt sheet. 47 placed (the two hero shots match the ones already up, so those stay).
 - Files are `vuffi-v2-<slot>` in Shopify Files. Product media is now pdp-1 to pdp-5; the first batch photos were removed from the product but stay in Files.
 - Joint numbers and formula name tags measured again for the new diagrams. Lid position in the scroll story refitted to the new jar and lid. Photo rows: why and life show 3:4, detail shows 1:1.
