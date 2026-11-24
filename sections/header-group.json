@@ -72,16 +72,16 @@
         "divider_size": "page-width",
         "border_width": 0,
         "enable_transparent_header_home": true,
-        "enable_transparent_header_product": false,
-        "enable_transparent_header_collection": false,
         "home_inverse_logo": true,
-        "text_color_transparent_home": "#FFFFFF"
+        "text_color_transparent_home": "#FFFFFF",
+        "enable_transparent_header_product": false,
+        "enable_transparent_header_collection": false
       }
     },
     "vuffi_bar": {
       "type": "vuffi-countdown-bar",
       "settings": {
-        "link": "shopify://products/hip-and-joint-soft-chews",
+        "link": "shopify://products/hip-and-joint-soft-chews-original",
         "background_color": "#141A17"
       }
     }

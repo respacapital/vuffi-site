@@ -40,18 +40,18 @@
         "trust_shipping"
       ],
       "settings": {
+        "image": "shopify://shop_images/vuffi-hero-desktop_1d2b14f2-51bc-4eeb-860c-d0cd60369ccd.jpg",
+        "image_mobile": "shopify://shop_images/vuffi-hero-mobile.jpg",
+        "image_alt": "A jar of Vuffi Advanced Hip and Joint Support soft chews floating in a beam of light, chews drifting around it",
+        "desk_crop": "top",
+        "phone_size": 112,
+        "jar_image": "shopify://shop_images/vuffi-jar-closed.png",
         "background_color": "#0B1411",
+        "eyebrow": "",
         "button_link": "/products/hip-and-joint-soft-chews",
         "button2_link": "/pages/ingredients",
         "padding_top": 40,
-        "padding_bottom": 64,
-        "jar_image": "shopify://shop_images/vuffi-jar-closed.png",
-        "image": "shopify://shop_images/vuffi-hero-desktop_1d2b14f2-51bc-4eeb-860c-d0cd60369ccd.jpg",
-        "image_mobile": "shopify://shop_images/vuffi-hero-mobile.jpg",
-        "phone_size": 112,
-        "image_alt": "A jar of Vuffi Advanced Hip and Joint Support soft chews floating in a beam of light, chews drifting around it",
-        "desk_crop": "top",
-        "eyebrow": ""
+        "padding_bottom": 64
       }
     },
     "ticker": {
@@ -127,9 +127,9 @@
       "settings": {
         "style": "chips",
         "speed": 45,
+        "background_color": "#0B1411",
         "padding_top": 20,
-        "padding_bottom": 20,
-        "background_color": "#0B1411"
+        "padding_bottom": 20
       }
     },
     "story": {
@@ -171,15 +171,15 @@
         "eyebrow": "",
         "button_link": "/products/hip-and-joint-soft-chews",
         "scroll_length": 375,
-        "background_color": "#0E3B2C",
         "jar_image": "shopify://shop_images/vuffi-v2-scroll-jar-open.png",
+        "jar_closed_image": "shopify://shop_images/vuffi-v3-scroll-jar-base.png",
         "lid_image": "shopify://shop_images/vuffi-v2-scroll-lid.png",
         "chew_1": "shopify://shop_images/vuffi-v2-scroll-chew-1.png",
         "chew_2": "shopify://shop_images/vuffi-v2-scroll-chew-2.png",
         "chew_3": "shopify://shop_images/vuffi-v2-scroll-chew-3.png",
-        "background_color_2": "#7DA23A",
         "chew_4": "shopify://shop_images/vuffi-v2-scroll-chew-4.png",
-        "jar_closed_image": "shopify://shop_images/vuffi-v3-scroll-jar-base.png"
+        "background_color": "#0E3B2C",
+        "background_color_2": "#7DA23A"
       }
     },
     "joint": {
@@ -255,11 +255,11 @@
         "ingredient_1": {
           "type": "ingredient",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-ing-glucosamine.jpg",
             "slot": "ing-glucosamine",
             "name": "Glucosamine",
             "tagline": "Rebuilds cartilage",
             "text": "<p>Raw material for the cushion on the ends of the bones, so getting up and taking stairs feel easier.</p>",
-            "image": "shopify://shop_images/vuffi-v2-ing-glucosamine.jpg",
             "label_x": 5,
             "label_y": 22,
             "label_side": "left"
@@ -268,11 +268,11 @@
         "ingredient_2": {
           "type": "ingredient",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-ing-chondroitin.jpg",
             "slot": "ing-chondroitin",
             "name": "Chondroitin",
             "tagline": "Keeps it springy",
             "text": "<p>Holds water in cartilage to absorb every landing, and slows the wear.</p>",
-            "image": "shopify://shop_images/vuffi-v2-ing-chondroitin.jpg",
             "label_x": 95,
             "label_y": 22,
             "label_side": "right"
@@ -281,11 +281,11 @@
         "ingredient_3": {
           "type": "ingredient",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-ing-msm.jpg",
             "slot": "ing-msm",
             "name": "MSM",
             "tagline": "Calms swelling",
             "text": "<p>Natural sulfur for cartilage, tendons and ligaments. Less soreness after play and long naps.</p>",
-            "image": "shopify://shop_images/vuffi-v2-ing-msm.jpg",
             "label_x": 4,
             "label_y": 52,
             "label_side": "left"
@@ -294,11 +294,11 @@
         "ingredient_4": {
           "type": "ingredient",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-ing-hyaluronic.jpg",
             "slot": "ing-hyaluronic",
             "name": "Hyaluronic acid",
             "tagline": "Keeps joints gliding",
             "text": "<p>The main part of joint fluid, so knees and hips bend with less grinding.</p>",
-            "image": "shopify://shop_images/vuffi-v2-ing-hyaluronic.jpg",
             "label_x": 96,
             "label_y": 52,
             "label_side": "right"
@@ -307,11 +307,11 @@
         "ingredient_5": {
           "type": "ingredient",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-ing-mussel.jpg",
             "slot": "ing-mussel",
             "name": "Green lipped mussel",
             "tagline": "Cools inflammation",
             "text": "<p>Omega rich New Zealand shellfish that turns down inflammation inside the joint.</p>",
-            "image": "shopify://shop_images/vuffi-v2-ing-mussel.jpg",
             "label_x": 5,
             "label_y": 81,
             "label_side": "left"
@@ -326,8 +326,8 @@
         "ingredient_5"
       ],
       "settings": {
-        "background_color": "#F3F2EE",
-        "diagram": "shopify://shop_images/vuffi-v3-diagram-chew-cross.png"
+        "diagram": "shopify://shop_images/vuffi-v3-diagram-chew-cross.png",
+        "background_color": "#F3F2EE"
       }
     },
     "compare": {
@@ -493,18 +493,18 @@
         "perk_4"
       ],
       "settings": {
-        "product": "hip-and-joint-soft-chews",
-        "button_link": "/products/hip-and-joint-soft-chews",
         "image": "shopify://shop_images/vuffi-v2-subscribe-jar.jpg",
+        "product": "hip-and-joint-soft-chews-original",
+        "button_link": "/products/hip-and-joint-soft-chews",
         "background_color": "#F3F2EE"
       }
     },
     "guarantee": {
       "type": "vuffi-guarantee",
       "settings": {
-        "background_color": "#0B1411",
         "button_link": "/products/hip-and-joint-soft-chews",
-        "link": "/pages/return-policy"
+        "link": "/pages/return-policy",
+        "background_color": "#0B1411"
       }
     },
     "faq": {
@@ -586,9 +586,9 @@
     "cta": {
       "type": "vuffi-cta",
       "settings": {
+        "image": "shopify://shop_images/vuffi-v2-bf-banner.jpg",
         "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#0E3B2C",
-        "image": "shopify://shop_images/vuffi-v2-bf-banner.jpg"
+        "background_color": "#0E3B2C"
       }
     },
     "why": {
@@ -597,41 +597,41 @@
         "photo_1": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-why-actives.jpg",
             "slot": "why-actives",
             "label": "",
             "title": "Five joint actives",
-            "text": "Glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel in every chew.",
-            "image": "shopify://shop_images/vuffi-v2-why-actives.jpg"
+            "text": "Glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel in every chew."
           }
         },
         "photo_2": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-why-taste.jpg",
             "slot": "why-taste",
             "label": "",
             "title": "Pork flavor, zero fuss",
-            "text": "No pills to hide in food. Most dogs take it like a treat.",
-            "image": "shopify://shop_images/vuffi-v2-why-taste.jpg"
+            "text": "No pills to hide in food. Most dogs take it like a treat."
           }
         },
         "photo_3": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-why-vet.jpg",
             "slot": "why-vet",
             "label": "",
             "title": "Vet recommended",
-            "text": "Built on the joint ingredients vets recommend most.",
-            "image": "shopify://shop_images/vuffi-v2-why-vet.jpg"
+            "text": "Built on the joint ingredients vets recommend most."
           }
         },
         "photo_4": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-why-guarantee.jpg",
             "slot": "why-guarantee",
             "label": "",
             "title": "90 days to feel it",
-            "text": "Give it a full 90 days. If you don't see a difference, we refund you.",
-            "image": "shopify://shop_images/vuffi-v2-why-guarantee.jpg"
+            "text": "Give it a full 90 days. If you don't see a difference, we refund you."
           }
         }
       },
@@ -646,9 +646,9 @@
         "heading": "One chew. <em>Every joint.</em>",
         "text": "<p>Five actives vets reach for, in a soft chew dogs treat like a reward.</p>",
         "shape": "3 / 4",
+        "background_color": "#F3F2EE",
         "padding_top": 120,
-        "padding_bottom": 120,
-        "background_color": "#F3F2EE"
+        "padding_bottom": 120
       }
     },
     "life": {
@@ -657,46 +657,46 @@
         "photo_1": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-life-walk.jpg",
             "slot": "life-walk",
             "label": "06:45 · First walk",
-            "title": "The morning loop",
-            "image": "shopify://shop_images/vuffi-v2-life-walk.jpg"
+            "title": "The morning loop"
           }
         },
         "photo_2": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-life-car.jpg",
             "slot": "life-car",
             "label": "09:10 · Road trip",
-            "title": "Ready for the car",
-            "image": "shopify://shop_images/vuffi-v2-life-car.jpg"
+            "title": "Ready for the car"
           }
         },
         "photo_3": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-life-couch.jpg",
             "slot": "life-couch",
             "label": "13:00 · Nap",
-            "title": "Couch, claimed",
-            "image": "shopify://shop_images/vuffi-v2-life-couch.jpg"
+            "title": "Couch, claimed"
           }
         },
         "photo_4": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-life-beach.jpg",
             "slot": "life-beach",
             "label": "17:30 · Beach",
-            "title": "Off leash, all in",
-            "image": "shopify://shop_images/vuffi-v2-life-beach.jpg"
+            "title": "Off leash, all in"
           }
         },
         "photo_5": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/vuffi-v2-life-stairs.jpg",
             "slot": "life-stairs",
             "label": "21:00 · Bedtime",
-            "title": "Up the stairs to bed",
-            "image": "shopify://shop_images/vuffi-v2-life-stairs.jpg"
+            "title": "Up the stairs to bed"
           }
         }
       },
@@ -711,9 +711,9 @@
         "eyebrow": "",
         "heading": "Made for dogs who <em>never slow down.</em>",
         "shape": "3 / 4",
+        "background_color": "#FFFFFF",
         "padding_top": 120,
-        "padding_bottom": 120,
-        "background_color": "#FFFFFF"
+        "padding_bottom": 120
       }
     }
   },
