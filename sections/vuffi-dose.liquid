@@ -18,24 +18,11 @@
   Left: headline, text and a few habits on hairlines. Right: the slider and the answer rows.
 {%- endcomment -%}
 <section class="vuffi-section vuffi-dose{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
-  <div class="vuffi-wrap vuffi-dose__grid">
-    <div class="vuffi-dose__head">
+  <div class="vuffi-wrap">
+    <div class="vuffi-intro">
       <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
       {%- if section.settings.text != blank -%}
         <div class="vuffi-lede">{{ section.settings.text }}</div>
-      {%- endif -%}
-
-      {%- if tips.size > 0 -%}
-        <ul class="vuffi-dose__tips" role="list">
-          {%- for block in tips -%}
-            <li class="vuffi-dose__tip" {{ block.shopify_attributes }}>
-              <h3 class="vuffi-dose__tip-title">{{ block.settings.title }}</h3>
-              {%- if block.settings.text != blank -%}
-                <p class="vuffi-dose__tip-text">{{ block.settings.text }}</p>
-              {%- endif -%}
-            </li>
-          {%- endfor -%}
-        </ul>
       {%- endif -%}
     </div>
 
@@ -82,7 +69,7 @@
             <dd>
               <span class="vuffi-dose__chews" data-chews aria-hidden="true">
                 {%- for i in (1..4) -%}
-                  <span class="vuffi-dose__chew"{% if forloop.index > first.settings.chews %} hidden{% endif %}>{%- render 'vuffi-icon', name: 'chew' -%}</span>
+                  <span class="vuffi-dose__chew"{% if forloop.index > first.settings.chews %} hidden{% endif %}></span>
                 {%- endfor -%}
               </span>
               <span data-amount>{{ first.settings.amount }}</span>
@@ -99,95 +86,75 @@
         </dl>
         <p class="vuffi-dose__over" data-over-copy hidden>{{ section.settings.over_text }}</p>
       </div>
-
-      {%- if section.settings.note != blank -%}
-        <p class="vuffi-small vuffi-dose__note">{{ section.settings.note }}</p>
-      {%- endif -%}
     </vuffi-dose>
+
+    {%- if tips.size > 0 -%}
+      <ul class="vuffi-dose__tips" role="list" style="--tips: {{ tips.size }};">
+        {%- for block in tips -%}
+          <li class="vuffi-dose__tip" {{ block.shopify_attributes }}>
+            <h3 class="vuffi-dose__tip-title">{{ block.settings.title }}</h3>
+            {%- if block.settings.text != blank -%}
+              <p class="vuffi-dose__tip-text">{{ block.settings.text }}</p>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.note != blank -%}
+      <p class="vuffi-small vuffi-dose__note">{{ section.settings.note }}</p>
+    {%- endif -%}
   </div>
 </section>
 
 {% stylesheet %}
-  .vuffi-dose__grid {
-    display: grid;
-    gap: 40px;
-  }
-
-  .vuffi-dose__head {
-    display: grid;
-    align-content: start;
-    gap: 18px;
-  }
-
-  .vuffi-dose__tips {
-    margin: 14px 0 0;
-    padding: 0;
-    list-style: none;
-    border-top: 1px solid var(--vuffi-line);
-  }
-
-  .vuffi-dose__tip {
-    display: grid;
-    gap: 4px;
-    padding: 16px 0 18px;
-    border-bottom: 1px solid var(--vuffi-line);
-  }
-
-  .vuffi-dose__tip-title {
-    margin: 0;
-    font-size: 17px;
-    line-height: 1.3;
-    font-weight: 600;
-  }
-
-  .vuffi-dose__tip-text {
-    margin: 0;
-    max-width: 48ch;
-    font-size: 15px;
-    line-height: 1.55;
-    color: var(--color-foreground-muted);
-  }
-
+  /* Centered like the other sections: headline, then the finder in one calm column, then the habits */
   .vuffi-dose__finder {
     display: grid;
-    gap: 32px;
+    gap: 28px;
+    max-width: 640px;
+    margin: 0 auto;
   }
 
   .vuffi-dose__input {
     display: grid;
-    gap: 12px;
+    justify-items: center;
+    gap: 10px;
+    text-align: center;
   }
 
   .vuffi-dose__label {
     font-size: 15px;
     font-weight: 600;
+    color: var(--color-foreground-muted);
   }
 
   .vuffi-dose__weight {
     display: flex;
     align-items: baseline;
-    gap: 10px;
+    justify-content: center;
+    gap: 8px;
     font-family: var(--font-heading--family);
     font-weight: var(--font-heading--weight);
-    font-size: clamp(72px, 9vw, 128px);
+    font-size: clamp(80px, 10vw, 136px);
     line-height: 0.9;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.045em;
   }
 
   .vuffi-dose__unit {
     font-family: var(--font-body--family);
-    font-weight: 400;
-    font-size: 20px;
+    font-weight: 500;
+    font-size: 22px;
     letter-spacing: 0;
     color: var(--color-foreground-muted);
   }
 
-  /* Slider: hairline track that fills with the accent color, round thumb (things you press stay round) */
+  /* Slider: pill track that fills with the accent color and a round thumb, like the buy box options */
   .vuffi-dose__range {
     --fill: 40%;
     width: 100%;
-    height: 32px;
-    margin: 8px 0 0;
+    height: 36px;
+    margin: 14px 0 0;
     background: transparent;
     -webkit-appearance: none;
     appearance: none;
@@ -196,44 +163,46 @@
   }
 
   .vuffi-dose__range::-webkit-slider-runnable-track {
-    height: 4px;
+    height: 8px;
     border-radius: 999px;
-    background: linear-gradient(90deg, var(--vuffi-accent) var(--fill), var(--vuffi-line-strong) var(--fill));
+    background: linear-gradient(90deg, var(--vuffi-accent) var(--fill), var(--vuffi-line) var(--fill));
   }
 
   .vuffi-dose__range::-moz-range-track {
-    height: 4px;
+    height: 8px;
     border-radius: 999px;
-    background: linear-gradient(90deg, var(--vuffi-accent) var(--fill), var(--vuffi-line-strong) var(--fill));
+    background: linear-gradient(90deg, var(--vuffi-accent) var(--fill), var(--vuffi-line) var(--fill));
   }
 
   .vuffi-dose__range::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 30px;
-    height: 30px;
-    margin-top: -13px;
-    border: 3px solid var(--color-background);
+    width: 32px;
+    height: 32px;
+    margin-top: -12px;
+    border: 4px solid var(--color-background);
     border-radius: 50%;
     background: var(--vuffi-accent);
-    box-shadow: 0 0 0 1px var(--vuffi-line-strong), 0 6px 16px rgb(11 20 17 / 0.18);
+    box-shadow: 0 0 0 1px var(--vuffi-line-strong), 0 8px 20px rgb(11 20 17 / 0.2);
   }
 
   .vuffi-dose__range::-moz-range-thumb {
     width: 24px;
     height: 24px;
-    border: 3px solid var(--color-background);
+    border: 4px solid var(--color-background);
     border-radius: 50%;
     background: var(--vuffi-accent);
-    box-shadow: 0 0 0 1px var(--vuffi-line-strong), 0 6px 16px rgb(11 20 17 / 0.18);
+    box-shadow: 0 0 0 1px var(--vuffi-line-strong), 0 8px 20px rgb(11 20 17 / 0.2);
   }
 
   .vuffi-dose__range:focus-visible {
     outline: 2px solid var(--vuffi-accent);
     outline-offset: 6px;
+    border-radius: 999px;
   }
 
   .vuffi-dose__ticks {
     position: relative;
+    width: 100%;
     height: 18px;
     font-size: 13px;
     color: var(--color-foreground-muted);
@@ -257,9 +226,16 @@
     transform: none;
   }
 
+  /* The answer: three rows on a rounded card, like the buy box */
+  .vuffi-dose__answer {
+    border: 1px solid var(--vuffi-line);
+    border-radius: var(--vuffi-radius-ui, 18px);
+    background: var(--vuffi-card, rgb(var(--color-foreground-rgb) / 0.03));
+    overflow: hidden;
+  }
+
   .vuffi-dose__rows {
     margin: 0;
-    border-top: 1px solid var(--vuffi-line-strong);
   }
 
   .vuffi-dose__row {
@@ -267,9 +243,12 @@
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    min-height: 72px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--vuffi-line);
+    min-height: 68px;
+    padding: 14px 22px;
+  }
+
+  .vuffi-dose__row + .vuffi-dose__row {
+    border-top: 1px solid var(--vuffi-line);
   }
 
   .vuffi-dose__row dt {
@@ -284,47 +263,44 @@
     margin: 0;
     font-family: var(--font-heading--family);
     font-weight: var(--font-heading--weight);
-    font-size: clamp(22px, 2.2vw, 30px);
+    font-size: clamp(22px, 2.2vw, 28px);
     line-height: 1.1;
     letter-spacing: -0.02em;
     text-align: right;
   }
 
+  /* A small drawn chew per chew a day */
   .vuffi-dose__chews {
     display: flex;
-    gap: 2px;
-    color: var(--vuffi-accent);
+    gap: 4px;
+  }
+
+  .vuffi-dose__chew {
+    width: 20px;
+    height: 15px;
+    border-radius: 5px / 4px;
+    background: linear-gradient(180deg, #8a5d42 0 30%, #62402b 30% 100%);
+    box-shadow: inset 0 -2px 0 rgb(0 0 0 / 0.18);
   }
 
   .vuffi-dose__chew[hidden] {
     display: none;
   }
 
-  .vuffi-dose .vuffi-dose__chew svg {
-    display: block;
-    width: 34px;
-    height: 34px;
-  }
-
   .vuffi-dose__over {
     margin: 0;
-    padding: 22px 0;
-    border-top: 1px solid var(--vuffi-line-strong);
-    border-bottom: 1px solid var(--vuffi-line);
+    padding: 22px;
     font-family: var(--font-heading--family);
     font-weight: var(--font-heading--weight);
-    font-size: clamp(20px, 2vw, 26px);
-    line-height: 1.25;
+    font-size: clamp(19px, 1.8vw, 24px);
+    line-height: 1.3;
     letter-spacing: -0.015em;
+    text-align: center;
   }
 
   .vuffi-dose__over[hidden],
   .vuffi-dose__rows[hidden] {
     display: none;
-  }
-
-  .vuffi-dose__note {
-    margin: 0;
   }
 
   .vuffi-dose__answer.is-swap dd {
@@ -344,11 +320,53 @@
     }
   }
 
+  .vuffi-dose__tips {
+    display: grid;
+    gap: 0;
+    max-width: 1100px;
+    margin: 64px auto 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-dose__tip {
+    display: grid;
+    gap: 6px;
+    padding: 20px 0 22px;
+    border-bottom: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-dose__tip-title {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  .vuffi-dose__tip-text {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-dose__note {
+    max-width: 640px;
+    margin: 28px auto 0;
+    text-align: center;
+  }
+
   @media screen and (min-width: 990px) {
-    .vuffi-dose__grid {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-      gap: 96px;
-      align-items: start;
+    .vuffi-dose__tips {
+      grid-template-columns: repeat(var(--tips, 3), minmax(0, 1fr));
+      column-gap: 48px;
+      margin-top: 88px;
+    }
+
+    .vuffi-dose__tip {
+      border-bottom: 0;
+      padding-top: 24px;
     }
   }
 {% endstylesheet %}

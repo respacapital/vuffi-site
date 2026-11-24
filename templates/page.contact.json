@@ -14,7 +14,11 @@
       "settings": {
         "eyebrow": "",
         "heading": "We're here to <em>help.</em>",
-        "background_color": "#0B1411"
+        "background_color": "#0B1411",
+        "show_photo": true,
+        "image": "shopify://shop_images/vuffi-v2-band-rest.jpg",
+        "image_alt": "A spaniel asleep on a sofa in soft window light",
+        "slot": "page-contact"
       }
     },
     "contact": {

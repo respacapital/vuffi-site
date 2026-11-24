@@ -116,26 +116,32 @@
     right: 16px;
     display: grid;
     place-content: center;
-    width: 96px;
+    width: 104px;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: var(--vuffi-lime);
-    color: var(--vuffi-ink);
+    background: var(--vuffi-ink);
+    color: #ffffff;
     text-align: center;
-    transform: rotate(-10deg);
+    outline: 1px solid rgb(198 227 90 / 0.45);
+    outline-offset: -7px;
+    box-shadow: 0 12px 30px rgb(11 20 17 / 0.28);
   }
 
   .vuffi-sub__sticker span {
-    font-family: var(--font-subheading--family);
-    text-transform: uppercase;
-    font-size: 34px;
-    line-height: 0.9;
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--vuffi-lime);
   }
 
   .vuffi-sub__sticker small {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    margin-top: 3px;
+    font-size: 8.5px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
 
@@ -235,9 +241,10 @@
   }
 
   .vuffi-sub__price--deal {
-    margin-top: 10px;
-    padding: 16px 18px;
+    margin-top: 12px;
+    padding: 16px 20px;
     border-bottom: 0;
+    border-radius: var(--vuffi-radius-ui, 18px);
     background: var(--vuffi-ink);
     color: #ffffff;
   }
