@@ -44,27 +44,21 @@
 
       this.section.classList.add('is-live');
       this.measure();
-      this.observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            window.addEventListener('scroll', this.onScroll, { passive: true });
-            window.addEventListener('resize', this.onResize, { passive: true });
-            this.onResize();
-          } else {
-            window.removeEventListener('scroll', this.onScroll);
-            window.removeEventListener('resize', this.onResize);
-          }
-        },
-        { rootMargin: '25% 0px 25% 0px' }
-      );
-      this.observer.observe(this);
+      /* Listen to every scroll on the page (capture catches scrolls of any container, which the
+         theme editor and some browsers use instead of the window), plus resizes. */
+      document.addEventListener('scroll', this.onScroll, { passive: true, capture: true });
+      window.addEventListener('resize', this.onResize, { passive: true });
+      if ('ResizeObserver' in window) {
+        this.resizer = new ResizeObserver(this.onResize);
+        this.resizer.observe(this);
+      }
       this.update();
     }
 
     disconnectedCallback() {
-      if (this.observer) this.observer.disconnect();
-      window.removeEventListener('scroll', this.onScroll);
+      document.removeEventListener('scroll', this.onScroll, { capture: true });
       window.removeEventListener('resize', this.onResize);
+      if (this.resizer) this.resizer.disconnect();
     }
 
     /* Where the jar mouth is, and how far each chew travels from it to its landing spot.
@@ -75,14 +69,15 @@
       const h = this.sticky.clientHeight;
       const unit = this.product.offsetWidth;
       const mouthX = w / 2;
-      const mouthY = this.product.offsetTop + unit * 0.24;
+      const mouthY = this.product.offsetTop + unit * 0.3;
       this.lift = h * 0.1;
       this.drift = h * 0.05;
       this.visible = this.chews.filter((chew) => chew.offsetParent !== null);
       this.visible.forEach((chew, i) => {
-        const x = (parseFloat(chew.style.getPropertyValue('--x')) / 100) * w;
-        const y = (parseFloat(chew.style.getPropertyValue('--y')) / 100) * h;
-        const spread = ((i % 3) - 1) * unit * 0.12;
+        /* Landing spot: the chew is centered on its left and top position */
+        const x = chew.offsetLeft;
+        const y = chew.offsetTop;
+        const spread = ((i % 3) - 1) * unit * 0.1;
         chew.dx = mouthX + spread - x;
         chew.dy = mouthY - y;
         chew.depth = parseFloat(chew.style.getPropertyValue('--depth')) || 1;
