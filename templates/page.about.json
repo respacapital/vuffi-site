@@ -12,10 +12,10 @@
     "hero": {
       "type": "vuffi-page-hero",
       "settings": {
-        "eyebrow": "Our story",
+        "eyebrow": "",
         "heading": "Built for dogs who <em>never</em> slow down.",
         "text": "<p>Vuffi makes daily joint care simple: one soft chew with the ingredients that matter, for every dog at every age.</p>",
-        "background_color": "#FFFFFF",
+        "background_color": "#0B1411",
         "show_photo": true,
         "slot": "page-story",
         "image_alt": "A person and their dog walking a field path at golden hour",

@@ -12,8 +12,9 @@
     "hero": {
       "type": "vuffi-page-hero",
       "settings": {
-        "eyebrow": "Policies",
-        "padding_bottom": 24
+        "eyebrow": "",
+        "padding_bottom": 24,
+        "background_color": "#0B1411"
       }
     },
     "content": {

@@ -158,7 +158,8 @@
         "style": "chips",
         "speed": 45,
         "padding_top": 20,
-        "padding_bottom": 20
+        "padding_bottom": 20,
+        "background_color": "#0B1411"
       }
     },
     "joint": {
@@ -224,7 +225,8 @@
       ],
       "settings": {
         "worn_image": "shopify://shop_images/vuffi-v2-diagram-joint-worn.jpg",
-        "supported_image": "shopify://shop_images/vuffi-v2-diagram-joint-ingredients.jpg"
+        "supported_image": "shopify://shop_images/vuffi-v2-diagram-joint-ingredients.jpg",
+        "background_color": "#FFFFFF"
       }
     },
     "formula": {
@@ -333,7 +335,8 @@
         "tier_2"
       ],
       "settings": {
-        "start_weight": 30
+        "start_weight": 30,
+        "background_color": "#0B1411"
       }
     },
     "timeline": {
@@ -379,7 +382,7 @@
         "step_4"
       ],
       "settings": {
-        "background_color": "#F3F2EE"
+        "background_color": "#0E3B2C"
       }
     },
     "compare": {
@@ -452,13 +455,14 @@
         "row_7"
       ],
       "settings": {
-        "button_link": "/products/hip-and-joint-soft-chews"
+        "button_link": "/products/hip-and-joint-soft-chews",
+        "background_color": "#FFFFFF"
       }
     },
     "guarantee": {
       "type": "vuffi-guarantee",
       "settings": {
-        "background_color": "#F3F2EE",
+        "background_color": "#0B1411",
         "button_link": "/products/hip-and-joint-soft-chews",
         "link": "/pages/return-policy"
       }
@@ -535,7 +539,8 @@
       ],
       "settings": {
         "button_link": "/pages/contact",
-        "schema_markup": false
+        "schema_markup": false,
+        "background_color": "#F3F2EE"
       }
     },
     "detail": {
@@ -600,7 +605,8 @@
         "shape": "1 / 1",
         "card_width": "regular",
         "padding_top": 96,
-        "padding_bottom": 96
+        "padding_bottom": 96,
+        "background_color": "#F3F2EE"
       }
     },
     "band_pdp": {

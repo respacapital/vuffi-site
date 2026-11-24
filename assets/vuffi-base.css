@@ -660,19 +660,15 @@ html.vuffi-js [data-media-reveal].is-in > img {
   }
 }
 
-html.vuffi-still [data-reveal],
-html.vuffi-js.vuffi-design [data-reveal] {
+html.vuffi-still [data-reveal] {
   opacity: 1 !important;
   transform: none !important;
   transition: none !important;
 }
 
 html.vuffi-still .vuffi-w__i,
-html.vuffi-design .vuffi-w__i,
 html.vuffi-still [data-media-reveal],
-html.vuffi-design [data-media-reveal],
-html.vuffi-still [data-media-reveal] > img,
-html.vuffi-design [data-media-reveal] > img {
+html.vuffi-still [data-media-reveal] > img {
   clip-path: none !important;
   transform: none !important;
   transition: none !important;

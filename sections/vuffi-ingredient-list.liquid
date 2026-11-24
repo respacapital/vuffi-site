@@ -1,0 +1,366 @@
+{%- comment -%}
+  Ingredient list: one full width row per ingredient. Rows alternate between the dark and light band colors,
+  and each photo runs to the edge of the screen on its side.
+{%- endcomment -%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section
+  class="vuffi-section vuffi-ings color-custom-{{ section.id }}"
+  style="--ings-dark: {{ section.settings.dark_color }}; --ings-light: {{ section.settings.light_color }};"
+>
+  {%- if section.settings.heading != blank or section.settings.text != blank -%}
+    <div class="vuffi-wrap vuffi-ings__intro">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede" data-reveal style="--i: 1">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <ol class="vuffi-ings__list" role="list">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign is_dark = false
+        assign pick = forloop.index0 | modulo: 2
+        if section.settings.start_dark and pick == 0
+          assign is_dark = true
+        elsif section.settings.start_dark == false and pick == 1
+          assign is_dark = true
+        endif
+        assign side = 'left'
+        if pick == 1
+          assign side = 'right'
+        endif
+      -%}
+      <li
+        class="vuffi-ings__row vuffi-ings__row--{{ side }}{% if is_dark %} vuffi-ings__row--dark{% endif %}"
+        {{ block.shopify_attributes }}
+      >
+        <div class="vuffi-ings__media">
+          {%- render 'vuffi-image',
+            image: block.settings.image,
+            label: block.settings.slot,
+            ratio: '4 / 5',
+            size: '1600 x 2000',
+            sizes: '(min-width: 990px) 50vw, 100vw',
+            alt: block.settings.name
+          -%}
+        </div>
+        <div class="vuffi-ings__copy">
+          {%- if block.settings.tagline != blank -%}
+            <p class="vuffi-ings__tag" data-reveal>{{ block.settings.tagline }}</p>
+          {%- endif -%}
+          <h3 class="vuffi-ings__name" data-reveal style="--i: 1">{{ block.settings.name }}</h3>
+          {%- if block.settings.text != blank -%}
+            <div class="vuffi-ings__text" data-reveal style="--i: 2">{{ block.settings.text }}</div>
+          {%- endif -%}
+          {%- liquid
+            assign points = ''
+            if block.settings.point_1 != blank
+              assign points = points | append: block.settings.point_1 | append: '|'
+            endif
+            if block.settings.point_2 != blank
+              assign points = points | append: block.settings.point_2 | append: '|'
+            endif
+            if block.settings.point_3 != blank
+              assign points = points | append: block.settings.point_3 | append: '|'
+            endif
+            assign point_list = points | split: '|'
+          -%}
+          {%- if point_list.size > 0 -%}
+            <ul class="vuffi-ings__points" role="list" data-reveal style="--i: 3">
+              {%- for point in point_list -%}
+                <li>
+                  <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 10.5l3.2 3L15 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span>{{ point }}</span>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      </li>
+    {%- endfor -%}
+  </ol>
+
+  {%- if section.settings.note != blank -%}
+    <p class="vuffi-wrap vuffi-small vuffi-ings__note">{{ section.settings.note }}</p>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+  .vuffi-ings {
+    padding-block: 0;
+  }
+
+  .vuffi-ings__intro {
+    display: grid;
+    gap: 20px;
+    padding-block: var(--vuffi-pt, var(--vuffi-space)) 56px;
+  }
+
+  .vuffi-ings__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Each row carries its own colors so rows can alternate dark and light */
+  .vuffi-ings__row {
+    --row-fg: var(--vuffi-ink);
+    --row-muted: rgb(20 26 23 / 0.7);
+    --row-accent: var(--vuffi-green);
+    display: grid;
+    background: var(--ings-light);
+    color: var(--row-fg);
+  }
+
+  .vuffi-ings__row--dark {
+    --row-fg: #ffffff;
+    --row-muted: rgb(255 255 255 / 0.72);
+    --row-accent: var(--vuffi-lime);
+    background: var(--ings-dark);
+  }
+
+  .vuffi-ings__media .vuffi-media,
+  .vuffi-ings__media .vuffi-ph {
+    --ratio: 1 / 1 !important;
+    border-radius: 0;
+  }
+
+  .vuffi-ings__copy {
+    display: grid;
+    align-content: center;
+    gap: 16px;
+    padding: 40px var(--vuffi-gutter) 56px;
+  }
+
+  .vuffi-ings__tag {
+    margin: 0;
+    font-family: var(--font-subheading--family);
+    font-weight: var(--font-subheading--weight);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--row-accent);
+  }
+
+  .vuffi-ings__name {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: clamp(40px, 6vw, 84px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .vuffi-ings__text {
+    max-width: 52ch;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.65;
+    color: var(--row-muted);
+  }
+
+  .vuffi-ings__text p {
+    margin: 0 0 12px;
+  }
+
+  .vuffi-ings__text p:last-child {
+    margin: 0;
+  }
+
+  .vuffi-ings__points {
+    display: grid;
+    gap: 10px;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .vuffi-ings__points li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .vuffi-ings__points svg {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    padding: 5px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--row-accent) 18%, transparent);
+    color: var(--row-accent);
+  }
+
+  .vuffi-ings__note {
+    padding-block: 32px var(--vuffi-pb, var(--vuffi-space));
+  }
+
+  /* Computers: photo fills its half and runs to the screen edge, text in the other half */
+  @media screen and (min-width: 990px) {
+    .vuffi-ings__row {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      min-height: min(88svh, 820px);
+    }
+
+    .vuffi-ings__row--right .vuffi-ings__media {
+      order: 2;
+    }
+
+    .vuffi-ings__media .vuffi-media,
+    .vuffi-ings__media .vuffi-ph {
+      height: 100%;
+      aspect-ratio: auto;
+    }
+
+    .vuffi-ings__copy {
+      padding: 96px max(var(--vuffi-gutter), calc((100vw - var(--vuffi-max)) / 2)) 96px 96px;
+    }
+
+    .vuffi-ings__row--right .vuffi-ings__copy {
+      padding: 96px 96px 96px max(var(--vuffi-gutter), calc((100vw - var(--vuffi-max)) / 2));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi ingredient list",
+  "tag": "div",
+  "class": "vuffi-ings-section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "One full width row per ingredient. Rows alternate between the dark and light colors below, and the photos swap sides."
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Italic words show in the accent color."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background behind the heading",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "dark_color",
+      "label": "Dark rows",
+      "default": "#0B1411"
+    },
+    {
+      "type": "color",
+      "id": "light_color",
+      "label": "Light rows",
+      "default": "#F3F2EE"
+    },
+    {
+      "type": "checkbox",
+      "id": "start_dark",
+      "label": "Start with a dark row",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Small note under the list"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Space above",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Space below",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo",
+          "info": "Square or 4:5, 1600 x 2000"
+        },
+        {
+          "type": "text",
+          "id": "slot",
+          "label": "Placeholder label",
+          "default": "ing-photo"
+        },
+        {
+          "type": "text",
+          "id": "tagline",
+          "label": "What it does, in a few words",
+          "default": "Rebuilds cartilage"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Glucosamine"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Tell people what it is and what it does for their dog.</p>"
+        },
+        {
+          "type": "text",
+          "id": "point_1",
+          "label": "Point 1"
+        },
+        {
+          "type": "text",
+          "id": "point_2",
+          "label": "Point 2"
+        },
+        {
+          "type": "text",
+          "id": "point_3",
+          "label": "Point 3"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi ingredient list",
+      "blocks": [
+        { "type": "ingredient" },
+        { "type": "ingredient", "settings": { "name": "Chondroitin", "tagline": "Keeps it springy" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

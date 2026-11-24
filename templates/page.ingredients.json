@@ -12,13 +12,14 @@
     "hero": {
       "type": "vuffi-page-hero",
       "settings": {
-        "eyebrow": "Ingredients",
+        "eyebrow": "",
         "heading": "What goes <em>into</em> every chew.",
         "text": "<p>Five joint actives, chosen for what they do inside the joint, in one pork flavored soft chew.</p>",
         "show_photo": true,
         "slot": "page-ingredients",
         "image_alt": "The five Vuffi ingredients laid out on stone",
-        "image": "shopify://shop_images/vuffi-v2-page-ingredients.jpg"
+        "image": "shopify://shop_images/vuffi-v2-page-ingredients.jpg",
+        "background_color": "#0B1411"
       }
     },
     "formula": {
@@ -99,7 +100,8 @@
       ],
       "settings": {
         "background_color": "#F3F2EE",
-        "diagram": "shopify://shop_images/vuffi-v3-diagram-chew-cross.png"
+        "diagram": "shopify://shop_images/vuffi-v3-diagram-chew-cross.png",
+        "show_cards": false
       }
     },
     "joint": {
@@ -166,34 +168,6 @@
       "settings": {
         "worn_image": "shopify://shop_images/vuffi-v2-diagram-joint-worn.jpg",
         "supported_image": "shopify://shop_images/vuffi-v2-diagram-joint-ingredients.jpg"
-      }
-    },
-    "dose": {
-      "type": "vuffi-dose",
-      "blocks": {
-        "tier_1": {
-          "type": "tier",
-          "settings": {
-            "up_to": 35,
-            "result": "1 chew a day",
-            "detail": "One jar lasts 30 days."
-          }
-        },
-        "tier_2": {
-          "type": "tier",
-          "settings": {
-            "up_to": 65,
-            "result": "2 chews a day",
-            "detail": "One jar lasts 15 days. Two jars a month covers it."
-          }
-        }
-      },
-      "block_order": [
-        "tier_1",
-        "tier_2"
-      ],
-      "settings": {
-        "start_weight": 30
       }
     },
     "compare": {
@@ -266,7 +240,8 @@
         "row_7"
       ],
       "settings": {
-        "button_link": "/products/hip-and-joint-soft-chews"
+        "button_link": "/products/hip-and-joint-soft-chews",
+        "background_color": "#F3F2EE"
       }
     },
     "cta": {
@@ -289,14 +264,102 @@
         "image_alt": "A Vuffi soft chew, close up",
         "image": "shopify://shop_images/vuffi-v2-band-chew.jpg"
       }
+    },
+    "list": {
+      "type": "vuffi-ingredient-list",
+      "blocks": {
+        "ing_1": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v2-ing-glucosamine.jpg",
+            "slot": "ing-glucosamine",
+            "tagline": "Rebuilds cartilage",
+            "name": "Glucosamine",
+            "text": "<p>Cartilage is the smooth cushion on the ends of the bones. Glucosamine is one of its natural building blocks, and dogs make less of it as they age. A steady daily supply gives joints the raw material to keep that cushion thick.</p>",
+            "point_1": "Supports healthy cartilage",
+            "point_2": "Helps getting up feel easier",
+            "point_3": "Builds up with daily use"
+          }
+        },
+        "ing_2": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v2-ing-chondroitin.jpg",
+            "slot": "ing-chondroitin",
+            "tagline": "Keeps it springy",
+            "name": "Chondroitin",
+            "text": "<p>Chondroitin draws water into cartilage so it stays springy and absorbs every landing. Paired with glucosamine, it helps protect the cushion from everyday wear.</p>",
+            "point_1": "Holds water in cartilage",
+            "point_2": "Cushions jumps and landings",
+            "point_3": "Works hand in hand with glucosamine"
+          }
+        },
+        "ing_3": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v2-ing-msm.jpg",
+            "slot": "ing-msm",
+            "tagline": "Calms swelling",
+            "name": "MSM",
+            "text": "<p>MSM is a natural source of sulfur, which cartilage, tendons and ligaments use to stay strong. It helps ease the stiffness and soreness that follow long walks and hard play.</p>",
+            "point_1": "Eases stiffness after play",
+            "point_2": "Supports tendons and ligaments",
+            "point_3": "A natural source of sulfur"
+          }
+        },
+        "ing_4": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v2-ing-hyaluronic.jpg",
+            "slot": "ing-hyaluronic",
+            "tagline": "Keeps joints gliding",
+            "name": "Hyaluronic acid",
+            "text": "<p>Hyaluronic acid is the main part of joint fluid, the slippery liquid that lets bones glide past each other. More of it means smoother movement with less grinding.</p>",
+            "point_1": "Supports healthy joint fluid",
+            "point_2": "Smoother bends and turns",
+            "point_3": "Easier on the stairs"
+          }
+        },
+        "ing_5": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v2-ing-mussel.jpg",
+            "slot": "ing-mussel",
+            "tagline": "Cools inflammation",
+            "name": "Green lipped mussel",
+            "text": "<p>A shellfish from the clean waters of New Zealand, rich in natural omega fats. Those omegas support a healthy inflammatory response inside the joint and help keep every step comfortable.</p>",
+            "point_1": "Natural omega fats",
+            "point_2": "Supports comfortable joints",
+            "point_3": "From New Zealand"
+          }
+        }
+      },
+      "block_order": [
+        "ing_1",
+        "ing_2",
+        "ing_3",
+        "ing_4",
+        "ing_5"
+      ],
+      "settings": {
+        "heading": "<p>Five actives. <em>One job each.</em></p>",
+        "text": "<p>Every ingredient in Vuffi is there for a reason. Here is what each one does inside the joint.</p>",
+        "background_color": "#FFFFFF",
+        "dark_color": "#0B1411",
+        "light_color": "#F3F2EE",
+        "start_dark": true,
+        "note": "Contains shellfish (green lipped mussel). For dogs over 12 weeks old.",
+        "padding_top": 120,
+        "padding_bottom": 96
+      }
     }
   },
   "order": [
     "hero",
-    "formula",
+    "list",
     "band_ing",
+    "formula",
     "joint",
-    "dose",
     "compare",
     "cta"
   ]

@@ -12,8 +12,9 @@
     "hero": {
       "type": "vuffi-page-hero",
       "settings": {
-        "eyebrow": "Contact",
-        "heading": "We're here to <em>help.</em>"
+        "eyebrow": "",
+        "heading": "We're here to <em>help.</em>",
+        "background_color": "#0B1411"
       }
     },
     "contact": {

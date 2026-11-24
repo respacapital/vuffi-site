@@ -43,7 +43,7 @@
           | image_url: width: 2400
           | image_tag:
             widths: '600, 900, 1200, 1600, 2000, 2400',
-            sizes: '100vw',
+            sizes: '(min-width: 990px) 100vw, (min-width: 750px) 130vw, 190vw',
             loading: 'lazy',
             alt: alt,
             class: 'vuffi-band__img',
@@ -87,9 +87,10 @@
 </section>
 
 {% stylesheet %}
+  /* Phones: heights follow the screen width so a landscape photo is never stretched into a tall strip */
   .vuffi-band {
-    --band-h: 78svh;
-    --band-min: 560px;
+    --band-h: 100vw;
+    --band-min: 0px;
     isolation: isolate;
     display: grid;
     min-height: max(var(--band-h), var(--band-min));
@@ -97,13 +98,28 @@
   }
 
   .vuffi-band--short {
-    --band-h: 56svh;
-    --band-min: 440px;
+    --band-h: 75vw;
   }
 
   .vuffi-band--full {
-    --band-h: 100svh;
-    --band-min: 640px;
+    --band-h: 125vw;
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-band {
+      --band-h: 78svh;
+      --band-min: 560px;
+    }
+
+    .vuffi-band--short {
+      --band-h: 56svh;
+      --band-min: 440px;
+    }
+
+    .vuffi-band--full {
+      --band-h: 100svh;
+      --band-min: 640px;
+    }
   }
 
   .vuffi-band__media {

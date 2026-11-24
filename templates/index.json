@@ -128,7 +128,8 @@
         "style": "chips",
         "speed": 45,
         "padding_top": 20,
-        "padding_bottom": 20
+        "padding_bottom": 20,
+        "background_color": "#0B1411"
       }
     },
     "story": {
@@ -244,7 +245,8 @@
       ],
       "settings": {
         "worn_image": "shopify://shop_images/vuffi-v2-diagram-joint-worn.jpg",
-        "supported_image": "shopify://shop_images/vuffi-v2-diagram-joint-ingredients.jpg"
+        "supported_image": "shopify://shop_images/vuffi-v2-diagram-joint-ingredients.jpg",
+        "background_color": "#FFFFFF"
       }
     },
     "formula": {
@@ -353,7 +355,8 @@
         "tier_2"
       ],
       "settings": {
-        "start_weight": 30
+        "start_weight": 30,
+        "background_color": "#0B1411"
       }
     },
     "compare": {
@@ -426,7 +429,8 @@
         "row_7"
       ],
       "settings": {
-        "button_link": "/products/hip-and-joint-soft-chews"
+        "button_link": "/products/hip-and-joint-soft-chews",
+        "background_color": "#FFFFFF"
       }
     },
     "timeline": {
@@ -472,7 +476,7 @@
         "step_4"
       ],
       "settings": {
-        "background_color": "#F3F2EE"
+        "background_color": "#0E3B2C"
       }
     },
     "subscribe": {
@@ -520,13 +524,14 @@
       "settings": {
         "product": "hip-and-joint-soft-chews",
         "button_link": "/products/hip-and-joint-soft-chews",
-        "image": "shopify://shop_images/vuffi-v2-subscribe-jar.jpg"
+        "image": "shopify://shop_images/vuffi-v2-subscribe-jar.jpg",
+        "background_color": "#F3F2EE"
       }
     },
     "guarantee": {
       "type": "vuffi-guarantee",
       "settings": {
-        "background_color": "#F3F2EE",
+        "background_color": "#0B1411",
         "button_link": "/products/hip-and-joint-soft-chews",
         "link": "/pages/return-policy"
       }
@@ -603,7 +608,8 @@
       ],
       "settings": {
         "button_link": "/pages/contact",
-        "schema_markup": false
+        "schema_markup": false,
+        "background_color": "#F3F2EE"
       }
     },
     "cta": {
@@ -671,7 +677,8 @@
         "shape": "3 / 4",
         "card_width": "regular",
         "padding_top": 120,
-        "padding_bottom": 120
+        "padding_bottom": 120,
+        "background_color": "#F3F2EE"
       }
     },
     "band_run": {
@@ -689,35 +696,6 @@
         "caption": "",
         "image_alt": "A dog running along the shore at golden hour",
         "image": "shopify://shop_images/vuffi-v2-band-run.jpg"
-      }
-    },
-    "ritual": {
-      "type": "vuffi-editorial",
-      "settings": {
-        "slot": "ritual",
-        "image_shape": "4 / 5",
-        "image_side": "right",
-        "eyebrow": "The daily ritual",
-        "heading": "One chew, <em>every morning.</em>",
-        "text": "<p>Hand it over with breakfast or after the morning walk. The same time every day builds the habit, and the joint support builds with it.</p><p>Under 35 lbs: one chew a day. 36 to 65 lbs: two.</p>",
-        "button_label": "Shop the chews",
-        "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#F3F2EE",
-        "image": "shopify://shop_images/vuffi-v2-ritual.jpg"
-      }
-    },
-    "band_rest": {
-      "type": "vuffi-image-band",
-      "settings": {
-        "slot": "band-rest",
-        "height": "medium",
-        "position": "center",
-        "shade": 35,
-        "background_color": "#111A16",
-        "heading": "Move freely. <em>Rest easy.</em>",
-        "caption": "",
-        "image_alt": "A dog asleep on a sofa in a beam of afternoon sun",
-        "image": "shopify://shop_images/vuffi-v2-band-rest.jpg"
       }
     },
     "life": {
@@ -782,7 +760,8 @@
         "shape": "3 / 4",
         "card_width": "regular",
         "padding_top": 120,
-        "padding_bottom": 120
+        "padding_bottom": 120,
+        "background_color": "#FFFFFF"
       }
     }
   },
@@ -795,10 +774,8 @@
     "band_run",
     "formula",
     "dose",
-    "ritual",
     "compare",
     "timeline",
-    "band_rest",
     "subscribe",
     "guarantee",
     "life",

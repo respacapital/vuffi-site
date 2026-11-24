@@ -53,6 +53,7 @@
     </div>
 
     <div class="vuffi-joint__visual" data-reveal="scale">
+      <span class="vuffi-joint__scan" aria-hidden="true"></span>
       <div class="vuffi-joint__layer vuffi-joint__layer--worn">
         {%- render 'vuffi-image',
           image: section.settings.worn_image,
@@ -226,22 +227,61 @@
 
   /* No box: the white diagram sits straight on the white section */
   .vuffi-joint__visual {
+    position: relative;
     display: grid;
     background: #ffffff;
     overflow: hidden;
   }
 
+  /* Switching wipes the supported joint across the worn one behind a leaf green scan line */
   .vuffi-joint__layer {
     position: relative;
     grid-area: 1 / 1;
-    transition:
-      opacity 0.8s var(--vuffi-ease),
-      scale 1.1s var(--vuffi-ease);
   }
 
-  [data-state='worn'] .vuffi-joint__layer--supported,
-  [data-state='supported'] .vuffi-joint__layer--worn {
-    scale: 1.04;
+  .vuffi-joint__layer--supported {
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  [data-state='worn'] .vuffi-joint__layer--supported {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  .vuffi-joint__scan {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 3px;
+    margin-left: -1px;
+    background: var(--vuffi-lime);
+    box-shadow: 0 0 18px 4px color-mix(in srgb, var(--vuffi-lime) 60%, transparent);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  [data-state='supported'] .vuffi-joint__scan {
+    animation: vuffi-scan-in 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  [data-state='worn'].is-switched .vuffi-joint__scan {
+    animation: vuffi-scan-out 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  @keyframes vuffi-scan-in {
+    0% { left: 0; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+
+  @keyframes vuffi-scan-out {
+    0% { left: 100%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { left: 0; opacity: 0; }
   }
 
   /* Numbers pop in one after another when the supported joint shows */
@@ -255,11 +295,6 @@
     background: #ffffff;
   }
 
-  [data-state='worn'] .vuffi-joint__layer--supported,
-  [data-state='supported'] .vuffi-joint__layer--worn {
-    opacity: 0;
-    pointer-events: none;
-  }
 
   .vuffi-joint__marks {
     margin: 0;
@@ -324,6 +359,10 @@
     .vuffi-joint__mark,
     .vuffi-joint__thumb {
       transition: none;
+    }
+
+    .vuffi-joint__scan {
+      animation: none !important;
     }
   }
 {% endstylesheet %}

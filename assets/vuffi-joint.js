@@ -21,29 +21,37 @@
       const first = this.ings.find((b) => b.getAttribute('aria-expanded') === 'true') || this.ings[0];
       if (first) this.select(first, true);
 
-      if (reduced.matches || (window.Shopify && window.Shopify.designMode)) {
+      if (reduced.matches) {
         this.setState('supported');
         return;
       }
 
-      this.observer = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry.isIntersecting) return;
-          this.observer.disconnect();
-          window.setTimeout(() => {
+      /* Once the diagram is well on screen, show the change by itself (unless someone already tapped) */
+      this.visual = this.querySelector('.vuffi-joint__visual') || this;
+      this.onScroll = () => {
+        const r = this.visual.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.2) {
+          this.stopWatching();
+          this.timer = window.setTimeout(() => {
             if (!this.touched) this.setState('supported');
-          }, 1400);
-        },
-        { threshold: 0.45 }
-      );
-      this.observer.observe(this.querySelector('.vuffi-joint__visual') || this);
+          }, 900);
+        }
+      };
+      document.addEventListener('scroll', this.onScroll, { passive: true, capture: true });
+      this.onScroll();
+    }
+
+    stopWatching() {
+      document.removeEventListener('scroll', this.onScroll, { capture: true });
     }
 
     disconnectedCallback() {
-      if (this.observer) this.observer.disconnect();
+      this.stopWatching();
+      window.clearTimeout(this.timer);
     }
 
     setState(state) {
+      if (this.dataset.state !== state) this.classList.add('is-switched');
       this.dataset.state = state;
       this.switches.forEach((btn) => btn.setAttribute('aria-pressed', String(btn.dataset.set === state)));
     }

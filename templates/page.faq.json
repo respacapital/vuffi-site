@@ -12,12 +12,13 @@
     "hero": {
       "type": "vuffi-page-hero",
       "settings": {
-        "eyebrow": "Help",
+        "eyebrow": "",
         "heading": "Questions, <em>answered.</em>",
         "show_photo": true,
         "slot": "page-faq",
         "image_alt": "A jar of Vuffi on a stone counter in morning light",
-        "image": "shopify://shop_images/vuffi-v2-page-faq.jpg"
+        "image": "shopify://shop_images/vuffi-v2-page-faq.jpg",
+        "background_color": "#0B1411"
       }
     },
     "faq": {

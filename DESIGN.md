@@ -1,6 +1,6 @@
 # Vuffi Design System
 
-Version 6, November 24, 2026. Source of truth for color, type, shape, motion, photography and voice on getvuffi.com. Change this file before changing the theme.
+Version 7, November 24, 2026. Source of truth for color, type, shape, motion, photography and voice on getvuffi.com. Change this file before changing the theme.
 
 Earlier versions are saved on branches: `design/serif-v1` (first serif), `design/rounded-v2` (Nunito, rounded), `design/serif-v3` (serif with the still hero and Robin's first images).
 
@@ -43,6 +43,10 @@ One family, the one printed on the jar: Figtree (a close match to the label lett
 | Clinical details | IBM Plex Mono 400 (Accent) | Specimen labels like "Nº 01", captions like "Fig. 01" |
 | Numbers | Tabular figures | Prices, countdowns, stats |
 
+## 4b. Rhythm
+
+Pages alternate dark and light bands so the energy of the hero carries all the way down. Dark: ink (#0B1411) and bottle green (#0E3B2C, also the scroll story gradient). Light: white and stone (#F3F2EE). Never two of the same next to each other when it can be helped. Home: hero ink, ticker ink, scroll story green, why stone, joint white, photo band, formula stone, dose ink, comparison white, what to expect green, subscribe stone, guarantee ink, life white, FAQ stone, closing offer green. Page titles on every other page are ink. On dark bands accents are leaf green; on light bands bottle green.
+
 ## 5. Shape
 
 1. Everything you can press is round: buttons, chips, tags, toggles, email fields and the slider handle are full pills; icon buttons, the joint numbers, accordion signs and photo arrows are circles.
@@ -68,14 +72,16 @@ Photos carry the brand. Every prompt is in "Image Prompts - Vuffi - 2026.11.23.t
 
 Motion only where someone toggles, slides or scrolls, and it should feel expensive.
 
-1. Scroll story: built like the Grüns section. Bottle green fading to moss. The jar rises, the lid pops off in an arc, then chews fly out of the jar one by one, turning as they go, while each big uppercase line slides up with them.
+1. Scroll story: built like the Grüns section. Bottle green fading to moss. A big closed jar rises (its lower half runs off the bottom of the screen), the lid pops off in an arc, then chews fly out of the jar one by one, turning as they go, while each big uppercase line slides up with them.
+1b. Joint switch: the supported joint wipes across the worn one behind a leaf green scan line, and plays by itself once the diagram is on screen.
+1c. What to expect: the track fills as the section scrolls past and each step lights up when the fill reaches it.
 2. Headlines: every word rises out of its own mask, one after another.
 3. Photos: wipe up from the bottom while the picture settles from a slow zoom. Full width photos drift slower than the page; page title photos settle as they scroll in. Photos zoom slightly on hover.
 4. Buttons: the fill sweeps up on hover, the arrow slides, a small press on click.
 5. Toggles and tabs: the joint switch crossfades and the five numbers pop in one by one; the buy box and dose finder ease between choices; accordions open smoothly.
 6. Sliders: the ticker strip slides slowly; photo rows scroll sideways with arrows.
 7. The 90 day seal turns slowly.
-8. Numbers count up once. Everything stops for people who ask their device for less motion. In the theme editor the scroll story and the seal still move; the other reveals stay still so sections are easy to edit.
+8. Numbers count up once. Everything stops for people who ask their device for less motion. Motion also runs in the theme editor; selecting a section shows it at once.
 
 ## 8. Voice
 

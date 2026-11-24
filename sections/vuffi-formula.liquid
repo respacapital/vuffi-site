@@ -42,6 +42,7 @@
       {%- endif -%}
     </div>
 
+    {%- if section.settings.show_cards -%}
     <ul class="vuffi-formula__grid" role="list">
       {%- for block in section.blocks -%}
         <li class="vuffi-formula__card" data-reveal style="--i: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
@@ -65,6 +66,7 @@
         </li>
       {%- endfor -%}
     </ul>
+    {%- endif -%}
 
     {%- if section.settings.note != blank -%}
       <p class="vuffi-small vuffi-formula__note" data-reveal>{{ section.settings.note }}</p>
@@ -274,6 +276,13 @@
       "id": "diagram_alt",
       "label": "Diagram description for screen readers",
       "default": "A Vuffi soft chew cut in half, with all five ingredients labeled inside"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cards",
+      "label": "Show the ingredient photo row",
+      "default": true,
+      "info": "Turn off on pages that already list each ingredient in full."
     },
     {
       "type": "text",

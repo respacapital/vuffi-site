@@ -13,6 +13,16 @@ Working notes for the Nov 2026 launch build. Newest decisions first in each list
 - Pages: Home, Product, Ingredients, FAQ, Our Story, Contact, policies. TPLO landing page after launch.
 - Big logo lockup with slogan at the bottom of the footer. Countdowns, reveal animations, pinned scroll story (text stacks, jar opens, chews rise).
 
+## Design version 7 (Nov 24, late)
+- Robin: low quality and too tall photos on phones, joint switch should use two identical images, better ingredients page, keep the dark and light theme all the way down, What to expect looked weak, animation broken on computers, bigger jar covering the bottom with the lid fully on, a few more good animations, fewer sections.
+- Scroll story: listens to every scroll (capture) instead of an intersection check that stayed quiet on desktop previews; jar much bigger; lid seated on a copy of the jar with the top cleared (vuffi-v3-scroll-jar-base.png), swapped for the full jar as the lid lifts.
+- Reveals: an observer plus a scroll check backup, and they now run in the theme editor too.
+- Rhythm: dark and light bands alternate on home, product and ingredients; page titles are dark. Home lost the daily ritual and the second photo band.
+- What to expect rebuilt: dark green, big time labels, track that fills on scroll.
+- Joint switch: scan line wipe; plays once on screen. Prompt sheet for an identical worn and supported pair: "Joint Image Prompts - Vuffi - 2026.11.24.txt".
+- Ingredients page: new Vuffi ingredient list section (alternating dark and light rows, photos to the edge); formula there shows the cut chew only.
+- Phone photo bands follow the screen width (square, 4:3 or 4:5) and load larger files.
+
 ## Design version 6 (Nov 24)
 - Robin: remove the small labels on the hero and scroll story and the FIG captions, drop the No. numbers, chews should come out of the jar on scroll with the text, fix the phone hero, spin the 90 day seal again, make the cart discount obvious, no sharp edged photos (run them to the edge of the screen), round buttons everywhere.
 - Scroll story rebuilt: jar rises, lid pops, chews pop up out of the jar one by one and glide to where they land; each line slides up as its chew clears. Runs in the theme editor too (Robin reviews there).

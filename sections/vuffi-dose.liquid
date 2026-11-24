@@ -178,6 +178,17 @@
     --vuffi-accent: var(--vuffi-lime);
   }
 
+  /* On a dark band the answer becomes a leaf green panel so it still stands out */
+  .vuffi-dose[data-tone='dark'] .vuffi-dose__result {
+    background: var(--vuffi-lime);
+    color: var(--vuffi-ink);
+    --vuffi-accent: var(--vuffi-ink);
+  }
+
+  .vuffi-dose[data-tone='dark'] .vuffi-dose__result .vuffi-icon-wrap {
+    background: rgb(11 20 17 / 0.1);
+  }
+
   .vuffi-dose__result .vuffi-icon-wrap {
     grid-row: span 2;
     display: grid;

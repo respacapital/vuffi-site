@@ -1,5 +1,6 @@
-/* Vuffi motion: headline and photo reveals on scroll, count up numbers and sale countdowns.
-   Everything respects the reduced motion setting and the theme editor. */
+/* Vuffi motion: headline and photo reveals on scroll, scroll linked progress, count up numbers and sale countdowns.
+   Everything respects the reduced motion setting. In the theme editor things move too, and any section you
+   select shows straight away so it is easy to edit. */
 (() => {
   const root = document.documentElement;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -7,15 +8,43 @@
 
   if (isDesign()) root.classList.add('vuffi-design');
 
-  /* Reveal */
+  /* Reveal. An observer does most of the work; a light scroll check backs it up for setups where the
+     observer stays quiet (some desktop previews), so nothing can stay hidden. */
+  const pending = new Set();
+  let checkFrame = 0;
+
+  const reveal = (el) => {
+    el.classList.add('is-in');
+    pending.delete(el);
+    if (revealObserver) revealObserver.unobserve(el);
+  };
+
+  const checkPending = () => {
+    checkFrame = 0;
+    const limit = window.innerHeight * 0.94;
+    pending.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < limit && r.bottom > 0) reveal(el);
+    });
+    progressItems.forEach(updateProgress);
+  };
+
+  const requestCheck = () => {
+    if (!checkFrame) checkFrame = requestAnimationFrame(checkPending);
+  };
+
+  const track = (el) => {
+    pending.add(el);
+    if (revealObserver) revealObserver.observe(el);
+    requestCheck();
+  };
+
   const revealObserver =
     'IntersectionObserver' in window
       ? new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
-              if (!entry.isIntersecting) return;
-              entry.target.classList.add('is-in');
-              revealObserver.unobserve(entry.target);
+              if (entry.isIntersecting) reveal(entry.target);
             });
           },
           { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
@@ -24,15 +53,15 @@
 
   function initReveal(scope) {
     scope.querySelectorAll('[data-reveal]:not(.is-in)').forEach((el) => {
-      if (!revealObserver || reduced.matches || isDesign()) {
+      if (reduced.matches || root.classList.contains('vuffi-still')) {
         el.classList.add('is-in');
       } else {
-        revealObserver.observe(el);
+        track(el);
       }
     });
   }
 
-  const still = () => reduced.matches || isDesign() || root.classList.contains('vuffi-still') || !revealObserver;
+  const still = () => reduced.matches || root.classList.contains('vuffi-still');
 
   /* Headlines: wrap each word so it can rise out of its own mask. Screen readers get the full line from aria-label. */
   function splitWords(el) {
@@ -80,7 +109,7 @@
         splitWords(el);
         if (!el.hasAttribute('data-reveal')) {
           el.setAttribute('data-reveal', '');
-          revealObserver.observe(el);
+          track(el);
         }
       });
   }
@@ -99,7 +128,7 @@
       if (still()) {
         media.classList.add('is-in');
       } else {
-        revealObserver.observe(media);
+        track(media);
       }
     });
   }
@@ -141,7 +170,7 @@
     scope.querySelectorAll('[data-count-to]').forEach((el) => {
       if (el.dataset.countReady) return;
       el.dataset.countReady = 'true';
-      if (!countObserver || reduced.matches || isDesign()) return;
+      if (!countObserver || reduced.matches) return;
       el.textContent = '0';
       countObserver.observe(el);
     });
@@ -197,12 +226,54 @@
 
   if (!customElements.get('vuffi-countdown')) customElements.define('vuffi-countdown', VuffiCountdown);
 
+  /* Scroll linked progress: [data-progress] gets --progress from 0 (its top reaches 85% of the screen)
+     to 1 (its bottom reaches 45%). Children with [data-progress-step] get is-reached in turn. */
+  const progressItems = new Set();
+
+  function updateProgress(el) {
+    const r = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const start = vh * 0.85;
+    const end = vh * 0.45;
+    const p = still() ? 1 : Math.min(1, Math.max(0, (start - r.top) / (r.height + start - end)));
+    el.style.setProperty('--progress', p.toFixed(3));
+    const steps = el.querySelectorAll('[data-progress-step]');
+    steps.forEach((step, i) => {
+      const at = steps.length > 1 ? (i / (steps.length - 1)) * 0.96 : 0;
+      step.classList.toggle('is-reached', p >= at);
+    });
+  }
+
+  function initProgress(scope) {
+    scope.querySelectorAll('[data-progress]').forEach((el) => {
+      progressItems.add(el);
+      updateProgress(el);
+    });
+  }
+
   function init(scope = document) {
     initHeadlines(scope);
     initMedia(scope);
     initReveal(scope);
     initCounts(scope);
+    initProgress(scope);
+    requestCheck();
   }
+
+  document.addEventListener('scroll', requestCheck, { passive: true, capture: true });
+  window.addEventListener('resize', requestCheck, { passive: true });
+
+  /* Theme editor: whatever you select shows at once */
+  const showAll = (event) => {
+    const scope = event.target;
+    if (!scope || !scope.querySelectorAll) return;
+    scope.querySelectorAll('[data-reveal], [data-media-reveal]').forEach(reveal);
+  };
+  document.addEventListener('shopify:section:select', showAll);
+  document.addEventListener('shopify:block:select', (event) => {
+    const section = event.target.closest('.shopify-section') || event.target;
+    showAll({ target: section });
+  });
 
   window.Vuffi = window.Vuffi || {};
   window.Vuffi.init = init;
