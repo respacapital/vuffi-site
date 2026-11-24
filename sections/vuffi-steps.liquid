@@ -181,9 +181,9 @@
     color: var(--vuffi-accent);
   }
 
-  .vuffi-steps__chews svg {
-    width: 26px;
-    height: 26px;
+  .vuffi-steps .vuffi-steps__chews svg {
+    width: 30px;
+    height: 30px;
   }
 
   .vuffi-steps__habits {
@@ -307,6 +307,26 @@
 
     .vuffi-steps__value {
       font-size: 18px;
+    }
+
+    .vuffi-steps__amount {
+      white-space: nowrap;
+    }
+
+    .vuffi-steps__amount .vuffi-steps__chews,
+    .vuffi-steps__amount .vuffi-steps__value {
+      display: inline-flex;
+      vertical-align: middle;
+      margin: 0;
+    }
+
+    .vuffi-steps__amount .vuffi-steps__chews {
+      margin-right: 10px;
+    }
+
+    .vuffi-steps .vuffi-steps__chews svg {
+      width: 36px;
+      height: 36px;
     }
 
     .vuffi-steps__habits {
