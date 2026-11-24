@@ -82,7 +82,9 @@
       "type": "vuffi-countdown-bar",
       "settings": {
         "link": "shopify://products/hip-and-joint-soft-chews",
-        "background_color": "#141A17"
+        "background_color": "#141A17",
+        "text": "Black Friday: 25% off everything",
+        "mobile_text": "Black Friday: 25% off"
       }
     }
   },

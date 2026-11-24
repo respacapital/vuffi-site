@@ -72,8 +72,10 @@ class VuffiBuy extends HTMLElement {
     const variant = this.variant;
     const live = this.dealLive();
     const sub = variant.sub;
-    const subNow = sub != null && live ? Math.round(sub * (1 - this.dealSub / 100)) : sub;
-    const oneNow = live && this.dealOne > 0 ? Math.round(variant.price * (1 - this.dealOne / 100)) : variant.price;
+    /* Shopify takes discounts off in whole cents, rounding down, so do the same here */
+    const off = (cents, percent) => cents - Math.floor((cents * percent) / 100 + 1e-6);
+    const subNow = sub != null && live ? off(sub, this.dealSub) : sub;
+    const oneNow = live && this.dealOne > 0 ? off(variant.price, this.dealOne) : variant.price;
 
     this.setText('[data-price="sub"]', subNow != null ? formatMoney(subNow, this.format) : '');
     this.setText('[data-was="sub"]', formatMoney(variant.price, this.format));

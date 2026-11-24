@@ -81,7 +81,12 @@
       ],
       "settings": {
         "default_subscribe": true,
-        "eyebrow": ""
+        "eyebrow": "",
+        "deal_one_percent": 25,
+        "deal_sub_percent": 25,
+        "deal_one_exact": "25.02",
+        "deal_sub_exact": "25.02",
+        "sticker_text": "off everything"
       }
     },
     "detail": {

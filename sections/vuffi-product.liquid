@@ -32,10 +32,14 @@
     endfor
   endif
   assign sub_save = section.settings.subscribe_label_percent
-  assign one_deal = one_price | times: section.settings.deal_one_percent | divided_by: 100.0 | round
+  # Shopify takes the discount off in whole cents, rounding down. The exact percent from
+  # Shopify Discounts makes the page show the same price the cart and checkout charge.
+  assign one_exact = section.settings.deal_one_exact | default: section.settings.deal_one_percent | plus: 0
+  assign sub_exact = section.settings.deal_sub_exact | default: section.settings.deal_sub_percent | plus: 0
+  assign one_deal = one_price | times: one_exact | divided_by: 100.0 | floor
   assign one_deal = one_price | minus: one_deal
   if sub_price
-    assign sub_deal = sub_price | times: section.settings.deal_sub_percent | divided_by: 100.0 | round
+    assign sub_deal = sub_price | times: sub_exact | divided_by: 100.0 | floor
     assign sub_deal = sub_price | minus: sub_deal
   endif
   assign default_mode = 'one'
@@ -131,8 +135,8 @@
         class="vuffi-pdp__buy"
         data-deal-live="{{ deal_live }}"
         data-deal-end="{{ section.settings.deal_end | escape }}"
-        data-deal-sub="{{ section.settings.deal_sub_percent }}"
-        data-deal-one="{{ section.settings.deal_one_percent }}"
+        data-deal-sub="{{ sub_exact }}"
+        data-deal-one="{% if section.settings.deal_one_percent > 0 %}{{ one_exact }}{% else %}0{% endif %}"
         data-money-format="{{ shop.money_format | strip_html | escape }}"
         data-mode="{{ default_mode }}"
       >
@@ -1148,6 +1152,18 @@
       "step": 1,
       "unit": "%",
       "default": 10
+    },
+    {
+      "type": "text",
+      "id": "deal_sub_exact",
+      "label": "Exact subscription discount in Shopify",
+      "info": "Optional. The percent exactly as set in Shopify Discounts (for example 25.02), so the page price matches checkout to the cent."
+    },
+    {
+      "type": "text",
+      "id": "deal_one_exact",
+      "label": "Exact one time discount in Shopify",
+      "info": "Optional. The percent exactly as set in Shopify Discounts (for example 25.02)."
     },
     {
       "type": "text",

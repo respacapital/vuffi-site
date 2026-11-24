@@ -19,7 +19,8 @@
     assign sub_price = one_time_price | minus: saving
   endif
   if sub_price != nil
-    assign deal_off = sub_price | times: section.settings.deal_percent | divided_by: 100.0 | round
+    assign deal_exact = section.settings.deal_exact | default: section.settings.deal_percent | plus: 0
+    assign deal_off = sub_price | times: deal_exact | divided_by: 100.0 | floor
     assign deal_price = sub_price | minus: deal_off
   endif
 -%}
@@ -365,6 +366,12 @@
       "unit": "%",
       "default": 25,
       "info": "Display only. The discount itself is set in Shopify Discounts."
+    },
+    {
+      "type": "text",
+      "id": "deal_exact",
+      "label": "Exact discount in Shopify",
+      "info": "Optional. The percent exactly as set in Shopify Discounts (for example 25.02), so the price matches checkout to the cent."
     },
     {
       "type": "text",

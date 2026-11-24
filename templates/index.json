@@ -51,7 +51,8 @@
         "button_link": "/products/hip-and-joint-soft-chews",
         "button2_link": "/pages/ingredients",
         "padding_top": 40,
-        "padding_bottom": 64
+        "padding_bottom": 64,
+        "badge_text": "Black Friday: 25% off everything"
       }
     },
     "ticker": {
@@ -191,7 +192,7 @@
             "name": "Glucosamine",
             "role": "Rebuilds cartilage",
             "text": "<p>The raw material your dog's body uses to build and repair the cushion on the ends of the bones. Dogs make less of it as they age.</p>",
-            "x": 46,
+            "x": 37,
             "y": 42
           }
         },
@@ -201,8 +202,8 @@
             "name": "Chondroitin",
             "role": "Keeps it springy",
             "text": "<p>Pulls water into cartilage so it absorbs every landing, and slows the enzymes that wear it away.</p>",
-            "x": 46,
-            "y": 60
+            "x": 37,
+            "y": 63
           }
         },
         "ingredient_3": {
@@ -211,8 +212,8 @@
             "name": "MSM",
             "role": "Calms swelling",
             "text": "<p>A natural sulfur compound the body uses for cartilage, tendons and ligaments. It helps calm swelling inside sore joints.</p>",
-            "x": 71,
-            "y": 49
+            "x": 74,
+            "y": 51
           }
         },
         "ingredient_4": {
@@ -221,8 +222,8 @@
             "name": "Hyaluronic acid",
             "role": "Keeps joints gliding",
             "text": "<p>The main ingredient of joint fluid, the slick cushion that lets bones glide. Older and injured joints run low on it.</p>",
-            "x": 48,
-            "y": 52
+            "x": 52,
+            "y": 54
           }
         },
         "ingredient_5": {
@@ -231,8 +232,8 @@
             "name": "Green lipped mussel",
             "role": "Cools inflammation",
             "text": "<p>A New Zealand shellfish rich in omega fats that turn down inflammation, plus natural cartilage building blocks.</p>",
-            "x": 82,
-            "y": 16
+            "x": 83,
+            "y": 14
           }
         }
       },
@@ -244,9 +245,10 @@
         "ingredient_5"
       ],
       "settings": {
-        "worn_image": "shopify://shop_images/vuffi-v2-diagram-joint-worn.jpg",
-        "supported_image": "shopify://shop_images/vuffi-v2-diagram-joint-ingredients.jpg",
-        "background_color": "#0B1411"
+        "worn_image": "shopify://shop_images/vuffi-v4-diagram-joint-worn.jpg",
+        "supported_image": "shopify://shop_images/vuffi-v4-diagram-joint-ingredients.jpg",
+        "background_color": "#0B1411",
+        "card_color": "#091310"
       }
     },
     "formula": {
@@ -255,7 +257,7 @@
         "ingredient_1": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v2-ing-glucosamine.jpg",
+            "image": "shopify://shop_images/vuffi-v4-ing-glucosamine.jpg",
             "slot": "ing-glucosamine",
             "name": "Glucosamine",
             "tagline": "Rebuilds cartilage",
@@ -268,7 +270,7 @@
         "ingredient_2": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v2-ing-chondroitin.jpg",
+            "image": "shopify://shop_images/vuffi-v4-ing-chondroitin.jpg",
             "slot": "ing-chondroitin",
             "name": "Chondroitin",
             "tagline": "Keeps it springy",
@@ -281,7 +283,7 @@
         "ingredient_3": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v2-ing-msm.jpg",
+            "image": "shopify://shop_images/vuffi-v4-ing-msm.jpg",
             "slot": "ing-msm",
             "name": "MSM",
             "tagline": "Calms swelling",
@@ -294,7 +296,7 @@
         "ingredient_4": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v2-ing-hyaluronic.jpg",
+            "image": "shopify://shop_images/vuffi-v4-ing-hyaluronic.jpg",
             "slot": "ing-hyaluronic",
             "name": "Hyaluronic acid",
             "tagline": "Keeps joints gliding",
@@ -307,7 +309,7 @@
         "ingredient_5": {
           "type": "ingredient",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v2-ing-mussel.jpg",
+            "image": "shopify://shop_images/vuffi-v4-ing-mussel.jpg",
             "slot": "ing-mussel",
             "name": "Green lipped mussel",
             "tagline": "Cools inflammation",
@@ -496,7 +498,8 @@
         "image": "shopify://shop_images/vuffi-v2-subscribe-jar.jpg",
         "product": "hip-and-joint-soft-chews",
         "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#F3F2EE"
+        "background_color": "#F3F2EE",
+        "deal_exact": "25.02"
       }
     },
     "guarantee": {
@@ -535,7 +538,7 @@
           "type": "question",
           "settings": {
             "question": "How does the subscription work?",
-            "answer": "<p>Choose Subscribe and save to get 15% off every jar, shipped every month. Skip, change or cancel anytime from your account. During Black Friday, your first box is 25% off.</p>"
+            "answer": "<p>Choose Subscribe and save to get 15% off every jar, shipped every month. Skip, change or cancel anytime from your account. During Black Friday, everything is 25% off, including your first subscription box.</p>"
           }
         }
       },
@@ -558,7 +561,8 @@
       "settings": {
         "image": "shopify://shop_images/vuffi-v2-bf-banner.jpg",
         "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#0E3B2C"
+        "background_color": "#0E3B2C",
+        "text": "<p>25% off everything until November 30, subscriptions included. One chew a day, free shipping and 90 days to love it.</p>"
       }
     },
     "why": {
