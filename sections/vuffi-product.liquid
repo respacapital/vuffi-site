@@ -193,14 +193,14 @@
         -%}
         {%- if chip_count > 0 -%}
           {%- comment -%} Three proof points as one stone strip: a green seal with the icon, a title and a short line {%- endcomment -%}
-          <ul class="vuffi-pdp__perks" role="list" style="--perks: {{ chip_count }};">
+          <ul class="vuffi-pdp__proof" role="list" style="--proof: {{ chip_count }};">
             {%- for block in section.blocks -%}
               {%- if block.type == 'chip' -%}
-                <li class="vuffi-pdp__perk" {{ block.shopify_attributes }}>
-                  <span class="vuffi-pdp__perk-seal">{%- render 'vuffi-icon', name: block.settings.icon -%}</span>
-                  <span class="vuffi-pdp__perk-title">{{ block.settings.text }}</span>
+                <li class="vuffi-pdp__proof-item" {{ block.shopify_attributes }}>
+                  <span class="vuffi-pdp__proof-seal">{%- render 'vuffi-icon', name: block.settings.icon -%}</span>
+                  <span class="vuffi-pdp__proof-title">{{ block.settings.text }}</span>
                   {%- if block.settings.detail != blank -%}
-                    <span class="vuffi-pdp__perk-text">{{ block.settings.detail }}</span>
+                    <span class="vuffi-pdp__proof-text">{{ block.settings.detail }}</span>
                   {%- endif -%}
                 </li>
               {%- endif -%}
@@ -559,9 +559,9 @@
     color: var(--color-foreground-muted);
   }
 
-  .vuffi-pdp__perks {
+  .vuffi-pdp__proof {
     display: grid;
-    grid-template-columns: repeat(var(--perks, 3), minmax(0, 1fr));
+    grid-template-columns: repeat(var(--proof, 3), minmax(0, 1fr));
     margin: 2px 0 0;
     padding: 0;
     list-style: none;
@@ -571,7 +571,7 @@
     overflow: hidden;
   }
 
-  .vuffi-pdp__perk {
+  .vuffi-pdp__proof-item {
     display: grid;
     justify-items: center;
     align-content: start;
@@ -580,11 +580,11 @@
     text-align: center;
   }
 
-  .vuffi-pdp__perk + .vuffi-pdp__perk {
+  .vuffi-pdp__proof-item + .vuffi-pdp__proof-item {
     border-left: 1px solid var(--vuffi-line);
   }
 
-  .vuffi-pdp__perk-seal {
+  .vuffi-pdp__proof-seal {
     display: grid;
     place-items: center;
     width: 42px;
@@ -600,19 +600,19 @@
       inset 0 0 0 4px rgb(255 255 255 / 0.06);
   }
 
-  .vuffi-pdp__perk-seal .vuffi-icon,
-  .vuffi-pdp__perk-seal svg {
+  .vuffi-pdp__proof-seal .vuffi-icon,
+  .vuffi-pdp__proof-seal svg {
     width: 20px;
     height: 20px;
   }
 
-  .vuffi-pdp__perk-title {
+  .vuffi-pdp__proof-title {
     font-size: 13px;
     font-weight: 600;
     line-height: 1.25;
   }
 
-  .vuffi-pdp__perk-text {
+  .vuffi-pdp__proof-text {
     font-size: 12px;
     line-height: 1.4;
     color: var(--color-foreground-muted);
@@ -1015,11 +1015,11 @@
       display: none;
     }
 
-    .vuffi-pdp__perk {
+    .vuffi-pdp__proof-item {
       padding: 20px 12px 18px;
     }
 
-    .vuffi-pdp__perk-title {
+    .vuffi-pdp__proof-title {
       font-size: 14px;
     }
 
