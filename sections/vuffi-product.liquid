@@ -131,6 +131,19 @@
           <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
         {%- endif -%}
         <h1 class="vuffi-h2 vuffi-pdp__title">{{ product.title }}</h1>
+        {%- if section.settings.show_rating -%}
+          {%- comment -%} Judge.me star rating; hidden by Judge.me until the first review arrives {%- endcomment -%}
+          <div class="vuffi-pdp__rating">
+            <div
+              class="jdgm-widget jdgm-preview-badge"
+              data-id="{{ product.id }}"
+              data-template="product"
+              data-auto-install="false"
+            >
+              {{- product.metafields.judgeme.badge -}}
+            </div>
+          </div>
+        {%- endif -%}
         {%- if section.settings.subtitle != blank -%}
           <p class="vuffi-pdp__subtitle">{{ section.settings.subtitle }}</p>
         {%- endif -%}
@@ -290,6 +303,12 @@
             {%- endif -%}
           {%- endfor -%}
         </div>
+
+        {%- for block in section.blocks -%}
+          {%- if block.type == '@app' -%}
+            <div class="vuffi-pdp__app">{% render block %}</div>
+          {%- endif -%}
+        {%- endfor -%}
       </vuffi-buy>
     </div>
   </div>
@@ -399,6 +418,23 @@
   .vuffi-pdp__buy {
     display: grid;
     gap: 18px;
+  }
+
+  .vuffi-pdp__rating {
+    margin-top: -6px;
+  }
+
+  .vuffi-pdp__rating .jdgm-widget,
+  .vuffi-pdp__rating .jdgm-preview-badge {
+    margin: 0;
+  }
+
+  .vuffi-pdp__rating .jdgm-star {
+    color: var(--vuffi-accent) !important;
+  }
+
+  .vuffi-pdp__app {
+    margin-top: 20px;
   }
 
   .vuffi-pdp__title {
@@ -804,6 +840,13 @@
       "info": "Only needed outside the product page."
     },
     {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show the Judge.me star rating under the name",
+      "default": true,
+      "info": "Needs Judge.me turned on in Theme settings > App embeds. Hidden until the first review."
+    },
+    {
       "type": "text",
       "id": "eyebrow",
       "label": "Small line above the title"
@@ -1020,6 +1063,9 @@
     }
   ],
   "blocks": [
+    {
+      "type": "@app"
+    },
     {
       "type": "chip",
       "name": "Chip",

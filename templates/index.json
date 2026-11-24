@@ -494,7 +494,7 @@
       ],
       "settings": {
         "image": "shopify://shop_images/vuffi-v2-subscribe-jar.jpg",
-        "product": "hip-and-joint-soft-chews-original",
+        "product": "hip-and-joint-soft-chews",
         "button_link": "/products/hip-and-joint-soft-chews",
         "background_color": "#F3F2EE"
       }
@@ -531,39 +531,11 @@
             "answer": "<p>Vuffi is for dogs over 12 weeks old, seniors included. If your dog is pregnant, nursing or taking medication, check with your vet first.</p>"
           }
         },
-        "question_4": {
-          "type": "question",
-          "settings": {
-            "question": "Does it contain allergens?",
-            "answer": "<p>Yes. Green lipped mussel is a shellfish, and glucosamine often comes from shellfish too. If your dog has a shellfish allergy, skip Vuffi. The chews are pork flavored.</p>"
-          }
-        },
         "question_5": {
           "type": "question",
           "settings": {
             "question": "How does the subscription work?",
             "answer": "<p>Choose Subscribe and save to get 15% off every jar, shipped every month. Skip, change or cancel anytime from your account. During Black Friday, your first box is 25% off.</p>"
-          }
-        },
-        "question_6": {
-          "type": "question",
-          "settings": {
-            "question": "What is your guarantee?",
-            "answer": "<p>Try Vuffi for 90 days. If you're not happy, email us and we'll refund your order. You keep the jar.</p>"
-          }
-        },
-        "question_7": {
-          "type": "question",
-          "settings": {
-            "question": "Do you charge for shipping?",
-            "answer": "<p>Shipping is free on every US order. Delivery details are in our shipping policy.</p>"
-          }
-        },
-        "question_8": {
-          "type": "question",
-          "settings": {
-            "question": "Can I give it with other supplements or medication?",
-            "answer": "<p>Vuffi is a supplement, not a medicine. If your dog takes medication or other joint products, ask your vet before adding it.</p>"
           }
         }
       },
@@ -571,16 +543,14 @@
         "question_1",
         "question_2",
         "question_3",
-        "question_4",
-        "question_5",
-        "question_6",
-        "question_7",
-        "question_8"
+        "question_5"
       ],
       "settings": {
-        "button_link": "/pages/contact",
+        "button_link": "/pages/faq",
         "schema_markup": false,
-        "background_color": "#F3F2EE"
+        "background_color": "#F3F2EE",
+        "text": "<p>More answers on ingredients, allergies, shipping and the guarantee.</p>",
+        "button_label": "See every question"
       }
     },
     "cta": {
@@ -659,7 +629,7 @@
           "settings": {
             "image": "shopify://shop_images/vuffi-v2-life-walk.jpg",
             "slot": "life-walk",
-            "label": "06:45 · First walk",
+            "label": "",
             "title": "The morning loop"
           }
         },
@@ -668,7 +638,7 @@
           "settings": {
             "image": "shopify://shop_images/vuffi-v2-life-car.jpg",
             "slot": "life-car",
-            "label": "09:10 · Road trip",
+            "label": "",
             "title": "Ready for the car"
           }
         },
@@ -677,7 +647,7 @@
           "settings": {
             "image": "shopify://shop_images/vuffi-v2-life-couch.jpg",
             "slot": "life-couch",
-            "label": "13:00 · Nap",
+            "label": "",
             "title": "Couch, claimed"
           }
         },
@@ -686,7 +656,7 @@
           "settings": {
             "image": "shopify://shop_images/vuffi-v2-life-beach.jpg",
             "slot": "life-beach",
-            "label": "17:30 · Beach",
+            "label": "",
             "title": "Off leash, all in"
           }
         },
@@ -695,7 +665,7 @@
           "settings": {
             "image": "shopify://shop_images/vuffi-v2-life-stairs.jpg",
             "slot": "life-stairs",
-            "label": "21:00 · Bedtime",
+            "label": "",
             "title": "Up the stairs to bed"
           }
         }

@@ -81,7 +81,7 @@
     "vuffi_bar": {
       "type": "vuffi-countdown-bar",
       "settings": {
-        "link": "shopify://products/hip-and-joint-soft-chews-original",
+        "link": "shopify://products/hip-and-joint-soft-chews",
         "background_color": "#141A17"
       }
     }

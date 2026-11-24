@@ -49,22 +49,6 @@
         "image_shape": "16 / 9"
       }
     },
-    "guarantee": {
-      "type": "vuffi-guarantee",
-      "settings": {
-        "background_color": "#F3F2EE",
-        "button_link": "/products/hip-and-joint-soft-chews",
-        "link": "/pages/return-policy"
-      }
-    },
-    "cta": {
-      "type": "vuffi-cta",
-      "settings": {
-        "button_link": "/products/hip-and-joint-soft-chews",
-        "background_color": "#0E3B2C",
-        "image": "shopify://shop_images/vuffi-v2-bf-banner.jpg"
-      }
-    },
     "band_about": {
       "type": "vuffi-image-band",
       "settings": {
@@ -75,7 +59,9 @@
         "background_color": "#111A16",
         "heading": "Every step, <em>supported.</em>",
         "image_alt": "A dog resting its head on its owner's knee",
-        "image": "shopify://shop_images/vuffi-v2-band-about.jpg"
+        "image": "shopify://shop_images/vuffi-v2-band-about.jpg",
+        "button_label": "Shop Vuffi",
+        "button_link": "/products/hip-and-joint-soft-chews"
       }
     }
   },
@@ -83,8 +69,6 @@
     "hero",
     "why",
     "band_about",
-    "prevent",
-    "guarantee",
-    "cta"
+    "prevent"
   ]
 }

@@ -4,28 +4,32 @@
 
 :root {
   --vuffi-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --vuffi-radius-sm: 10px;
+  /* Luxury clinical: no rounded tiles. Photos, panels and lists have square corners;
+     only things you press (buttons, switches, chips) and small markers stay round. */
+  --vuffi-radius-sm: 0px;
   --vuffi-radius-btn: 999px;
-  --vuffi-radius: 16px;
-  --vuffi-radius-lg: 24px;
-  --vuffi-max: 1280px;
+  --vuffi-radius: 0px;
+  --vuffi-radius-lg: 0px;
+  /* Content width and side margins match Horizon's narrow page width (90rem) and page margins,
+     so every section lines up with the logo and the cart icon in the header */
+  --vuffi-max: 1440px;
   /* Distance from the content edge to the edge of the screen, for photos that run off the side */
   --vuffi-edge: max(var(--vuffi-gutter), calc((100vw - var(--vuffi-max)) / 2));
-  --vuffi-gutter: 20px;
-  --vuffi-space: 72px;
+  --vuffi-gutter: 16px;
+  --vuffi-space: 80px;
 }
 
 @media screen and (min-width: 750px) {
   :root {
-    --vuffi-gutter: 32px;
-    --vuffi-space: 96px;
+    --vuffi-gutter: 40px;
+    --vuffi-space: 104px;
   }
 }
 
 @media screen and (min-width: 990px) {
   :root {
-    --vuffi-gutter: 48px;
-    --vuffi-space: 120px;
+    --vuffi-gutter: 40px;
+    --vuffi-space: 136px;
   }
 }
 

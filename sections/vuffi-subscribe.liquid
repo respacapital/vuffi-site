@@ -26,16 +26,15 @@
 {%- render 'vuffi-section-style', section: section -%}
 
 <section class="vuffi-section vuffi-sub color-custom-{{ section.id }}" data-tone="{{ tone }}">
-  <div class="vuffi-wrap">
-    {%- comment -%} One rounded panel: the photo fills its half from top to bottom, so there is no empty space beside the copy {%- endcomment -%}
-    <div class="vuffi-sub__panel">
+  {%- comment -%} Split screen: the photo runs to the edge of the screen and fills the full height beside the copy, so nothing floats in empty space {%- endcomment -%}
+  <div class="vuffi-sub__panel">
       <div class="vuffi-sub__media">
         {%- render 'vuffi-image',
           image: section.settings.image,
           label: 'subscribe-jar',
           ratio: '4 / 3',
           size: '1800 x 2250',
-          sizes: '(min-width: 990px) 620px, 100vw'
+          sizes: '(min-width: 990px) 50vw, 100vw'
         -%}
         {%- if section.settings.show_deal and deal_price -%}
           <div class="vuffi-sub__sticker" aria-hidden="true">
@@ -88,28 +87,17 @@
           {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link, class: 'vuffi-btn--block' -%}
         {%- endif -%}
       </div>
-    </div>
   </div>
 </section>
 
 {% stylesheet %}
-  .vuffi-sub__panel {
-    display: grid;
-    overflow: hidden;
-    border-radius: var(--vuffi-radius-lg);
-    background: #ffffff;
-    color: var(--vuffi-ink);
-    box-shadow: 0 30px 80px rgb(11 20 16 / 0.08);
-    --vuffi-accent: var(--vuffi-green);
-    --vuffi-line: rgb(11 20 16 / 0.12);
+  /* No box: photo and copy share the section, split down the middle on computers */
+  .vuffi-sub {
+    padding-top: 0;
   }
 
-  [data-tone='dark'] .vuffi-sub__panel {
-    background: rgb(255 255 255 / 0.05);
-    color: inherit;
-    box-shadow: none;
-    --vuffi-accent: var(--vuffi-lime);
-    --vuffi-line: rgb(255 255 255 / 0.16);
+  .vuffi-sub__panel {
+    display: grid;
   }
 
   .vuffi-sub__media {
@@ -134,7 +122,6 @@
     color: var(--vuffi-ink);
     text-align: center;
     transform: rotate(-10deg);
-    box-shadow: 0 14px 32px rgb(11 20 16 / 0.2);
   }
 
   .vuffi-sub__sticker span {
@@ -154,29 +141,32 @@
   .vuffi-sub__copy {
     display: grid;
     align-content: center;
-    gap: 24px;
-    padding: 28px 22px 26px;
+    gap: 28px;
+    padding: 40px var(--vuffi-gutter) 0;
   }
 
   .vuffi-sub__title {
-    font-size: clamp(30px, 3.3vw, 48px);
+    font-size: clamp(32px, 3.4vw, 52px);
   }
 
+  /* Perks: a short list on hairlines */
   .vuffi-sub__perks {
     display: grid;
-    gap: 14px;
     margin: 0;
     padding: 0;
     list-style: none;
+    border-top: 1px solid var(--vuffi-line);
   }
 
   .vuffi-sub__perk {
     display: grid;
-    grid-template-columns: 40px 1fr;
-    align-items: center;
+    grid-template-columns: 28px 1fr;
+    align-items: start;
     gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--vuffi-line);
     font-size: 15px;
-    line-height: 1.4;
+    line-height: 1.45;
   }
 
   .vuffi-sub__perk strong {
@@ -185,33 +175,26 @@
   }
 
   .vuffi-sub__perk-text {
-    color: rgb(11 20 16 / 0.62);
-  }
-
-  [data-tone='dark'] .vuffi-sub__perk-text {
     color: var(--color-foreground-muted);
   }
 
   .vuffi-sub__icon {
     display: grid;
     place-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--vuffi-accent) 12%, transparent);
+    width: 28px;
+    height: 28px;
+    color: var(--vuffi-accent);
   }
 
   .vuffi-sub__icon svg {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
   }
 
-  /* Prices as rows, the launch deal on a dark row at the bottom */
+  /* Prices as rows on hairlines, the launch deal on a dark band */
   .vuffi-sub__prices {
     display: grid;
-    overflow: hidden;
-    border: 1px solid var(--vuffi-line);
-    border-radius: var(--vuffi-radius);
+    border-top: 1px solid var(--vuffi-line-strong);
   }
 
   .vuffi-sub__price {
@@ -219,11 +202,8 @@
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    padding: 14px 18px;
-  }
-
-  .vuffi-sub__price + .vuffi-sub__price {
-    border-top: 1px solid var(--vuffi-line);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--vuffi-line);
   }
 
   .vuffi-sub__price-label {
@@ -239,7 +219,7 @@
 
   .vuffi-sub__price--was .vuffi-sub__price-label,
   .vuffi-sub__price--was .vuffi-sub__price-value {
-    color: rgb(11 20 16 / 0.5);
+    color: var(--color-foreground-muted);
   }
 
   .vuffi-sub__price--was .vuffi-sub__price-value {
@@ -254,7 +234,9 @@
   }
 
   .vuffi-sub__price--deal {
-    border-top-color: transparent !important;
+    margin-top: 10px;
+    padding: 16px 18px;
+    border-bottom: 0;
     background: var(--vuffi-ink);
     color: #ffffff;
   }
@@ -264,30 +246,25 @@
   }
 
   @media screen and (min-width: 750px) {
-    .vuffi-sub__copy {
-      padding: 40px;
-    }
-
     .vuffi-sub__perks {
       grid-template-columns: 1fr 1fr;
-      gap: 18px 24px;
+      column-gap: 28px;
     }
 
-    .vuffi-sub__perk {
-      align-items: start;
+    .vuffi-sub__copy {
+      padding-top: 56px;
     }
   }
 
-  /* Computers: photo on the left filling the full height of the panel, copy on the right */
+  /* Computers: the photo fills the left half to the screen edge, top to bottom of the section */
   @media screen and (min-width: 990px) {
-    .vuffi-sub__panel {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      max-width: 1180px;
-      margin-inline: auto;
+    .vuffi-sub {
+      padding-bottom: 0;
     }
 
-    .vuffi-sub__media {
-      min-height: 560px;
+    .vuffi-sub__panel {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      min-height: min(860px, 100svh);
     }
 
     .vuffi-sub__media .vuffi-media,
@@ -300,14 +277,14 @@
     }
 
     .vuffi-sub__copy {
-      gap: 28px;
-      padding: 56px;
+      max-width: calc(var(--vuffi-max) / 2);
+      padding: 96px var(--vuffi-gutter) 96px 72px;
     }
 
     .vuffi-sub__sticker {
-      top: 24px;
-      right: 24px;
-      width: 124px;
+      top: 32px;
+      right: 32px;
+      width: 128px;
     }
 
     .vuffi-sub__sticker span {

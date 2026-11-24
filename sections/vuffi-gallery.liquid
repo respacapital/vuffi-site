@@ -37,7 +37,7 @@
             label: block.settings.slot,
             ratio: section.settings.shape,
             size: '2000 x 2500',
-            sizes: '(min-width: 990px) 25vw, (min-width: 750px) 46vw, 80vw',
+            sizes: '(min-width: 990px) 25vw, (min-width: 750px) 46vw, 84vw',
             alt: block.settings.alt
           -%}
           {%- if block.settings.label != blank or block.settings.title != blank or block.settings.text != blank -%}
@@ -60,18 +60,19 @@
 </section>
 
 {% stylesheet %}
+  /* Photos sit flush, edge to edge, split only by a hairline; no rounded tiles.
+     Phones and tablets swipe; computers show every photo in one row across the screen. */
   .vuffi-gallery__track {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: 80vw;
-    gap: 14px;
+    grid-auto-columns: 84vw;
+    gap: 2px;
     margin: 0;
-    padding: 0 var(--vuffi-gutter) 4px;
+    padding: 0;
     list-style: none;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--vuffi-gutter);
     scrollbar-width: none;
   }
 
@@ -81,7 +82,7 @@
 
   .vuffi-gallery__track:focus-visible {
     outline: 2px solid var(--vuffi-accent);
-    outline-offset: 4px;
+    outline-offset: -2px;
   }
 
   .vuffi-gallery__item {
@@ -95,6 +96,11 @@
     margin: 0;
   }
 
+  .vuffi-gallery__figure .vuffi-media,
+  .vuffi-gallery__figure .vuffi-ph {
+    border-radius: 0;
+  }
+
   .vuffi-gallery__caption {
     display: grid;
     align-content: start;
@@ -102,77 +108,45 @@
   }
 
   .vuffi-gallery__label {
-    font-family: var(--font-accent--family);
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 600;
     line-height: 1.4;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
   }
 
   .vuffi-gallery__title {
     font-family: var(--font-heading--family);
     font-weight: var(--font-heading--weight);
-    font-size: clamp(22px, 1.9vw, 27px);
-    line-height: 1.15;
+    font-size: clamp(24px, 2.1vw, 30px);
+    line-height: 1.1;
     letter-spacing: -0.02em;
   }
 
   .vuffi-gallery__text {
+    max-width: 34ch;
     font-size: 16px;
-    line-height: 1.55;
+    line-height: 1.5;
   }
 
-  /* Green panel: the photo sits on top of a deep green card with the words in white */
-  .vuffi-gallery--panel .vuffi-gallery__figure {
-    overflow: hidden;
-    border-radius: var(--vuffi-radius-lg);
-    background: var(--vuffi-green);
-    color: #ffffff;
-  }
-
-  .vuffi-gallery--panel .vuffi-media,
-  .vuffi-gallery--panel .vuffi-ph {
-    border-radius: 0;
-  }
-
-  .vuffi-gallery--panel .vuffi-gallery__caption {
-    padding: 20px 22px 24px;
-  }
-
-  .vuffi-gallery--panel .vuffi-gallery__label {
-    color: var(--vuffi-lime);
-  }
-
-  .vuffi-gallery--panel .vuffi-gallery__text {
-    color: rgb(255 255 255 / 0.78);
-  }
-
-  [data-tone='dark'].vuffi-gallery--panel .vuffi-gallery__figure {
-    background: rgb(255 255 255 / 0.07);
-  }
-
-  /* Words on the photo, over a green shade */
+  /* Words on the photo, over a deep green shade rising from the bottom */
   .vuffi-gallery--overlay .vuffi-gallery__figure {
     position: relative;
     overflow: hidden;
-    border-radius: var(--vuffi-radius-lg);
   }
 
   .vuffi-gallery--overlay .vuffi-media,
   .vuffi-gallery--overlay .vuffi-ph {
     grid-row: 1 / -1;
     grid-column: 1;
-    border-radius: 0;
   }
 
   .vuffi-gallery--overlay .vuffi-gallery__caption {
     grid-row: 1 / -1;
     grid-column: 1;
-    align-content: end;
-    padding: 28% 22px 24px;
-    background: linear-gradient(0deg, rgb(14 59 44 / 0.94) 0%, rgb(14 59 44 / 0.7) 45%, transparent 100%);
-    color: #ffffff;
     align-self: end;
+    align-content: end;
+    padding: 45% 24px 28px;
+    background: linear-gradient(0deg, rgb(14 59 44 / 0.95) 0%, rgb(14 59 44 / 0.78) 38%, rgb(14 59 44 / 0) 100%);
+    color: #ffffff;
   }
 
   .vuffi-gallery--overlay .vuffi-gallery__label {
@@ -180,12 +154,32 @@
   }
 
   .vuffi-gallery--overlay .vuffi-gallery__text {
-    color: rgb(255 255 255 / 0.82);
+    color: rgb(255 255 255 / 0.84);
   }
 
-  /* Plain words under the photo */
-  .vuffi-gallery--below .vuffi-gallery__figure {
-    gap: 14px;
+  /* Deep green band under each photo */
+  .vuffi-gallery--panel .vuffi-gallery__figure {
+    background: var(--vuffi-green);
+    color: #ffffff;
+  }
+
+  .vuffi-gallery--panel .vuffi-gallery__caption {
+    padding: 22px 24px 28px;
+  }
+
+  .vuffi-gallery--panel .vuffi-gallery__label {
+    color: var(--vuffi-lime);
+  }
+
+  .vuffi-gallery--panel .vuffi-gallery__text {
+    color: rgb(255 255 255 / 0.8);
+  }
+
+  /* Plain words under the photo, set off by a hairline */
+  .vuffi-gallery--below .vuffi-gallery__caption {
+    margin-top: 18px;
+    padding: 16px var(--vuffi-gutter) 0 0;
+    border-top: 1px solid var(--vuffi-line);
   }
 
   .vuffi-gallery--below .vuffi-gallery__text,
@@ -195,10 +189,7 @@
 
   @media screen and (min-width: 750px) {
     .vuffi-gallery__track {
-      grid-auto-columns: 44vw;
-      gap: 18px;
-      padding-inline: var(--vuffi-gutter);
-      scroll-padding-inline: var(--vuffi-gutter);
+      grid-auto-columns: 46vw;
     }
   }
 
@@ -206,10 +197,6 @@
     .vuffi-gallery__track {
       grid-auto-flow: row;
       grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
-      gap: 20px;
-      max-width: calc(var(--vuffi-max) + var(--vuffi-gutter) * 2);
-      margin-inline: auto;
-      padding: 0 var(--vuffi-gutter);
       overflow: visible;
     }
   }
@@ -256,11 +243,11 @@
       "id": "caption_style",
       "label": "Words on each photo",
       "options": [
-        { "value": "panel", "label": "On a green card under the photo" },
         { "value": "overlay", "label": "On the photo, over a green shade" },
+        { "value": "panel", "label": "On a green band under the photo" },
         { "value": "below", "label": "Plain, under the photo" }
       ],
-      "default": "panel"
+      "default": "overlay"
     },
     {
       "type": "color",

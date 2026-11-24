@@ -28,6 +28,35 @@
     --vuffi-lime: {{ settings.color_palette.color2 | default: '#C6E35A' }};
     --vuffi-paper: {{ settings.color_palette.color3 | default: '#F3F2EE' }};
   }
+
+  {%- if section.settings.dark_page_header %}
+  /* Pages that open on a Vuffi page title (Our story, Ingredients, FAQ, Contact, policies):
+     the header turns ink with a white logo so it runs straight into the dark title, like the home page */
+  body:has(.vuffi-phero) #header-component {
+    --color-background-top-row: {{ section.settings.dark_header_color }};
+    --color-background-bottom-row: {{ section.settings.dark_header_color }};
+    --cart-bubble-background: var(--vuffi-lime);
+    --cart-bubble-text: var(--vuffi-ink);
+  }
+
+  body:has(.vuffi-phero) #header-component .header__row {
+    --color-foreground: #ffffff;
+    --color-foreground-rgb: 255 255 255;
+    --color-border: rgb(255 255 255 / 0.16);
+    --color-border-rgb: 255 255 255;
+  }
+
+  {%- if settings.logo_inverse != blank %}
+  body:has(.vuffi-phero) #header-component [data-testid='header-logo'] {
+    display: inline-block;
+    background: url('{{ settings.logo_inverse | image_url: width: 480 }}') left center / contain no-repeat;
+  }
+
+  body:has(.vuffi-phero) #header-component [data-testid='header-logo'] img {
+    opacity: 0;
+  }
+  {%- endif %}
+  {%- endif %}
 {% endstyle %}
 
 {% schema %}
@@ -43,8 +72,25 @@
     {
       "type": "checkbox",
       "id": "enable_motion",
-      "label": "Animate content as it scrolls into view",
+      "label": "Allow motion (scroll story, timeline, ingredient row)",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Header on other pages"
+    },
+    {
+      "type": "checkbox",
+      "id": "dark_page_header",
+      "label": "Dark header on pages with a Vuffi page title",
+      "default": true,
+      "info": "Our story, Ingredients, FAQ, Contact and policy pages. Uses the white logo from Theme settings > Logo."
+    },
+    {
+      "type": "color",
+      "id": "dark_header_color",
+      "label": "Dark header color",
+      "default": "#0B1411"
     },
     {
       "type": "header",

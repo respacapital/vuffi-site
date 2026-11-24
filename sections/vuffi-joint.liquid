@@ -104,9 +104,7 @@
     position: relative;
     display: grid;
     overflow: hidden;
-    border-radius: var(--vuffi-radius-lg);
     background: var(--joint-card);
-    box-shadow: 0 40px 90px rgb(0 0 0 / 0.35);
   }
 
   .vuffi-joint__layer {
@@ -235,26 +233,18 @@
     text-box: trim-both cap alphabetic;
   }
 
-  /* Ingredient list */
+  /* Ingredient list: hairline rows, like the index on a clinical chart */
   .vuffi-joint__list {
     display: grid;
-    gap: 10px;
     margin: 0;
     padding: 0;
     list-style: none;
     align-content: center;
+    border-top: 1px solid var(--vuffi-line);
   }
 
   .vuffi-joint__item {
-    border: 1px solid var(--vuffi-line);
-    border-radius: var(--vuffi-radius);
-    background: rgb(var(--color-foreground-rgb) / 0.03);
-    transition: background-color 0.3s, border-color 0.3s;
-  }
-
-  .vuffi-joint__item:has([aria-expanded='true']) {
-    border-color: color-mix(in srgb, var(--vuffi-accent) 55%, transparent);
-    background: rgb(var(--color-foreground-rgb) / 0.07);
+    border-bottom: 1px solid var(--vuffi-line);
   }
 
   .vuffi-joint__ing {
@@ -263,7 +253,7 @@
     align-items: center;
     gap: 16px;
     width: 100%;
-    padding: 16px 18px;
+    padding: 20px 4px;
     border: 0;
     background: none;
     color: inherit;
@@ -275,7 +265,6 @@
   .vuffi-joint__ing:focus-visible {
     outline: 2px solid var(--vuffi-accent);
     outline-offset: -2px;
-    border-radius: var(--vuffi-radius);
   }
 
   .vuffi-joint__n {
@@ -307,7 +296,7 @@
   .vuffi-joint__name {
     font-family: var(--font-heading--family);
     font-weight: var(--font-heading--weight);
-    font-size: clamp(18px, 1.5vw, 21px);
+    font-size: clamp(19px, 1.6vw, 23px);
     line-height: 1.2;
     letter-spacing: -0.01em;
   }
@@ -334,7 +323,7 @@
   }
 
   .vuffi-joint__text {
-    padding: 0 20px 20px 74px;
+    padding: 0 8px 24px 60px;
     font-size: 15px;
     line-height: 1.6;
     color: var(--color-foreground-muted);

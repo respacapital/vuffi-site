@@ -116,6 +116,28 @@
     position: relative;
   }
 
+  /* Phones and tablets: the photo is the last thing in the section and melts into the footer below,
+     so the page runs straight from the offer into the footer with no band of empty color */
+  @media screen and (max-width: 989px) {
+    .vuffi-section.vuffi-cta {
+      padding-bottom: 0;
+    }
+
+    .vuffi-cta__media {
+      margin-bottom: -1px;
+    }
+
+    .vuffi-cta__media .vuffi-media,
+    .vuffi-cta__media .vuffi-ph {
+      -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 62%, transparent 100%);
+      mask-image: linear-gradient(180deg, #000 0%, #000 62%, transparent 100%);
+    }
+
+    body:has(.vuffi-cta-section:last-child) .vuffi-foot {
+      padding-top: 8px;
+    }
+  }
+
   @media screen and (min-width: 990px) {
     .vuffi-cta__grid {
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);

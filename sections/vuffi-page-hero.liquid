@@ -7,66 +7,125 @@
 -%}
 {%- render 'vuffi-section-style', section: section -%}
 
-<section class="vuffi-section vuffi-phero color-custom-{{ section.id }}" data-tone="{{ tone }}">
-  <div class="vuffi-wrap">
-    <div class="vuffi-head{% if section.settings.center %} vuffi-head--center{% endif %} vuffi-phero__head">
+{%- liquid
+  assign has_photo = false
+  if section.settings.show_photo
+    assign has_photo = true
+  endif
+-%}
+<section
+  class="vuffi-section vuffi-phero {% if has_photo %}vuffi-phero--photo{% else %}vuffi-phero--plain{% if tone == 'dark' %} vuffi-glow{% endif %}{% endif %} color-custom-{{ section.id }}"
+  data-tone="{{ tone }}"
+>
+  {%- if has_photo -%}
+    {%- comment -%} The photo fills the whole title, like the home page hero, and the words sit on it {%- endcomment -%}
+    <div class="vuffi-phero__bg">
+      {%- render 'vuffi-image',
+        image: section.settings.image,
+        label: section.settings.slot,
+        ratio: '16 / 9',
+        size: '3840 x 2160 (16:9)',
+        sizes: '100vw',
+        priority: true,
+        alt: section.settings.image_alt
+      -%}
+    </div>
+  {%- endif -%}
+
+  <div class="vuffi-wrap vuffi-phero__inner">
+    <div class="vuffi-phero__head{% if section.settings.center %} vuffi-phero__head--center{% endif %}">
       {%- if section.settings.eyebrow != blank -%}
         <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
       {%- endif -%}
       <h1 class="vuffi-display vuffi-phero__title">{{ heading }}</h1>
       {%- if section.settings.text != blank -%}
-        <div class="vuffi-lede">{{ section.settings.text }}</div>
+        <div class="vuffi-lede vuffi-phero__text">{{ section.settings.text }}</div>
       {%- endif -%}
     </div>
-    {%- if section.settings.show_photo -%}
-      <div class="vuffi-phero__photo">
-        {%- render 'vuffi-image',
-          image: section.settings.image,
-          label: section.settings.slot,
-          ratio: '21 / 9',
-          size: '3840 x 1646 (21:9)',
-          sizes: '(min-width: 750px) 100vw, 190vw',
-          priority: true,
-          alt: section.settings.image_alt
-        -%}
-      </div>
-    {%- endif -%}
   </div>
 </section>
 
 {% stylesheet %}
   .vuffi-phero__head {
-    max-width: 920px;
+    display: grid;
+    gap: 20px;
+    max-width: 860px;
+  }
+
+  .vuffi-phero__head--center {
+    margin-inline: auto;
+    justify-items: center;
+    text-align: center;
   }
 
   .vuffi-phero__title {
-    font-size: clamp(44px, 7vw, 100px);
+    margin: 0;
+    font-size: clamp(44px, 6.6vw, 104px);
+    line-height: 0.98;
   }
 
-  /* The title photo runs the full width of the screen */
-  .vuffi-phero__photo {
-    margin: 40px calc(var(--vuffi-edge) * -1) 0;
+  .vuffi-phero__text {
+    max-width: 48ch;
   }
 
-  .vuffi-phero__photo .vuffi-media,
-  .vuffi-phero__photo .vuffi-ph {
+  /* Plain title: the dark band with the hero light, words lined up with the logo */
+  .vuffi-section.vuffi-phero--plain {
+    padding-block: clamp(64px, 9vw, 128px) clamp(48px, 6vw, 88px);
+  }
+
+  /* Photo title: full screen photo with the words at the bottom left */
+  .vuffi-section.vuffi-phero--photo {
+    display: grid;
+    align-items: end;
+    min-height: max(560px, 82svh);
+    padding: 0;
+    isolation: isolate;
+  }
+
+  .vuffi-phero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .vuffi-phero__bg .vuffi-media,
+  .vuffi-phero__bg .vuffi-ph {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
     border-radius: 0;
   }
 
-  /* Taller crop on phones so the photo still reads */
-  @media screen and (max-width: 749px) {
-    .vuffi-phero__photo .vuffi-media,
-    .vuffi-phero__photo .vuffi-ph {
-      --ratio: 4 / 5 !important;
-    }
+  /* Shade: dark at the top so the header flows into the photo, clear in the middle, dark behind the words */
+  .vuffi-phero__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        180deg,
+        rgb(var(--color-background-rgb) / 0.9) 0%,
+        rgb(var(--color-background-rgb) / 0) 26%,
+        rgb(var(--color-background-rgb) / 0) 42%,
+        rgb(var(--color-background-rgb) / 0.92) 100%
+      ),
+      linear-gradient(90deg, rgb(var(--color-background-rgb) / 0.55) 0%, rgb(var(--color-background-rgb) / 0) 62%);
+    pointer-events: none;
+  }
+
+  .vuffi-phero--photo .vuffi-phero__inner {
+    padding-block: 160px clamp(48px, 7vw, 96px);
+  }
+
+  .vuffi-phero--photo .vuffi-phero__text {
+    color: rgb(var(--color-foreground-rgb) / 0.86);
   }
 
   @media screen and (min-width: 990px) {
-    .vuffi-phero__photo {
-      margin-top: 64px;
+    .vuffi-section.vuffi-phero--photo {
+      min-height: min(88svh, 900px);
     }
   }
-
 {% endstylesheet %}
 
 {% schema %}
@@ -104,14 +163,14 @@
     {
       "type": "checkbox",
       "id": "show_photo",
-      "label": "Show a wide photo under the text",
+      "label": "Show a photo behind the title",
       "default": false
     },
     {
       "type": "image_picker",
       "id": "image",
       "label": "Photo",
-      "info": "3840 x 1646 (21:9). Cropped to 4:5 on phones, so keep the subject in the middle and set the focal point."
+      "info": "3840 x 2160 (16:9). Fills the screen behind the title; on phones it shows as a tall crop, so keep the subject in the middle and set the focal point. The words sit bottom left."
     },
     {
       "type": "text",
