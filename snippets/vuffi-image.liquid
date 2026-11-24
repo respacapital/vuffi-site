@@ -1,0 +1,43 @@
+{% doc %}
+  A responsive photo in a square cornered frame, cropped around the focal point set in Shopify, or a labeled placeholder when no photo is set.
+
+  @param {image} [image] - The photo
+  @param {string} label - Placeholder slot name
+  @param {string} [ratio] - CSS aspect ratio, for example "4 / 5". Defaults to "1 / 1"
+  @param {string} [size] - Recommended upload size shown on the placeholder
+  @param {string} [sizes] - The sizes attribute. Defaults to "100vw"
+  @param {boolean} [priority] - True for the first image on screen: loads eagerly with high priority
+  @param {boolean} [contain] - Fit the whole photo instead of filling the frame
+  @param {string} [alt] - Alt text. Defaults to the image alt
+  @param {string} [class] - Extra classes on the frame
+{% enddoc %}
+{%- liquid
+  assign img_ratio = ratio | default: '1 / 1'
+  assign img_sizes = sizes | default: '100vw'
+  assign img_loading = 'lazy'
+  assign img_priority = 'auto'
+  if priority
+    assign img_loading = 'eager'
+    assign img_priority = 'high'
+  endif
+  assign img_alt = alt | default: image.alt | escape
+  assign img_focal = image.presentation.focal_point | default: '50% 50%'
+  assign img_style = 'object-position: ' | append: img_focal | append: ';'
+-%}
+{%- if image != blank -%}
+  <div class="vuffi-media{% if contain %} vuffi-media--contain{% endif %} {{ class }}" style="--ratio: {{ img_ratio }};">
+    {{-
+      image
+      | image_url: width: 2400
+      | image_tag:
+        widths: '360, 540, 720, 960, 1200, 1600, 2000, 2400',
+        sizes: img_sizes,
+        loading: img_loading,
+        fetchpriority: img_priority,
+        alt: img_alt,
+        style: img_style
+    -}}
+  </div>
+{%- else -%}
+  {%- render 'vuffi-placeholder', label: label, ratio: img_ratio, size: size, class: class -%}
+{%- endif -%}

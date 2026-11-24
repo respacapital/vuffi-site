@@ -1,0 +1,135 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "vuffi-page-hero",
+      "settings": {
+        "eyebrow": "",
+        "heading": "What goes <em>into</em> every chew.",
+        "text": "<p>Five joint actives, chosen for what they do inside the joint, in one pork flavored soft chew.</p>",
+        "show_photo": true,
+        "slot": "page-ingredients",
+        "image_alt": "The five Vuffi ingredients laid out on stone",
+        "image": "shopify://shop_images/vuffi-v2-page-ingredients.jpg",
+        "background_color": "#0B1411"
+      }
+    },
+    "band_ing": {
+      "type": "vuffi-image-band",
+      "settings": {
+        "slot": "band-chew",
+        "height": "medium",
+        "position": "bottom-left",
+        "shade": 45,
+        "background_color": "#111A16",
+        "caption": "",
+        "image_alt": "A Vuffi soft chew, close up",
+        "image": "shopify://shop_images/vuffi-v2-band-chew.jpg",
+        "heading": "Ready when <em>they are.</em>",
+        "button_label": "Shop Vuffi",
+        "button_link": "/products/hip-and-joint-soft-chews"
+      }
+    },
+    "list": {
+      "type": "vuffi-ingredient-list",
+      "blocks": {
+        "ing_1": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v4-ing-glucosamine.jpg",
+            "slot": "ing-glucosamine",
+            "tagline": "Rebuilds cartilage",
+            "name": "Glucosamine",
+            "text": "<p>Cartilage is the smooth cushion on the ends of the bones. Glucosamine is one of its natural building blocks, and dogs make less of it as they age. A steady daily supply gives joints the raw material to keep that cushion thick.</p>",
+            "point_1": "Supports healthy cartilage",
+            "point_2": "Helps getting up feel easier",
+            "point_3": "Builds up with daily use"
+          }
+        },
+        "ing_2": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v4-ing-chondroitin.jpg",
+            "slot": "ing-chondroitin",
+            "tagline": "Keeps it springy",
+            "name": "Chondroitin",
+            "text": "<p>Chondroitin draws water into cartilage so it stays springy and absorbs every landing. Paired with glucosamine, it helps protect the cushion from everyday wear.</p>",
+            "point_1": "Holds water in cartilage",
+            "point_2": "Cushions jumps and landings",
+            "point_3": "Works hand in hand with glucosamine"
+          }
+        },
+        "ing_3": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v4-ing-msm.jpg",
+            "slot": "ing-msm",
+            "tagline": "Calms swelling",
+            "name": "MSM",
+            "text": "<p>MSM is a natural source of sulfur, which cartilage, tendons and ligaments use to stay strong. It helps ease the stiffness and soreness that follow long walks and hard play.</p>",
+            "point_1": "Eases stiffness after play",
+            "point_2": "Supports tendons and ligaments",
+            "point_3": "A natural source of sulfur"
+          }
+        },
+        "ing_4": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v4-ing-hyaluronic.jpg",
+            "slot": "ing-hyaluronic",
+            "tagline": "Keeps joints gliding",
+            "name": "Hyaluronic acid",
+            "text": "<p>Hyaluronic acid is the main part of joint fluid, the slippery liquid that lets bones glide past each other. More of it means smoother movement with less grinding.</p>",
+            "point_1": "Supports healthy joint fluid",
+            "point_2": "Smoother bends and turns",
+            "point_3": "Easier on the stairs"
+          }
+        },
+        "ing_5": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/vuffi-v4-ing-mussel.jpg",
+            "slot": "ing-mussel",
+            "tagline": "Cools inflammation",
+            "name": "Green lipped mussel",
+            "text": "<p>A shellfish from the clean waters of New Zealand, rich in natural omega fats. Those omegas support a healthy inflammatory response inside the joint and help keep every step comfortable.</p>",
+            "point_1": "Natural omega fats",
+            "point_2": "Supports comfortable joints",
+            "point_3": "From New Zealand"
+          }
+        }
+      },
+      "block_order": [
+        "ing_1",
+        "ing_2",
+        "ing_3",
+        "ing_4",
+        "ing_5"
+      ],
+      "settings": {
+        "heading": "<p>Five actives. <em>One job each.</em></p>",
+        "text": "<p>Every ingredient in Vuffi is there for a reason. Here is what each one does inside the joint.</p>",
+        "background_color": "#FFFFFF",
+        "dark_color": "#0B1411",
+        "light_color": "#F3F2EE",
+        "start_dark": true,
+        "note": "Contains shellfish (green lipped mussel). For dogs over 12 weeks old.",
+        "padding_top": 120,
+        "padding_bottom": 96
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "list",
+    "band_ing"
+  ]
+}

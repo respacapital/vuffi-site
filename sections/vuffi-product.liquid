@@ -1,0 +1,1299 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+  assign product = product | default: section.settings.product
+  assign slide_total = product.media.size
+  if slide_total == 0
+    assign slide_total = 5
+  endif
+  assign current = product.selected_or_first_available_variant
+  assign group = product.selling_plan_groups | first
+  assign plan = group.selling_plans | first
+  assign chews = section.settings.chews_per_jar
+
+  assign deal_live = false
+  if section.settings.show_deal and section.settings.deal_end != blank
+    assign deal_end_s = section.settings.deal_end | date: '%s' | plus: 0
+    assign now_s = 'now' | date: '%s' | plus: 0
+    if deal_end_s > now_s
+      assign deal_live = true
+    endif
+  endif
+
+  assign one_price = current.price
+  assign sub_price = nil
+  if plan
+    for allocation in current.selling_plan_allocations
+      if allocation.selling_plan.id == plan.id
+        assign sub_price = allocation.price
+      endif
+    endfor
+  endif
+  assign sub_save = section.settings.subscribe_label_percent
+  # Shopify takes the discount off in whole cents, rounding down. The exact percent from
+  # Shopify Discounts makes the page show the same price the cart and checkout charge.
+  assign one_exact = section.settings.deal_one_exact | default: section.settings.deal_one_percent | plus: 0
+  assign sub_exact = section.settings.deal_sub_exact | default: section.settings.deal_sub_percent | plus: 0
+  assign one_deal = one_price | times: one_exact | divided_by: 100.0 | floor
+  assign one_deal = one_price | minus: one_deal
+  if sub_price
+    assign sub_deal = sub_price | times: sub_exact | divided_by: 100.0 | floor
+    assign sub_deal = sub_price | minus: sub_deal
+  endif
+  assign default_mode = 'one'
+  if plan and section.settings.default_subscribe
+    assign default_mode = 'sub'
+  endif
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+<script src="{{ 'vuffi-buy.js' | asset_url }}" type="module"></script>
+<script src="{{ 'vuffi-gallery.js' | asset_url }}" defer></script>
+
+<section class="vuffi-section vuffi-pdp color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap vuffi-pdp__grid">
+    <vuffi-gallery class="vuffi-pdp__gallery">
+      {%- if product.media.size > 0 -%}
+        <ul class="vuffi-pdp__media" role="list" aria-label="{{ product.title | escape }}">
+          {%- for media in product.media -%}
+            <li class="vuffi-pdp__slide{% if forloop.first %} vuffi-pdp__slide--lead{% endif %}" data-slide>
+              {%- if media.media_type == 'image' -%}
+                {%- liquid
+                  assign is_first = false
+                  if forloop.first
+                    assign is_first = true
+                  endif
+                -%}
+                {%- render 'vuffi-image',
+                  image: media.preview_image,
+                  ratio: '1 / 1',
+                  sizes: '(min-width: 990px) 55vw, 100vw',
+                  priority: is_first,
+                  label: 'product-photo'
+                -%}
+              {%- else -%}
+                <div class="vuffi-media" style="--ratio: 1 / 1;">
+                  {{ media | media_tag: image_size: '1600x', autoplay: false, loop: true, controls: true }}
+                </div>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <ul class="vuffi-pdp__media" role="list">
+          {%- assign slots = 'pdp-jar-white,pdp-jar-open,pdp-chew-macro,pdp-hand,pdp-scale' | split: ',' -%}
+          {%- for slot in slots -%}
+            <li class="vuffi-pdp__slide{% if forloop.first %} vuffi-pdp__slide--lead{% endif %}">
+              {%- render 'vuffi-placeholder', label: slot, ratio: '1 / 1', size: '2048 x 2048' -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {%- if deal_live and section.settings.sticker_text != blank -%}
+        <div class="vuffi-pdp__sticker" aria-hidden="true">
+          <span>{{ section.settings.deal_sub_percent }}%</span>
+          <small>{{ section.settings.sticker_text }}</small>
+        </div>
+      {%- endif -%}
+      <p class="vuffi-pdp__count vuffi-num" aria-hidden="true">
+        <span data-slide-index>1</span> / {{ slide_total }}
+      </p>
+
+      {%- if product.media.size > 1 -%}
+        <button type="button" class="vuffi-pdp__arrow vuffi-pdp__arrow--prev" data-prev aria-label="{{ section.settings.gallery_prev_label | escape }}">
+          {%- render 'vuffi-icon', name: 'arrow' -%}
+        </button>
+        <button type="button" class="vuffi-pdp__arrow" data-next aria-label="{{ section.settings.gallery_next_label | escape }}">
+          {%- render 'vuffi-icon', name: 'arrow' -%}
+        </button>
+
+        <ul class="vuffi-pdp__thumbs" role="list">
+          {%- for media in product.media -%}
+            <li>
+              <button
+                type="button"
+                class="vuffi-pdp__thumb"
+                data-thumb="{{ forloop.index0 }}"
+                aria-label="{{ section.settings.gallery_thumb_label | escape }} {{ forloop.index }} / {{ product.media.size }}"
+                {% if forloop.first %}aria-current="true"{% endif %}
+              >
+                {{-
+                  media.preview_image
+                  | image_url: width: 240
+                  | image_tag: widths: '120, 180, 240', sizes: '(min-width: 990px) 88px, 64px', loading: 'lazy', alt: ''
+                -}}
+              </button>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </vuffi-gallery>
+
+    <div class="vuffi-pdp__info">
+      <vuffi-buy
+        class="vuffi-pdp__buy"
+        data-deal-live="{{ deal_live }}"
+        data-deal-end="{{ section.settings.deal_end | escape }}"
+        data-deal-sub="{{ sub_exact }}"
+        data-deal-one="{% if section.settings.deal_one_percent > 0 %}{{ one_exact }}{% else %}0{% endif %}"
+        data-money-format="{{ shop.money_format | strip_html | escape }}"
+        data-mode="{{ default_mode }}"
+      >
+        <script type="application/json" data-product-json>
+          {
+            "planId": {% if plan %}{{ plan.id | json }}{% else %}null{% endif %},
+            "variants": [
+              {%- for variant in product.variants -%}
+                {%- liquid
+                  assign v_sub = nil
+                  if plan
+                    for allocation in variant.selling_plan_allocations
+                      if allocation.selling_plan.id == plan.id
+                        assign v_sub = allocation.price
+                      endif
+                    endfor
+                  endif
+                -%}
+                {"id": {{ variant.id }}, "title": {{ variant.title | json }}, "price": {{ variant.price }}, "sub": {% if v_sub %}{{ v_sub }}{% else %}null{% endif %}, "available": {{ variant.available }}}{% unless forloop.last %},{% endunless %}
+              {%- endfor -%}
+            ]
+          }
+        </script>
+
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h1 class="vuffi-h2 vuffi-pdp__title">{{ product.title }}</h1>
+        {%- if section.settings.show_rating -%}
+          {%- comment -%} Judge.me star rating; hidden by Judge.me until the first review arrives {%- endcomment -%}
+          <div class="vuffi-pdp__rating">
+            <div
+              class="jdgm-widget jdgm-preview-badge"
+              data-id="{{ product.id }}"
+              data-template="product"
+              data-auto-install="false"
+            >
+              {{- product.metafields.judgeme.badge -}}
+            </div>
+          </div>
+        {%- endif -%}
+        {%- if section.settings.subtitle != blank -%}
+          <p class="vuffi-pdp__subtitle">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <ul class="vuffi-pdp__chips" role="list">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'chip' -%}
+                <li class="vuffi-chip" {{ block.shopify_attributes }}>
+                  {%- render 'vuffi-icon', name: block.settings.icon -%}
+                  {{ block.settings.text }}
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        <form
+          class="vuffi-pdp__form"
+          action="{{ routes.cart_add_url }}"
+          method="post"
+          enctype="multipart/form-data"
+          data-buy-form
+        >
+          <input type="hidden" name="id" value="{{ current.id }}" data-variant-input>
+          <input type="hidden" name="selling_plan" value="{% if default_mode == 'sub' %}{{ plan.id }}{% endif %}" data-plan-input>
+          <input type="hidden" name="quantity" value="1">
+
+          {%- if product.variants.size > 1 -%}
+            <fieldset class="vuffi-pdp__sizes">
+              <legend class="vuffi-pdp__legend">{{ section.settings.size_label }}</legend>
+              <div class="vuffi-pdp__size-row">
+                {%- for variant in product.variants -%}
+                  <label class="vuffi-pdp__size">
+                    <input
+                      type="radio"
+                      name="vuffi-size"
+                      value="{{ variant.id }}"
+                      {% if variant.id == current.id %}checked{% endif %}
+                      {% unless variant.available %}disabled{% endunless %}
+                    >
+                    <span class="vuffi-pdp__size-name">{{ variant.title }}</span>
+                    <span class="vuffi-pdp__size-sub">{{ chews | times: forloop.index }} {{ section.settings.chews_word }}</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+              {%- if section.settings.size_hint != blank -%}
+                <p class="vuffi-small vuffi-pdp__hint">{{ section.settings.size_hint }}</p>
+              {%- endif -%}
+            </fieldset>
+          {%- endif -%}
+
+          <fieldset class="vuffi-pdp__modes">
+            <legend class="vuffi-visually-hidden">{{ section.settings.mode_label }}</legend>
+
+            {%- if plan -%}
+              <label class="vuffi-pdp__mode vuffi-pdp__mode--sub">
+                <input type="radio" name="vuffi-mode" value="sub" {% if default_mode == 'sub' %}checked{% endif %}>
+                <span class="vuffi-pdp__mode-head">
+                  <span class="vuffi-pdp__radio" aria-hidden="true"></span>
+                  <span class="vuffi-pdp__mode-name">
+                    {{ section.settings.sub_title | replace: '[percent]', sub_save }}
+                    {%- if section.settings.sub_badge != blank -%}
+                      <span class="vuffi-pdp__badge">{{ section.settings.sub_badge }}</span>
+                    {%- endif -%}
+                  </span>
+                  <span class="vuffi-pdp__prices">
+                    <span class="vuffi-pdp__price vuffi-num" data-price="sub">
+                      {%- if deal_live -%}{{ sub_deal | money }}{%- else -%}{{ sub_price | money }}{%- endif -%}
+                    </span>
+                    <s class="vuffi-pdp__was vuffi-num" data-was="sub">{{ one_price | money }}</s>
+                  </span>
+                </span>
+                <span class="vuffi-pdp__mode-body">
+                  {%- if deal_live -%}
+                    <span class="vuffi-pdp__deal-line" data-deal-line>
+                      {%- liquid
+                        assign then_money = sub_price | money
+                        assign then_html = '<b data-then>' | append: then_money | append: '</b>'
+                        echo section.settings.sub_deal_line | replace: '[price]', then_html
+                      -%}
+                    </span>
+                  {%- endif -%}
+                  <span class="vuffi-pdp__perks">
+                    {%- assign perks = section.settings.sub_perks | split: ',' -%}
+                    {%- for perk in perks -%}
+                      <span>{%- render 'vuffi-icon', name: 'check' -%}{{ perk | strip }}</span>
+                    {%- endfor -%}
+                  </span>
+                </span>
+              </label>
+            {%- endif -%}
+
+            <label class="vuffi-pdp__mode vuffi-pdp__mode--one">
+              <input type="radio" name="vuffi-mode" value="one" {% if default_mode == 'one' %}checked{% endif %}>
+              <span class="vuffi-pdp__mode-head">
+                <span class="vuffi-pdp__radio" aria-hidden="true"></span>
+                <span class="vuffi-pdp__mode-name">{{ section.settings.one_title }}</span>
+                <span class="vuffi-pdp__prices">
+                  <span class="vuffi-pdp__price vuffi-num" data-price="one">
+                    {%- if deal_live and section.settings.deal_one_percent > 0 -%}{{ one_deal | money }}{%- else -%}{{ one_price | money }}{%- endif -%}
+                  </span>
+                  {%- if deal_live and section.settings.deal_one_percent > 0 -%}
+                    <s class="vuffi-pdp__was vuffi-num" data-was="one">{{ one_price | money }}</s>
+                  {%- endif -%}
+                </span>
+              </span>
+            </label>
+          </fieldset>
+
+          {%- if deal_live -%}
+            <div class="vuffi-pdp__deal" data-hide-when-done>
+              <span>{{ section.settings.deal_label }}</span>
+              {%- render 'vuffi-countdown', end: section.settings.deal_end, label: section.settings.deal_label -%}
+            </div>
+          {%- endif -%}
+
+          <button
+            type="submit"
+            class="vuffi-btn vuffi-btn--primary vuffi-btn--block vuffi-pdp__submit"
+            data-submit
+            data-label-sub="{{ section.settings.button_sub | escape }}"
+            data-label-one="{{ section.settings.button_one | escape }}"
+            {% unless current.available %}disabled{% endunless %}
+          >
+            <span data-submit-label>
+              {%- if default_mode == 'sub' -%}{{ section.settings.button_sub }}{%- else -%}{{ section.settings.button_one }}{%- endif -%}
+            </span>
+            <span class="vuffi-pdp__dot" aria-hidden="true"></span>
+            <span class="vuffi-num" data-submit-price></span>
+          </button>
+          <p class="vuffi-pdp__error" role="alert" hidden data-error></p>
+
+          <ul class="vuffi-pdp__trust" role="list">
+            <li>{%- render 'vuffi-icon', name: 'shield' -%}<span>{{ section.settings.trust_1 }}</span></li>
+            <li>{%- render 'vuffi-icon', name: 'truck' -%}<span>{{ section.settings.trust_2 }}</span></li>
+            <li>{%- render 'vuffi-icon', name: 'lock' -%}<span>{{ section.settings.trust_3 }}</span></li>
+          </ul>
+        </form>
+
+        <div class="vuffi-pdp__tabs">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'tab' -%}
+              <details class="vuffi-acc" {{ block.shopify_attributes }}>
+                <summary>
+                  <span>{{ block.settings.title }}</span>
+                  <span class="vuffi-acc__sign" aria-hidden="true"></span>
+                </summary>
+                <div class="vuffi-acc__body">
+                  {%- if block.settings.use_description -%}
+                    {{ product.description }}
+                  {%- else -%}
+                    {{ block.settings.content }}
+                  {%- endif -%}
+                </div>
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- for block in section.blocks -%}
+          {%- if block.type == '@app' -%}
+            <div class="vuffi-pdp__app">{% render block %}</div>
+          {%- endif -%}
+        {%- endfor -%}
+      </vuffi-buy>
+    </div>
+  </div>
+
+  <div class="vuffi-pdp__sticky" data-sticky-bar aria-hidden="true">
+    <div class="vuffi-pdp__sticky-inner">
+      <span class="vuffi-pdp__sticky-name">{{ product.title }}</span>
+      <button type="button" class="vuffi-btn vuffi-btn--primary" data-sticky-buy tabindex="-1">
+        <span>{{ section.settings.sticky_label }}</span>
+        <span class="vuffi-num" data-sticky-price></span>
+      </button>
+    </div>
+  </div>
+
+  <script type="application/ld+json">
+    {{ product | structured_data }}
+  </script>
+</section>
+
+{% stylesheet %}
+  .vuffi-pdp {
+    padding-block: var(--vuffi-pt, 24px) var(--vuffi-pb, 96px);
+  }
+
+  .vuffi-pdp__grid {
+    display: grid;
+    gap: 28px;
+  }
+
+  .vuffi-pdp__gallery {
+    position: relative;
+    display: block;
+    min-width: 0;
+  }
+
+  /* Phones and tablets: photos run edge to edge and swipe */
+  .vuffi-pdp__media {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    gap: 0;
+    margin: 0 calc(var(--vuffi-gutter) * -1);
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 0;
+    scrollbar-width: none;
+  }
+
+  .vuffi-pdp__media::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vuffi-pdp__slide {
+    scroll-snap-align: start;
+  }
+
+  .vuffi-pdp__slide .vuffi-media,
+  .vuffi-pdp__slide .vuffi-ph {
+    background: var(--vuffi-paper);
+    border-radius: 0;
+  }
+
+  /* Thumbnails: tap one to show that photo. The one on show is outlined. */
+  .vuffi-pdp__thumbs {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 64px;
+    gap: 8px;
+    margin: 12px 0 0;
+    padding: 2px;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .vuffi-pdp__thumbs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vuffi-pdp__thumb {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 10px;
+    background: var(--vuffi-paper);
+    opacity: 0.55;
+    cursor: pointer;
+    transition: opacity 0.2s var(--vuffi-ease), box-shadow 0.2s var(--vuffi-ease);
+  }
+
+  .vuffi-pdp__thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .vuffi-pdp__thumb:hover {
+    opacity: 0.85;
+  }
+
+  .vuffi-pdp__thumb[aria-current='true'] {
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-foreground);
+  }
+
+  .vuffi-pdp__thumb:focus-visible {
+    outline: 2px solid var(--vuffi-accent);
+    outline-offset: 3px;
+  }
+
+  /* Arrows over the photo on computers */
+  .vuffi-pdp__arrow {
+    display: none;
+  }
+
+  .vuffi-pdp__count {
+    position: absolute;
+    right: 12px;
+    top: calc(100vw - 44px);
+    margin: 0;
+    padding: 6px 12px;
+    border-radius: var(--vuffi-radius-btn);
+    background: rgb(255 255 255 / 0.9);
+    color: var(--vuffi-ink);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .vuffi-pdp__sticker {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    display: grid;
+    place-content: center;
+    width: 92px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--vuffi-lime);
+    color: var(--vuffi-ink);
+    text-align: center;
+    transform: rotate(-10deg);
+    pointer-events: none;
+  }
+
+  .vuffi-pdp__sticker span {
+    font-family: var(--font-subheading--family);
+    text-transform: uppercase;
+    font-size: 34px;
+    line-height: 0.9;
+  }
+
+  .vuffi-pdp__sticker small {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .vuffi-pdp__buy {
+    display: grid;
+    gap: 18px;
+  }
+
+  .vuffi-pdp__rating {
+    margin-top: -6px;
+  }
+
+  .vuffi-pdp__rating .jdgm-widget,
+  .vuffi-pdp__rating .jdgm-preview-badge {
+    margin: 0;
+  }
+
+  .vuffi-pdp__rating .jdgm-star {
+    color: var(--vuffi-accent) !important;
+  }
+
+  .vuffi-pdp__app {
+    margin-top: 20px;
+  }
+
+  .vuffi-pdp__title {
+    font-size: clamp(36px, 4vw, 56px);
+  }
+
+  .vuffi-pdp__subtitle {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-pdp__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .vuffi-pdp__form {
+    display: grid;
+    gap: 16px;
+    margin-top: 6px;
+  }
+
+  .vuffi-pdp__sizes,
+  .vuffi-pdp__modes {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+
+  .vuffi-pdp__legend {
+    margin-bottom: 10px;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .vuffi-pdp__size-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .vuffi-pdp__size {
+    position: relative;
+    display: grid;
+    gap: 2px;
+    padding: 14px 16px;
+    border: 1px solid var(--vuffi-line-strong);
+    border-radius: var(--vuffi-radius-ui);
+    cursor: pointer;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+
+  .vuffi-pdp__size input,
+  .vuffi-pdp__mode input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .vuffi-pdp__size:has(input:checked) {
+    border-color: var(--color-foreground);
+    box-shadow: inset 0 0 0 1px var(--color-foreground);
+  }
+
+  .vuffi-pdp__size:has(input:focus-visible),
+  .vuffi-pdp__mode:has(input:focus-visible) {
+    outline: 2px solid var(--vuffi-accent);
+    outline-offset: 3px;
+  }
+
+  .vuffi-pdp__size-name {
+    font-weight: 600;
+  }
+
+  .vuffi-pdp__size-sub,
+  .vuffi-pdp__hint {
+    font-size: 13px;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-pdp__hint {
+    margin: 2px 0 0;
+  }
+
+  .vuffi-pdp__mode {
+    position: relative;
+    display: grid;
+    gap: 12px;
+    padding: 18px;
+    border: 1px solid var(--vuffi-line-strong);
+    border-radius: var(--vuffi-radius-ui);
+    cursor: pointer;
+    transition: border-color 0.25s, background-color 0.25s, box-shadow 0.25s;
+  }
+
+  .vuffi-pdp__mode:has(input:checked) {
+    border-color: var(--vuffi-accent);
+    box-shadow: inset 0 0 0 1px var(--vuffi-accent);
+    background: rgb(0 132 63 / 0.04);
+  }
+
+  .vuffi-pdp__mode-head {
+    display: grid;
+    grid-template-columns: 22px 1fr auto;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .vuffi-pdp__radio {
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid var(--vuffi-line-strong);
+    border-radius: 50%;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+
+  .vuffi-pdp__mode:has(input:checked) .vuffi-pdp__radio {
+    border-color: var(--vuffi-accent);
+    box-shadow: inset 0 0 0 5px var(--vuffi-accent);
+  }
+
+  .vuffi-pdp__mode-name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .vuffi-pdp__badge {
+    padding: 4px 10px;
+    border-radius: var(--vuffi-radius-btn);
+    background: var(--vuffi-ink);
+    color: var(--vuffi-lime);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .vuffi-pdp__prices {
+    display: grid;
+    justify-items: end;
+    gap: 2px;
+  }
+
+  .vuffi-pdp__price {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .vuffi-pdp__mode--sub .vuffi-pdp__price {
+    color: var(--vuffi-accent);
+  }
+
+  .vuffi-pdp__was {
+    font-size: 14px;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-pdp__mode-body {
+    display: grid;
+    gap: 10px;
+    padding-left: 34px;
+  }
+
+  .vuffi-pdp__mode:not(:has(input:checked)) .vuffi-pdp__mode-body {
+    display: none;
+  }
+
+  .vuffi-pdp__deal-line {
+    font-size: 14px;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-pdp__deal-line b {
+    color: var(--color-foreground);
+  }
+
+  .vuffi-pdp__perks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .vuffi-pdp__perks span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .vuffi-pdp__perks .vuffi-icon {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+  }
+
+  .vuffi-pdp__deal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: var(--vuffi-radius-ui);
+    background: var(--vuffi-ink);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .vuffi-pdp__deal .vuffi-count {
+    color: var(--vuffi-lime);
+  }
+
+  .vuffi-pdp__submit {
+    min-height: 60px;
+    font-size: 17px;
+  }
+
+  .vuffi-pdp__submit[aria-busy='true'] {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  .vuffi-pdp__dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  .vuffi-pdp__error {
+    margin: 0;
+    font-size: 14px;
+    color: #c4321c;
+  }
+
+  .vuffi-pdp__trust {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .vuffi-pdp__trust li {
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .vuffi-pdp__trust .vuffi-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .vuffi-pdp__tabs {
+    margin-top: 12px;
+  }
+
+  .vuffi-pdp__tabs .vuffi-acc summary {
+    padding: 20px 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .vuffi-pdp__tabs .vuffi-acc__body {
+    padding-right: 0;
+    font-size: 15px;
+  }
+
+  .vuffi-pdp__tabs .vuffi-acc__body ul {
+    margin: 0 0 12px;
+    padding-left: 18px;
+  }
+
+  .vuffi-pdp__sticky {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    padding: 10px var(--vuffi-gutter) calc(10px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--vuffi-line);
+    background: rgb(255 255 255 / 0.92);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    color: var(--vuffi-ink);
+    transform: translateY(110%);
+    transition: transform 0.45s var(--vuffi-ease);
+  }
+
+  .vuffi-pdp__sticky.is-shown {
+    transform: none;
+  }
+
+  .vuffi-pdp__sticky-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    max-width: var(--vuffi-max);
+    margin-inline: auto;
+  }
+
+  .vuffi-pdp__sticky-name {
+    display: none;
+    font-weight: 600;
+  }
+
+  .vuffi-pdp__sticky .vuffi-btn {
+    flex: 1;
+    min-height: 50px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-pdp__sticky-name {
+      display: block;
+    }
+
+    .vuffi-pdp__sticky .vuffi-btn {
+      flex: none;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-pdp__grid {
+      grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+      align-items: start;
+      gap: 64px;
+    }
+
+    .vuffi-pdp__media {
+      margin: 0;
+    }
+
+    .vuffi-pdp__slide .vuffi-media,
+    .vuffi-pdp__slide .vuffi-ph {
+      border-radius: var(--vuffi-radius);
+    }
+
+    .vuffi-pdp__count {
+      display: none;
+    }
+
+    .vuffi-pdp__thumbs {
+      grid-auto-columns: 88px;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .vuffi-pdp__arrow {
+      position: absolute;
+      z-index: 2;
+      top: calc((100% - 106px) / 2);
+      left: 16px;
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border: 1px solid var(--vuffi-line);
+      border-radius: 50%;
+      background: rgb(255 255 255 / 0.92);
+      color: var(--vuffi-ink);
+      cursor: pointer;
+      transform: translateY(-50%);
+      transition: background 0.2s var(--vuffi-ease), opacity 0.2s var(--vuffi-ease);
+    }
+
+    .vuffi-pdp__arrow:not(.vuffi-pdp__arrow--prev) {
+      left: auto;
+      right: 16px;
+    }
+
+    .vuffi-pdp__arrow--prev .vuffi-icon {
+      transform: rotate(180deg);
+    }
+
+    .vuffi-pdp__arrow .vuffi-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .vuffi-pdp__arrow:hover {
+      background: #ffffff;
+    }
+
+    .vuffi-pdp__arrow[disabled] {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .vuffi-pdp__arrow:focus-visible {
+      outline: 2px solid var(--vuffi-accent);
+      outline-offset: 3px;
+    }
+
+    .vuffi-pdp__sticker {
+      top: 24px;
+      left: 24px;
+      width: 116px;
+    }
+
+    .vuffi-pdp__sticker span {
+      font-size: 44px;
+    }
+
+    .vuffi-pdp__info {
+      position: sticky;
+      top: 96px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi product",
+  "tag": "div",
+  "class": "vuffi-pdp-section",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Only needed outside the product page."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show the Judge.me star rating under the name",
+      "default": true,
+      "info": "Needs Judge.me turned on in Theme settings > App embeds. Hidden until the first review."
+    },
+    {
+      "type": "header",
+      "content": "Photo gallery"
+    },
+    {
+      "type": "text",
+      "id": "gallery_thumb_label",
+      "label": "Thumbnail button, for screen readers",
+      "default": "Show photo"
+    },
+    {
+      "type": "text",
+      "id": "gallery_prev_label",
+      "label": "Previous arrow, for screen readers",
+      "default": "Previous photo"
+    },
+    {
+      "type": "text",
+      "id": "gallery_next_label",
+      "label": "Next arrow, for screen readers",
+      "default": "Next photo"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above the title"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Line under the title",
+      "default": "Five joint actives in one pork flavored soft chew. For hips, knees and elbows at every age."
+    },
+    {
+      "type": "header",
+      "content": "Sizes"
+    },
+    {
+      "type": "text",
+      "id": "size_label",
+      "label": "Size heading",
+      "default": "How many jars"
+    },
+    {
+      "type": "range",
+      "id": "chews_per_jar",
+      "label": "Chews per jar",
+      "min": 10,
+      "max": 120,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "text",
+      "id": "chews_word",
+      "label": "Word after the chew count",
+      "default": "chews"
+    },
+    {
+      "type": "text",
+      "id": "size_hint",
+      "label": "Hint under the sizes",
+      "default": "Dogs 36 to 65 lbs take 2 chews a day: pick 2 jars for a full month."
+    },
+    {
+      "type": "header",
+      "content": "Subscription and one time",
+      "info": "Subscription prices come from the Loop plan on the product."
+    },
+    {
+      "type": "text",
+      "id": "mode_label",
+      "label": "Choice name for screen readers",
+      "default": "How do you want to buy"
+    },
+    {
+      "type": "checkbox",
+      "id": "default_subscribe",
+      "label": "Start with the subscription selected",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "subscribe_label_percent",
+      "label": "Saving shown in the subscription title",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 15
+    },
+    {
+      "type": "text",
+      "id": "sub_title",
+      "label": "Subscription title",
+      "default": "Subscribe and save [percent]%",
+      "info": "[percent] becomes the saving above."
+    },
+    {
+      "type": "text",
+      "id": "sub_badge",
+      "label": "Subscription badge",
+      "default": "Best value"
+    },
+    {
+      "type": "text",
+      "id": "sub_deal_line",
+      "label": "Subscription line during the sale",
+      "default": "First box at the Black Friday price, then [price] a month.",
+      "info": "[price] becomes the regular subscription price."
+    },
+    {
+      "type": "text",
+      "id": "sub_perks",
+      "label": "Subscription perks, separated by commas",
+      "default": "Free shipping, Skip or cancel anytime, Price locked in"
+    },
+    {
+      "type": "text",
+      "id": "one_title",
+      "label": "One time title",
+      "default": "One time purchase"
+    },
+    {
+      "type": "text",
+      "id": "button_sub",
+      "label": "Button with subscription",
+      "default": "Start my plan"
+    },
+    {
+      "type": "text",
+      "id": "button_one",
+      "label": "Button for one time",
+      "default": "Add to cart"
+    },
+    {
+      "type": "text",
+      "id": "sticky_label",
+      "label": "Phone bar button",
+      "default": "Get Vuffi"
+    },
+    {
+      "type": "header",
+      "content": "Sale"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_deal",
+      "label": "Show the sale prices",
+      "default": true,
+      "info": "Display only. Set the real discounts in Shopify Discounts with the same percentages."
+    },
+    {
+      "type": "range",
+      "id": "deal_sub_percent",
+      "label": "Off the first subscription box",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "%",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "deal_one_percent",
+      "label": "Off one time orders",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "%",
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "deal_sub_exact",
+      "label": "Exact subscription discount in Shopify",
+      "info": "Optional. The percent exactly as set in Shopify Discounts (for example 25.02), so the page price matches checkout to the cent."
+    },
+    {
+      "type": "text",
+      "id": "deal_one_exact",
+      "label": "Exact one time discount in Shopify",
+      "info": "Optional. The percent exactly as set in Shopify Discounts (for example 25.02)."
+    },
+    {
+      "type": "text",
+      "id": "deal_end",
+      "label": "Sale ends",
+      "default": "2026-11-30T23:59:00-05:00"
+    },
+    {
+      "type": "text",
+      "id": "deal_label",
+      "label": "Countdown text",
+      "default": "Black Friday ends in"
+    },
+    {
+      "type": "text",
+      "id": "sticker_text",
+      "label": "Photo sticker text",
+      "default": "off box one"
+    },
+    {
+      "type": "header",
+      "content": "Promises under the button"
+    },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "label": "Promise 1",
+      "default": "90 day money back guarantee"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "label": "Promise 2",
+      "default": "Free shipping on every order"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "label": "Promise 3",
+      "default": "Secure checkout"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "chip",
+      "name": "Chip",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "vet", "label": "Stethoscope" },
+            { "value": "chew", "label": "Soft chew" },
+            { "value": "paw", "label": "Paw" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "joint", "label": "Joint" },
+            { "value": "heart", "label": "Heart" }
+          ],
+          "default": "vet"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Vet recommended"
+        }
+      ]
+    },
+    {
+      "type": "tab",
+      "name": "Dropdown",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "What's inside"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_description",
+          "label": "Show the product description",
+          "default": false
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi product",
+      "blocks": [
+        { "type": "chip", "settings": { "icon": "vet", "text": "Vet recommended" } },
+        { "type": "chip", "settings": { "icon": "chew", "text": "Pork flavor" } },
+        { "type": "tab", "settings": { "title": "Description", "use_description": true } }
+      ]
+    }
+  ]
+}
+{% endschema %}

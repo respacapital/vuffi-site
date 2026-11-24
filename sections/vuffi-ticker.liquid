@@ -1,0 +1,199 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+  assign style = section.settings.style
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section
+  class="vuffi-section vuffi-ticker vuffi-ticker--{{ style }} color-custom-{{ section.id }}"
+  data-tone="{{ tone }}"
+  style="--vuffi-marquee-time: {{ section.settings.speed }}s;"
+>
+  {%- if section.blocks.size > 0 -%}
+    <ul class="vuffi-visually-hidden">
+      {%- for block in section.blocks -%}
+        <li>{{ block.settings.text }}</li>
+      {%- endfor -%}
+    </ul>
+    <div class="vuffi-marquee" aria-hidden="true">
+      <div class="vuffi-marquee__track">
+        {%- for i in (1..2) -%}
+          <div class="vuffi-ticker__group">
+            {%- for block in section.blocks -%}
+              <span class="vuffi-ticker__item" {% if i == 1 %}{{ block.shopify_attributes }}{% endif %}>
+                {%- if block.settings.icon != 'none' -%}
+                  {%- render 'vuffi-icon', name: block.settings.icon -%}
+                {%- endif -%}
+                <span>{{ block.settings.text }}</span>
+              </span>
+              <span class="vuffi-ticker__sep">
+                {%- render 'vuffi-icon', name: 'spark' -%}
+              </span>
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+  .vuffi-ticker {
+    border-block: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-ticker__group {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+
+  .vuffi-ticker__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding-inline: 22px;
+    white-space: nowrap;
+  }
+
+  .vuffi-ticker__sep .vuffi-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .vuffi-ticker--chips .vuffi-ticker__item {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .vuffi-ticker--chips .vuffi-ticker__item .vuffi-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .vuffi-ticker--large .vuffi-ticker__item {
+    padding-inline: 28px;
+    font-family: var(--font-heading--family);
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .vuffi-ticker--large .vuffi-ticker__item .vuffi-icon {
+    width: 0.6em;
+    height: 0.6em;
+    stroke-width: 1.2;
+  }
+
+  .vuffi-ticker--large .vuffi-ticker__sep .vuffi-icon {
+    width: 28px;
+    height: 28px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi ticker",
+  "tag": "div",
+  "class": "vuffi-ticker-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        { "value": "chips", "label": "Small text with icons" },
+        { "value": "large", "label": "Big headline words" }
+      ],
+      "default": "chips"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Time for one full loop",
+      "min": 10,
+      "max": 120,
+      "step": 5,
+      "unit": "s",
+      "default": 45
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Vet recommended"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "vet", "label": "Stethoscope" },
+            { "value": "molecule", "label": "Molecule" },
+            { "value": "cushion", "label": "Cartilage cushion" },
+            { "value": "crystal", "label": "Crystal" },
+            { "value": "drop", "label": "Drop" },
+            { "value": "shell", "label": "Shell" },
+            { "value": "chew", "label": "Soft chew" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "paw", "label": "Paw" },
+            { "value": "heart", "label": "Heart" }
+          ],
+          "default": "none"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi ticker",
+      "blocks": [
+        { "type": "item", "settings": { "text": "Vet recommended", "icon": "vet" } },
+        { "type": "item", "settings": { "text": "Glucosamine", "icon": "molecule" } },
+        { "type": "item", "settings": { "text": "Chondroitin", "icon": "cushion" } },
+        { "type": "item", "settings": { "text": "MSM", "icon": "crystal" } },
+        { "type": "item", "settings": { "text": "Hyaluronic acid", "icon": "drop" } },
+        { "type": "item", "settings": { "text": "Green lipped mussel", "icon": "shell" } },
+        { "type": "item", "settings": { "text": "90 day money back guarantee", "icon": "shield" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

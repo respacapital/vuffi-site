@@ -1,0 +1,777 @@
+/* Vuffi base: shared layout, type, buttons, motion and placeholders for every vuffi- section.
+   Colors come from the theme palette (set as --vuffi-* in sections/vuffi-site-styles.liquid)
+   and from each section's background color through Horizon's contrast-override snippet. */
+
+:root {
+  --vuffi-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Luxury clinical: no rounded tiles. Photos, panels and lists have square corners;
+     only things you press (buttons, switches, chips) and small markers stay round. */
+  --vuffi-radius-sm: 0px;
+  --vuffi-radius-btn: 999px;
+  --vuffi-radius: 0px;
+  --vuffi-radius-lg: 0px;
+  /* Controls you choose between (buy box options, the comparison table) are soft and round */
+  --vuffi-radius-ui: 18px;
+  /* Content width and side margins match Horizon's narrow page width (90rem) and page margins,
+     so every section lines up with the logo and the cart icon in the header */
+  --vuffi-max: 1440px;
+  /* Distance from the content edge to the edge of the screen, for photos that run off the side */
+  --vuffi-edge: max(var(--vuffi-gutter), calc((100vw - var(--vuffi-max)) / 2));
+  --vuffi-gutter: 16px;
+  --vuffi-space: 80px;
+}
+
+@media screen and (min-width: 750px) {
+  :root {
+    --vuffi-gutter: 40px;
+    --vuffi-space: 104px;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  :root {
+    --vuffi-gutter: 40px;
+    --vuffi-space: 136px;
+  }
+}
+
+/* Sections (low specificity so each section can override spacing and overflow) */
+:where(.vuffi-section) {
+  --vuffi-accent: var(--vuffi-green);
+  --vuffi-line: rgb(var(--color-foreground-rgb) / 0.12);
+  --vuffi-line-strong: rgb(var(--color-foreground-rgb) / 0.28);
+  --vuffi-soft: rgb(var(--color-foreground-rgb) / 0.04);
+  --vuffi-card: var(--color-background);
+  position: relative;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  padding-block: var(--vuffi-pt, var(--vuffi-space)) var(--vuffi-pb, var(--vuffi-space));
+  overflow: clip;
+}
+
+:where(.vuffi-section)[data-tone='dark'] {
+  --vuffi-accent: var(--vuffi-lime);
+  --vuffi-line: rgb(var(--color-foreground-rgb) / 0.16);
+  --vuffi-soft: rgb(var(--color-foreground-rgb) / 0.06);
+  --vuffi-card: rgb(var(--color-foreground-rgb) / 0.04);
+}
+
+.vuffi-section *,
+.vuffi-section *::before,
+.vuffi-section *::after {
+  box-sizing: border-box;
+}
+
+.vuffi-wrap {
+  width: 100%;
+  max-width: calc(var(--vuffi-max) + var(--vuffi-gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--vuffi-gutter);
+}
+
+/* Type */
+.vuffi-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--font-subheading--family);
+  font-weight: var(--font-subheading--weight);
+  font-size: 12px;
+  line-height: 1.1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.vuffi-eyebrow::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: var(--vuffi-accent);
+  flex: none;
+}
+
+/* Clinical labels: specimen numbers, codes, captions */
+.vuffi-label {
+  margin: 0;
+  font-family: var(--font-accent--family);
+  font-weight: var(--font-accent--weight);
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-foreground-muted, currentColor);
+}
+
+/* Big numbers in the Wuffes condensed style */
+.vuffi-stat {
+  font-family: var(--font-subheading--family);
+  font-weight: var(--font-subheading--weight);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.vuffi-display,
+.vuffi-h2,
+.vuffi-h3 {
+  margin: 0;
+  font-family: var(--font-heading--family);
+  font-weight: var(--font-heading--weight);
+  font-style: var(--font-heading--style);
+  color: inherit;
+  text-wrap: balance;
+}
+
+.vuffi-display {
+  font-size: clamp(42px, 6.6vw, 96px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.vuffi-h2 {
+  font-size: clamp(34px, 4.6vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+}
+
+.vuffi-h3 {
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+/* Italic in the editor means "accent color", not a slanted word */
+.vuffi-display em,
+.vuffi-h2 em,
+.vuffi-h3 em,
+.vuffi-accent {
+  font-style: normal;
+  color: var(--vuffi-accent);
+}
+
+.vuffi-display p,
+.vuffi-h2 p,
+.vuffi-h3 p {
+  margin: 0;
+}
+
+.vuffi-lede {
+  margin: 0;
+  max-width: 54ch;
+  font-size: clamp(17px, 1.35vw, 20px);
+  line-height: 1.55;
+  color: var(--color-foreground-muted, currentColor);
+}
+
+.vuffi-lede p {
+  margin: 0;
+}
+
+.vuffi-small {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-foreground-muted, currentColor);
+}
+
+.vuffi-head {
+  display: grid;
+  gap: 20px;
+  max-width: 780px;
+}
+
+.vuffi-head--center {
+  margin-inline: auto;
+  text-align: center;
+  justify-items: center;
+}
+
+.vuffi-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* Buttons */
+.vuffi-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 54px;
+  padding: 0 28px;
+  border: 1px solid transparent;
+  border-radius: var(--vuffi-radius-btn);
+  font-family: var(--font-heading--family);
+  font-size: 16px;
+  font-weight: var(--font-heading--weight);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.35s var(--vuffi-ease),
+    color 0.35s var(--vuffi-ease),
+    border-color 0.35s var(--vuffi-ease),
+    transform 0.35s var(--vuffi-ease);
+}
+
+.vuffi-btn:active {
+  transform: scale(0.97);
+}
+
+.vuffi-btn:focus-visible {
+  outline: 2px solid var(--vuffi-accent);
+  outline-offset: 3px;
+}
+
+/* Hover: a second color rises from the bottom and fills the pill */
+.vuffi-btn::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--btn-sweep, transparent);
+  transform: translateY(102%);
+  transition: transform 0.55s var(--vuffi-ease);
+}
+
+.vuffi-btn--primary {
+  --btn-sweep: var(--vuffi-ink);
+  background: var(--color-primary-button-background);
+  color: var(--color-primary-button-text);
+  border-color: var(--color-primary-button-border);
+}
+
+.vuffi-btn--ghost {
+  --btn-sweep: var(--color-foreground);
+  background: transparent;
+  color: inherit;
+  border-color: var(--vuffi-line-strong);
+}
+
+[data-tone='dark'] .vuffi-btn--primary {
+  --btn-sweep: #ffffff;
+  background: var(--vuffi-lime);
+  color: var(--vuffi-ink);
+  border-color: var(--vuffi-lime);
+}
+
+@media (hover: hover) {
+  .vuffi-btn:hover::before {
+    transform: translateY(0);
+  }
+
+  .vuffi-btn--primary:hover {
+    color: #ffffff;
+  }
+
+  [data-tone='dark'] .vuffi-btn--primary:hover {
+    color: var(--vuffi-ink);
+    border-color: #ffffff;
+  }
+
+  .vuffi-btn--ghost:hover {
+    color: var(--color-background);
+    border-color: var(--color-foreground);
+  }
+}
+
+.vuffi-btn__arrow {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  transition: transform 0.45s var(--vuffi-ease);
+}
+
+@media (hover: hover) {
+  .vuffi-btn:hover .vuffi-btn__arrow {
+    transform: translateX(4px);
+  }
+}
+
+.vuffi-btn--block {
+  width: 100%;
+}
+
+@media screen and (min-width: 990px) {
+  .vuffi-btn {
+    min-height: 56px;
+    padding: 0 32px;
+  }
+}
+
+.vuffi-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Chips, cards, media */
+.vuffi-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--vuffi-line);
+  border-radius: var(--vuffi-radius-btn);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.vuffi-chip svg {
+  width: 16px;
+  height: 16px;
+  color: var(--vuffi-accent);
+  flex: none;
+}
+
+.vuffi-card {
+  background: var(--vuffi-card);
+  border: 1px solid var(--vuffi-line);
+  border-radius: var(--vuffi-radius);
+}
+
+.vuffi-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--vuffi-radius);
+  background: var(--vuffi-soft);
+  aspect-ratio: var(--ratio, auto);
+}
+
+.vuffi-media > img,
+.vuffi-media > picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vuffi-media--contain > img {
+  object-fit: contain;
+}
+
+/* Placeholders: labeled boxes at the right ratio until the real photo is uploaded */
+.vuffi-ph {
+  position: relative;
+  display: grid;
+  place-content: center;
+  gap: 6px;
+  width: 100%;
+  aspect-ratio: var(--ratio, 1);
+  padding: 20px;
+  border: 1px dashed var(--vuffi-line-strong, rgb(11 20 16 / 0.28));
+  border-radius: var(--vuffi-radius);
+  background:
+    repeating-linear-gradient(
+      135deg,
+      var(--vuffi-soft, rgb(11 20 16 / 0.04)) 0 14px,
+      transparent 14px 28px
+    );
+  color: inherit;
+  text-align: center;
+}
+
+.vuffi-ph__label {
+  font-family: var(--font-accent--family);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.vuffi-ph__size {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* Icons */
+.vuffi-icon {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.vuffi-icon .a {
+  stroke: var(--vuffi-accent);
+}
+
+.vuffi-icon .f {
+  fill: var(--vuffi-accent);
+  stroke: none;
+}
+
+/* Accordion */
+.vuffi-acc {
+  border-top: 1px solid var(--vuffi-line);
+}
+
+.vuffi-acc:last-child {
+  border-bottom: 1px solid var(--vuffi-line);
+}
+
+.vuffi-acc summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: clamp(17px, 1.4vw, 20px);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.vuffi-acc summary::-webkit-details-marker {
+  display: none;
+}
+
+.vuffi-acc summary:focus-visible {
+  outline: 2px solid var(--vuffi-accent);
+  outline-offset: 4px;
+}
+
+.vuffi-acc__sign {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border: 1px solid var(--vuffi-line-strong);
+  border-radius: 50%;
+  transition:
+    transform 0.4s var(--vuffi-ease),
+    background-color 0.3s;
+}
+
+.vuffi-acc__sign::before,
+.vuffi-acc__sign::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 12px;
+  height: 1.5px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+
+.vuffi-acc__sign::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  transition: transform 0.4s var(--vuffi-ease);
+}
+
+.vuffi-acc[open] .vuffi-acc__sign {
+  background: var(--vuffi-accent);
+  border-color: var(--vuffi-accent);
+  color: var(--color-background);
+}
+
+.vuffi-acc[open] .vuffi-acc__sign::after {
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.vuffi-acc__body {
+  padding: 0 56px 28px 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--color-foreground-muted, currentColor);
+}
+
+.vuffi-acc__body p {
+  margin: 0 0 12px;
+}
+
+.vuffi-acc__body p:last-child {
+  margin: 0;
+}
+
+/* Ticker strips */
+.vuffi-marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.vuffi-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: vuffi-marquee var(--vuffi-marquee-time, 40s) linear infinite;
+}
+
+.vuffi-marquee:hover .vuffi-marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes vuffi-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Countdown digits (no motion; the digits just change) */
+.vuffi-count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.vuffi-count__unit {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.vuffi-count__num {
+  display: inline-block;
+  min-width: 2ch;
+  text-align: center;
+}
+
+.vuffi-count__label {
+  font-size: 0.72em;
+  opacity: 0.7;
+}
+
+/* Used by the dose finder when its answer changes */
+@keyframes vuffi-tick {
+  from {
+    opacity: 0;
+    transform: translateY(-40%);
+  }
+}
+
+/* No entrance animations on text or photos: they show as soon as the page loads.
+   Motion lives only where people scroll or tap (scroll story, timeline, switches, buy box) and in the footer logo. */
+
+@media (prefers-reduced-motion: reduce) {
+  .vuffi-marquee__track {
+    animation: none;
+  }
+}
+
+/* Natural light for dark and green sections: a soft warm beam falling from the top left, a gentle lift
+   in the middle and a slightly darker floor, like the light in the hero photo. Barely there, never moves.
+   Add vuffi-glow to a dark section, plus vuffi-glow--right to let the light come from the top right. */
+.vuffi-glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.vuffi-glow::before,
+.vuffi-glow::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.vuffi-glow::before {
+  top: -12%;
+  left: -30%;
+  width: 110%;
+  height: min(90%, 1200px);
+  background: radial-gradient(closest-side, rgb(238 224 190 / 0.2), rgb(238 224 190 / 0.07) 55%, transparent);
+  transform: rotate(26deg) scaleY(0.36);
+}
+
+.vuffi-glow--right::before {
+  left: auto;
+  right: -30%;
+  transform: rotate(-26deg) scaleY(0.36);
+}
+
+.vuffi-glow::after {
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 62% 48%, rgb(255 255 255 / 0.045), transparent 70%),
+    linear-gradient(180deg, transparent 50%, rgb(0 0 0 / 0.22) 100%);
+}
+
+/* Centered section intro used by the redesigned sections */
+.vuffi-intro {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  max-width: 760px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.vuffi-intro .vuffi-lede {
+  margin-inline: auto;
+}
+
+@media screen and (min-width: 990px) {
+  .vuffi-intro {
+    margin-bottom: 64px;
+  }
+}
+
+.vuffi-visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Feature photos run to the edge of the screen instead of sitting in a box.
+   Phones and tablets: full width. Computers: off the outer side, soft corners on the inside only.
+   Add vuffi-bleed to the photo wrapper inside a .vuffi-wrap, plus vuffi-bleed--left or --right. */
+@media screen and (max-width: 989px) {
+  .vuffi-bleed {
+    margin-inline: calc(var(--vuffi-gutter) * -1);
+  }
+
+  .vuffi-bleed .vuffi-media,
+  .vuffi-bleed .vuffi-ph {
+    border-radius: 0;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .vuffi-bleed--left {
+    margin-left: calc(var(--vuffi-edge) * -1);
+  }
+
+  .vuffi-bleed--right {
+    margin-right: calc(var(--vuffi-edge) * -1);
+  }
+
+  .vuffi-bleed--left .vuffi-media,
+  .vuffi-bleed--left .vuffi-ph {
+    border-radius: 0 var(--vuffi-radius-lg) var(--vuffi-radius-lg) 0;
+  }
+
+  .vuffi-bleed--right .vuffi-media,
+  .vuffi-bleed--right .vuffi-ph {
+    border-radius: var(--vuffi-radius-lg) 0 0 var(--vuffi-radius-lg);
+  }
+}
+
+/* Diagrams and cutouts: no box around them (use a see through PNG when the section is not white) */
+.vuffi-melt.vuffi-media,
+.vuffi-melt .vuffi-media {
+  border-radius: 0;
+  background: transparent;
+}
+
+/* Cart drawer and cart page: make the deal impossible to miss.
+   The savings bar comes from vuffi-cart.js; the rest styles Horizon's own discount markup. */
+.vuffi-cart-save {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  padding: 12px 16px;
+  border-radius: var(--vuffi-radius-btn);
+  background: var(--vuffi-lime);
+  color: var(--vuffi-ink);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.vuffi-cart-save::before {
+  content: '';
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3L15 6.5' fill='none' stroke='%23C6E35A' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 14px no-repeat,
+    var(--vuffi-ink);
+}
+
+/* Trust line and payment icons under the checkout button */
+.vuffi-cart-trust {
+  --vuffi-accent: currentColor;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  text-align: center;
+}
+
+.vuffi-cart-trust__text {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  opacity: 0.75;
+}
+
+.vuffi-cart-trust__text .vuffi-icon {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.vuffi-cart-trust__pay {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vuffi-cart-trust__icon {
+  display: block;
+  width: 38px;
+  height: 24px;
+}
+
+/* Discount names under each line become lime tags */
+.cart-items__variants-wrapper ul.list-unstyled li {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: var(--vuffi-radius-btn);
+  background: color-mix(in srgb, var(--vuffi-lime) 70%, transparent);
+  color: var(--vuffi-ink);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* Sale price in green and bold, the old price struck through beside it */
+.cart-items__unit-price-wrapper > div:has(.compare-at-price) > span:not(.visually-hidden) {
+  color: var(--vuffi-green);
+  font-weight: 700;
+}
+
+.cart-items__unit-price-wrapper .compare-at-price {
+  opacity: 0.6;
+}
+
+/* Order level discounts in the summary */
+.cart-discounts__item {
+  padding: 8px 12px;
+  border-radius: var(--vuffi-radius-btn);
+  background: color-mix(in srgb, var(--vuffi-lime) 45%, transparent);
+  color: var(--vuffi-ink);
+  font-weight: 700;
+}

@@ -1,0 +1,218 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+  assign heading = section.settings.heading | default: page.title
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+{%- liquid
+  assign has_photo = false
+  if section.settings.show_photo
+    assign has_photo = true
+  endif
+-%}
+<section
+  class="vuffi-section vuffi-phero {% if has_photo %}vuffi-phero--photo{% else %}vuffi-phero--plain{% if tone == 'dark' %} vuffi-glow{% endif %}{% endif %} color-custom-{{ section.id }}"
+  data-tone="{{ tone }}"
+>
+  {%- if has_photo -%}
+    {%- comment -%} The photo fills the whole title, like the home page hero, and the words sit on it {%- endcomment -%}
+    <div class="vuffi-phero__bg">
+      {%- render 'vuffi-image',
+        image: section.settings.image,
+        label: section.settings.slot,
+        ratio: '16 / 9',
+        size: '3840 x 2160 (16:9)',
+        sizes: '100vw',
+        priority: true,
+        alt: section.settings.image_alt
+      -%}
+    </div>
+  {%- endif -%}
+
+  <div class="vuffi-wrap vuffi-phero__inner">
+    <div class="vuffi-phero__head{% if section.settings.center %} vuffi-phero__head--center{% endif %}">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="vuffi-display vuffi-phero__title">{{ heading }}</h1>
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede vuffi-phero__text">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-phero__head {
+    display: grid;
+    gap: 20px;
+    max-width: 860px;
+  }
+
+  .vuffi-phero__head--center {
+    margin-inline: auto;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .vuffi-phero__title {
+    margin: 0;
+    font-size: clamp(44px, 6.6vw, 104px);
+    line-height: 0.98;
+  }
+
+  .vuffi-phero__text {
+    max-width: 48ch;
+  }
+
+  /* Plain title: the dark band with the hero light, words lined up with the logo */
+  .vuffi-section.vuffi-phero--plain {
+    padding-block: clamp(64px, 9vw, 128px) clamp(48px, 6vw, 88px);
+  }
+
+  /* Photo title: full screen photo with the words at the bottom left */
+  .vuffi-section.vuffi-phero--photo {
+    display: grid;
+    align-items: end;
+    min-height: max(560px, 82svh);
+    padding: 0;
+    isolation: isolate;
+  }
+
+  .vuffi-phero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .vuffi-phero__bg .vuffi-media,
+  .vuffi-phero__bg .vuffi-ph {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    border-radius: 0;
+  }
+
+  /* Shade: dark at the top so the header flows into the photo, clear in the middle, dark behind the words */
+  .vuffi-phero__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        180deg,
+        rgb(var(--color-background-rgb) / 0.9) 0%,
+        rgb(var(--color-background-rgb) / 0) 26%,
+        rgb(var(--color-background-rgb) / 0) 42%,
+        rgb(var(--color-background-rgb) / 0.92) 100%
+      ),
+      linear-gradient(90deg, rgb(var(--color-background-rgb) / 0.55) 0%, rgb(var(--color-background-rgb) / 0) 62%);
+    pointer-events: none;
+  }
+
+  .vuffi-phero--photo .vuffi-phero__inner {
+    padding-block: 160px clamp(48px, 7vw, 96px);
+  }
+
+  .vuffi-phero--photo .vuffi-phero__text {
+    color: rgb(var(--color-foreground-rgb) / 0.86);
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-section.vuffi-phero--photo {
+      min-height: min(88svh, 900px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi page title",
+  "tag": "div",
+  "class": "vuffi-phero-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "info": "Leave empty to use the page title."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "center",
+      "label": "Center the text",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Photo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_photo",
+      "label": "Show a photo behind the title",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo",
+      "info": "3840 x 2160 (16:9). Fills the screen behind the title; on phones it shows as a tall crop, so keep the subject in the middle and set the focal point. The words sit bottom left."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Photo description for screen readers"
+    },
+    {
+      "type": "text",
+      "id": "slot",
+      "label": "Placeholder label",
+      "default": "page-hero"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi page title"
+    }
+  ]
+}
+{% endschema %}

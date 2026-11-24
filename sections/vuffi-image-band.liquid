@@ -1,0 +1,376 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+  assign desk = section.settings.image
+  assign mob = section.settings.image_mobile | default: desk
+  assign alt = section.settings.image_alt | default: mob.alt | escape
+  assign focal_mob = mob.presentation.focal_point | default: '50% 50%'
+  assign focal_desk = desk.presentation.focal_point | default: focal_mob
+  assign focal_style = '--focal-desk: ' | append: focal_desk | append: '; --focal-mob: ' | append: focal_mob | append: ';'
+  assign has_text = false
+  if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.text != blank or section.settings.button_label != blank
+    assign has_text = true
+  endif
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section
+  class="vuffi-section vuffi-band vuffi-band--{{ section.settings.height }} vuffi-band--{{ section.settings.position }} color-custom-{{ section.id }}{% if has_text %} vuffi-band--text{% endif %}"
+  data-tone="{{ tone }}"
+  style="--band-shade: {{ section.settings.shade }}%;"
+>
+  <div class="vuffi-band__media">
+    {%- if mob != blank -%}
+      <picture>
+        {%- if desk != blank and section.settings.image_mobile != blank -%}
+          <source
+            media="(min-width: 990px)"
+            srcset="
+              {{ desk | image_url: width: 1400 }} 1400w,
+              {{ desk | image_url: width: 2000 }} 2000w,
+              {{ desk | image_url: width: 2800 }} 2800w,
+              {{ desk | image_url: width: 3600 }} 3600w
+            "
+            sizes="100vw"
+            width="{{ desk.width }}"
+            height="{{ desk.height }}"
+          >
+        {%- endif -%}
+        {{-
+          mob
+          | image_url: width: 2400
+          | image_tag:
+            widths: '600, 900, 1200, 1600, 2000, 2400',
+            sizes: '(min-width: 990px) 100vw, (min-width: 750px) 130vw, 190vw',
+            loading: 'lazy',
+            alt: alt,
+            class: 'vuffi-band__img',
+            style: focal_style
+        -}}
+      </picture>
+    {%- else -%}
+      {%- render 'vuffi-placeholder',
+        label: section.settings.slot,
+        size: '3840 x 2160 and 1440 x 1800',
+        class: 'vuffi-band__ph'
+      -%}
+    {%- endif -%}
+  </div>
+
+  {%- if has_text or section.settings.caption != blank -%}
+    <div class="vuffi-wrap vuffi-band__inner">
+      {%- if has_text -%}
+        <div class="vuffi-band__content" data-reveal>
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="vuffi-h2 vuffi-band__title">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <div class="vuffi-lede vuffi-band__text">{{ section.settings.text }}</div>
+          {%- endif -%}
+          {%- if section.settings.button_label != blank -%}
+            <div class="vuffi-actions">
+              {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.caption != blank -%}
+        <p class="vuffi-label vuffi-band__caption">{{ section.settings.caption }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+  /* Phones: heights follow the screen width so a landscape photo is never stretched into a tall strip */
+  .vuffi-band {
+    --band-h: 100vw;
+    --band-min: 0px;
+    isolation: isolate;
+    display: grid;
+    min-height: max(var(--band-h), var(--band-min));
+    padding-block: 0;
+  }
+
+  .vuffi-band--short {
+    --band-h: 75vw;
+  }
+
+  .vuffi-band--full {
+    --band-h: 125vw;
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-band {
+      --band-h: 78svh;
+      --band-min: 560px;
+    }
+
+    .vuffi-band--short {
+      --band-h: 56svh;
+      --band-min: 440px;
+    }
+
+    .vuffi-band--full {
+      --band-h: 100svh;
+      --band-min: 640px;
+    }
+  }
+
+  .vuffi-band__media {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--color-background);
+  }
+
+  .vuffi-band__media picture,
+  .vuffi-band__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .vuffi-band__img {
+    object-fit: cover;
+    object-position: var(--focal-mob, 50% 50%);
+  }
+
+  .vuffi-band__ph.vuffi-ph {
+    height: 100%;
+    aspect-ratio: auto;
+    border: 0;
+    border-radius: 0;
+  }
+
+  /* Shade under the text so it stays readable on any photo */
+  .vuffi-band--text .vuffi-band__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--color-background) var(--band-shade), transparent) 0%,
+      color-mix(in srgb, var(--color-background) calc(var(--band-shade) * 0.8), transparent) 40%,
+      transparent 80%
+    );
+    pointer-events: none;
+  }
+
+  .vuffi-band--top-left .vuffi-band__media::after {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-background) var(--band-shade), transparent) 0%,
+      transparent 62%
+    );
+  }
+
+  .vuffi-band--center .vuffi-band__media::after {
+    background: color-mix(in srgb, var(--color-background) calc(var(--band-shade) * 0.6), transparent);
+  }
+
+  .vuffi-band__inner {
+    position: relative;
+    display: grid;
+    align-content: end;
+    gap: 20px;
+    padding-block: 40px;
+  }
+
+  .vuffi-band--top-left .vuffi-band__inner {
+    align-content: start;
+    padding-top: 56px;
+  }
+
+  .vuffi-band--center .vuffi-band__inner {
+    align-content: center;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .vuffi-band--bottom-center .vuffi-band__inner {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .vuffi-band__content {
+    display: grid;
+    justify-items: inherit;
+    gap: 16px;
+    max-width: 640px;
+  }
+
+  .vuffi-band--center .vuffi-band__content,
+  .vuffi-band--bottom-center .vuffi-band__content {
+    justify-items: center;
+  }
+
+  .vuffi-band__title {
+    font-size: clamp(36px, 5.4vw, 76px);
+  }
+
+  .vuffi-band__text {
+    color: inherit;
+    opacity: 0.86;
+  }
+
+  .vuffi-band__caption {
+    color: inherit;
+    opacity: 0.72;
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-band__img {
+      object-position: var(--focal-desk, 50% 50%);
+    }
+
+    .vuffi-band__inner {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      padding-block: 72px;
+    }
+
+    .vuffi-band--center .vuffi-band__inner,
+    .vuffi-band--bottom-center .vuffi-band__inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .vuffi-band--top-left .vuffi-band__inner {
+      align-items: start;
+      padding-top: 120px;
+    }
+
+    .vuffi-band__caption {
+      justify-self: end;
+      text-align: right;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi photo band",
+  "tag": "div",
+  "class": "vuffi-band-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "A full width photo with optional text on top. Leave the text empty for a pure photo moment."
+    },
+    {
+      "type": "header",
+      "content": "Photo"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Computer photo",
+      "info": "3840 x 2160 (16:9) or wider. Set the focal point so the subject stays in view."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Phone photo",
+      "info": "1440 x 1800 (4:5). Optional; the computer photo is cropped if empty."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Photo description for screen readers"
+    },
+    {
+      "type": "text",
+      "id": "slot",
+      "label": "Placeholder label",
+      "default": "band-photo",
+      "info": "Shown until a photo is added. Matches PLACEHOLDERS.md."
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        { "value": "short", "label": "Short" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "full", "label": "Full screen" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "info": "Put a word in italics to color it."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Small caption in the corner",
+      "info": "For example: Fig. 02, the daily chew."
+    },
+    {
+      "type": "select",
+      "id": "position",
+      "label": "Text position",
+      "options": [
+        { "value": "bottom-left", "label": "Bottom left" },
+        { "value": "bottom-center", "label": "Bottom center" },
+        { "value": "center", "label": "Center" },
+        { "value": "top-left", "label": "Top left" }
+      ],
+      "default": "bottom-left"
+    },
+    {
+      "type": "range",
+      "id": "shade",
+      "label": "Shade behind the text",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 55
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Shade and text color",
+      "default": "#111A16",
+      "info": "Dark makes the text white; light makes it ink."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi photo band"
+    }
+  ]
+}
+{% endschema %}

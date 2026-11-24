@@ -1,0 +1,27 @@
+{% doc %}
+  Shared section setup: background color with Horizon's smart text contrast, plus top and bottom spacing.
+  Pair it with class="vuffi-section color-custom-{{ section.id }}" on the section wrapper.
+
+  @param {object} section - The section
+{% enddoc %}
+{%- render 'contrast-override', background_color: section.settings.background_color, section_id: section.id -%}
+{% style %}
+  #shopify-section-{{ section.id }} .vuffi-section {
+    {%- if section.settings.padding_top != nil %}
+      --vuffi-pt: {{ section.settings.padding_top }}px;
+    {%- endif %}
+    {%- if section.settings.padding_bottom != nil %}
+      --vuffi-pb: {{ section.settings.padding_bottom }}px;
+    {%- endif %}
+  }
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .vuffi-section {
+      {%- if section.settings.padding_top != nil %}
+        --vuffi-pt: {{ section.settings.padding_top | times: 0.6 | round }}px;
+      {%- endif %}
+      {%- if section.settings.padding_bottom != nil %}
+        --vuffi-pb: {{ section.settings.padding_bottom | times: 0.6 | round }}px;
+      {%- endif %}
+    }
+  }
+{% endstyle %}

@@ -1,0 +1,510 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+  assign chew_1 = section.settings.chew_1
+  assign chew_2 = section.settings.chew_2 | default: chew_1
+  assign chew_3 = section.settings.chew_3 | default: chew_1
+  assign chew_4 = section.settings.chew_4 | default: chew_2
+  assign floaters = '9,22,1.1,-18,1,0,10,20|90,16,0.85,24,0.85,0,90,14|93,52,1.2,-30,1,0,91,40|7,58,0.95,12,0.9,0,9,46|22,84,1,20,0.85,1,0,0|79,82,1.25,-8,0.95,1,0,0|17,40,0.7,40,0.66,1,0,0|83,36,0.75,-36,0.7,1,0,0' | split: '|'
+-%}
+{% comment %} Chews that fly out of the jar: where they land on computers (left %, top %), depth, turn, size, 1 = computers and tablets only, then where they land on phones {% endcomment %}
+{%- render 'vuffi-section-style', section: section -%}
+<script src="{{ 'vuffi-story.js' | asset_url }}" defer></script>
+
+<section
+  class="vuffi-section vuffi-story color-custom-{{ section.id }}"
+  data-tone="{{ tone }}"
+  style="--story-len: {{ section.settings.scroll_length | divided_by: 100.0 }}; --story-top: {{ section.settings.background_color }}; --story-bottom: {{ section.settings.background_color_2 | default: section.settings.background_color }};"
+>
+  <vuffi-story class="vuffi-story__track">
+    <div class="vuffi-story__sticky">
+      <div class="vuffi-story__floaters" aria-hidden="true">
+        {%- for f in floaters -%}
+          {%- liquid
+            assign v = f | split: ','
+            assign pick = forloop.index0 | modulo: 4
+            case pick
+              when 0
+                assign img = chew_1
+              when 1
+                assign img = chew_2
+              when 2
+                assign img = chew_3
+              else
+                assign img = chew_4
+            endcase
+          -%}
+          <div
+            class="vuffi-story__floater{% if v[5] == '1' %} vuffi-story__floater--desktop{% endif %}"
+            data-chew
+            style="--x: {{ v[0] }}%; --y: {{ v[1] }}%; --px: {{ v[6] }}%; --py: {{ v[7] }}%; --depth: {{ v[2] }}; --r: {{ v[3] }}deg; --s: {{ v[4] }}; --k: {{ forloop.index0 }};"
+          >
+            {%- if img != blank -%}
+              {%- render 'vuffi-image', image: img, label: 'scroll-chew', ratio: '1 / 1', sizes: '140px', contain: true, class: 'vuffi-story__layer' -%}
+            {%- else -%}
+              <span class="vuffi-story__chew-ph">chew</span>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="vuffi-wrap vuffi-story__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="vuffi-eyebrow vuffi-story__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="vuffi-story__lines">
+          {%- for block in section.blocks -%}
+            <span class="vuffi-story__mask" {{ block.shopify_attributes }}>
+              <span class="vuffi-story__line{% if block.settings.accent %} vuffi-story__line--accent{% endif %}" data-line>
+                {{- block.settings.text -}}
+              </span>
+            </span>
+          {%- endfor -%}
+        </h2>
+      </div>
+
+      <div class="vuffi-story__product" aria-hidden="true">
+        <div class="vuffi-story__jar{% if section.settings.jar_closed_image != blank %} vuffi-story__jar--open{% endif %}">
+          {%- render 'vuffi-image',
+            image: section.settings.jar_image,
+            label: 'scroll-jar-open',
+            ratio: '1 / 1',
+            size: '2048 x 2048 PNG',
+            sizes: '(min-width: 990px) 60vw, 112vw',
+            contain: true,
+            class: 'vuffi-story__layer'
+          -%}
+        </div>
+        {%- if section.settings.jar_closed_image != blank -%}
+          <div class="vuffi-story__jar vuffi-story__jar--closed">
+            {%- render 'vuffi-image',
+              image: section.settings.jar_closed_image,
+              label: 'scroll-jar-base',
+              ratio: '1 / 1',
+              sizes: '(min-width: 990px) 60vw, 112vw',
+              contain: true,
+              class: 'vuffi-story__layer'
+            -%}
+          </div>
+        {%- endif -%}
+        <div class="vuffi-story__lid">
+          {%- render 'vuffi-image',
+            image: section.settings.lid_image,
+            label: 'scroll-lid',
+            ratio: '2 / 1',
+            sizes: '(min-width: 990px) 50vw, 92vw',
+            contain: true,
+            class: 'vuffi-story__layer'
+          -%}
+        </div>
+      </div>
+
+      {%- if section.settings.button_label != blank -%}
+        <div class="vuffi-story__cta">
+          {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </vuffi-story>
+</section>
+
+{% stylesheet %}
+  .vuffi-story {
+    --p: 0;
+    --jy: 1;
+    --lid: 0;
+    --unit: min(156vw, 92svh, 820px);
+    --rest-y: 50svh;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .vuffi-story__track {
+    display: block;
+    position: relative;
+    height: calc(var(--story-len, 3.8) * 100svh);
+  }
+
+  .vuffi-story__sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    background: linear-gradient(180deg, var(--story-top, var(--color-background)) 0%, var(--story-bottom, var(--color-background)) 100%);
+  }
+
+  .vuffi-story__head {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    justify-items: center;
+    gap: 18px;
+    padding-top: max(88px, 12svh);
+    text-align: center;
+  }
+
+  .vuffi-story__lines {
+    display: grid;
+    justify-items: center;
+    margin: 0;
+    font-family: var(--font-subheading--family);
+    font-weight: var(--font-subheading--weight);
+    font-size: clamp(34px, 10vw, 120px);
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+
+  .vuffi-story__mask {
+    display: block;
+    overflow: hidden;
+    padding: 0.04em 0.06em 0.06em;
+  }
+
+  .vuffi-story__line {
+    display: block;
+    text-wrap: balance;
+  }
+
+  .vuffi-story__line em {
+    font-style: normal;
+    color: var(--vuffi-accent);
+  }
+
+  .vuffi-story__line--accent {
+    font-style: normal;
+    color: var(--vuffi-accent);
+  }
+
+  .vuffi-story.is-live .vuffi-story__line {
+    transform: translateY(calc((1 - var(--r, 0)) * 105%)) rotate(calc((1 - var(--r, 0)) * 4deg));
+    transform-origin: 0 100%;
+    opacity: var(--r, 0);
+    will-change: transform;
+  }
+
+  /* The jar is big: it rests with its top at --rest-y and its lower half runs off the bottom of the screen, like the Grüns pack */
+  .vuffi-story__product {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: calc(var(--rest-y) - var(--unit) * 0.044);
+    width: var(--unit);
+    aspect-ratio: 1;
+    transform:
+      translate(-50%, calc(var(--jy) * (100svh - var(--rest-y) - var(--unit) * 0.16)))
+      rotate(calc(var(--jy) * -5deg));
+    will-change: transform;
+  }
+
+  .vuffi-story__jar {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    will-change: opacity;
+  }
+
+  /* Closed look: a copy of the jar with the chews cleared away sits under the seated lid.
+     The moment the lid starts to lift, the jar full of chews takes its place. */
+  /* Never fully invisible (0.01), so the browser keeps it painted and ready: no hitch when the lid pops */
+  .vuffi-story__jar--open {
+    opacity: max(0.01, min(1, calc(var(--lid) * 60)));
+  }
+
+  .vuffi-story__jar--closed {
+    opacity: calc(1 - min(1, var(--lid) * 60));
+  }
+
+  /* Sized and placed for the lid photo (2:1) seated all the way down on the jar */
+  .vuffi-story__lid {
+    position: absolute;
+    z-index: 3;
+    left: 9.65%;
+    right: 10.15%;
+    top: -1.1%;
+    /* Pops up and away in an arc, fading out so it leaves the screen completely */
+    transform:
+      translate(calc(var(--lid) * 220%), calc(var(--lid) * -120% + var(--lid) * var(--lid) * 60%))
+      rotate(calc(var(--lid) * 70deg));
+    opacity: calc(1 - var(--lid) * var(--lid) * var(--lid));
+    will-change: transform, opacity;
+  }
+
+  .vuffi-story__layer.vuffi-media {
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .vuffi-story__jar .vuffi-media {
+    filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.35));
+  }
+
+  .vuffi-story__product .vuffi-ph {
+    border-color: rgb(255 255 255 / 0.4);
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  .vuffi-story__lid .vuffi-ph {
+    padding: 4px;
+    border-radius: var(--vuffi-radius);
+  }
+
+  .vuffi-story__lid .vuffi-ph__label {
+    font-size: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .vuffi-story__floaters {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Each chew starts inside the jar (behind the heap) and flies out to where it lands.
+     The script sets --fx and --fy (offset from the landing spot) and --t (0 in the jar, 1 landed). */
+  .vuffi-story__floater {
+    position: absolute;
+    left: var(--px);
+    top: var(--py);
+    width: calc(clamp(56px, 13vw, 130px) * var(--s));
+    transform:
+      translate(-50%, -50%)
+      translate(var(--fx, 0px), var(--fy, 0px))
+      rotate(calc(var(--r) + (1 - var(--t, 1)) * -140deg + var(--p) * var(--depth) * 40deg))
+      scale(calc(0.4 + var(--t, 1) * 0.6));
+    /* Only transform and opacity change while scrolling, so the chews move on the graphics card.
+       The depth blur and shadow are fixed per chew (repainting them every frame caused the small lag). */
+    opacity: calc(max(0.01, var(--o, 1)) * (0.6 + var(--depth) * 0.36));
+    filter: blur(calc(max(0, 0.8 - var(--depth)) * 3px)) drop-shadow(0 18px 22px rgb(0 0 0 / 0.28));
+    will-change: transform, opacity;
+  }
+
+  .vuffi-story__floater--desktop {
+    display: none;
+  }
+
+  .vuffi-story__chew-ph {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1.15;
+    border-radius: 34% 38% 36% 32%;
+    background: linear-gradient(160deg, #8a5a33, #5b3519);
+    color: rgb(255 255 255 / 0.6);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Phones: the jar runs off the bottom like the Grüns pack, so the button only shows on larger screens */
+  .vuffi-story__cta {
+    display: none;
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    bottom: max(24px, 4svh);
+    transform: translate(-50%, 24px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s var(--vuffi-ease), transform 0.6s var(--vuffi-ease);
+  }
+
+  .vuffi-story.is-final .vuffi-story__cta,
+  .vuffi-story.is-static .vuffi-story__cta {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    pointer-events: auto;
+  }
+
+  /* Without the pinned animation: the finished scene */
+  .vuffi-story.is-static .vuffi-story__track {
+    height: auto;
+  }
+
+  .vuffi-story.is-static .vuffi-story__sticky {
+    position: relative;
+    height: max(100svh, 720px);
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-story__floater {
+      left: var(--x);
+      top: var(--y);
+    }
+
+    .vuffi-story__floater--desktop {
+      display: block;
+    }
+
+    .vuffi-story__cta {
+      display: block;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-story {
+      --unit: min(58vw, 96svh, 920px);
+      --rest-y: 56svh;
+    }
+
+    .vuffi-story__head {
+      padding-top: max(96px, 11svh);
+    }
+
+    .vuffi-story__lines {
+      font-size: min(clamp(48px, 6vw, 108px), 7.6svh);
+    }
+
+    .vuffi-story__cta {
+      left: auto;
+      right: var(--vuffi-gutter);
+      bottom: 48px;
+      transform: translate(0, 24px);
+    }
+
+    .vuffi-story.is-final .vuffi-story__cta,
+    .vuffi-story.is-static .vuffi-story__cta {
+      transform: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi scroll story",
+  "tag": "div",
+  "class": "vuffi-story-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Pins to the screen while people scroll, like the Grüns section: the big closed jar rises, the lid pops off, then chews fly out of the jar one by one while each line of text slides up. People who ask their device for less motion see the finished scene."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button at the end",
+      "default": "Shop the chews"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "scroll_length",
+      "label": "Scroll length",
+      "min": 250,
+      "max": 600,
+      "step": 25,
+      "unit": "%",
+      "default": 375,
+      "info": "How long the scene stays pinned, as a share of the screen height."
+    },
+    {
+      "type": "header",
+      "content": "Product layers",
+      "info": "Transparent PNGs from the same camera angle and light."
+    },
+    {
+      "type": "image_picker",
+      "id": "jar_image",
+      "label": "Open jar, no lid",
+      "info": "Square transparent PNG with chews heaped at the top."
+    },
+    {
+      "type": "image_picker",
+      "id": "jar_closed_image",
+      "label": "Same jar with the top cleared",
+      "info": "The open jar photo with everything above the rim erased, so the lid can sit all the way down. Shows until the lid pops off."
+    },
+    {
+      "type": "image_picker",
+      "id": "lid_image",
+      "label": "Lid",
+      "info": "Transparent PNG, 2:1, the lid alone at the same angle as the jar. It sits on the open jar and covers the chews until it pops off."
+    },
+    {
+      "type": "image_picker",
+      "id": "chew_1",
+      "label": "Chew 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "chew_2",
+      "label": "Chew 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "chew_3",
+      "label": "Chew 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "chew_4",
+      "label": "Chew 4"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background, top",
+      "default": "#0E3B2C",
+      "info": "Sets the text color too."
+    },
+    {
+      "type": "color",
+      "id": "background_color_2",
+      "label": "Background, bottom",
+      "default": "#7DA23A",
+      "info": "The background fades from the top color to this one, like the Grüns section."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "line",
+      "name": "Line",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "5 joint actives"
+        },
+        {
+          "type": "checkbox",
+          "id": "accent",
+          "label": "Lime line",
+          "default": false,
+          "info": "Use on the last line."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi scroll story",
+      "blocks": [
+        { "type": "line", "settings": { "text": "5 joint actives" } },
+        { "type": "line", "settings": { "text": "30 soft chews" } },
+        { "type": "line", "settings": { "text": "0 pills to hide" } },
+        { "type": "line", "settings": { "text": "Every step, supported.", "accent": true } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,29 @@
+{% doc %}
+  A Vuffi pill button or link with a sliding arrow.
+
+  @param {string} label - Button text
+  @param {string} [url] - Link. Without a link a <button> is rendered
+  @param {string} [style] - primary or ghost. Defaults to primary
+  @param {boolean} [arrow] - Show the arrow. Defaults to true
+  @param {string} [class] - Extra classes
+  @param {string} [type] - Button type when no link is given. Defaults to button
+  @param {string} [attrs] - Extra attributes, already escaped
+{% enddoc %}
+{%- liquid
+  assign btn_style = style | default: 'primary'
+  assign btn_classes = 'vuffi-btn vuffi-btn--' | append: btn_style
+  if class != blank
+    assign btn_classes = btn_classes | append: ' ' | append: class
+  endif
+-%}
+{%- capture btn_inner -%}
+  <span>{{ label }}</span>
+  {%- unless arrow == false -%}
+    <svg class="vuffi-btn__arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11M11 5.5 15.5 10 11 14.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  {%- endunless -%}
+{%- endcapture -%}
+{%- if url != blank -%}
+  <a class="{{ btn_classes }}" href="{{ url }}" {{ attrs }}>{{ btn_inner }}</a>
+{%- else -%}
+  <button class="{{ btn_classes }}" type="{{ type | default: 'button' }}" {{ attrs }}>{{ btn_inner }}</button>
+{%- endif -%}

@@ -10,406 +10,304 @@
 {
   "sections": {
     "main": {
-      "type": "product-information",
+      "type": "vuffi-product",
       "blocks": {
-        "media-gallery": {
-          "type": "_product-media-gallery",
-          "static": true,
+        "chip_1": {
+          "type": "chip",
           "settings": {
-            "media_presentation": "grid",
-            "media_columns": "two",
-            "image_gap": 4,
-            "large_first_image": false,
-            "icons_style": "arrow",
-            "slideshow_controls_style": "counter",
-            "slideshow_mobile_controls_style": "dots",
-            "thumbnail_position": "right",
-            "thumbnail_width": 44,
-            "aspect_ratio": "adapt",
-            "constrain_to_viewport": true,
-            "media_fit": "contain",
-            "media_radius": 0,
-            "extend_media": false,
-            "zoom": true,
-            "video_loop": false,
-            "hide_variants": true,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "icon": "vet",
+            "text": "Vet recommended"
+          }
         },
-        "product-details": {
-          "type": "_product-details",
-          "static": true,
+        "chip_2": {
+          "type": "chip",
           "settings": {
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "details_position": "flex-start",
-            "gap": 28,
-            "sticky_details_desktop": true,
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 24,
-            "padding-block-end": 24,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "group_icgrde": {
-              "type": "group",
-              "name": "t:names.header",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "text_xpVMaM": {
-                  "type": "text",
-                  "name": "t:names.title",
-                  "settings": {
-                    "text": "<h1>{{ closest.product.title }}</h1>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "h3",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "price_tVjtKg": {
-                  "type": "price",
-                  "settings": {
-                    "show_sale_price_first": true,
-                    "show_installments": true,
-                    "show_tax_info": true,
-                    "type_preset": "paragraph",
-                    "width": "100%",
-                    "alignment": "left",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "padding-block-start": 4,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_xpVMaM",
-                "price_tVjtKg"
-              ]
-            },
-            "divider_VJhene": {
-              "type": "_divider",
-              "name": "t:names.divider",
-              "settings": {
-                "thickness": 1,
-                "corner_radius": "square",
-                "divider_color": "{{ settings.color_palette.color3 }}",
-                "width_percent": 100,
-                "padding-block-start": 0,
-                "padding-block-end": 0
-              },
-              "blocks": {}
-            },
-            "variant_picker_R3rGDr": {
-              "type": "variant-picker",
-              "settings": {
-                "variant_style": "buttons",
-                "show_swatches": false,
-                "alignment": "left",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "buy_buttons_eYQEYi": {
-              "type": "buy-buttons",
-              "settings": {
-                "stacking": true,
-                "show_pickup_availability": false,
-                "gift_card_form": true,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "quantity": {
-                  "type": "quantity",
-                  "static": true,
-                  "settings": {},
-                  "blocks": {}
-                },
-                "add-to-cart": {
-                  "type": "add-to-cart",
-                  "static": true,
-                  "settings": {
-                    "style_class": "button"
-                  },
-                  "blocks": {}
-                },
-                "accelerated-checkout": {
-                  "type": "accelerated-checkout",
-                  "static": true,
-                  "settings": {},
-                  "blocks": {}
-                }
-              },
-              "block_order": []
-            },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "t:names.product_description",
-              "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "group_icgrde",
-            "divider_VJhene",
-            "variant_picker_R3rGDr",
-            "buy_buttons_eYQEYi",
-            "text_aEtTtq"
-          ]
+            "icon": "chew",
+            "text": "Pork flavor"
+          }
         },
-        "disclosures": {
-          "type": "disclosures",
+        "chip_3": {
+          "type": "chip",
           "settings": {
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
+            "icon": "joint",
+            "text": "Hips, knees, elbows"
+          }
+        },
+        "tab_1": {
+          "type": "tab",
+          "settings": {
+            "title": "About Advanced Hip & Joint Support",
+            "use_description": true
+          }
+        },
+        "tab_2": {
+          "type": "tab",
+          "settings": {
+            "title": "What's inside",
+            "content": "<p><strong>Joint actives in every chew:</strong> glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel.</p><p>Pork flavored soft chew. Contains shellfish (green lipped mussel). The full ingredient list and amounts are printed on the jar.</p>"
+          }
+        },
+        "tab_3": {
+          "type": "tab",
+          "settings": {
+            "title": "How to use",
+            "content": "<ul><li>Under 35 lbs: 1 chew a day</li><li>36 to 65 lbs: 2 chews a day</li><li>Over 65 lbs: ask your vet</li></ul><p>For dogs over 12 weeks old. Give with a meal or as a treat, at the same time each day.</p>"
+          }
+        },
+        "tab_4": {
+          "type": "tab",
+          "settings": {
+            "title": "Shipping and subscriptions",
+            "content": "<p>Free shipping on every order. Subscriptions ship every month; skip, change or cancel anytime from your account.</p><p>Delivery details are in our <a href=\"/pages/shipping-policy\">shipping policy</a>.</p>"
+          }
+        },
+        "tab_5": {
+          "type": "tab",
+          "settings": {
+            "title": "90 day money back guarantee",
+            "content": "<p>Try Vuffi for 90 days. If you're not happy, email us and we'll refund your order. You keep the jar.</p>"
+          }
         }
       },
       "block_order": [
-        "disclosures"
+        "chip_1",
+        "chip_2",
+        "chip_3",
+        "tab_1",
+        "tab_2",
+        "tab_3",
+        "tab_4",
+        "tab_5"
       ],
       "settings": {
-        "content_width": "content-center-aligned",
-        "desktop_media_position": "left",
-        "equal_columns": false,
-        "limit_details_width": false,
-        "gap": 48,
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "default_subscribe": true,
+        "eyebrow": "",
+        "deal_one_percent": 25,
+        "deal_sub_percent": 25,
+        "deal_one_exact": "25.02",
+        "deal_sub_exact": "25.02",
+        "sticker_text": "off everything"
       }
     },
-    "product_recommendations_qggXJq": {
-      "type": "product-recommendations",
+    "detail": {
+      "type": "vuffi-gallery",
       "blocks": {
-        "text_cbcgyb": {
-          "type": "text",
-          "name": "t:names.header",
+        "photo_1": {
+          "type": "photo",
           "settings": {
-            "text": "<h2>You may also like </h2>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h4",
-            "font": "var(--font-body--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "slot": "detail-jar",
+            "label": "",
+            "title": "30 soft chews",
+            "image": "shopify://shop_images/vuffi-v2-detail-jar.jpg"
+          }
         },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
+        "photo_2": {
+          "type": "photo",
           "settings": {
-            "product_card_gap": 8,
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 8,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_DNizbJ": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_M7MJkb": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_gLWgA6": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_DNizbJ",
-            "product_title_M7MJkb",
-            "price_gLWgA6"
-          ]
+            "slot": "detail-open",
+            "label": "",
+            "title": "Soft and easy to chew",
+            "image": "shopify://shop_images/vuffi-v2-detail-open.jpg"
+          }
+        },
+        "photo_3": {
+          "type": "photo",
+          "settings": {
+            "slot": "detail-macro",
+            "label": "",
+            "title": "A real chew, not a tablet",
+            "image": "shopify://shop_images/vuffi-v2-detail-macro.jpg"
+          }
+        },
+        "photo_4": {
+          "type": "photo",
+          "settings": {
+            "slot": "detail-hand",
+            "label": "",
+            "title": "One a day under 35 lbs",
+            "image": "shopify://shop_images/vuffi-v2-detail-hand.jpg"
+          }
+        },
+        "photo_5": {
+          "type": "photo",
+          "settings": {
+            "slot": "detail-label",
+            "label": "",
+            "title": "Every ingredient listed",
+            "image": "shopify://shop_images/vuffi-v2-detail-label.jpg"
+          }
         }
       },
       "block_order": [
-        "text_cbcgyb"
+        "photo_1",
+        "photo_2",
+        "photo_3",
+        "photo_4",
+        "photo_5"
       ],
-      "name": "t:names.product_recommendations",
       "settings": {
-        "product": "{{ closest.product }}",
-        "recommendation_type": "related",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 4,
-        "columns": 4,
-        "mobile_columns": "2",
-        "columns_gap": 12,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "gap": 28,
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "eyebrow": "",
+        "heading": "Made to be <em>given daily.</em>",
+        "shape": "1 / 1",
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "background_color": "#F3F2EE"
+      }
+    },
+    "band_pdp": {
+      "type": "vuffi-image-band",
+      "settings": {
+        "slot": "band-pdp",
+        "height": "full",
+        "position": "bottom-left",
+        "shade": 55,
+        "background_color": "#111A16",
+        "heading": "Tastes like a treat. <em>Works like a routine.</em>",
+        "caption": "",
+        "image_alt": "A dog bounding up a grassy hill in late sun",
+        "image": "shopify://shop_images/vuffi-v2-band-pdp.jpg"
+      }
+    },
+    "reviews": {
+      "type": "vuffi-reviews",
+      "settings": {
+        "heading": "What owners <em>notice.</em>",
+        "text": "<p>Reviews from people who bought Vuffi for their own dog.</p>",
+        "show_judgeme": true,
+        "background_color": "#FFFFFF"
+      }
+    },
+    "label": {
+      "type": "vuffi-label",
+      "blocks": {
+        "point_1": {
+          "type": "point",
+          "settings": {
+            "title": "Small and medium breeds",
+            "text": "Sized for dogs up to 65 lbs. The dose chart below shows how many chews your dog needs."
+          }
+        },
+        "point_2": {
+          "type": "point",
+          "settings": {
+            "title": "Veterinarian recommended",
+            "text": "Built on the joint ingredients vets recommend most."
+          }
+        },
+        "point_3": {
+          "type": "point",
+          "settings": {
+            "title": "Advanced Hip & Joint Support",
+            "text": "Five joint actives in one chew: glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel."
+          }
+        },
+        "point_4": {
+          "type": "point",
+          "settings": {
+            "title": "Helps reduce occasional discomfort",
+            "text": "Supports cartilage, joint fluid and easy movement, so stairs, jumps and long walks come easier."
+          }
+        },
+        "point_5": {
+          "type": "point",
+          "settings": {
+            "title": "30 soft chews",
+            "text": "Pork flavored and soft, so most dogs take it like a treat. Contains shellfish."
+          }
+        }
+      },
+      "block_order": [
+        "point_1",
+        "point_2",
+        "point_3",
+        "point_4",
+        "point_5"
+      ],
+      "settings": {
+        "heading": "The jar, <em>explained.</em>",
+        "text": "<p>Everything printed on the label, and what it means for your dog.</p>",
+        "image": "shopify://shop_images/vuffi-v4-label-jar.jpg",
+        "background_color": "#0B1411",
+        "glow": true,
+        "image_alt": "A jar of Vuffi Advanced Hip and Joint Support on a stone plinth with two soft chews"
+      }
+    },
+    "dose": {
+      "type": "vuffi-dose",
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "up_to": 35,
+            "chews": 1,
+            "amount": "1 chew",
+            "lasts": "30 days",
+            "order": "1 jar"
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "up_to": 65,
+            "chews": 2,
+            "amount": "2 chews",
+            "lasts": "15 days",
+            "order": "2 jars"
+          }
+        },
+        "tip_1": {
+          "type": "tip",
+          "settings": {
+            "title": "With a meal",
+            "text": "Hand it over at breakfast as a treat, or break it up over food. Giving two? One at breakfast and one at dinner is fine."
+          }
+        },
+        "tip_2": {
+          "type": "tip",
+          "settings": {
+            "title": "Every day, no gaps",
+            "text": "Joint support builds with steady daily use. Missed a day? Carry on as normal. Never double up."
+          }
+        },
+        "tip_3": {
+          "type": "tip",
+          "settings": {
+            "title": "Judge it at 90 days",
+            "text": "Changes come over weeks, not days. If you are not happy after 90 days, email us and we refund you."
+          }
+        }
+      },
+      "block_order": [
+        "tier_1",
+        "tier_2",
+        "tip_1",
+        "tip_2",
+        "tip_3"
+      ],
+      "settings": {
+        "heading": "How to <em>give it.</em>",
+        "text": "<p>Slide to your dog's weight to see how many chews a day, how long one jar lasts and what to order for a full month.</p>",
+        "slider_label": "Your dog's weight",
+        "start_weight": 30,
+        "max_weight": 80,
+        "over_weight": 66,
+        "over_text": "This jar is made for dogs up to 65 lbs. Ask your vet for the right amount.",
+        "label_amount": "Each day",
+        "label_lasts": "One jar lasts",
+        "label_order": "For a full month",
+        "note": "For dogs over 12 weeks old. Ask your vet first if your dog is pregnant, nursing, on medication or allergic to shellfish.",
+        "background_color": "#FFFFFF",
+        "padding_top": 120,
+        "padding_bottom": 120
       }
     }
   },
   "order": [
     "main",
-    "product_recommendations_qggXJq"
+    "detail",
+    "label",
+    "dose",
+    "band_pdp",
+    "reviews"
   ]
 }

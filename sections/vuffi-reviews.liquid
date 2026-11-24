@@ -1,0 +1,164 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+  assign review_product = product | default: section.settings.product
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+{%- comment -%}
+  Reviews from Judge.me. The Judge.me app embed (Theme settings > App embeds) loads the widget
+  into the box below. App blocks from any reviews app can be added to this section as well.
+{%- endcomment -%}
+<section class="vuffi-section vuffi-reviews color-custom-{{ section.id }}" data-tone="{{ tone }}" id="reviews">
+  <div class="vuffi-wrap">
+    <div class="vuffi-intro">
+      <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="vuffi-reviews__body">
+      {%- if section.settings.show_judgeme and review_product != blank -%}
+        <div
+          id="judgeme_product_reviews"
+          class="jdgm-widget jdgm-review-widget jdgm-outside-widget"
+          data-id="{{ review_product.id }}"
+          data-product-title="{{ review_product.title | escape }}"
+        >
+          {{- review_product.metafields.judgeme.widget -}}
+        </div>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}
+          <div class="vuffi-reviews__app">{% render block %}</div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-reviews__body {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--vuffi-line);
+  }
+
+  /* Bring the Judge.me widget into the Vuffi look: our type, thin rules, round buttons */
+  .vuffi-reviews .jdgm-widget,
+  .vuffi-reviews .jdgm-review-widget,
+  .vuffi-reviews .jdgm-outside-widget,
+  .vuffi-reviews .jdgm-rev-widg {
+    font-family: var(--font-body--family);
+    color: inherit;
+  }
+
+  .vuffi-reviews .jdgm-rev-widg__title {
+    display: none;
+  }
+
+  .vuffi-reviews .jdgm-rev-widg {
+    padding: 24px 0 0 !important;
+    border: 0 !important;
+  }
+
+  .vuffi-reviews .jdgm-star {
+    color: var(--vuffi-accent) !important;
+  }
+
+  .vuffi-reviews .jdgm-write-rev-link,
+  .vuffi-reviews .jdgm-ask-question-btn {
+    border-radius: var(--vuffi-radius-btn) !important;
+    background: var(--color-primary-button-background) !important;
+    border-color: var(--color-primary-button-background) !important;
+    color: var(--color-primary-button-text) !important;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+  }
+
+  .vuffi-reviews .jdgm-rev {
+    border-top-color: var(--vuffi-line) !important;
+  }
+
+  .vuffi-reviews__app + .vuffi-reviews__app {
+    margin-top: 32px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi reviews",
+  "tag": "div",
+  "class": "vuffi-reviews-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows Judge.me reviews for the product on this page. Turn on Judge.me in Theme settings > App embeds. Only real customer reviews."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "What owners <em>notice.</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Reviews from people who bought Vuffi for their own dog.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_judgeme",
+      "label": "Show the Judge.me review widget",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Only used on pages that are not a product page."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi reviews"
+    }
+  ]
+}
+{% endschema %}

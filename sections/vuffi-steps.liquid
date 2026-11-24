@@ -1,0 +1,531 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+  assign doses = section.blocks | where: 'type', 'dose'
+  assign tips = section.blocks | where: 'type', 'tip'
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+{%- comment -%}
+  How to give it: a dose chart by weight (chews a day, how long one jar lasts, what to order for a month)
+  and a short list of practical habits. The chart is a real table; on phones each row becomes a stacked card.
+{%- endcomment -%}
+<section class="vuffi-section vuffi-steps{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap">
+    <div class="vuffi-steps__grid">
+      <div class="vuffi-steps__head">
+        <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}
+          <div class="vuffi-lede">{{ section.settings.text }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- if doses.size > 0 -%}
+        <table class="vuffi-steps__table" role="table">
+          <caption class="vuffi-visually-hidden">{{ section.settings.heading | strip_html }}</caption>
+          <thead role="rowgroup">
+            <tr role="row">
+              <th scope="col" role="columnheader">{{ section.settings.col_weight }}</th>
+              <th scope="col" role="columnheader">{{ section.settings.col_amount }}</th>
+              <th scope="col" role="columnheader">{{ section.settings.col_lasts }}</th>
+              <th scope="col" role="columnheader">{{ section.settings.col_order }}</th>
+            </tr>
+          </thead>
+          <tbody role="rowgroup">
+            {%- for block in doses -%}
+              <tr class="vuffi-steps__row" role="row" {{ block.shopify_attributes }}>
+                <th class="vuffi-steps__weight" scope="row" role="rowheader">{{ block.settings.weight }}</th>
+                {%- if block.settings.chews > 0 -%}
+                  <td class="vuffi-steps__amount" role="cell" data-label="{{ section.settings.col_amount | escape }}">
+                    <span class="vuffi-steps__chews" aria-hidden="true">
+                      {%- for i in (1..block.settings.chews) -%}
+                        {%- render 'vuffi-icon', name: 'chew' -%}
+                      {%- endfor -%}
+                    </span>
+                    <span class="vuffi-steps__value">{{ block.settings.amount }}</span>
+                  </td>
+                  <td role="cell" data-label="{{ section.settings.col_lasts | escape }}">
+                    <span class="vuffi-steps__value vuffi-num">{{ block.settings.lasts }}</span>
+                  </td>
+                  <td role="cell" data-label="{{ section.settings.col_order | escape }}">
+                    <span class="vuffi-steps__value">{{ block.settings.order }}</span>
+                  </td>
+                {%- else -%}
+                  <td class="vuffi-steps__wide" role="cell" colspan="3">
+                    <span class="vuffi-steps__value">{{ block.settings.amount }}</span>
+                  </td>
+                {%- endif -%}
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      {%- endif -%}
+    </div>
+
+    {%- if tips.size > 0 -%}
+      <div class="vuffi-steps__habits">
+        {%- if section.settings.tips_heading != blank -%}
+          <h3 class="vuffi-steps__habits-title">{{ section.settings.tips_heading }}</h3>
+        {%- endif -%}
+        <ul class="vuffi-steps__tips" role="list" style="--tips: {{ tips.size }};">
+          {%- for block in tips -%}
+            <li class="vuffi-steps__tip" {{ block.shopify_attributes }}>
+              <h4 class="vuffi-steps__tip-title">{{ block.settings.title }}</h4>
+              {%- if block.settings.text != blank -%}
+                <div class="vuffi-steps__tip-text">{{ block.settings.text }}</div>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.note != blank or section.settings.button_label != blank -%}
+      <div class="vuffi-steps__foot">
+        {%- if section.settings.note != blank -%}
+          <p class="vuffi-small">{{ section.settings.note }}</p>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-steps__grid {
+    display: grid;
+    gap: 36px;
+  }
+
+  .vuffi-steps__head {
+    display: grid;
+    align-content: start;
+    gap: 18px;
+  }
+
+  .vuffi-steps__table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid var(--vuffi-line-strong);
+    text-align: left;
+  }
+
+  .vuffi-steps__table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .vuffi-steps__row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px 12px;
+    padding: 24px 0 26px;
+    border-bottom: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-steps__row > * {
+    padding: 0;
+    font-weight: inherit;
+    vertical-align: top;
+  }
+
+  .vuffi-steps__weight {
+    grid-column: 1 / -1;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: clamp(24px, 2.2vw, 30px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .vuffi-steps__row td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-steps__row .vuffi-steps__wide {
+    grid-column: 1 / -1;
+  }
+
+  .vuffi-steps__row .vuffi-steps__wide::before {
+    content: none;
+  }
+
+  .vuffi-steps__value {
+    display: block;
+    font-size: 17px;
+    line-height: 1.35;
+    font-weight: 600;
+  }
+
+  .vuffi-steps__wide .vuffi-steps__value {
+    font-weight: 400;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-steps__chews {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 6px;
+    color: var(--vuffi-accent);
+  }
+
+  .vuffi-steps .vuffi-steps__chews svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .vuffi-steps__habits {
+    margin-top: 64px;
+  }
+
+  .vuffi-steps__habits-title {
+    margin: 0 0 24px;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: clamp(22px, 2vw, 28px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .vuffi-steps__tips {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .vuffi-steps__tip {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    padding: 20px 0 24px;
+    border-top: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-steps__tip-title {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  .vuffi-steps__tip-text {
+    max-width: 44ch;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-steps__tip-text p {
+    margin: 0;
+  }
+
+  .vuffi-steps__foot {
+    display: grid;
+    justify-items: start;
+    gap: 24px;
+    margin-top: 32px;
+  }
+
+  .vuffi-steps__foot .vuffi-small {
+    margin: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-steps__tips {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 40px;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-steps__grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: 80px;
+      align-items: start;
+    }
+
+    .vuffi-steps__head {
+      position: sticky;
+      top: 120px;
+    }
+
+    .vuffi-steps__table thead {
+      position: static;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip: auto;
+    }
+
+    .vuffi-steps__table thead th {
+      padding: 0 16px 14px 0;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--color-foreground-muted);
+    }
+
+    .vuffi-steps__table {
+      border-top: 0;
+    }
+
+    .vuffi-steps__table thead tr {
+      border-bottom: 1px solid var(--vuffi-line-strong);
+    }
+
+    .vuffi-steps__row {
+      display: table-row;
+      border-bottom: 1px solid var(--vuffi-line);
+    }
+
+    .vuffi-steps__row > * {
+      padding: 30px 16px 30px 0;
+      vertical-align: middle;
+    }
+
+    .vuffi-steps__row td::before {
+      content: none;
+    }
+
+    .vuffi-steps__weight {
+      width: 30%;
+    }
+
+    .vuffi-steps__value {
+      font-size: 18px;
+    }
+
+    .vuffi-steps__amount {
+      white-space: nowrap;
+    }
+
+    .vuffi-steps__amount .vuffi-steps__chews,
+    .vuffi-steps__amount .vuffi-steps__value {
+      display: inline-flex;
+      vertical-align: middle;
+      margin: 0;
+    }
+
+    .vuffi-steps__amount .vuffi-steps__chews {
+      margin-right: 10px;
+    }
+
+    .vuffi-steps .vuffi-steps__chews svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    .vuffi-steps__habits {
+      margin-top: 96px;
+    }
+
+    .vuffi-steps__tips {
+      grid-template-columns: repeat(var(--tips, 4), minmax(0, 1fr));
+    }
+
+    .vuffi-steps__tip {
+      padding-right: 8px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi how to give it",
+  "tag": "div",
+  "class": "vuffi-steps-section",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "How to <em>give it.</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Find your dog's weight. The row tells you how many chews a day, how long one jar lasts and what to order for a full month.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Dose chart"
+    },
+    {
+      "type": "text",
+      "id": "col_weight",
+      "label": "Weight column title",
+      "default": "Your dog"
+    },
+    {
+      "type": "text",
+      "id": "col_amount",
+      "label": "Amount column title",
+      "default": "Each day"
+    },
+    {
+      "type": "text",
+      "id": "col_lasts",
+      "label": "Jar column title",
+      "default": "One jar lasts"
+    },
+    {
+      "type": "text",
+      "id": "col_order",
+      "label": "Order column title",
+      "default": "For a full month"
+    },
+    {
+      "type": "header",
+      "content": "Habits and small print"
+    },
+    {
+      "type": "text",
+      "id": "tips_heading",
+      "label": "Habits title",
+      "default": "Good habits"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Small print",
+      "default": "For dogs over 12 weeks old. Contains shellfish (green lipped mussel)."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Look"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "glow",
+      "label": "Soft natural light on dark backgrounds",
+      "default": true,
+      "info": "A faint warm light from the top corner, like the hero photo. It never moves."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "dose",
+      "name": "Dose row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "weight",
+          "label": "Weight",
+          "default": "Under 35 lbs"
+        },
+        {
+          "type": "range",
+          "id": "chews",
+          "label": "Chews a day (icons)",
+          "min": 0,
+          "max": 4,
+          "step": 1,
+          "default": 1,
+          "info": "Set to 0 to show the amount text across the whole row, for example Ask your vet."
+        },
+        {
+          "type": "text",
+          "id": "amount",
+          "label": "Amount",
+          "default": "1 chew"
+        },
+        {
+          "type": "text",
+          "id": "lasts",
+          "label": "One jar lasts",
+          "default": "30 days"
+        },
+        {
+          "type": "text",
+          "id": "order",
+          "label": "For a full month",
+          "default": "1 jar"
+        }
+      ]
+    },
+    {
+      "type": "tip",
+      "name": "Habit",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "With a meal"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi how to give it",
+      "blocks": [
+        { "type": "dose", "settings": { "weight": "Under 35 lbs", "chews": 1, "amount": "1 chew", "lasts": "30 days", "order": "1 jar" } },
+        { "type": "dose", "settings": { "weight": "36 to 65 lbs", "chews": 2, "amount": "2 chews", "lasts": "15 days", "order": "2 jars" } },
+        { "type": "dose", "settings": { "weight": "Over 65 lbs", "chews": 0, "amount": "Ask your vet for the right amount." } },
+        { "type": "tip", "settings": { "title": "With a meal" } },
+        { "type": "tip", "settings": { "title": "Every day, no gaps" } },
+        { "type": "tip", "settings": { "title": "Judge it at 90 days" } },
+        { "type": "tip", "settings": { "title": "Ask your vet first if" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

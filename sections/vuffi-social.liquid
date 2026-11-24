@@ -1,0 +1,300 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+  assign socials = 'instagram,tiktok,facebook,youtube' | split: ','
+  assign main_url = section.settings.instagram | default: section.settings.tiktok | default: section.settings.facebook | default: section.settings.youtube
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+{%- comment -%} Social: the handle, round buttons for each network, and a flush grid of photos that opens the main profile {%- endcomment -%}
+<section class="vuffi-section vuffi-social{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap">
+    <div class="vuffi-intro vuffi-social__intro">
+      <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede">{{ section.settings.text }}</div>
+      {%- endif -%}
+      {%- if section.settings.handle != blank or main_url != blank -%}
+        <div class="vuffi-social__links">
+          {%- if section.settings.handle != blank -%}
+            {%- if main_url != blank -%}
+              <a class="vuffi-social__handle" href="{{ main_url }}" target="_blank" rel="noopener">{{ section.settings.handle }}</a>
+            {%- else -%}
+              <span class="vuffi-social__handle">{{ section.settings.handle }}</span>
+            {%- endif -%}
+          {%- endif -%}
+          <ul class="vuffi-social__icons" role="list">
+            {%- for name in socials -%}
+              {%- assign url = section.settings[name] -%}
+              {%- if url != blank -%}
+                <li>
+                  <a href="{{ url }}" target="_blank" rel="noopener" aria-label="{{ name | capitalize }}">
+                    {%- case name -%}
+                      {%- when 'instagram' -%}
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg>
+                      {%- when 'tiktok' -%}
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3-3.46M14 3c.4 2.6 2.2 4.4 5 4.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                      {%- when 'facebook' -%}
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 8H16V4.5h-2.3C11.2 4.5 10 6 10 8.4V10H8v3.4h2V20h3.5v-6.6h2.3l.4-3.4h-2.7V8.8c0-.6.3-.8 1-.8Z" fill="currentColor"/></svg>
+                      {%- else -%}
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m10 9 5 3-5 3V9Z" fill="currentColor"/></svg>
+                    {%- endcase -%}
+                  </a>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.blocks.size > 0 -%}
+    <ul class="vuffi-social__grid" role="list" style="--count: {{ section.blocks.size }};">
+      {%- for block in section.blocks -%}
+        <li class="vuffi-social__tile" {{ block.shopify_attributes }}>
+          {%- capture tile -%}
+            {%- render 'vuffi-image',
+              image: block.settings.image,
+              label: block.settings.slot,
+              ratio: '1 / 1',
+              size: '1080 x 1080',
+              sizes: '(min-width: 990px) 17vw, 34vw',
+              alt: block.settings.alt
+            -%}
+          {%- endcapture -%}
+          {%- if main_url != blank -%}
+            <a href="{{ main_url }}" target="_blank" rel="noopener" class="vuffi-social__link">
+              {{ tile }}
+              <span class="vuffi-visually-hidden">{{ section.settings.tile_label }}</span>
+            </a>
+          {%- else -%}
+            {{ tile }}
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+  .vuffi-social__links {
+    display: grid;
+    justify-items: center;
+    gap: 16px;
+  }
+
+  .vuffi-social__handle {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: clamp(20px, 1.8vw, 26px);
+    letter-spacing: -0.01em;
+    color: var(--vuffi-accent);
+    text-decoration: none;
+  }
+
+  a.vuffi-social__handle:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .vuffi-social__icons {
+    display: flex;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .vuffi-social__icons a {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--vuffi-line-strong);
+    border-radius: 50%;
+    color: inherit;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+
+  .vuffi-social__icons a:hover {
+    background: var(--color-foreground);
+    border-color: var(--color-foreground);
+    color: var(--color-background);
+  }
+
+  .vuffi-social__icons svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Photos sit flush in a grid, split by hairlines: three across on phones, one row on computers */
+  .vuffi-social__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .vuffi-social__tile .vuffi-media,
+  .vuffi-social__tile .vuffi-ph {
+    border-radius: 0;
+  }
+
+  .vuffi-social__link {
+    position: relative;
+    display: block;
+  }
+
+  .vuffi-social__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(14 59 44 / 0);
+    transition: background-color 0.3s;
+  }
+
+  .vuffi-social__link:hover::after {
+    background: rgb(14 59 44 / 0.25);
+  }
+
+  .vuffi-social__link:focus-visible {
+    outline: 2px solid var(--vuffi-accent);
+    outline-offset: -2px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-social__grid {
+      grid-template-columns: repeat(var(--count, 6), minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi social",
+  "tag": "div",
+  "class": "vuffi-social-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Follow <em>along.</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Real dogs, joint care tips and first looks at what we make next.</p>"
+    },
+    {
+      "type": "text",
+      "id": "handle",
+      "label": "Handle",
+      "info": "For example @getvuffi. Links to the first profile below that is filled in."
+    },
+    {
+      "type": "url",
+      "id": "instagram",
+      "label": "Instagram"
+    },
+    {
+      "type": "url",
+      "id": "tiktok",
+      "label": "TikTok"
+    },
+    {
+      "type": "url",
+      "id": "facebook",
+      "label": "Facebook"
+    },
+    {
+      "type": "url",
+      "id": "youtube",
+      "label": "YouTube"
+    },
+    {
+      "type": "text",
+      "id": "tile_label",
+      "label": "Photo link name for screen readers",
+      "default": "See this on our social page"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "checkbox",
+      "id": "glow",
+      "label": "Soft natural light on dark backgrounds",
+      "default": true,
+      "info": "A faint warm light from the top corner, like the hero photo. It never moves."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo",
+          "info": "Square, 1080 x 1080. A post from your social page works well."
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Photo description for screen readers"
+        },
+        {
+          "type": "text",
+          "id": "slot",
+          "label": "Placeholder label",
+          "default": "social-photo"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi social",
+      "blocks": [
+        { "type": "photo", "settings": { "slot": "social-1" } },
+        { "type": "photo", "settings": { "slot": "social-2" } },
+        { "type": "photo", "settings": { "slot": "social-3" } },
+        { "type": "photo", "settings": { "slot": "social-4" } },
+        { "type": "photo", "settings": { "slot": "social-5" } },
+        { "type": "photo", "settings": { "slot": "social-6" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

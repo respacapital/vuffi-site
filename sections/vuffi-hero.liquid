@@ -1,0 +1,652 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+  assign desk = section.settings.image
+  assign mob = section.settings.image_mobile | default: desk
+  assign has_image = false
+  if desk != blank or mob != blank
+    assign has_image = true
+  endif
+  assign alt = section.settings.image_alt | default: mob.alt | escape
+  assign focal_mob = mob.presentation.focal_point | default: '50% 50%'
+  assign focal_desk = desk.presentation.focal_point | default: focal_mob
+  case section.settings.desk_crop
+    when 'top'
+      assign focal_desk = '50% 8%'
+    when 'bottom'
+      assign focal_desk = '50% 92%'
+  endcase
+  assign focal_style = '--focal-desk: ' | append: focal_desk | append: '; --focal-mob: ' | append: focal_mob | append: ';'
+  assign bg_img = desk | default: mob
+  assign phone_sizes = section.settings.phone_size | append: 'vw'
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section
+  class="vuffi-section vuffi-hero color-custom-{{ section.id }}{% if has_image %} vuffi-hero--image{% endif %}{% if section.settings.show_scrim %} vuffi-hero--scrim{% endif %}"
+  data-tone="{{ tone }}"
+>
+  {%- comment -%}
+    Computers: the computer photo fills the section behind the text.
+    Phones and tablets: the phone photo sits between the headline and the buttons, its dark edges fading into the background.
+    Each picture loads only on the screens that show it (the other screen size gets a 1 pixel placeholder).
+  {%- endcomment -%}
+  <div class="vuffi-hero__bg">
+    {%- if has_image -%}
+      <picture class="vuffi-hero__picture">
+        <source media="(max-width: 989px)" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+        {{-
+          bg_img
+          | image_url: width: 3000
+          | image_tag:
+            widths: '1200, 1600, 2000, 2400, 3000',
+            sizes: '100vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            alt: alt,
+            class: 'vuffi-hero__img',
+            style: focal_style
+        -}}
+      </picture>
+    {%- endif -%}
+  </div>
+
+  <div class="vuffi-wrap vuffi-hero__grid">
+    <div class="vuffi-hero__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="vuffi-display vuffi-hero__title">{{ section.settings.heading }}</h1>
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="vuffi-hero__stage">
+      {%- if has_image -%}
+        <picture class="vuffi-hero__phone" style="--pw: min({{ section.settings.phone_size }}vw, 760px);">
+          <source media="(min-width: 990px)" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+          {{-
+            mob
+            | image_url: width: 2000
+            | image_tag:
+              widths: '600, 900, 1200, 1600, 2000',
+              sizes: phone_sizes,
+              loading: 'eager',
+              fetchpriority: 'high',
+              alt: alt
+          -}}
+        </picture>
+      {%- endif -%}
+      {%- unless has_image -%}
+        {%- render 'vuffi-image',
+          image: section.settings.jar_image,
+          label: 'hero-desktop',
+          ratio: '1 / 1',
+          size: '2560 x 1440 and 1080 x 1920',
+          sizes: '(min-width: 990px) 520px, 72vw',
+          priority: true,
+          contain: true,
+          alt: section.settings.image_alt,
+          class: 'vuffi-hero__jar'
+        -%}
+      {%- endunless -%}
+    </div>
+
+    <div class="vuffi-hero__cta">
+      <div class="vuffi-actions">
+        {%- if section.settings.button_label != blank -%}
+          {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
+        {%- endif -%}
+        {%- if section.settings.button2_label != blank -%}
+          {%- render 'vuffi-button',
+            label: section.settings.button2_label,
+            url: section.settings.button2_link,
+            style: 'ghost',
+            arrow: false
+          -%}
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_countdown and section.settings.countdown_end != blank -%}
+        <div class="vuffi-hero__deal" data-hide-when-done>
+          {%- if section.settings.badge_text != blank -%}
+            <span class="vuffi-hero__badge">{{ section.settings.badge_text }}</span>
+          {%- endif -%}
+          <span class="vuffi-hero__ends">
+            <span>{{ section.settings.countdown_label }}</span>
+            {%- render 'vuffi-countdown',
+              end: section.settings.countdown_end,
+              label: section.settings.countdown_label,
+              class: 'vuffi-hero__count'
+            -%}
+          </span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="vuffi-hero__trust" role="list">
+          {%- for block in section.blocks -%}
+            <li class="vuffi-hero__trust-item" {{ block.shopify_attributes }}>
+              {%- render 'vuffi-icon', name: block.settings.icon -%}
+              <span>{{ block.settings.text }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-hero {
+    --hero-top: max(76px, calc(var(--header-height, 64px) * var(--transparent-header-offset-boolean, 0)));
+    isolation: isolate;
+    display: grid;
+    min-height: max(100svh, 720px);
+    padding-block: calc(var(--vuffi-pt, 24px) + var(--hero-top)) var(--vuffi-pb, 40px);
+    overflow: hidden;
+  }
+
+  .vuffi-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--color-background);
+  }
+
+  .vuffi-hero--image .vuffi-hero__bg {
+    background: var(--color-background);
+  }
+
+  .vuffi-hero__picture,
+  .vuffi-hero__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .vuffi-hero__img {
+    object-fit: cover;
+    object-position: var(--focal-mob, 50% 50%);
+  }
+
+  /* Darkens the top and bottom on phones and the left side on computers so the text stays easy to read */
+  .vuffi-hero--scrim .vuffi-hero__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-background) 70%, transparent) 0%,
+      transparent 34%,
+      transparent 62%,
+      color-mix(in srgb, var(--color-background) 80%, transparent) 100%
+    );
+    pointer-events: none;
+  }
+
+  .vuffi-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'head' 'stage' 'cta';
+    grid-template-rows: auto minmax(34svh, 1fr) auto;
+    gap: 12px;
+  }
+
+  .vuffi-hero__head {
+    grid-area: head;
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .vuffi-hero__title {
+    max-width: 11ch;
+    font-size: clamp(48px, 13.5vw, 120px);
+  }
+
+  .vuffi-hero .vuffi-lede {
+    max-width: 36ch;
+    font-size: 16px;
+  }
+
+  .vuffi-hero__stage {
+    grid-area: stage;
+    display: grid;
+    place-items: center;
+    min-width: 0;
+  }
+
+  .vuffi-hero__jar {
+    width: min(100%, 330px);
+  }
+
+  /* Phone photo: wider than the screen and centered on it (the side margins split the overflow evenly).
+     Its dark top tucks under the text and its lower edge fades out before the buttons. */
+  .vuffi-hero__phone {
+    position: relative;
+    z-index: 0;
+    display: block;
+    justify-self: start;
+    width: var(--pw, 112vw);
+    max-width: none;
+    margin:
+      calc(var(--pw, 112vw) * -0.4)
+      calc((100% - var(--pw, 112vw)) / 2)
+      calc(var(--pw, 112vw) * -0.43);
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 70%, transparent 88%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 70%, transparent 88%);
+  }
+
+  .vuffi-hero__phone img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .vuffi-hero__head,
+  .vuffi-hero__cta {
+    position: relative;
+    z-index: 1;
+  }
+
+  .vuffi-hero__jar.vuffi-media {
+    background: transparent;
+    border-radius: 0;
+    filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.45));
+  }
+
+  .vuffi-hero__jar.vuffi-ph {
+    border-color: rgb(255 255 255 / 0.3);
+    border-radius: var(--vuffi-radius);
+    background: rgb(255 255 255 / 0.04);
+  }
+
+  .vuffi-hero__cta {
+    grid-area: cta;
+    display: grid;
+    justify-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .vuffi-hero__cta .vuffi-actions {
+    display: grid;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .vuffi-hero__cta .vuffi-btn {
+    width: 100%;
+  }
+
+  .vuffi-hero__deal {
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .vuffi-hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px 7px 11px;
+    border: 1px solid color-mix(in srgb, var(--vuffi-lime) 45%, transparent);
+    border-radius: var(--vuffi-radius-btn);
+    background: color-mix(in srgb, var(--color-background) 55%, transparent);
+    color: var(--vuffi-lime);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .vuffi-hero__badge::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--vuffi-lime);
+  }
+
+  .vuffi-hero__ends {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-hero__count {
+    color: var(--color-foreground);
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .vuffi-hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 18px;
+    margin: 4px 0 0;
+    padding: 16px 0 0;
+    list-style: none;
+    border-top: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-hero__trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .vuffi-hero__trust-item .vuffi-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-hero .vuffi-lede {
+      font-size: 18px;
+    }
+
+    .vuffi-hero__cta .vuffi-actions {
+      display: flex;
+      justify-content: center;
+      max-width: none;
+    }
+
+    .vuffi-hero__cta .vuffi-btn {
+      width: auto;
+    }
+
+    .vuffi-hero__deal {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .vuffi-hero__jar {
+      width: min(100%, 420px);
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-hero__phone {
+      display: none;
+    }
+
+    .vuffi-hero {
+      align-items: center;
+      min-height: min(max(100svh, 680px), 980px);
+      padding-block: calc(var(--vuffi-pt, 40px) + var(--hero-top)) var(--vuffi-pb, 64px);
+    }
+
+    .vuffi-hero__img {
+      object-position: var(--focal-desk, 70% 50%);
+    }
+
+    .vuffi-hero--scrim .vuffi-hero__bg::after {
+      background: linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--color-background) 72%, transparent) 0%,
+        color-mix(in srgb, var(--color-background) 30%, transparent) 38%,
+        transparent 56%
+      );
+    }
+
+    .vuffi-hero__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas: 'head stage' 'cta stage';
+      grid-template-rows: 1fr 1fr;
+      align-items: start;
+      column-gap: 48px;
+      row-gap: 32px;
+    }
+
+    .vuffi-hero__head,
+    .vuffi-hero__cta {
+      justify-items: start;
+      text-align: left;
+    }
+
+    .vuffi-hero__head {
+      align-self: end;
+      gap: 22px;
+    }
+
+    .vuffi-hero__title {
+      font-size: clamp(68px, 7vw, 120px);
+    }
+
+    .vuffi-hero__cta .vuffi-actions,
+    .vuffi-hero__deal,
+    .vuffi-hero__trust {
+      justify-content: flex-start;
+    }
+
+    .vuffi-hero__jar {
+      width: min(100%, 540px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi hero",
+  "tag": "div",
+  "class": "vuffi-hero-section",
+  "limit": 1,
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Computer image",
+      "info": "Landscape, 16:9 or 3:2, at least 1536 pixels wide. The jar on the right, dark empty space on the left for the headline. Set the focal point on the jar so it stays in view on every screen."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Phone image",
+      "info": "Portrait 2:3 (1024 x 1536 or larger). Shows between the headline and the buttons on phones, so keep the jar in the middle and the top and bottom dark."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image description for screen readers",
+      "default": "A jar of Vuffi Advanced Hip and Joint Support soft chews"
+    },
+    {
+      "type": "select",
+      "id": "desk_crop",
+      "label": "On wide screens, keep",
+      "options": [
+        { "value": "top", "label": "The top of the photo" },
+        { "value": "focal", "label": "The focal point set in Shopify" },
+        { "value": "bottom", "label": "The bottom of the photo" }
+      ],
+      "default": "top",
+      "info": "Wide screens crop the computer photo a little. Keep the top so the jar stays clear of the header."
+    },
+    {
+      "type": "range",
+      "id": "phone_size",
+      "label": "Phone photo size",
+      "min": 90,
+      "max": 160,
+      "step": 2,
+      "unit": "%",
+      "default": 112,
+      "info": "Width of the phone photo compared with the screen. Its dark top and bottom fade behind the text."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scrim",
+      "label": "Darken the image behind the text",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "jar_image",
+      "label": "Jar on its own",
+      "info": "Shows on the gradient until the images above are added. Transparent PNG of the closed jar."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#111A16",
+      "info": "Sets the text color too. Match it to the darkest part of the image."
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above the headline"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Every step, <em>supported.</em>",
+      "info": "Put a word in italics to make it lime."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Five clinical joint ingredients in one daily soft chew, for hips, knees and elbows at every age.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button",
+      "default": "Shop Black Friday"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "button2_label",
+      "label": "Second button",
+      "default": "See what's inside"
+    },
+    {
+      "type": "url",
+      "id": "button2_link",
+      "label": "Second button link"
+    },
+    {
+      "type": "header",
+      "content": "Sale and countdown"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_countdown",
+      "label": "Show the sale and countdown",
+      "default": true,
+      "info": "Hides itself when the countdown reaches zero."
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Sale badge",
+      "default": "Black Friday: 25% off your first box"
+    },
+    {
+      "type": "text",
+      "id": "countdown_label",
+      "label": "Countdown text",
+      "default": "Ends in"
+    },
+    {
+      "type": "text",
+      "id": "countdown_end",
+      "label": "Sale ends",
+      "default": "2026-11-30T23:59:00-05:00",
+      "info": "Year-month-day, then T, the time in 24 hour format, and -05:00 for Eastern time."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust",
+      "name": "Trust point",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "vet", "label": "Stethoscope" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "refresh", "label": "Cancel anytime" },
+            { "value": "paw", "label": "Paw" },
+            { "value": "chew", "label": "Soft chew" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "star", "label": "Star" }
+          ],
+          "default": "vet"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Vet recommended"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi hero",
+      "blocks": [
+        { "type": "trust", "settings": { "icon": "vet", "text": "Vet recommended" } },
+        { "type": "trust", "settings": { "icon": "shield", "text": "90 day guarantee" } },
+        { "type": "trust", "settings": { "icon": "truck", "text": "Free shipping" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

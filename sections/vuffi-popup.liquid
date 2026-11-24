@@ -1,0 +1,379 @@
+{%- if section.settings.enabled -%}
+  <vuffi-popup
+    class="vuffi-pop"
+    data-delay="{{ section.settings.delay }}"
+    data-days="{{ section.settings.days_hidden }}"
+    {% if request.design_mode %}data-design{% endif %}
+  >
+    <dialog class="vuffi-pop__dialog" aria-labelledby="VuffiPopTitle">
+      <div class="vuffi-pop__panel">
+        <button type="button" class="vuffi-pop__close" data-close aria-label="{{ section.settings.close_label | escape }}">
+          {%- render 'vuffi-icon', name: 'cross' -%}
+        </button>
+        <div class="vuffi-pop__media">
+          {%- render 'vuffi-image',
+            image: section.settings.image,
+            label: 'popup-dog',
+            ratio: '4 / 5',
+            sizes: '(min-width: 750px) 340px, 100vw'
+          -%}
+        </div>
+        <div class="vuffi-pop__body">
+          {%- form 'customer', id: 'VuffiPopupForm', class: 'vuffi-pop__form' -%}
+            {%- if form.posted_successfully? -%}
+              <span data-popup-success hidden></span>
+              <p class="vuffi-eyebrow">{{ section.settings.success_eyebrow }}</p>
+              <h2 class="vuffi-h3" id="VuffiPopTitle">{{ section.settings.success_heading }}</h2>
+              <p class="vuffi-pop__text">{{ section.settings.success_text }}</p>
+              <button type="button" class="vuffi-pop__code" data-copy="{{ section.settings.code | escape }}">
+                <span class="vuffi-num">{{ section.settings.code }}</span>
+                <span class="vuffi-pop__copy" data-copy-label>{{ section.settings.copy_label }}</span>
+              </button>
+              {%- render 'vuffi-button', label: section.settings.shop_label, url: section.settings.shop_link, class: 'vuffi-btn--block' -%}
+            {%- else -%}
+              <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
+              <h2 class="vuffi-h2 vuffi-pop__title" id="VuffiPopTitle">{{ section.settings.heading }}</h2>
+              <p class="vuffi-pop__text">{{ section.settings.text }}</p>
+              <input type="hidden" name="contact[tags]" value="newsletter, popup">
+              <label class="vuffi-visually-hidden" for="VuffiPopEmail">{{ section.settings.email_label }}</label>
+              <input id="VuffiPopEmail" type="email" name="contact[email]" autocomplete="email" required placeholder="{{ section.settings.email_label | escape }}">
+              {%- render 'vuffi-button', label: section.settings.button_label, type: 'submit', class: 'vuffi-btn--block' -%}
+              {%- if form.errors -%}
+                <p class="vuffi-pop__error" role="alert">{{ form.errors.messages['email'] | default: section.settings.error_text }}</p>
+              {%- endif -%}
+              <button type="button" class="vuffi-pop__no" data-close>{{ section.settings.decline_label }}</button>
+              <p class="vuffi-pop__fine">{{ section.settings.fine_print }}</p>
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      </div>
+    </dialog>
+  </vuffi-popup>
+  <script src="{{ 'vuffi-popup.js' | asset_url }}" defer></script>
+{%- endif -%}
+
+{% stylesheet %}
+  .vuffi-pop__dialog {
+    width: min(760px, calc(100vw - 24px));
+    max-height: calc(100svh - 24px);
+    padding: 0;
+    border: 0;
+    border-radius: var(--vuffi-radius);
+    background: var(--vuffi-white, #ffffff);
+    color: var(--vuffi-ink, #0b1410);
+    overflow: auto;
+    box-shadow: 0 40px 120px rgb(11 20 16 / 0.35);
+  }
+
+  .vuffi-pop__dialog::backdrop {
+    background: rgb(11 20 16 / 0.55);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+
+  .vuffi-pop__dialog[open] {
+    animation: vuffi-pop-in 0.25s ease-out both;
+  }
+
+  @keyframes vuffi-pop-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  .vuffi-pop__panel {
+    position: relative;
+    display: grid;
+    --vuffi-accent: var(--vuffi-green);
+    --vuffi-line: rgb(11 20 16 / 0.12);
+    --vuffi-line-strong: rgb(11 20 16 / 0.28);
+    --vuffi-soft: rgb(11 20 16 / 0.04);
+  }
+
+  .vuffi-pop__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: var(--vuffi-radius-btn);
+    background: rgb(255 255 255 / 0.9);
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .vuffi-pop__close .vuffi-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .vuffi-pop__media {
+    display: none;
+  }
+
+  .vuffi-pop__media .vuffi-media,
+  .vuffi-pop__media .vuffi-ph {
+    height: 100%;
+    border-radius: 0;
+    border: 0;
+  }
+
+  .vuffi-pop__body {
+    padding: 36px 24px 24px;
+  }
+
+  .vuffi-pop__title {
+    font-size: clamp(38px, 5vw, 52px);
+  }
+
+  .vuffi-pop__text {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgb(11 20 16 / 0.7);
+  }
+
+  .vuffi-pop__form {
+    display: grid;
+    gap: 14px;
+  }
+
+  .vuffi-pop__form input[type='email'] {
+    min-height: 54px;
+    padding: 0 20px;
+    border: 1px solid rgb(11 20 16 / 0.28);
+    border-radius: var(--vuffi-radius-btn);
+    font: inherit;
+    font-size: 16px;
+  }
+
+  .vuffi-pop__form input[type='email']:focus-visible {
+    outline: 2px solid var(--vuffi-green);
+    outline-offset: 2px;
+  }
+
+  .vuffi-pop__no {
+    justify-self: center;
+    padding: 6px;
+    border: 0;
+    background: none;
+    color: rgb(11 20 16 / 0.6);
+    font: inherit;
+    font-size: 14px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  .vuffi-pop__fine {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.5;
+    color: rgb(11 20 16 / 0.5);
+    text-align: center;
+  }
+
+  .vuffi-pop__error {
+    margin: 0;
+    font-size: 14px;
+    color: #c4321c;
+  }
+
+  .vuffi-pop__code {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 20px;
+    border: 1.5px dashed var(--vuffi-green);
+    border-radius: var(--vuffi-radius);
+    background: rgb(0 132 63 / 0.06);
+    color: inherit;
+    font: inherit;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+  }
+
+  .vuffi-pop__copy {
+    font-size: 13px;
+    letter-spacing: 0;
+    color: var(--vuffi-green);
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-pop__panel {
+      grid-template-columns: 300px 1fr;
+    }
+
+    .vuffi-pop__media {
+      display: block;
+    }
+
+    .vuffi-pop__body {
+      padding: 48px 40px 32px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vuffi-pop__dialog[open] {
+      animation: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi email popup",
+  "tag": "div",
+  "class": "vuffi-pop-section",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Show the popup",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "delay",
+      "label": "Show after",
+      "min": 2,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "days_hidden",
+      "label": "After closing, hide for",
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "d",
+      "default": 14
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo",
+      "info": "4:5, shown on computers"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above",
+      "default": "Welcome to Vuffi"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Take <em>10% off</em> your first order."
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "Join for joint tips, launches and member only offers. Your code shows right after you sign up."
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email placeholder",
+      "default": "Your email"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button",
+      "default": "Get my 10% off"
+    },
+    {
+      "type": "text",
+      "id": "decline_label",
+      "label": "No thanks link",
+      "default": "No thanks"
+    },
+    {
+      "type": "text",
+      "id": "fine_print",
+      "label": "Small print",
+      "default": "One use per customer. Can't be combined with other offers. Unsubscribe anytime."
+    },
+    {
+      "type": "text",
+      "id": "error_text",
+      "label": "Error message",
+      "default": "Please check your email address."
+    },
+    {
+      "type": "text",
+      "id": "close_label",
+      "label": "Close button name for screen readers",
+      "default": "Close"
+    },
+    {
+      "type": "header",
+      "content": "After sign up"
+    },
+    {
+      "type": "text",
+      "id": "success_eyebrow",
+      "label": "Small line above",
+      "default": "You're in"
+    },
+    {
+      "type": "text",
+      "id": "success_heading",
+      "label": "Headline",
+      "default": "Here's your 10% off."
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Text",
+      "default": "Use this code at checkout. We sent a copy to your inbox too."
+    },
+    {
+      "type": "text",
+      "id": "code",
+      "label": "Discount code",
+      "default": "WELCOME10",
+      "info": "Create the same code in Shopify Discounts."
+    },
+    {
+      "type": "text",
+      "id": "copy_label",
+      "label": "Copy text",
+      "default": "Tap to copy"
+    },
+    {
+      "type": "text",
+      "id": "shop_label",
+      "label": "Button",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "shop_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi email popup"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["footer"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,100 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section class="vuffi-section vuffi-prose-section color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap">
+    <div class="vuffi-prose">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-prose {
+    max-width: 720px;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-prose h2,
+  .vuffi-prose h3 {
+    margin: 40px 0 12px;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    line-height: 1.15;
+    color: var(--color-foreground);
+  }
+
+  .vuffi-prose h2 {
+    font-size: 32px;
+  }
+
+  .vuffi-prose h3 {
+    font-size: 24px;
+  }
+
+  .vuffi-prose p,
+  .vuffi-prose ul,
+  .vuffi-prose ol {
+    margin: 0 0 16px;
+  }
+
+  .vuffi-prose strong {
+    color: var(--color-foreground);
+  }
+
+  .vuffi-prose a {
+    color: var(--vuffi-accent);
+    text-underline-offset: 3px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi page text",
+  "tag": "div",
+  "class": "vuffi-prose-wrap",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the page content written in Online Store > Pages."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi page text"
+    }
+  ]
+}
+{% endschema %}

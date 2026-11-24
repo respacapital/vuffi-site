@@ -1,0 +1,168 @@
+{% comment %}
+  Loads the Vuffi styles and motion script once on every page.
+  Keep this section in the header. Removing it removes the Vuffi look from every vuffi- section.
+{% endcomment %}
+<script>
+  document.documentElement.classList.add('vuffi-js');
+  {%- unless section.settings.enable_motion %}
+    document.documentElement.classList.add('vuffi-still');
+  {%- endunless %}
+</script>
+{{ 'vuffi-base.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vuffi-motion.js' | asset_url }}" defer></script>
+{%- if section.settings.cart_trust -%}
+  {%- comment -%} Copied under the checkout button in the cart drawer and on the cart page by vuffi-cart.js {%- endcomment -%}
+  <template id="VuffiCartTrust">
+    <div class="vuffi-cart-trust">
+      {%- if section.settings.cart_trust_text != blank -%}
+        <p class="vuffi-cart-trust__text">
+          {%- render 'vuffi-icon', name: 'lock' -%}
+          <span>{{ section.settings.cart_trust_text }}</span>
+        </p>
+      {%- endif -%}
+      <ul class="vuffi-cart-trust__pay" role="list" aria-label="{{ section.settings.cart_pay_label | escape }}">
+        {%- for type in shop.enabled_payment_types -%}
+          <li>{{ type | payment_type_svg_tag: class: 'vuffi-cart-trust__icon' }}</li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </template>
+{%- endif -%}
+{%- if section.settings.cart_savings or section.settings.cart_trust -%}
+  <script
+    src="{{ 'vuffi-cart.js' | asset_url }}"
+    defer
+    id="VuffiCartSavings"
+    data-text="{{ section.settings.cart_savings_text | escape }}"
+    data-savings="{{ section.settings.cart_savings }}"
+    data-money="{{ shop.money_format | strip_html | escape }}"
+  ></script>
+{%- endif -%}
+
+{% style %}
+  :root {
+    --vuffi-white: {{ settings.color_palette.background }};
+    --vuffi-ink: {{ settings.color_palette.foreground }};
+    --vuffi-green: {{ settings.color_palette.color1 | default: '#0E3B2C' }};
+    --vuffi-lime: {{ settings.color_palette.color2 | default: '#C6E35A' }};
+    --vuffi-paper: {{ settings.color_palette.color3 | default: '#F3F2EE' }};
+  }
+
+  {%- if section.settings.dark_page_header %}
+  /* Pages that open on a Vuffi page title (Our story, Ingredients, FAQ, Contact, policies):
+     the header turns ink with a white logo so it runs straight into the dark title, like the home page */
+  /* !important beats the colors Horizon writes inline on the header */
+  body:has(.vuffi-phero) #header-component {
+    --color-background-top-row: {{ section.settings.dark_header_color }} !important;
+    --color-background-bottom-row: {{ section.settings.dark_header_color }} !important;
+    --cart-bubble-background: var(--vuffi-lime) !important;
+    --cart-bubble-text: var(--vuffi-ink) !important;
+  }
+
+  body:has(.vuffi-phero) #header-component .header__row {
+    --color-background: {{ section.settings.dark_header_color }};
+    --color-background-rgb: {{ section.settings.dark_header_color.rgb }};
+    --color-foreground: #ffffff;
+    --color-foreground-rgb: 255 255 255;
+    --color-border: rgb(255 255 255 / 0.16);
+    --color-border-rgb: 255 255 255;
+  }
+
+  {%- if settings.logo_inverse != blank %}
+  body:has(.vuffi-phero) #header-component [data-testid='header-logo'] {
+    display: inline-block;
+    background: url('{{ settings.logo_inverse | image_url: width: 480 }}') left center / contain no-repeat;
+  }
+
+  body:has(.vuffi-phero) #header-component [data-testid='header-logo'] img {
+    opacity: 0;
+  }
+  {%- endif %}
+  {%- endif %}
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Vuffi site styles",
+  "class": "vuffi-site-styles-section",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Loads the Vuffi look on every page. Keep this section in the header. Colors come from Theme settings > Colors: Background is white, Foreground is ink, Color 1 is bottle green (buttons and dark bands), Color 2 is leaf (small accents on dark bands) and Color 3 is stone (quiet bands and cards)."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_motion",
+      "label": "Allow motion (scroll story, timeline, ingredient row)",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Header on other pages"
+    },
+    {
+      "type": "checkbox",
+      "id": "dark_page_header",
+      "label": "Dark header on pages with a Vuffi page title",
+      "default": true,
+      "info": "Our story, Ingredients, FAQ, Contact and policy pages. Uses the white logo from Theme settings > Logo."
+    },
+    {
+      "type": "color",
+      "id": "dark_header_color",
+      "label": "Dark header color",
+      "default": "#0B1411"
+    },
+    {
+      "type": "header",
+      "content": "Cart trust"
+    },
+    {
+      "type": "checkbox",
+      "id": "cart_trust",
+      "label": "Show payment icons under the checkout button",
+      "default": true,
+      "info": "In the cart drawer and on the cart page."
+    },
+    {
+      "type": "text",
+      "id": "cart_trust_text",
+      "label": "Line above the payment icons",
+      "default": "Secure checkout. Free shipping. 90 day money back guarantee."
+    },
+    {
+      "type": "text",
+      "id": "cart_pay_label",
+      "label": "Payment icons name for screen readers",
+      "default": "Payment methods we accept"
+    },
+    {
+      "type": "header",
+      "content": "Cart savings"
+    },
+    {
+      "type": "checkbox",
+      "id": "cart_savings",
+      "label": "Show savings in the cart",
+      "default": true,
+      "info": "A bar above the total in the cart and cart drawer with everything the shopper saves: subscription savings plus any automatic discount."
+    },
+    {
+      "type": "text",
+      "id": "cart_savings_text",
+      "label": "Savings text",
+      "default": "Black Friday price applied. You save [amount].",
+      "info": "[amount] becomes the total saved. Change after Black Friday, for example: Subscriber price applied. You save [amount]."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi site styles"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}

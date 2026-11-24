@@ -1,0 +1,472 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+  assign product = section.settings.product
+  assign one_time_price = nil
+  assign sub_price = nil
+  if product != blank
+    assign variant = product.selected_or_first_available_variant
+    assign one_time_price = variant.price
+    assign allocation = variant.selling_plan_allocations | first
+    if allocation
+      assign sub_price = allocation.price
+    endif
+  endif
+  if sub_price == nil and one_time_price != nil
+    assign saving = one_time_price | times: section.settings.subscribe_percent | divided_by: 100.0 | round
+    assign sub_price = one_time_price | minus: saving
+  endif
+  if sub_price != nil
+    assign deal_exact = section.settings.deal_exact | default: section.settings.deal_percent | plus: 0
+    assign deal_off = sub_price | times: deal_exact | divided_by: 100.0 | floor
+    assign deal_price = sub_price | minus: deal_off
+  endif
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section class="vuffi-section vuffi-sub color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  {%- comment -%} Split screen: the photo runs to the edge of the screen and fills the full height beside the copy, so nothing floats in empty space {%- endcomment -%}
+  <div class="vuffi-sub__panel">
+      <div class="vuffi-sub__media">
+        {%- render 'vuffi-image',
+          image: section.settings.image,
+          label: 'subscribe-jar',
+          ratio: '4 / 3',
+          size: '1800 x 2250',
+          sizes: '(min-width: 990px) 50vw, 100vw'
+        -%}
+        {%- if section.settings.show_deal and deal_price -%}
+          <div class="vuffi-sub__sticker" aria-hidden="true">
+            <span>{{ section.settings.deal_percent }}%</span>
+            <small>{{ section.settings.sticker_text }}</small>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="vuffi-sub__copy">
+        <div class="vuffi-head">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
+          {%- endif -%}
+          <h2 class="vuffi-h2 vuffi-sub__title">{{ section.settings.heading }}</h2>
+        </div>
+
+        <ul class="vuffi-sub__perks" role="list">
+          {%- for block in section.blocks -%}
+            <li class="vuffi-sub__perk" {{ block.shopify_attributes }}>
+              <span class="vuffi-sub__icon">{%- render 'vuffi-icon', name: block.settings.icon -%}</span>
+              <span>
+                <strong>{{ block.settings.title }}</strong>
+                <span class="vuffi-sub__perk-text">{{ block.settings.text }}</span>
+              </span>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        {%- if one_time_price != nil -%}
+          <div class="vuffi-sub__prices">
+            <div class="vuffi-sub__price vuffi-sub__price--was">
+              <span class="vuffi-sub__price-label">{{ section.settings.one_time_label }}</span>
+              <span class="vuffi-sub__price-value vuffi-num">{{ one_time_price | money }}</span>
+            </div>
+            <div class="vuffi-sub__price vuffi-sub__price--best">
+              <span class="vuffi-sub__price-label">{{ section.settings.subscribe_label }}</span>
+              <span class="vuffi-sub__price-value vuffi-num">{{ sub_price | money }}</span>
+            </div>
+            {%- if section.settings.show_deal and deal_price -%}
+              <div class="vuffi-sub__price vuffi-sub__price--deal">
+                <span class="vuffi-sub__price-label">{{ section.settings.deal_label }}</span>
+                <span class="vuffi-sub__price-value vuffi-num">{{ deal_price | money }}</span>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank -%}
+          {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link, class: 'vuffi-btn--block' -%}
+        {%- endif -%}
+      </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  /* No box: photo and copy share the section, split down the middle on computers */
+  .vuffi-sub {
+    padding-top: 0;
+  }
+
+  .vuffi-sub__panel {
+    display: grid;
+  }
+
+  .vuffi-sub__media {
+    position: relative;
+  }
+
+  .vuffi-sub__media .vuffi-media,
+  .vuffi-sub__media .vuffi-ph {
+    border-radius: 0;
+  }
+
+  .vuffi-sub__sticker {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: grid;
+    place-content: center;
+    width: 96px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--vuffi-lime);
+    color: var(--vuffi-ink);
+    text-align: center;
+    transform: rotate(-10deg);
+  }
+
+  .vuffi-sub__sticker span {
+    font-family: var(--font-subheading--family);
+    text-transform: uppercase;
+    font-size: 34px;
+    line-height: 0.9;
+  }
+
+  .vuffi-sub__sticker small {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .vuffi-sub__copy {
+    display: grid;
+    align-content: center;
+    gap: 28px;
+    padding: 40px var(--vuffi-gutter) 0;
+  }
+
+  .vuffi-sub__title {
+    font-size: clamp(32px, 3.4vw, 52px);
+  }
+
+  /* Perks: a short list on hairlines */
+  .vuffi-sub__perks {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-sub__perk {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    align-items: start;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--vuffi-line);
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .vuffi-sub__perk strong {
+    display: block;
+    font-weight: 600;
+  }
+
+  .vuffi-sub__perk-text {
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-sub__icon {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    color: var(--vuffi-accent);
+  }
+
+  .vuffi-sub__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Prices as rows on hairlines, the launch deal on a dark band */
+  .vuffi-sub__prices {
+    display: grid;
+    border-top: 1px solid var(--vuffi-line-strong);
+  }
+
+  .vuffi-sub__price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-sub__price-label {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .vuffi-sub__price-value {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .vuffi-sub__price--was .vuffi-sub__price-label,
+  .vuffi-sub__price--was .vuffi-sub__price-value {
+    color: var(--color-foreground-muted);
+  }
+
+  .vuffi-sub__price--was .vuffi-sub__price-value {
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+  }
+
+  .vuffi-sub__price--best .vuffi-sub__price-value {
+    color: var(--vuffi-accent);
+  }
+
+  .vuffi-sub__price--deal {
+    margin-top: 10px;
+    padding: 16px 18px;
+    border-bottom: 0;
+    background: var(--vuffi-ink);
+    color: #ffffff;
+  }
+
+  .vuffi-sub__price--deal .vuffi-sub__price-value {
+    color: var(--vuffi-lime);
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-sub__perks {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 28px;
+    }
+
+    .vuffi-sub__copy {
+      padding-top: 56px;
+    }
+  }
+
+  /* Computers: the photo fills the left half to the screen edge, top to bottom of the section */
+  @media screen and (min-width: 990px) {
+    .vuffi-sub {
+      padding-bottom: 0;
+    }
+
+    .vuffi-sub__panel {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      min-height: min(860px, 100svh);
+    }
+
+    .vuffi-sub__media .vuffi-media,
+    .vuffi-sub__media .vuffi-ph {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+
+    .vuffi-sub__copy {
+      max-width: calc(var(--vuffi-max) / 2);
+      padding: 96px var(--vuffi-gutter) 96px 72px;
+    }
+
+    .vuffi-sub__sticker {
+      top: 32px;
+      right: 32px;
+      width: 128px;
+    }
+
+    .vuffi-sub__sticker span {
+      font-size: 46px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi subscribe and save",
+  "tag": "div",
+  "class": "vuffi-sub-section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo",
+      "info": "1800 x 2250. Fills the left half of the panel on computers and shows wide on phones; set the focal point on the jars."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Joint care works <em>daily.</em> So does your plan."
+    },
+    {
+      "type": "header",
+      "content": "Prices"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Prices come from the product and its Loop subscription plan."
+    },
+    {
+      "type": "range",
+      "id": "subscribe_percent",
+      "label": "Subscription saving, used only if no plan is found",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 15
+    },
+    {
+      "type": "text",
+      "id": "one_time_label",
+      "label": "One time label",
+      "default": "One time"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_label",
+      "label": "Subscription label",
+      "default": "Subscribe monthly"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_deal",
+      "label": "Show the launch deal",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "deal_percent",
+      "label": "Launch deal off the first box",
+      "min": 5,
+      "max": 60,
+      "step": 1,
+      "unit": "%",
+      "default": 25,
+      "info": "Display only. The discount itself is set in Shopify Discounts."
+    },
+    {
+      "type": "text",
+      "id": "deal_exact",
+      "label": "Exact discount in Shopify",
+      "info": "Optional. The percent exactly as set in Shopify Discounts (for example 25.02), so the price matches checkout to the cent."
+    },
+    {
+      "type": "text",
+      "id": "deal_label",
+      "label": "Launch deal label",
+      "default": "Black Friday first box"
+    },
+    {
+      "type": "text",
+      "id": "sticker_text",
+      "label": "Sticker text under the percent",
+      "default": "off box one"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button",
+      "default": "Start my plan"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "perk",
+      "name": "Perk",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "tag", "label": "Price tag" },
+            { "value": "refresh", "label": "Cancel anytime" },
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "box", "label": "Box" },
+            { "value": "heart", "label": "Heart" }
+          ],
+          "default": "tag"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Save 15% on every box"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Locked in for as long as you stay."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi subscribe and save",
+      "blocks": [
+        { "type": "perk", "settings": { "icon": "tag", "title": "Save 15% on every box", "text": "Locked in for as long as you stay." } },
+        { "type": "perk", "settings": { "icon": "calendar", "title": "Never run out", "text": "A fresh jar ships every month." } },
+        { "type": "perk", "settings": { "icon": "refresh", "title": "Skip or cancel anytime", "text": "Change your plan in two clicks. No calls, no fees." } },
+        { "type": "perk", "settings": { "icon": "truck", "title": "Free shipping", "text": "On every box, every month." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,332 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section
+  class="vuffi-section vuffi-gallery vuffi-gallery--{{ section.settings.caption_style }} color-custom-{{ section.id }}"
+  data-tone="{{ tone }}"
+  style="--card-ratio: {{ section.settings.shape }}; --cols: {{ section.blocks.size }};"
+>
+  {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.text != blank -%}
+    <div class="vuffi-wrap">
+      <div class="vuffi-intro">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="vuffi-lede">{{ section.settings.text }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Phones and tablets swipe through the photos; computers show them all in one centered row {%- endcomment -%}
+  <ul class="vuffi-gallery__track" role="list" tabindex="0" aria-label="{{ section.settings.heading | strip_html | escape }}">
+    {%- for block in section.blocks -%}
+      <li class="vuffi-gallery__item" {{ block.shopify_attributes }}>
+        <figure class="vuffi-gallery__figure">
+          {%- render 'vuffi-image',
+            image: block.settings.image,
+            label: block.settings.slot,
+            ratio: section.settings.shape,
+            size: '2000 x 2500',
+            sizes: '(min-width: 990px) 25vw, (min-width: 750px) 46vw, 84vw',
+            alt: block.settings.alt
+          -%}
+          {%- if block.settings.label != blank or block.settings.title != blank or block.settings.text != blank -%}
+            <figcaption class="vuffi-gallery__caption">
+              {%- if block.settings.label != blank -%}
+                <span class="vuffi-gallery__label">{{ block.settings.label }}</span>
+              {%- endif -%}
+              {%- if block.settings.title != blank -%}
+                <span class="vuffi-gallery__title">{{ block.settings.title }}</span>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <span class="vuffi-gallery__text">{{ block.settings.text }}</span>
+              {%- endif -%}
+            </figcaption>
+          {%- endif -%}
+        </figure>
+      </li>
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% stylesheet %}
+  /* Photos sit flush, edge to edge, split only by a hairline; no rounded tiles.
+     Phones and tablets swipe; computers show every photo in one row across the screen. */
+  .vuffi-gallery__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 84vw;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .vuffi-gallery__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vuffi-gallery__track:focus-visible {
+    outline: 2px solid var(--vuffi-accent);
+    outline-offset: -2px;
+  }
+
+  .vuffi-gallery__item {
+    display: grid;
+    scroll-snap-align: start;
+  }
+
+  .vuffi-gallery__figure {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    margin: 0;
+  }
+
+  .vuffi-gallery__figure .vuffi-media,
+  .vuffi-gallery__figure .vuffi-ph {
+    border-radius: 0;
+  }
+
+  .vuffi-gallery__caption {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+  }
+
+  .vuffi-gallery__label {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .vuffi-gallery__title {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: clamp(24px, 2.1vw, 30px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .vuffi-gallery__text {
+    max-width: 34ch;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  /* Words on the photo, over a deep green shade rising from the bottom */
+  .vuffi-gallery--overlay .vuffi-gallery__figure {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .vuffi-gallery--overlay .vuffi-media,
+  .vuffi-gallery--overlay .vuffi-ph {
+    grid-row: 1 / -1;
+    grid-column: 1;
+  }
+
+  .vuffi-gallery--overlay .vuffi-gallery__caption {
+    position: relative;
+    z-index: 1;
+    grid-row: 1 / -1;
+    grid-column: 1;
+    align-self: end;
+    align-content: end;
+    padding: 45% 24px 28px;
+    background: linear-gradient(0deg, rgb(14 59 44 / 0.95) 0%, rgb(14 59 44 / 0.78) 38%, rgb(14 59 44 / 0) 100%);
+    color: #ffffff;
+  }
+
+  .vuffi-gallery--overlay .vuffi-gallery__label {
+    color: var(--vuffi-lime);
+  }
+
+  .vuffi-gallery--overlay .vuffi-gallery__text {
+    color: rgb(255 255 255 / 0.84);
+  }
+
+  /* Deep green band under each photo */
+  .vuffi-gallery--panel .vuffi-gallery__figure {
+    background: var(--vuffi-green);
+    color: #ffffff;
+  }
+
+  .vuffi-gallery--panel .vuffi-gallery__caption {
+    padding: 22px 24px 28px;
+  }
+
+  .vuffi-gallery--panel .vuffi-gallery__label {
+    color: var(--vuffi-lime);
+  }
+
+  .vuffi-gallery--panel .vuffi-gallery__text {
+    color: rgb(255 255 255 / 0.8);
+  }
+
+  /* Plain words under the photo, set off by a hairline */
+  .vuffi-gallery--below .vuffi-gallery__caption {
+    margin-top: 18px;
+    padding: 16px var(--vuffi-gutter) 0 0;
+    border-top: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-gallery--below .vuffi-gallery__text,
+  .vuffi-gallery--below .vuffi-gallery__label {
+    color: var(--color-foreground-muted, currentColor);
+  }
+
+  @media screen and (min-width: 750px) {
+    .vuffi-gallery__track {
+      grid-auto-columns: 46vw;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-gallery__track {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+      overflow: visible;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi photo row",
+  "tag": "div",
+  "class": "vuffi-gallery-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Life, <em>supported.</em>",
+      "info": "Put a word in italics to color it."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "shape",
+      "label": "Photo shape",
+      "options": [
+        { "value": "4 / 5", "label": "Tall (4:5)" },
+        { "value": "3 / 4", "label": "Taller (3:4)" },
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "3 / 2", "label": "Wide (3:2)" }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "select",
+      "id": "caption_style",
+      "label": "Words on each photo",
+      "options": [
+        { "value": "overlay", "label": "On the photo, over a green shade" },
+        { "value": "panel", "label": "On a green band under the photo" },
+        { "value": "below", "label": "Plain, under the photo" }
+      ],
+      "default": "overlay"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Photo description for screen readers"
+        },
+        {
+          "type": "text",
+          "id": "slot",
+          "label": "Placeholder label",
+          "default": "row-photo"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Small label",
+          "info": "Small line above the title, for example: 07:30, breakfast."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi photo row",
+      "blocks": [
+        { "type": "photo", "settings": { "slot": "row-photo-1" } },
+        { "type": "photo", "settings": { "slot": "row-photo-2" } },
+        { "type": "photo", "settings": { "slot": "row-photo-3" } },
+        { "type": "photo", "settings": { "slot": "row-photo-4" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

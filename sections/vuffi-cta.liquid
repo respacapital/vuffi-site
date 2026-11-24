@@ -1,0 +1,287 @@
+{%- liquid
+  capture tone
+    render 'vuffi-tone', color: section.settings.background_color
+  endcapture
+  assign tone = tone | strip
+-%}
+{%- render 'vuffi-section-style', section: section -%}
+
+<section class="vuffi-section vuffi-cta{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
+  <div class="vuffi-wrap vuffi-cta__grid">
+    <div class="vuffi-cta__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="vuffi-display vuffi-cta__title" data-reveal style="--i: 1">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede" data-reveal style="--i: 2">{{ section.settings.text }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.show_countdown and section.settings.countdown_end != blank -%}
+        <div class="vuffi-cta__count" data-reveal style="--i: 3" data-hide-when-done>
+          <span class="vuffi-cta__count-label">{{ section.settings.countdown_label }}</span>
+          {%- render 'vuffi-countdown', end: section.settings.countdown_end, label: section.settings.countdown_label -%}
+        </div>
+      {%- endif -%}
+
+      <div class="vuffi-actions" data-reveal style="--i: 4">
+        {%- if section.settings.button_label != blank -%}
+          {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.small != blank -%}
+        <p class="vuffi-small vuffi-cta__small" data-reveal style="--i: 5">
+          {%- render 'vuffi-icon', name: 'shield' -%}
+          <span>{{ section.settings.small }}</span>
+        </p>
+      {%- endif -%}
+    </div>
+
+    <div class="vuffi-cta__media vuffi-bleed vuffi-bleed--right" data-reveal="scale" style="--i: 2">
+      {%- render 'vuffi-image',
+        image: section.settings.image,
+        label: 'bf-banner',
+        ratio: '4 / 5',
+        size: '1800 x 2250',
+        sizes: '(min-width: 990px) 50vw, 100vw'
+      -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .vuffi-cta__grid {
+    display: grid;
+    gap: 48px;
+  }
+
+  .vuffi-cta__copy {
+    display: grid;
+    gap: 24px;
+    align-content: center;
+    justify-items: start;
+  }
+
+  .vuffi-cta__title {
+    font-size: clamp(48px, 7vw, 112px);
+  }
+
+  .vuffi-cta__count {
+    display: grid;
+    gap: 10px;
+  }
+
+  .vuffi-cta__count-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  .vuffi-cta__count .vuffi-count {
+    gap: 14px;
+    font-family: var(--font-subheading--family);
+    text-transform: uppercase;
+    font-size: clamp(44px, 5vw, 72px);
+    line-height: 1;
+    color: var(--vuffi-accent);
+  }
+
+  .vuffi-cta__count .vuffi-count__label {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    color: var(--color-foreground);
+  }
+
+  .vuffi-cta__small {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .vuffi-cta__small .vuffi-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .vuffi-cta__media {
+    position: relative;
+  }
+
+  .vuffi-cta__media .vuffi-media,
+  .vuffi-cta__media .vuffi-ph {
+    position: relative;
+  }
+
+  /* The photo is the last thing in the section on every screen: it runs down to the footer and fades
+     into the same green, so the offer flows straight into the footer with no band or seam */
+  .vuffi-section.vuffi-cta {
+    padding-bottom: 0;
+  }
+
+  .vuffi-cta.vuffi-glow::after {
+    background: radial-gradient(ellipse 60% 50% at 62% 48%, rgb(255 255 255 / 0.045), transparent 70%);
+  }
+
+  .vuffi-cta__media {
+    margin-bottom: -1px;
+  }
+
+  .vuffi-cta__media .vuffi-media,
+  .vuffi-cta__media .vuffi-ph {
+    border-radius: 0;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 58%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 58%, transparent 100%);
+  }
+
+  body:has(.vuffi-cta-section:last-child) .vuffi-foot {
+    padding-top: 8px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .vuffi-cta__grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      align-items: stretch;
+      gap: 80px;
+    }
+
+    .vuffi-cta__copy {
+      align-self: center;
+      padding-bottom: var(--vuffi-pb, 120px);
+    }
+
+    /* The photo fills its column from the top of the section to the footer, fading out at the bottom
+       and softly at its inner edge */
+    .vuffi-cta__media {
+      position: relative;
+      min-height: 720px;
+      margin-top: calc(var(--vuffi-pt, 120px) * -1);
+    }
+
+    .vuffi-cta__media .vuffi-media,
+    .vuffi-cta__media .vuffi-ph {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+      -webkit-mask-image:
+        linear-gradient(180deg, transparent 0%, #000 16%, #000 55%, transparent 100%),
+        linear-gradient(90deg, transparent 0%, #000 14%);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(180deg, transparent 0%, #000 16%, #000 55%, transparent 100%),
+        linear-gradient(90deg, transparent 0%, #000 14%);
+      mask-composite: intersect;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vuffi closing offer",
+  "tag": "div",
+  "class": "vuffi-cta-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo",
+      "info": "1800 x 2250 (4:5)"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small line above"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Give them their <em>spring</em> back."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>25% off the first box of every subscription. One chew a day, free shipping, and 90 days to love it.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_countdown",
+      "label": "Show countdown",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "countdown_label",
+      "label": "Countdown text",
+      "default": "Offer ends in"
+    },
+    {
+      "type": "text",
+      "id": "countdown_end",
+      "label": "Sale ends",
+      "default": "2026-11-30T23:59:00-05:00"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button",
+      "default": "Claim 25% off"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "small",
+      "label": "Small print",
+      "default": "90 day money back guarantee. Cancel anytime."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#0E3B2C"
+    },
+    {
+      "type": "checkbox",
+      "id": "glow",
+      "label": "Soft natural light on dark backgrounds",
+      "default": true,
+      "info": "A faint warm light from the top corner, like the hero photo. It never moves."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom space",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vuffi closing offer"
+    }
+  ]
+}
+{% endschema %}
