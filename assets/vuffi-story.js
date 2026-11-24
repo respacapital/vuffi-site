@@ -112,28 +112,32 @@
       style.setProperty('--jy', (1 - easeOut(clamp(p / JAR_END))).toFixed(4));
       style.setProperty('--lid', easeInOut(clamp((p - LID[0]) / LID[1])).toFixed(4));
 
-      /* Chews leave the jar one after another across the middle of the scroll */
+      /* Chews leave the jar one after another across the middle of the scroll.
+         Each one pops straight up out of the jar first (fast on the way up), then glides to where it lands. */
       const chews = this.visible || [];
       const count = Math.max(1, chews.length);
       const gap = Math.max(0, OUT_END - OUT_START - FLIGHT) / Math.max(1, count - 1);
+      const launch = (i) => OUT_START + i * gap;
       chews.forEach((chew, i) => {
-        const raw = clamp((p - OUT_START - i * gap) / FLIGHT);
-        const t = easeInOut(raw);
-        const arc = Math.sin(Math.PI * t) * this.lift;
-        const settle = (0.6 - p) * chew.depth * this.drift * t;
-        const fx = chew.dx * (1 - t);
-        const fy = chew.dy * (1 - t) - arc + settle;
-        chew.style.setProperty('--t', t.toFixed(4));
+        const raw = clamp((p - launch(i)) / FLIGHT);
+        const across = easeInOut(raw);
+        const up = easeOut(raw);
+        const arc = Math.sin(Math.PI * Math.min(1, raw * 1.15)) * this.lift;
+        const settle = (0.6 - p) * chew.depth * this.drift * across;
+        const fx = chew.dx * (1 - across);
+        const fy = chew.dy * (1 - up) - arc + settle;
+        chew.style.setProperty('--t', across.toFixed(4));
         chew.style.setProperty('--fx', `${fx.toFixed(1)}px`);
         chew.style.setProperty('--fy', `${fy.toFixed(1)}px`);
-        chew.style.setProperty('--o', raw > 0 ? Math.min(1, raw * 8).toFixed(3) : '0');
+        chew.style.setProperty('--o', raw > 0 ? Math.min(1, raw * 6).toFixed(3) : '0');
       });
 
-      /* Each line slides up as its chews come out */
+      /* Each line slides up as its chew clears the jar */
       const lines = Math.max(1, this.lines.length);
-      const span = (OUT_END - OUT_START) / lines;
       this.lines.forEach((line, i) => {
-        const r = easeOut(clamp((p - OUT_START - i * span + 0.04) / (span * 0.9)));
+        const k = Math.min(count - 1, Math.floor((i * count) / lines));
+        const start = launch(k) + FLIGHT * 0.3;
+        const r = easeOut(clamp((p - start) / (FLIGHT * 0.7)));
         line.style.setProperty('--r', r.toFixed(3));
       });
 
