@@ -43,9 +43,15 @@
   </div>
 
   {%- if section.settings.show_cards and section.blocks.size > 0 -%}
-    {%- comment -%} An endless row: three copies of the cards slide left by one copy, then start over without a jump {%- endcomment -%}
-    <div class="vuffi-formula__loop" style="--speed: {{ section.blocks.size | times: section.settings.speed }}s;">
-      <ul class="vuffi-formula__track" role="list">
+    {%- comment -%} An endless row: three copies of the cards drift left by one copy, then start over without a jump. Swipe or drag to move it. {%- endcomment -%}
+    <script src="{{ 'vuffi-marquee.js' | asset_url }}" defer></script>
+    <vuffi-marquee
+      class="vuffi-formula__loop"
+      data-seconds="{{ section.blocks.size | times: section.settings.speed }}"
+      data-copies="3"
+      data-preload
+    >
+      <ul class="vuffi-formula__track" role="list" data-track>
         {%- for copy in (1..3) -%}
           {%- for block in section.blocks -%}
             <li
@@ -58,6 +64,7 @@
                 ratio: '1 / 1',
                 size: '2048 x 2048',
                 sizes: '(min-width: 990px) 360px, 300px',
+                widths: '300, 360, 540, 720, 900',
                 class: 'vuffi-formula__media'
               -%}
               <div class="vuffi-formula__body">
@@ -73,7 +80,7 @@
           {%- endfor -%}
         {%- endfor -%}
       </ul>
-    </div>
+    </vuffi-marquee>
   {%- endif -%}
 
   {%- if section.settings.note != blank -%}
@@ -126,12 +133,42 @@
     right: calc(100% - var(--x));
   }
 
-  /* The endless row of ingredient cards */
+  /* The endless row of ingredient cards: moved by vuffi-marquee.js. Sideways swipes move the row,
+     up and down swipes scroll the page. The soft edges are drawn on top instead of masking the row,
+     so phones only move one finished layer. */
   .vuffi-formula__loop {
+    position: relative;
+    display: block;
     border-block: 1px solid var(--vuffi-line);
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+    touch-action: pan-y;
+    cursor: grab;
+  }
+
+  .vuffi-formula__loop.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  .vuffi-formula__loop::before,
+  .vuffi-formula__loop::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    width: 4%;
+    pointer-events: none;
+  }
+
+  .vuffi-formula__loop::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--color-background), color-mix(in srgb, var(--color-background) 0%, transparent));
+  }
+
+  .vuffi-formula__loop::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--color-background), color-mix(in srgb, var(--color-background) 0%, transparent));
   }
 
   .vuffi-formula__track {
@@ -140,19 +177,12 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    animation: vuffi-loop var(--speed, 45s) linear infinite;
+    will-change: transform;
   }
 
-  .vuffi-formula__loop:hover .vuffi-formula__track,
-  .vuffi-formula__loop:active .vuffi-formula__track,
-  .vuffi-formula__loop:focus-within .vuffi-formula__track {
-    animation-play-state: paused;
-  }
-
-  @keyframes vuffi-loop {
-    to {
-      transform: translateX(calc(-100% / 3));
-    }
+  .vuffi-formula__track img {
+    -webkit-user-drag: none;
+    user-select: none;
   }
 
   /* Each ingredient: a flush photo, then its words below, columns split by hairlines like a lab index */
@@ -231,24 +261,6 @@
     }
   }
 
-  /* Less motion: the row stands still and can be swiped instead */
-  @media (prefers-reduced-motion: reduce) {
-    .vuffi-formula__loop {
-      overflow-x: auto;
-      -webkit-mask-image: none;
-      mask-image: none;
-      scrollbar-width: none;
-    }
-
-    .vuffi-formula__track {
-      animation: none;
-      padding-inline: var(--vuffi-edge);
-    }
-
-    .vuffi-formula__card[data-copy] {
-      display: none;
-    }
-  }
 {% endstylesheet %}
 
 {% schema %}
@@ -303,7 +315,7 @@
       "step": 1,
       "unit": "s",
       "default": 9,
-      "info": "Higher is slower. The row stops when someone hovers or touches it."
+      "info": "Higher is slower. The row pauses while someone hovers, swipes or drags it, then carries on."
     },
     {
       "type": "text",

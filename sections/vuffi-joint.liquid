@@ -20,14 +20,15 @@
     </div>
 
     <div class="vuffi-joint__stage">
-      <div class="vuffi-joint__visual">
+      <div class="vuffi-joint__visual" data-preload>
         <div class="vuffi-joint__layer vuffi-joint__layer--worn">
           {%- render 'vuffi-image',
             image: section.settings.worn_image,
             label: 'diagram-joint-worn',
             ratio: '1 / 1',
             size: '1600 x 1600',
-            sizes: '(min-width: 990px) 600px, 92vw'
+            sizes: '(min-width: 990px) 600px, 92vw',
+            widths: '360, 540, 720, 960, 1200'
           -%}
         </div>
         <div class="vuffi-joint__layer vuffi-joint__layer--supported">
@@ -36,7 +37,8 @@
             label: 'diagram-joint-ingredients',
             ratio: '1 / 1',
             size: '1600 x 1600',
-            sizes: '(min-width: 990px) 600px, 92vw'
+            sizes: '(min-width: 990px) 600px, 92vw',
+            widths: '360, 540, 720, 960, 1200'
           -%}
           <ol class="vuffi-joint__marks" role="list" aria-hidden="true">
             {%- for block in section.blocks -%}
@@ -120,10 +122,12 @@
     mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 58%, transparent 100%);
   }
 
-  /* A plain crossfade between the two joints */
+  /* A plain crossfade between the two joints. The numbers ride on the supported photo,
+     so they arrive with it instead of one by one after it */
   .vuffi-joint__layer--supported {
     opacity: 1;
-    transition: opacity 0.7s var(--vuffi-ease);
+    transition: opacity 0.5s var(--vuffi-ease);
+    will-change: opacity;
   }
 
   [data-state='worn'] .vuffi-joint__layer--supported {
@@ -216,12 +220,7 @@
     transition:
       background-color 0.3s,
       color 0.3s,
-      box-shadow 0.3s,
-      opacity 0.4s var(--vuffi-ease) calc(0.25s + var(--n, 0) * 0.08s);
-  }
-
-  [data-state='worn'] .vuffi-joint__mark {
-    opacity: 0;
+      box-shadow 0.3s;
   }
 
   .vuffi-joint__mark.is-active {

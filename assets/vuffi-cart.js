@@ -10,6 +10,16 @@
   const template = config.dataset.text || 'You save [amount].';
   const showSavings = config.dataset.savings !== 'false';
   const trust = document.getElementById('VuffiCartTrust');
+  const countdown = document.getElementById('VuffiCartCountdown');
+
+  /* The sale countdown, once above each cart total (drawer and cart page) */
+  const paintCountdown = () => {
+    if (!countdown) return;
+    document.querySelectorAll('.cart-totals').forEach((totals) => {
+      if (totals.querySelector(':scope > .vuffi-cart-count')) return;
+      totals.prepend(countdown.content.cloneNode(true));
+    });
+  };
 
   /* Payment icons and the trust line, once under each checkout button */
   const paintTrust = () => {
@@ -47,6 +57,7 @@
 
   const paint = () => {
     paintTrust();
+    paintCountdown();
     if (!showSavings) return;
     document.querySelectorAll('.cart-totals').forEach((totals) => {
       let bar = totals.querySelector(':scope > .vuffi-cart-save');
@@ -59,7 +70,9 @@
         bar = document.createElement('p');
         bar.className = 'vuffi-cart-save';
         bar.setAttribute('role', 'status');
-        totals.prepend(bar);
+        const count = totals.querySelector(':scope > .vuffi-cart-count');
+        if (count) count.after(bar);
+        else totals.prepend(bar);
       }
       if (bar.textContent !== text) bar.textContent = text;
     });
@@ -90,7 +103,8 @@
     const touchesCart = records.some((record) => {
       const target = record.target;
       if (!(target instanceof Element)) return false;
-      if (target.closest('.vuffi-cart-save, .vuffi-cart-trust')) return false;
+      /* Our own bars, and the countdown ticking every second, are not cart changes */
+      if (target.closest('.vuffi-cart-save, .vuffi-cart-trust, .vuffi-cart-count')) return false;
       return Boolean(target.closest('cart-items-component, .cart-totals, cart-drawer-component, .cart-drawer__content'));
     });
     if (touchesCart) schedule();
@@ -99,6 +113,7 @@
   const start = () => {
     watcher.observe(document.body, { childList: true, subtree: true, characterData: true });
     paintTrust();
+    paintCountdown();
     if (document.querySelector('.cart-totals')) refresh();
   };
 

@@ -7,6 +7,8 @@
   @param {string} [size] - Recommended upload size shown on the placeholder
   @param {string} [sizes] - The sizes attribute. Defaults to "100vw"
   @param {boolean} [priority] - True for the first image on screen: loads eagerly with high priority
+  @param {boolean} [low] - Loads after the photos on screen (low fetch priority)
+  @param {string} [widths] - Image widths to offer, for example "360, 720, 1080". Defaults to 360 to 2400
   @param {boolean} [contain] - Fit the whole photo instead of filling the frame
   @param {string} [alt] - Alt text. Defaults to the image alt
   @param {string} [class] - Extra classes on the frame
@@ -14,11 +16,14 @@
 {%- liquid
   assign img_ratio = ratio | default: '1 / 1'
   assign img_sizes = sizes | default: '100vw'
+  assign img_widths = widths | default: '360, 540, 720, 960, 1200, 1600, 2000, 2400'
   assign img_loading = 'lazy'
   assign img_priority = 'auto'
   if priority
     assign img_loading = 'eager'
     assign img_priority = 'high'
+  elsif low
+    assign img_priority = 'low'
   endif
   assign img_alt = alt | default: image.alt | escape
   assign img_focal = image.presentation.focal_point | default: '50% 50%'
@@ -30,7 +35,7 @@
       image
       | image_url: width: 2400
       | image_tag:
-        widths: '360, 540, 720, 960, 1200, 1600, 2000, 2400',
+        widths: img_widths,
         sizes: img_sizes,
         loading: img_loading,
         fetchpriority: img_priority,

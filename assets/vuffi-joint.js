@@ -32,13 +32,28 @@
         const r = this.visual.getBoundingClientRect();
         if (r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.2) {
           this.stopWatching();
+          /* Switch only once the supported photo is ready, so it and its numbers arrive together */
+          const ready = this.supportedReady();
           this.timer = window.setTimeout(() => {
-            if (!this.touched) this.setState('supported');
-          }, 900);
+            ready.then(() => {
+              if (!this.touched) this.setState('supported');
+            });
+          }, 700);
         }
       };
       document.addEventListener('scroll', this.onScroll, { passive: true, capture: true });
       this.onScroll();
+    }
+
+    supportedReady() {
+      const img = this.querySelector('.vuffi-joint__layer--supported img');
+      if (!img) return Promise.resolve();
+      img.loading = 'eager';
+      if (img.complete && img.naturalWidth) return img.decode ? img.decode().catch(() => {}) : Promise.resolve();
+      return new Promise((resolve) => {
+        img.addEventListener('load', () => (img.decode ? img.decode().catch(() => {}).then(resolve) : resolve()), { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      });
     }
 
     stopWatching() {

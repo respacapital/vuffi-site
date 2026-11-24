@@ -28,7 +28,26 @@
     </div>
   </template>
 {%- endif -%}
-{%- if section.settings.cart_savings or section.settings.cart_trust -%}
+{%- liquid
+  assign cart_count_on = false
+  if section.settings.cart_countdown and section.settings.cart_countdown_end != blank
+    assign cart_count_end = section.settings.cart_countdown_end | date: '%s' | plus: 0
+    assign cart_count_now = 'now' | date: '%s' | plus: 0
+    if cart_count_end > cart_count_now
+      assign cart_count_on = true
+    endif
+  endif
+-%}
+{%- if cart_count_on -%}
+  {%- comment -%} Placed above the totals in the cart drawer and on the cart page by vuffi-cart.js {%- endcomment -%}
+  <template id="VuffiCartCountdown">
+    <div class="vuffi-cart-count" data-hide-when-done>
+      <span>{{ section.settings.cart_countdown_label }}</span>
+      {%- render 'vuffi-countdown', end: section.settings.cart_countdown_end, label: section.settings.cart_countdown_label -%}
+    </div>
+  </template>
+{%- endif -%}
+{%- if section.settings.cart_savings or section.settings.cart_trust or cart_count_on -%}
   <script
     src="{{ 'vuffi-cart.js' | asset_url }}"
     defer
@@ -159,6 +178,30 @@
       "label": "Savings text",
       "default": "Black Friday price applied. You save [amount].",
       "info": "[amount] becomes the total saved. Change after Black Friday, for example: Subscriber price applied. You save [amount]."
+    },
+    {
+      "type": "header",
+      "content": "Cart countdown"
+    },
+    {
+      "type": "checkbox",
+      "id": "cart_countdown",
+      "label": "Show the sale countdown in the cart",
+      "default": true,
+      "info": "In the cart drawer and on the cart page, above the total. Hides itself when the sale ends."
+    },
+    {
+      "type": "text",
+      "id": "cart_countdown_label",
+      "label": "Countdown label",
+      "default": "Black Friday ends in"
+    },
+    {
+      "type": "text",
+      "id": "cart_countdown_end",
+      "label": "Sale ends",
+      "default": "2026-11-30T23:59:00-05:00",
+      "info": "Year-month-day, then T, the time in 24 hour format, and -05:00 for Eastern time."
     }
   ],
   "presets": [
