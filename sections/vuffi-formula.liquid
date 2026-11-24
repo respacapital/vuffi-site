@@ -84,10 +84,12 @@
 </section>
 
 {% stylesheet %}
+  /* The cut chew photo is square with room around it; pull the empty top and bottom in */
   .vuffi-formula__diagram {
+    --d: min(100vw - var(--vuffi-gutter) * 2, 560px);
     position: relative;
-    width: min(100%, 560px);
-    margin: -8px auto 48px;
+    width: var(--d);
+    margin: calc(var(--d) * -0.12) auto calc(var(--d) * -0.12 + 40px);
   }
 
   .vuffi-formula__diagram .vuffi-media {
@@ -208,7 +210,7 @@
     margin: 0;
   }
 
-  .vuffi-formula__note {
+  .vuffi-formula .vuffi-formula__note {
     margin: 32px auto 0;
     text-align: center;
   }
@@ -219,7 +221,7 @@
 
   @media screen and (min-width: 990px) {
     .vuffi-formula__diagram {
-      margin-bottom: 64px;
+      margin-bottom: calc(var(--d) * -0.12 + 56px);
     }
 
     .vuffi-formula__label {
@@ -271,8 +273,7 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Small line above",
-      "default": "The formula"
+      "label": "Small line above"
     },
     {
       "type": "inline_richtext",

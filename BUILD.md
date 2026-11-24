@@ -97,3 +97,16 @@ Status: todo, built, PR open, merged.
 19. vuffi-product (product page buy box, Loop plan, sale prices, sticky bar): PR #1 open
 20. vuffi-popup (10% email, WELCOME10): PR #1 open
 21. Pages: Ingredients, FAQ, Our story (about), Contact, policy pages: PR #1 open
+
+## Design version 8 (Nov 24, late)
+- Removed every entrance animation on text and photos (headline word rise, photo wipe and zoom, drift, count up, hover lifts). Kept the scroll story, joint switch, timeline fill, ingredient row, seal, ticker and the footer logo rise.
+- Scroll story: jar bigger on phones (fills the bottom half), lid flies off and fades out on every screen size.
+- How it works (vuffi-joint): ink background with hero light, diagram on a rounded card (card color setting, white for today's images), switch floating on the card, plain crossfade, numbers centered on the circles, ingredient list as cards.
+- Formula: centered intro and diagram, green name pills, endless row of green ingredient cards (speed setting).
+- Photo rows (vuffi-gallery): centered intro, no arrows, green card captions with bigger text, one row on computers. vuffi-rail.js deleted.
+- FAQ: centered column of white question cards, contact line and button underneath.
+- Subscribe: one rounded panel, photo fills the left half on computers, perks in two columns, prices as rows.
+- Timeline: centered intro, line measured from the first circle center to the last, circles centered over each card on computers, hero light.
+- Comparison: Shop Vuffi button is a lime pill that fits the dark column on phones.
+- Templates: removed band_run and dose (home) and dose (product); joint set to ink on home, product and ingredients; last eyebrows cleared (home, product, about).
+- Preview copy for screenshots: 157195403462 (safe to delete).

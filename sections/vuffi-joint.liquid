@@ -90,6 +90,10 @@
 </section>
 
 {% stylesheet %}
+  vuffi-joint {
+    display: block;
+  }
+
   /* The diagram sits on a lit card; the ingredients sit beside it on computers and under it on phones */
   .vuffi-joint__stage {
     display: grid;
@@ -133,6 +137,7 @@
     bottom: 14px;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    width: max-content;
     padding: 4px;
     border-radius: var(--vuffi-radius-btn);
     background: var(--vuffi-ink);
@@ -383,8 +388,7 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Small line above",
-      "default": "How it works"
+      "label": "Small line above"
     },
     {
       "type": "inline_richtext",

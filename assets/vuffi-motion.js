@@ -77,10 +77,14 @@
     if (!frame) frame = requestAnimationFrame(tick);
   };
 
+  /* Re-measure when a track changes size (fonts loading, images arriving, the window turning) */
+  const resizer = 'ResizeObserver' in window ? new ResizeObserver(() => request()) : null;
+
   function init(scope = document) {
     scope.querySelectorAll('[data-progress]').forEach((el) => {
       progressItems.add(el);
       updateProgress(el);
+      if (resizer) resizer.observe(el);
     });
     scope.querySelectorAll('[data-rise]:not(.is-in)').forEach((el) => {
       riseItems.add(el);

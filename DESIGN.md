@@ -1,6 +1,6 @@
 # Vuffi Design System
 
-Version 7, November 24, 2026. Source of truth for color, type, shape, motion, photography and voice on getvuffi.com. Change this file before changing the theme.
+Version 8, November 24, 2026. Source of truth for color, type, shape, motion, photography and voice on getvuffi.com. Change this file before changing the theme.
 
 Earlier versions are saved on branches: `design/serif-v1` (first serif), `design/rounded-v2` (Nunito, rounded), `design/serif-v3` (serif with the still hero and Robin's first images).
 
@@ -25,7 +25,7 @@ Rules:
 1. Bottle green is the jar label green. White text on it passes contrast easily.
 2. Leaf is the jar's lime, softened so it reads natural on screen. It never sits on white and never fills large areas.
 3. Dark bands are bottle green or ink, never bright green.
-4. No gradients, glows or saturated color fields. Color comes from photography.
+4. No saturated color fields or neon. The one glow allowed is the hero light: on ink and bottle green bands (How it works, What to expect, the closing offer) a soft warm beam falls from the top left with a gentle lift in the middle and a slightly darker floor, like the light in the hero photo. Each of those sections has a switch for it.
 
 ## 3. Logo
 
@@ -45,14 +45,14 @@ One family, the one printed on the jar: Figtree (a close match to the label lett
 
 ## 4b. Rhythm
 
-Pages alternate dark and light bands so the energy of the hero carries all the way down. Dark: ink (#0B1411) and bottle green (#0E3B2C, also the scroll story gradient). Light: white and stone (#F3F2EE). Never two of the same next to each other when it can be helped. Home: hero ink, ticker ink, scroll story green, why stone, joint white, photo band, formula stone, dose ink, comparison white, what to expect green, subscribe stone, guarantee ink, life white, FAQ stone, closing offer green. Page titles on every other page are ink. On dark bands accents are leaf green; on light bands bottle green.
+Pages alternate dark and light bands so the energy of the hero carries all the way down. Dark: ink (#0B1411) and bottle green (#0E3B2C, also the scroll story gradient). Light: white and stone (#F3F2EE). Never two of the same next to each other when it can be helped. Home: hero ink, ticker ink, scroll story green, why stone, How it works ink, formula stone, comparison white, what to expect green, subscribe stone, guarantee ink, life white, FAQ stone, closing offer green. How it works is ink on every page. Page titles on every other page are ink. On dark bands accents are leaf green; on light bands bottle green.
 
 ## 5. Shape
 
 1. Everything you can press is round: buttons, chips, tags, toggles, email fields and the slider handle are full pills; icon buttons, the joint numbers, accordion signs and photo arrows are circles.
 2. Buttons are full pills, 54 to 56px tall, bottle green with white text on light bands, leaf with ink text on dark bands. On hover a second color rises from the bottom and fills the pill, and the arrow slides 4px.
-3. Cards and panels (buy box options, dose finder, subscribe box, popup) have soft 16px corners; small boxes 10px.
-4. Photos never sit in a hard edged box. Feature photos run to the edge of the screen: full width on phones, and on computers they run off the outer side with soft 24px corners only on the inside. Photo rows scroll off the edge of the screen with soft 16px corners. Diagrams and product cutouts have no box at all; their white background melts into the section.
+3. Cards and panels (buy box options, subscribe panel, question cards, ingredient cards, photo cards, popup) have soft 16 to 24px corners; small boxes 10px. Section intros are centered: headline, then one line of text.
+4. Photos never sit in a hard edged box. Feature photos run to the edge of the screen: full width on phones, and on computers they run off the outer side with soft 24px corners only on the inside. Photo rows sit on deep green cards (photo on top, words in white below, bigger titles), all in one centered row on computers and swiped on phones. No arrows. Diagrams and product cutouts have no box at all; their white background melts into the section.
 5. Hairline rules (1px) divide everything: lists, specs, cards. No heavy shadows.
 6. Layout: 1280px max content width, 20px side padding on phones, 48px on desktop. Section spacing 72px on phones, 120px on desktop. Full width photo bands break the grid on purpose.
 7. Icons: drawn in code, 1.5px line, round ends.
@@ -70,18 +70,16 @@ Photos carry the brand. Every prompt is in "Image Prompts - Vuffi - 2026.11.23.t
 
 ## 7. Motion
 
-Motion only where someone toggles, slides or scrolls, and it should feel expensive.
+Motion only where someone scrolls, taps or toggles. Text and photos never animate in: they are simply there when the page loads.
 
-1. Scroll story: built like the Grüns section. Bottle green fading to moss. A big closed jar rises (its lower half runs off the bottom of the screen), the lid pops off in an arc, then chews fly out of the jar one by one, turning as they go, while each big uppercase line slides up with them.
-1b. Joint switch: the supported joint wipes across the worn one behind a leaf green scan line, and plays by itself once the diagram is on screen.
-1c. What to expect: the track fills as the section scrolls past and each step lights up when the fill reaches it.
-2. Headlines: every word rises out of its own mask, one after another.
-3. Photos: wipe up from the bottom while the picture settles from a slow zoom. Full width photos drift slower than the page; page title photos settle as they scroll in. Photos zoom slightly on hover.
-4. Buttons: the fill sweeps up on hover, the arrow slides, a small press on click.
-5. Toggles and tabs: the joint switch crossfades and the five numbers pop in one by one; the buy box and dose finder ease between choices; accordions open smoothly.
-6. Sliders: the ticker strip slides slowly; photo rows scroll sideways with arrows.
-7. The 90 day seal turns slowly.
-8. Numbers count up once. Everything stops for people who ask their device for less motion. Motion also runs in the theme editor; selecting a section shows it at once.
+1. Scroll story: built like the Grüns section. Bottle green fading to moss. A big closed jar rises (on phones it fills the bottom half of the screen), the lid pops off in an arc and leaves the screen completely, then chews fly out of the jar one by one, turning as they go, while each big uppercase line slides up with them.
+2. How it works: the worn joint crossfades into the supported one once the diagram is on screen, and the five numbers fade in on their circles. Visitors can flip between the two and tap each ingredient.
+3. What to expect: the track runs from the first circle to the last, fills as the section scrolls past, and each circle lights up the moment the fill reaches its center.
+4. Ingredient cards: an endless row that slides slowly to the left and stops while someone hovers or touches it.
+5. Buttons: the fill sweeps up on hover, the arrow slides, a small press on click.
+6. Toggles and accordions: the buy box eases between choices; questions open smoothly.
+7. The ticker strip slides slowly. The 90 day seal turns slowly. The footer logo rises into place once.
+8. Everything stops for people who ask their device for less motion: the ingredient row becomes a swipe row.
 
 ## 8. Voice
 
