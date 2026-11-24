@@ -8,8 +8,8 @@ Status: Needed means a labeled box shows. First batch means one of Robin's Nov 2
 
 | Slot | Where | Size and ratio | Setting | Status |
 | --- | --- | --- | --- | --- |
-| hero-desktop | Top, behind the headline (990px and up) | 3840 x 2160, 16:9 | Vuffi hero > Computer image | Needed (closed jar stands in) |
-| hero-mobile | Top, behind the text (phones, tablets) | 1440 x 2560, 9:16 | Vuffi hero > Phone image | Needed |
+| hero-desktop | Top, behind the headline (990px and up) | Landscape 3:2 or 16:9 | Vuffi hero > Computer image | Filled (vuffi-hero-desktop.jpg) |
+| hero-mobile | Top, between the headline and buttons (phones, tablets) | Portrait 2:3 | Vuffi hero > Phone image | Filled (vuffi-hero-mobile.jpg, seal lettering repaired) |
 | scroll-jar-open, scroll-lid, scroll-chew-1 to 4 | Scroll story | Transparent PNGs | Vuffi scroll story | First batch (chew 4 needed) |
 | why-actives, why-taste, why-vet, why-guarantee | Why Vuffi photo row | 2000 x 2500, 4:5 | Vuffi photo row (why) > each Photo | Needed |
 | diagram-joint-worn, diagram-joint-ingredients | How it works switch | 2048 x 2048 | Vuffi joint diagram | First batch. When new ones arrive I reset the five number positions |

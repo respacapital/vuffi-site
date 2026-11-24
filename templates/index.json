@@ -40,12 +40,16 @@
         "trust_shipping"
       ],
       "settings": {
-        "background_color": "#111A16",
+        "background_color": "#0B1411",
         "button_link": "/products/hip-and-joint-soft-chews",
         "button2_link": "/pages/ingredients",
         "padding_top": 40,
         "padding_bottom": 64,
-        "jar_image": "shopify://shop_images/vuffi-jar-closed.png"
+        "jar_image": "shopify://shop_images/vuffi-jar-closed.png",
+        "image": "shopify://shop_images/vuffi-hero-desktop.jpg",
+        "image_mobile": "shopify://shop_images/vuffi-hero-mobile.jpg",
+        "phone_size": 124,
+        "image_alt": "A jar of Vuffi Advanced Hip and Joint Support soft chews floating in a beam of light, chews drifting around it"
       }
     },
     "ticker": {

@@ -13,6 +13,8 @@
   assign focal_mob = mob.presentation.focal_point | default: '50% 50%'
   assign focal_desk = desk.presentation.focal_point | default: focal_mob
   assign focal_style = '--focal-desk: ' | append: focal_desk | append: '; --focal-mob: ' | append: focal_mob | append: ';'
+  assign bg_img = desk | default: mob
+  assign phone_sizes = section.settings.phone_size | append: 'vw'
 -%}
 {%- render 'vuffi-section-style', section: section -%}
 
@@ -20,28 +22,20 @@
   class="vuffi-section vuffi-hero color-custom-{{ section.id }}{% if has_image %} vuffi-hero--image{% endif %}{% if section.settings.show_scrim %} vuffi-hero--scrim{% endif %}"
   data-tone="{{ tone }}"
 >
+  {%- comment -%}
+    Computers: the computer photo fills the section behind the text.
+    Phones and tablets: the phone photo sits between the headline and the buttons, its dark edges fading into the background.
+    Each picture loads only on the screens that show it.
+  {%- endcomment -%}
   <div class="vuffi-hero__bg">
     {%- if has_image -%}
       <picture class="vuffi-hero__picture">
-        {%- if desk != blank and section.settings.image_mobile != blank -%}
-          <source
-            media="(min-width: 990px)"
-            srcset="
-              {{ desk | image_url: width: 1200 }} 1200w,
-              {{ desk | image_url: width: 1800 }} 1800w,
-              {{ desk | image_url: width: 2400 }} 2400w,
-              {{ desk | image_url: width: 3000 }} 3000w
-            "
-            sizes="100vw"
-            width="{{ desk.width }}"
-            height="{{ desk.height }}"
-          >
-        {%- endif -%}
+        <source media="(max-width: 989px)" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
         {{-
-          mob
-          | image_url: width: 2400
+          bg_img
+          | image_url: width: 3000
           | image_tag:
-            widths: '600, 900, 1200, 1600, 2000, 2400',
+            widths: '1200, 1600, 2000, 2400, 3000',
             sizes: '100vw',
             loading: 'eager',
             fetchpriority: 'high',
@@ -65,6 +59,21 @@
     </div>
 
     <div class="vuffi-hero__stage">
+      {%- if has_image -%}
+        <picture class="vuffi-hero__phone" style="--pw: min({{ section.settings.phone_size }}vw, 760px);">
+          <source media="(min-width: 990px)" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+          {{-
+            mob
+            | image_url: width: 2000
+            | image_tag:
+              widths: '600, 900, 1200, 1600, 2000',
+              sizes: phone_sizes,
+              loading: 'eager',
+              fetchpriority: 'high',
+              alt: alt
+          -}}
+        </picture>
+      {%- endif -%}
       {%- unless has_image -%}
         {%- render 'vuffi-image',
           image: section.settings.jar_image,
@@ -208,6 +217,32 @@
     width: min(100%, 330px);
   }
 
+  /* Phone photo: wider than the screen, its top and bottom overlap the text and fade into the background */
+  .vuffi-hero__phone {
+    position: relative;
+    z-index: 0;
+    display: block;
+    justify-self: center;
+    width: var(--pw, 124vw);
+    max-width: none;
+    margin: calc(var(--pw, 124vw) * -0.42) 0 calc(var(--pw, 124vw) * -0.435);
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+  }
+
+  .vuffi-hero__phone img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .vuffi-hero__head,
+  .vuffi-hero__cta {
+    position: relative;
+    z-index: 1;
+  }
+
   .vuffi-hero__jar.vuffi-media {
     background: transparent;
     border-radius: 0;
@@ -331,6 +366,10 @@
   }
 
   @media screen and (min-width: 990px) {
+    .vuffi-hero__phone {
+      display: none;
+    }
+
     .vuffi-hero {
       align-items: center;
       min-height: min(max(100svh, 680px), 980px);
@@ -402,19 +441,30 @@
       "type": "image_picker",
       "id": "image",
       "label": "Computer image",
-      "info": "2560 x 1440 (16:9). The jar on the right, dark empty space on the left for the headline. Set the focal point on the jar so it stays in view on every screen."
+      "info": "Landscape, 16:9 or 3:2, at least 1536 pixels wide. The jar on the right, dark empty space on the left for the headline. Set the focal point on the jar so it stays in view on every screen."
     },
     {
       "type": "image_picker",
       "id": "image_mobile",
       "label": "Phone image",
-      "info": "1080 x 1920 (9:16). The jar in the middle, dark empty space at the top and bottom for the text."
+      "info": "Portrait 2:3 (1024 x 1536 or larger). Shows between the headline and the buttons on phones, so keep the jar in the middle and the top and bottom dark."
     },
     {
       "type": "text",
       "id": "image_alt",
       "label": "Image description for screen readers",
       "default": "A jar of Vuffi Advanced Hip and Joint Support soft chews"
+    },
+    {
+      "type": "range",
+      "id": "phone_size",
+      "label": "Phone photo size",
+      "min": 90,
+      "max": 160,
+      "step": 2,
+      "unit": "%",
+      "default": 124,
+      "info": "Width of the phone photo compared with the screen. Its dark top and bottom fade behind the text."
     },
     {
       "type": "checkbox",
