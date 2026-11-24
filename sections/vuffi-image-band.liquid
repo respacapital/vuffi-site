@@ -140,7 +140,8 @@
     background: linear-gradient(
       to top,
       color-mix(in srgb, var(--color-background) var(--band-shade), transparent) 0%,
-      transparent 62%
+      color-mix(in srgb, var(--color-background) calc(var(--band-shade) * 0.8), transparent) 40%,
+      transparent 80%
     );
     pointer-events: none;
   }

@@ -17,7 +17,8 @@ Working notes for the Nov 2026 launch build. Newest decisions first in each list
 - Robin sent all 49 photos from the prompt sheet. 47 placed (the two hero shots match the ones already up, so those stay).
 - Files are `vuffi-v2-<slot>` in Shopify Files. Product media is now pdp-1 to pdp-5; the first batch photos were removed from the product but stay in Files.
 - Joint numbers and formula name tags measured again for the new diagrams. Lid position in the scroll story refitted to the new jar and lid. Photo rows: why and life show 3:4, detail shows 1:1.
-- Seven jar shots have redrawn serif label lettering (listed in PLACEHOLDERS.md). Placed, flagged to Robin to regenerate.
+- Eight jar shots have redrawn serif label lettering (listed in PLACEHOLDERS.md). Placed, flagged to Robin to regenerate.
+- Photo bands: the shade behind the text now holds further up the photo, and the running dog band sits at 85 so the copy reads over the bright beach.
 
 ## Design version 5 (Nov 23, night)
 - Robin sent the Grüns scroll section as the model for ours, asked for the font on the jar, round buttons, good animations and a one sheet prompt for ChatGPT.

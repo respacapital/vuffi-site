@@ -4,7 +4,7 @@ Every labeled box on the site is a photo slot. Prompts for every slot are in "Im
 
 Status: Filled means Robin's Nov 23 photo set is in the slot. Every file in Shopify Files is named `vuffi-v2-<slot>` (.jpg, or .png for the see through scroll story shots), so a replacement only needs the same slot name with a new version number.
 
-Label check: in these jar shots the label lettering was redrawn by the image tool in a serif font instead of the real jar's lettering. They are placed, and are the first to regenerate: why-guarantee, ritual, bf-banner, detail-jar, detail-open, detail-label, story-1.
+Label check: in these jar shots the label lettering was redrawn by the image tool in a serif font instead of the real jar's lettering. They are placed, and are the first to regenerate: why-guarantee, ritual, bf-banner, detail-jar, detail-open, detail-label, page-faq, story-1.
 
 ## Home
 
@@ -15,7 +15,7 @@ Label check: in these jar shots the label lettering was redrawn by the image too
 | scroll-jar-open, scroll-lid, scroll-chew-1 to 4 | Scroll story | Transparent PNGs | Vuffi scroll story | Filled. The lid position in the code is fitted to these two photos |
 | why-actives, why-taste, why-vet, why-guarantee | Why Vuffi photo row | 2:3, shown 3:4 | Vuffi photo row (why) > each Photo | Filled (why-guarantee: label check) |
 | diagram-joint-worn, diagram-joint-ingredients | How it works switch | 1:1 | Vuffi joint diagram | Filled. The five numbers sit on the white circles in the supported image; a new image needs them measured again |
-| band-run | Full width photo after How it works | 3:2 | Vuffi photo band (band_run) | Filled |
+| band-run | Full width photo after How it works | 3:2 | Vuffi photo band (band_run) | Filled (shade 85 so the text reads over the bright sand) |
 | diagram-chew-cross, ing-* | Formula | 1:1 | Vuffi formula | Filled. The five name tags sit on the ends of the leader lines; a new image needs them measured again |
 | ritual | The daily ritual, beside the text | 2:3, shown 4:5 | Vuffi photo and story (ritual) | Filled (label check) |
 | band-rest | Full width photo after the timeline | 3:2 | Vuffi photo band (band_rest) | Filled |
@@ -41,5 +41,5 @@ Label check: in these jar shots the label lettering was redrawn by the image too
 | story-1 | Our story, Five bottles became one chew | 1:1 | Vuffi photo and story (why) | Filled (label check) |
 | band-about | Our story, full width photo | 3:2 | Vuffi photo band (band_about) | Filled |
 | story-2 | Our story, Support before the limp | 3:2, shown 16:9 | Vuffi photo and story (prevent) | Filled |
-| page-faq | FAQ, under the title | 3:2, shown 21:9 (4:5 on phones) | Vuffi page title > Photo | Filled |
+| page-faq | FAQ, under the title | 3:2, shown 21:9 (4:5 on phones) | Vuffi page title > Photo | Filled (label check) |
 | popup-dog | Email popup | 2:3 | Footer > Vuffi email popup > Photo | Filled |
