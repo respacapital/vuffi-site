@@ -172,8 +172,8 @@
         "eyebrow": "",
         "button_link": "/products/hip-and-joint-soft-chews",
         "scroll_length": 375,
-        "jar_image": "shopify://shop_images/vuffi-v2-scroll-jar-open.png",
-        "jar_closed_image": "shopify://shop_images/vuffi-v3-scroll-jar-base.png",
+        "jar_image": "shopify://shop_images/vuffi-v5-scroll-jar-open.png",
+        "jar_closed_image": "shopify://shop_images/vuffi-v5-scroll-jar-base.png",
         "lid_image": "shopify://shop_images/vuffi-v2-scroll-lid.png",
         "chew_1": "shopify://shop_images/vuffi-v2-scroll-chew-1.png",
         "chew_2": "shopify://shop_images/vuffi-v2-scroll-chew-2.png",
@@ -495,7 +495,7 @@
         "perk_4"
       ],
       "settings": {
-        "image": "shopify://shop_images/vuffi-v2-subscribe-jar.jpg",
+        "image": "shopify://shop_images/vuffi-v5-subscribe-jar.jpg",
         "product": "hip-and-joint-soft-chews",
         "button_link": "/products/hip-and-joint-soft-chews",
         "background_color": "#F3F2EE",
@@ -559,7 +559,7 @@
     "cta": {
       "type": "vuffi-cta",
       "settings": {
-        "image": "shopify://shop_images/vuffi-v2-bf-banner.jpg",
+        "image": "shopify://shop_images/vuffi-v5-bf-banner.jpg",
         "button_link": "/products/hip-and-joint-soft-chews",
         "background_color": "#0E3B2C",
         "text": "<p>25% off everything until November 30, subscriptions included. One chew a day, free shipping and 90 days to love it.</p>"
@@ -601,7 +601,7 @@
         "photo_4": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v2-why-guarantee.jpg",
+            "image": "shopify://shop_images/vuffi-v5-why-guarantee.jpg",
             "slot": "why-guarantee",
             "label": "",
             "title": "90 days to feel it",
@@ -704,7 +704,7 @@
         "photo_2": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/vuffi-v2-detail-hand.jpg",
+            "image": "shopify://shop_images/vuffi-v5-detail-hand.jpg",
             "alt": "Fingers holding a Vuffi chew for a waiting dog",
             "slot": "social-2"
           }

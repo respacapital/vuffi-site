@@ -13,10 +13,16 @@
 <section class="vuffi-section vuffi-jarx{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
   <div class="vuffi-wrap vuffi-jarx__grid">
     <figure class="vuffi-jarx__photo vuffi-bleed vuffi-bleed--left">
+      {%- liquid
+        assign jar_ratio = '1 / 1'
+        if section.settings.image != blank
+          assign jar_ratio = section.settings.image.width | append: ' / ' | append: section.settings.image.height
+        endif
+      -%}
       {%- render 'vuffi-image',
         image: section.settings.image,
         label: 'label-jar',
-        ratio: '4 / 5',
+        ratio: jar_ratio,
         size: '1600 x 2000',
         sizes: '(min-width: 990px) 50vw, 100vw',
         alt: section.settings.image_alt,
@@ -143,7 +149,7 @@
       "type": "image_picker",
       "id": "image",
       "label": "Jar photo",
-      "info": "Portrait 4:5, 1600 x 2000. A dark background that matches the section melts into it."
+      "info": "A photo of the jar on a dark background (square or portrait). Its edges fade into the section."
     },
     {
       "type": "text",

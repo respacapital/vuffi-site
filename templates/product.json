@@ -98,7 +98,7 @@
             "slot": "detail-jar",
             "label": "",
             "title": "30 soft chews",
-            "image": "shopify://shop_images/vuffi-v2-detail-jar.jpg"
+            "image": "shopify://shop_images/vuffi-v5-detail-jar.jpg"
           }
         },
         "photo_2": {
@@ -125,7 +125,7 @@
             "slot": "detail-hand",
             "label": "",
             "title": "One a day under 35 lbs",
-            "image": "shopify://shop_images/vuffi-v2-detail-hand.jpg"
+            "image": "shopify://shop_images/vuffi-v5-detail-hand.jpg"
           }
         },
         "photo_5": {
@@ -134,7 +134,7 @@
             "slot": "detail-label",
             "label": "",
             "title": "Every ingredient listed",
-            "image": "shopify://shop_images/vuffi-v2-detail-label.jpg"
+            "image": "shopify://shop_images/vuffi-v5-detail-label.jpg"
           }
         }
       },
@@ -226,10 +226,10 @@
       "settings": {
         "heading": "The jar, <em>explained.</em>",
         "text": "<p>Everything printed on the label, and what it means for your dog.</p>",
-        "image": "shopify://shop_images/vuffi-v4-label-jar.jpg",
+        "image": "shopify://shop_images/vuffi-photo-07-dark.jpg",
         "background_color": "#0B1411",
         "glow": true,
-        "image_alt": "A jar of Vuffi Advanced Hip and Joint Support on a stone plinth with two soft chews"
+        "image_alt": "A jar of Vuffi Advanced Hip and Joint Support on a dark stone plinth in a beam of light, two soft chews beside it"
       }
     },
     "dose": {

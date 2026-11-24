@@ -104,7 +104,7 @@
     position: relative;
     display: grid;
     overflow: hidden;
-    background: var(--joint-card);
+    background: transparent;
   }
 
   .vuffi-joint__layer {
@@ -112,9 +112,12 @@
     grid-area: 1 / 1;
   }
 
+  /* The joint photos fade out softly at every edge, so they melt into the section instead of sitting in a box */
   .vuffi-joint__layer .vuffi-media {
     border-radius: 0;
-    background: var(--joint-card);
+    background: transparent;
+    -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 58%, transparent 100%);
+    mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 58%, transparent 100%);
   }
 
   /* A plain crossfade between the two joints */

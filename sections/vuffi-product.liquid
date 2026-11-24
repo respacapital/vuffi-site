@@ -486,26 +486,32 @@
     width: 92px;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: var(--vuffi-lime);
-    color: var(--vuffi-ink);
+    background: var(--vuffi-ink);
+    color: #ffffff;
     text-align: center;
-    transform: rotate(-10deg);
+    outline: 1px solid rgb(198 227 90 / 0.45);
+    outline-offset: -6px;
+    box-shadow: 0 12px 30px rgb(11 20 17 / 0.28);
     pointer-events: none;
   }
 
   .vuffi-pdp__sticker span {
-    font-family: var(--font-subheading--family);
-    text-transform: uppercase;
-    font-size: 34px;
-    line-height: 0.9;
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--vuffi-lime);
   }
 
   .vuffi-pdp__sticker small {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    margin-top: 3px;
+    font-size: 8px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-  }
+}
 
   .vuffi-pdp__buy {
     display: grid;
@@ -947,11 +953,11 @@
     .vuffi-pdp__sticker {
       top: 24px;
       left: 24px;
-      width: 116px;
+      width: 112px;
     }
 
     .vuffi-pdp__sticker span {
-      font-size: 44px;
+      font-size: 34px;
     }
 
     .vuffi-pdp__info {
