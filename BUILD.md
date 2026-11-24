@@ -13,6 +13,14 @@ Working notes for the Nov 2026 launch build. Newest decisions first in each list
 - Pages: Home, Product, Ingredients, FAQ, Our Story, Contact, policies. TPLO landing page after launch.
 - Big logo lockup with slogan at the bottom of the footer. Countdowns, reveal animations, pinned scroll story (text stacks, jar opens, chews rise).
 
+## Design version 4 (Nov 23, evening)
+- Robin: look like Grüns, Bloom, Pawfy and Apple but for dogs, Grüns or Wuffes font, lots of photos, medical and premium, no rounded look, keep every section, natural colors, new prompts for every image.
+- Fonts checked on their live sites: Grüns uses Work Sans; Wuffes uses a custom condensed (Gravity Condensed) with Barlow Condensed as backup. Theme now: Work Sans headings and body, Barlow Condensed labels and big numbers, IBM Plex Mono clinical labels.
+- Palette from the jar: bottle green #0E3B2C, ink #141A17, leaf #C6E35A (softened jar lime), stone #F3F2EE. Corners 2px and 4px.
+- New sections: Vuffi photo band and Vuffi photo row. Page titles can show a wide photo. About 30 new photo slots, all in PLACEHOLDERS.md, prompts in "Image Prompts - Vuffi - 2026.11.23.txt".
+- Robin's Nov 23 first batch stays in place until the natural color versions arrive.
+- Preview 7 (157152411846) had its settings overwritten during a font test; it is safe to delete like the other previews.
+
 ## Design version 3 (Nov 23, late)
 - Robin: serif headings back (rounded version saved on branch design/rounded-v2), hero is one still image (prompt in the image prompts file), animation only for toggles, sliders and scroll, new logo coming.
 - Removed: drifting particles (hero and story), floating jar, glass cards, page title rise, spinning guarantee ring, countdown roll, pulsing badge dot.

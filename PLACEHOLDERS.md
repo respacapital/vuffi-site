@@ -1,22 +1,43 @@
 # Vuffi Placeholders and Shot List
 
-Every labeled box on the site is a photo slot. Fill it in the theme editor (or on the product, for product photos). Prompts for each slot are in "Image Prompts - Vuffi - 2026.11.22.txt" (the hero prompt was rewritten Nov 23). Rules: keep the jar and its "Advanced Hip & Joint Support" label exactly as it ships, never put the Vuffi logo on the jar, no AI dogs as customers or before and after photos, no text inside images.
+Every labeled box on the site is a photo slot. Prompts for every slot are in "Image Prompts - Vuffi - 2026.11.23.txt" (design version 4). Rules: real photography with natural colors, the jar always identical to Robin's reference photo, never the Vuffi logo on the jar, dogs only as lifestyle (never customers, reviews or before and after), no text inside images.
 
-Status: filled means a real image is in the slot. Stand in means a jar or chew shot is there until the planned photo arrives.
+Status: Needed means a labeled box shows. First batch means one of Robin's Nov 23 images is in the slot and gets replaced by the new natural color version.
 
-| Slot | Where it shows | Size and ratio | Setting | Status | Shot notes |
-| --- | --- | --- | --- | --- | --- |
-| hero-desktop | Home, top, behind the headline (computers, 990px and up) | 2560 x 1440, 16:9 | Home > Vuffi hero > Computer image | Needed (closed jar on the gradient stands in) | The closed jar floating on the right, dark ink background with a green glow and lime particles, left half dark and empty for the headline |
-| hero-mobile | Home, top, behind the text (phones and tablets) | 1080 x 1920, 9:16 | Home > Vuffi hero > Phone image | Needed | Same scene composed vertically: jar in the middle, top third and bottom quarter dark and empty for the text |
-| scroll-jar-open | Home, scroll story, the jar | Square transparent PNG | Home > Vuffi scroll story > Open jar, no lid | Filled (vuffi-jar-open.png) | Jar with the lid off, chews heaped at the top |
-| scroll-lid | Home, scroll story, sits on the jar then pops off | 2:1 transparent PNG | Home > Vuffi scroll story > Lid | Filled (vuffi-lid.png) | The white lid alone, same angle and light as the jar |
-| scroll-chew-1 to 4 | Home, scroll story, chews drifting and peeking out | Square transparent PNG each | Home > Vuffi scroll story > Chew 1 to 4 | Filled 1 to 3 (side, top, tilted); 4 repeats chew 2 | One chew per file from different angles |
-| ing-glucosamine, ing-chondroitin, ing-msm, ing-hyaluronic, ing-mussel | Home, product and Ingredients page, formula cards | Square, shown 4:5 | Vuffi formula > each Ingredient block > Photo | Filled (vuffi-ing-*.png) | One object study per ingredient on pure white |
-| diagram-chew-cross | Formula section, beside the headline | Square | Vuffi formula > Cut chew diagram | Filled (vuffi-chew-cross.png) | Chew cut in half with five empty leader lines; names are added in the theme |
-| diagram-joint-worn | Joint section, first state | Square | Vuffi joint diagram > Worn joint | Filled (vuffi-joint-worn.png, cut from the comparison image) | Worn knee: thin cracked cartilage, less fluid, red area |
-| diagram-joint-ingredients | Joint section, supported state | Square | Vuffi joint diagram > Supported joint | Filled (vuffi-joint-ingredients.png) | Healthy knee with five empty circles; the theme puts the numbers 1 to 5 on them |
-| subscribe-jar | Home, Subscribe and save | 1800 x 2250, 4:5 | Home > Vuffi subscribe and save > Photo | Stand in (open jar) | Two jars side by side, one lid off, a few chews |
-| bf-banner | Home, Ingredients, FAQ and Our story, closing offer (dark band) | 1800 x 2250, 4:5 | Vuffi closing offer > Photo | Stand in (closed jar) | Jar on near black with a lime rim light, chews tumbling out |
-| pdp photos | Product page gallery | Square | Products > Advanced Hip & Joint Support > Media | Filled: closed jar, open jar, chews, one chew, joint comparison | Still wanted: a hand offering a chew to a dog, the jar next to a small and a medium dog |
-| story-1, story-2 | Our story page | Tall, square or wide (Photo shape setting) | Pages template "about" > Vuffi photo and story > Photo | Stand in (chews cluster, dog joints diagram) | Lifestyle shots from prompts section 7 (life-stairs, life-fetch) |
-| popup-dog | Email popup, left side on computers | 4:5 | Footer > Vuffi email popup > Photo | Needed | Happy dog on white (guarantee-dog prompt works) |
+## Home
+
+| Slot | Where | Size and ratio | Setting | Status |
+| --- | --- | --- | --- | --- |
+| hero-desktop | Top, behind the headline (990px and up) | 3840 x 2160, 16:9 | Vuffi hero > Computer image | Needed (closed jar stands in) |
+| hero-mobile | Top, behind the text (phones, tablets) | 1440 x 2560, 9:16 | Vuffi hero > Phone image | Needed |
+| scroll-jar-open, scroll-lid, scroll-chew-1 to 4 | Scroll story | Transparent PNGs | Vuffi scroll story | First batch (chew 4 needed) |
+| why-actives, why-taste, why-vet, why-guarantee | Why Vuffi photo row | 2000 x 2500, 4:5 | Vuffi photo row (why) > each Photo | Needed |
+| diagram-joint-worn, diagram-joint-ingredients | How it works switch | 2048 x 2048 | Vuffi joint diagram | First batch. When new ones arrive I reset the five number positions |
+| band-run | Full width photo after How it works | 3840 x 2160 and 1440 x 1800 | Vuffi photo band (band_run) | Needed |
+| diagram-chew-cross, ing-* | Formula | 2048 x 2048 | Vuffi formula | First batch |
+| ritual | The daily ritual, beside the text | 2000 x 2500, 4:5 | Vuffi photo and story (ritual) | Needed |
+| band-rest | Full width photo after the timeline | 3840 x 2160 and 1440 x 1800 | Vuffi photo band (band_rest) | Needed |
+| subscribe-jar | Subscribe and save | 2000 x 2500, 4:5 | Vuffi subscribe and save | Stand in (open jar) |
+| life-walk, life-car, life-couch, life-beach, life-stairs | Life with Vuffi photo row | 2000 x 2667, 3:4 | Vuffi photo row (life) | Needed |
+| bf-banner | Closing offer | 2000 x 2500, 4:5 | Vuffi closing offer | Stand in (closed jar) |
+
+## Product page
+
+| Slot | Where | Size and ratio | Setting | Status |
+| --- | --- | --- | --- | --- |
+| pdp-1 to pdp-5 | Product gallery | 2048 x 2048 | Products > Advanced Hip & Joint Support > Media | First batch (closed jar, open jar, chews, chew, joint comparison) |
+| detail-jar, detail-open, detail-macro, detail-hand, detail-label | Up close photo row | 2000 x 2000 | Vuffi photo row (detail) | Needed |
+| band-pdp | Full width photo after How it works | 3840 x 2160 and 1440 x 1800 | Vuffi photo band (band_pdp) | Needed |
+
+## Other pages
+
+| Slot | Where | Size and ratio | Setting | Status |
+| --- | --- | --- | --- | --- |
+| page-ingredients | Ingredients, under the title | 3840 x 1646, 21:9 | Vuffi page title > Photo | Needed |
+| band-chew | Ingredients, after the formula | 3840 x 1646 and 1440 x 1800 | Vuffi photo band (band_ing) | Needed |
+| page-story | Our story, under the title | 3840 x 1646, 21:9 | Vuffi page title > Photo | Needed |
+| story-1 | Our story, Five bottles became one chew | 2048 x 2048 | Vuffi photo and story (why) | Stand in (chews cluster) |
+| band-about | Our story, full width photo | 3840 x 2160 and 1440 x 1800 | Vuffi photo band (band_about) | Needed |
+| story-2 | Our story, Support before the limp | 3840 x 2160, 16:9 | Vuffi photo and story (prevent) | Stand in (dog joints image) |
+| page-faq | FAQ, under the title | 3840 x 1646, 21:9 | Vuffi page title > Photo | Needed |
+| popup-dog | Email popup | 1600 x 2000, 4:5 | Footer > Vuffi email popup > Photo | Needed |
