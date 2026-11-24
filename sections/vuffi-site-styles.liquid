@@ -49,17 +49,17 @@
   }
 
   {%- if section.settings.dark_page_header %}
-  /* Pages that open on a Vuffi page title (Our story, Ingredients, FAQ, Contact, policies):
+  /* Pages that open on a Vuffi page title (Our story, Ingredients, FAQ, Contact, policies) and Shopify policy pages:
      the header turns ink with a white logo so it runs straight into the dark title, like the home page */
   /* !important beats the colors Horizon writes inline on the header */
-  body:has(.vuffi-phero) #header-component {
+  body:has(.vuffi-phero, .shopify-policy__container) #header-component {
     --color-background-top-row: {{ section.settings.dark_header_color }} !important;
     --color-background-bottom-row: {{ section.settings.dark_header_color }} !important;
     --cart-bubble-background: var(--vuffi-lime) !important;
     --cart-bubble-text: var(--vuffi-ink) !important;
   }
 
-  body:has(.vuffi-phero) #header-component .header__row {
+  body:has(.vuffi-phero, .shopify-policy__container) #header-component .header__row {
     --color-background: {{ section.settings.dark_header_color }};
     --color-background-rgb: {{ section.settings.dark_header_color.rgb }};
     --color-foreground: #ffffff;
@@ -69,12 +69,12 @@
   }
 
   {%- if settings.logo_inverse != blank %}
-  body:has(.vuffi-phero) #header-component [data-testid='header-logo'] {
+  body:has(.vuffi-phero, .shopify-policy__container) #header-component [data-testid='header-logo'] {
     display: inline-block;
     background: url('{{ settings.logo_inverse | image_url: width: 480 }}') left center / contain no-repeat;
   }
 
-  body:has(.vuffi-phero) #header-component [data-testid='header-logo'] img {
+  body:has(.vuffi-phero, .shopify-policy__container) #header-component [data-testid='header-logo'] img {
     opacity: 0;
   }
   {%- endif %}

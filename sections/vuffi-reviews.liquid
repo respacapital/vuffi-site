@@ -4,42 +4,85 @@
   endcapture
   assign tone = tone | strip
   assign review_product = product | default: section.settings.product
+
+  # Count the reviews Judge.me has for this product (standard reviews metafield, then Judge.me's own data)
+  assign review_count = 0
+  if review_product != blank
+    assign review_count = review_product.metafields.reviews.rating_count.value | default: 0
+    if review_count == 0
+      assign review_count = review_product.metafields.judgeme.review_widget_data.value.number_of_reviews | default: 0
+    endif
+  endif
+
+  assign show_section = true
+  if section.settings.hide_when_empty and review_count == 0
+    assign show_section = false
+  endif
 -%}
-{%- render 'vuffi-section-style', section: section -%}
+{%- if show_section or request.design_mode -%}
+  {%- render 'vuffi-section-style', section: section -%}
 
-{%- comment -%}
-  Reviews from Judge.me. The Judge.me app embed (Theme settings > App embeds) loads the widget
-  into the box below. App blocks from any reviews app can be added to this section as well.
-{%- endcomment -%}
-<section class="vuffi-section vuffi-reviews color-custom-{{ section.id }}" data-tone="{{ tone }}" id="reviews">
-  <div class="vuffi-wrap">
-    <div class="vuffi-intro">
-      <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
-      {%- if section.settings.text != blank -%}
-        <div class="vuffi-lede">{{ section.settings.text }}</div>
-      {%- endif -%}
-    </div>
-
-    <div class="vuffi-reviews__body">
-      {%- if section.settings.show_judgeme and review_product != blank -%}
-        <div
-          id="judgeme_product_reviews"
-          class="jdgm-widget jdgm-review-widget jdgm-outside-widget"
-          data-id="{{ review_product.id }}"
-          data-product-title="{{ review_product.title | escape }}"
-        >
-          {{- review_product.metafields.judgeme.widget -}}
-        </div>
+  {%- comment -%}
+    Reviews from Judge.me, with Judge.me's own Review Widget code. The Judge.me app embed
+    (Theme settings > App embeds) loads the widget into the box below. App blocks from any
+    reviews app can be added to this section as well.
+  {%- endcomment -%}
+  <section class="vuffi-section vuffi-reviews color-custom-{{ section.id }}" data-tone="{{ tone }}" id="reviews">
+    <div class="vuffi-wrap">
+      {%- if show_section == false -%}
+        <p class="vuffi-reviews__editor-note">{{ section.settings.empty_note }}</p>
       {%- endif -%}
 
-      {%- for block in section.blocks -%}
-        {%- if block.type == '@app' -%}
-          <div class="vuffi-reviews__app">{% render block %}</div>
+      <div class="vuffi-intro">
+        <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}
+          <div class="vuffi-lede">{{ section.settings.text }}</div>
         {%- endif -%}
-      {%- endfor -%}
+      </div>
+
+      <div class="vuffi-reviews__body">
+        {%- if section.settings.show_judgeme and review_product != blank -%}
+          {%- liquid
+            assign has_legacy = false
+            if review_product.metafields.judgeme.widget.size > 20
+              assign has_legacy = true
+            endif
+          -%}
+          <div
+            id="judgeme_product_reviews"
+            class="jdgm-widget jdgm-review-widget"
+            data-product-title="{{ review_product.title | escape }}"
+            data-id="{{ review_product.id }}"
+            data-product-id="{{ review_product.id }}"
+            data-widget="review"
+            data-auto-install="false"
+            data-shop-reviews-count="{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}"
+            data-entry-point="review_widget.js"
+            data-entry-key="review-widget/main.js"
+          >
+            {%- if has_legacy -%}
+              <div class="jdgm-legacy-widget-content" style="display: none;">{{ review_product.metafields.judgeme.widget }}</div>
+            {%- endif -%}
+          </div>
+          {%- if review_product.metafields.judgeme.review_widget_data -%}
+            <script>
+              window.jdgm = window.jdgm || {};
+              jdgm.data ||= {};
+              jdgm.data.reviewWidget ||= {};
+              jdgm.data.reviewWidget[{{ review_product.id }}] = {{ review_product.metafields.judgeme.review_widget_data }};
+            </script>
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- for block in section.blocks -%}
+          {%- if block.type == '@app' -%}
+            <div class="vuffi-reviews__app">{% render block %}</div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+{%- endif -%}
 
 {% stylesheet %}
   .vuffi-reviews__body {
@@ -88,6 +131,17 @@
   .vuffi-reviews__app + .vuffi-reviews__app {
     margin-top: 32px;
   }
+
+  /* Only in the theme editor, when the section is hidden from the store */
+  .vuffi-reviews__editor-note {
+    margin: 0 auto 32px;
+    max-width: 560px;
+    padding: 12px 16px;
+    border: 1px dashed var(--vuffi-line-strong);
+    border-radius: var(--vuffi-radius-ui);
+    font-size: 14px;
+    text-align: center;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -111,6 +165,19 @@
       "id": "text",
       "label": "Text",
       "default": "<p>Reviews from people who bought Vuffi for their own dog.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_when_empty",
+      "label": "Hide until the first review",
+      "default": true,
+      "info": "The section stays off the store until the product has a review. You still see it here in the editor."
+    },
+    {
+      "type": "text",
+      "id": "empty_note",
+      "label": "Editor note while hidden",
+      "default": "Hidden on the store until the first review arrives."
     },
     {
       "type": "checkbox",
