@@ -27,13 +27,13 @@
 
 <section class="vuffi-section vuffi-sub color-custom-{{ section.id }}" data-tone="{{ tone }}">
   <div class="vuffi-wrap vuffi-sub__grid">
-    <div class="vuffi-sub__media" data-reveal="scale">
+    <div class="vuffi-sub__media vuffi-bleed vuffi-bleed--left" data-reveal="scale">
       {%- render 'vuffi-image',
         image: section.settings.image,
         label: 'subscribe-jar',
         ratio: '4 / 5',
         size: '1800 x 2250',
-        sizes: '(min-width: 990px) 46vw, 100vw'
+        sizes: '(min-width: 990px) 52vw, 100vw'
       -%}
       {%- if section.settings.show_deal and deal_price -%}
         <div class="vuffi-sub__sticker" aria-hidden="true">
@@ -109,7 +109,7 @@
     place-content: center;
     width: 112px;
     aspect-ratio: 1;
-    border-radius: var(--vuffi-radius-sm);
+    border-radius: 50%;
     background: var(--vuffi-lime);
     color: var(--vuffi-ink);
     text-align: center;

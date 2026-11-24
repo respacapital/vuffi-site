@@ -25,7 +25,7 @@
           label: section.settings.slot,
           ratio: '21 / 9',
           size: '3840 x 1646 (21:9)',
-          sizes: '(min-width: 1360px) 1280px, 100vw',
+          sizes: '100vw',
           priority: true,
           alt: section.settings.image_alt
         -%}
@@ -43,8 +43,14 @@
     font-size: clamp(44px, 7vw, 100px);
   }
 
+  /* The title photo runs the full width of the screen */
   .vuffi-phero__photo {
-    margin-top: 40px;
+    margin: 40px calc(var(--vuffi-edge) * -1) 0;
+  }
+
+  .vuffi-phero__photo .vuffi-media,
+  .vuffi-phero__photo .vuffi-ph {
+    border-radius: 0;
   }
 
   /* Taller crop on phones so the photo still reads */

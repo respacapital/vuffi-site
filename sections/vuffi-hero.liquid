@@ -225,18 +225,22 @@
     width: min(100%, 330px);
   }
 
-  /* Phone photo: wider than the screen, its top and bottom overlap the text and fade into the background */
+  /* Phone photo: wider than the screen and centered on it (the side margins split the overflow evenly).
+     Its dark top tucks under the text and its lower edge fades out before the buttons. */
   .vuffi-hero__phone {
     position: relative;
     z-index: 0;
     display: block;
-    justify-self: center;
-    width: var(--pw, 124vw);
+    justify-self: start;
+    width: var(--pw, 112vw);
     max-width: none;
-    margin: calc(var(--pw, 124vw) * -0.42) 0 calc(var(--pw, 124vw) * -0.435);
+    margin:
+      calc(var(--pw, 112vw) * -0.4)
+      calc((100% - var(--pw, 112vw)) / 2)
+      calc(var(--pw, 112vw) * -0.43);
     pointer-events: none;
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
-    mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 70%, transparent 88%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 70%, transparent 88%);
   }
 
   .vuffi-hero__phone img {
@@ -295,7 +299,7 @@
     gap: 8px;
     padding: 7px 14px 7px 11px;
     border: 1px solid color-mix(in srgb, var(--vuffi-lime) 45%, transparent);
-    border-radius: var(--vuffi-radius-sm);
+    border-radius: var(--vuffi-radius-btn);
     background: color-mix(in srgb, var(--color-background) 55%, transparent);
     color: var(--vuffi-lime);
     font-size: 13px;
@@ -306,7 +310,7 @@
     content: '';
     width: 8px;
     height: 8px;
-    border-radius: var(--vuffi-radius-sm);
+    border-radius: 50%;
     background: var(--vuffi-lime);
   }
 
@@ -483,7 +487,7 @@
       "max": 160,
       "step": 2,
       "unit": "%",
-      "default": 124,
+      "default": 112,
       "info": "Width of the phone photo compared with the screen. Its dark top and bottom fade behind the text."
     },
     {

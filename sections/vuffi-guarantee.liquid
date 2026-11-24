@@ -72,9 +72,23 @@
     aspect-ratio: 1;
   }
 
+  /* The ring of text turns slowly; it stops for people who ask their device for less motion */
   .vuffi-guarantee__ring {
     width: 100%;
     height: 100%;
+    animation: vuffi-seal-turn 36s linear infinite;
+  }
+
+  @keyframes vuffi-seal-turn {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vuffi-guarantee__ring {
+      animation: none;
+    }
   }
 
   .vuffi-guarantee__disc {

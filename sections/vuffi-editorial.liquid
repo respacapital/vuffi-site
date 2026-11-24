@@ -8,13 +8,13 @@
 
 <section class="vuffi-section vuffi-edit vuffi-edit--{{ section.settings.image_side }} color-custom-{{ section.id }}" data-tone="{{ tone }}">
   <div class="vuffi-wrap vuffi-edit__grid">
-    <div class="vuffi-edit__media" data-reveal="scale">
+    <div class="vuffi-edit__media vuffi-bleed vuffi-bleed--{{ section.settings.image_side }}" data-reveal="scale">
       {%- render 'vuffi-image',
         image: section.settings.image,
         label: section.settings.slot,
         ratio: section.settings.image_shape,
         size: '1800 x 2250',
-        sizes: '(min-width: 990px) 44vw, 100vw'
+        sizes: '(min-width: 990px) 50vw, 100vw'
       -%}
     </div>
     <div class="vuffi-edit__copy">

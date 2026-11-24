@@ -10,6 +10,15 @@
 </script>
 {{ 'vuffi-base.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'vuffi-motion.js' | asset_url }}" defer></script>
+{%- if section.settings.cart_savings -%}
+  <script
+    src="{{ 'vuffi-cart.js' | asset_url }}"
+    defer
+    id="VuffiCartSavings"
+    data-text="{{ section.settings.cart_savings_text | escape }}"
+    data-money="{{ shop.money_format | strip_html | escape }}"
+  ></script>
+{%- endif -%}
 
 {% style %}
   :root {
@@ -36,6 +45,24 @@
       "id": "enable_motion",
       "label": "Animate content as it scrolls into view",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Cart savings"
+    },
+    {
+      "type": "checkbox",
+      "id": "cart_savings",
+      "label": "Show savings in the cart",
+      "default": true,
+      "info": "A bar above the total in the cart and cart drawer with everything the shopper saves: subscription savings plus any automatic discount."
+    },
+    {
+      "type": "text",
+      "id": "cart_savings_text",
+      "label": "Savings text",
+      "default": "Black Friday price applied. You save [amount].",
+      "info": "[amount] becomes the total saved. Change after Black Friday, for example: Subscriber price applied. You save [amount]."
     }
   ],
   "presets": [

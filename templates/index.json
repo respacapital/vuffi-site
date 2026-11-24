@@ -48,9 +48,10 @@
         "jar_image": "shopify://shop_images/vuffi-jar-closed.png",
         "image": "shopify://shop_images/vuffi-hero-desktop_1d2b14f2-51bc-4eeb-860c-d0cd60369ccd.jpg",
         "image_mobile": "shopify://shop_images/vuffi-hero-mobile.jpg",
-        "phone_size": 124,
+        "phone_size": 112,
         "image_alt": "A jar of Vuffi Advanced Hip and Joint Support soft chews floating in a beam of light, chews drifting around it",
-        "desk_crop": "top"
+        "desk_crop": "top",
+        "eyebrow": ""
       }
     },
     "ticker": {
@@ -166,7 +167,7 @@
         "line_4"
       ],
       "settings": {
-        "eyebrow": "Inside every jar",
+        "eyebrow": "",
         "button_link": "/products/hip-and-joint-soft-chews",
         "scroll_length": 375,
         "background_color": "#0E3B2C",
@@ -323,7 +324,7 @@
       ],
       "settings": {
         "background_color": "#F3F2EE",
-        "diagram": "shopify://shop_images/vuffi-v2-diagram-chew-cross.jpg"
+        "diagram": "shopify://shop_images/vuffi-v3-diagram-chew-cross.png"
       }
     },
     "dose": {
@@ -619,7 +620,7 @@
           "type": "photo",
           "settings": {
             "slot": "why-actives",
-            "label": "Nº 01 · Formula",
+            "label": "",
             "title": "Five joint actives",
             "text": "Glucosamine, chondroitin, MSM, hyaluronic acid and green lipped mussel in every chew.",
             "image": "shopify://shop_images/vuffi-v2-why-actives.jpg"
@@ -629,7 +630,7 @@
           "type": "photo",
           "settings": {
             "slot": "why-taste",
-            "label": "Nº 02 · Taste",
+            "label": "",
             "title": "Pork flavor, zero fuss",
             "text": "No pills to hide in food. Most dogs take it like a treat.",
             "image": "shopify://shop_images/vuffi-v2-why-taste.jpg"
@@ -639,7 +640,7 @@
           "type": "photo",
           "settings": {
             "slot": "why-vet",
-            "label": "Nº 03 · Trust",
+            "label": "",
             "title": "Vet recommended",
             "text": "Built on the joint ingredients vets recommend most.",
             "image": "shopify://shop_images/vuffi-v2-why-vet.jpg"
@@ -649,7 +650,7 @@
           "type": "photo",
           "settings": {
             "slot": "why-guarantee",
-            "label": "Nº 04 · Promise",
+            "label": "",
             "title": "90 days to feel it",
             "text": "Give it a full 90 days. If you don't see a difference, we refund you.",
             "image": "shopify://shop_images/vuffi-v2-why-guarantee.jpg"
@@ -684,7 +685,7 @@
         "text": "<p>Daily support for hips, knees and elbows, from the first walk of the day to the last game of fetch.</p>",
         "button_label": "Shop the chews",
         "button_link": "/products/hip-and-joint-soft-chews",
-        "caption": "Fig. 01 · Hips, knees, elbows",
+        "caption": "",
         "image_alt": "A dog running along the shore at golden hour",
         "image": "shopify://shop_images/vuffi-v2-band-run.jpg"
       }
@@ -713,7 +714,7 @@
         "shade": 35,
         "background_color": "#111A16",
         "heading": "Move freely. <em>Rest easy.</em>",
-        "caption": "Fig. 02 · The daily chew",
+        "caption": "",
         "image_alt": "A dog asleep on a sofa in a beam of afternoon sun",
         "image": "shopify://shop_images/vuffi-v2-band-rest.jpg"
       }

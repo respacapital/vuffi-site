@@ -1,12 +1,12 @@
 # Vuffi Design System
 
-Version 5, November 23, 2026 (night). Source of truth for color, type, shape, motion, photography and voice on getvuffi.com. Change this file before changing the theme.
+Version 6, November 24, 2026. Source of truth for color, type, shape, motion, photography and voice on getvuffi.com. Change this file before changing the theme.
 
 Earlier versions are saved on branches: `design/serif-v1` (first serif), `design/rounded-v2` (Nunito, rounded), `design/serif-v3` (serif with the still hero and Robin's first images).
 
 ## 1. Feeling
 
-A premium, clinical dog supplement brand that looks like Grüns, Bloom, Pawfy and Apple made something for dogs. Medical confidence without coldness: white space, hairline rules, square corners, specimen style labels, and big, beautifully lit photography of the real jar and real looking dogs. Lots of photos. Nothing cute or bubbly, nothing neon. Buttons are the only round shapes.
+A premium, clinical dog supplement brand that looks like Grüns, Bloom, Pawfy and Apple made something for dogs. Medical confidence without coldness: white space, hairline rules, round controls, and big, beautifully lit photography of the real jar and real looking dogs that runs to the edge of the screen. Lots of photos. Nothing cute or bubbly, nothing neon. No small print labels on photos or above the big moments: the hero and the scroll story speak through the headline alone.
 
 ## 2. Color
 
@@ -45,11 +45,13 @@ One family, the one printed on the jar: Figtree (a close match to the label lett
 
 ## 5. Shape
 
-1. Square everywhere except buttons. Corners are 2px on chips, tags and inputs, 4px on cards and photos.
-2. Buttons are round: full pills, 54 to 56px tall, bottle green with white text on light bands, leaf with ink text on dark bands. On hover a second color rises from the bottom and fills the pill, and the arrow slides 4px. Toggles, photo arrows and email fields are round too.
-3. Hairline rules (1px) divide everything: lists, specs, cards. No heavy shadows.
-4. Layout: 1280px max content width, 20px side padding on phones, 48px on desktop. Section spacing 72px on phones, 120px on desktop. Full width photo bands break the grid on purpose.
-5. Icons: drawn in code, 1.5px line, square ends.
+1. Everything you can press is round: buttons, chips, tags, toggles, email fields and the slider handle are full pills; icon buttons, the joint numbers, accordion signs and photo arrows are circles.
+2. Buttons are full pills, 54 to 56px tall, bottle green with white text on light bands, leaf with ink text on dark bands. On hover a second color rises from the bottom and fills the pill, and the arrow slides 4px.
+3. Cards and panels (buy box options, dose finder, subscribe box, popup) have soft 16px corners; small boxes 10px.
+4. Photos never sit in a hard edged box. Feature photos run to the edge of the screen: full width on phones, and on computers they run off the outer side with soft 24px corners only on the inside. Photo rows scroll off the edge of the screen with soft 16px corners. Diagrams and product cutouts have no box at all; their white background melts into the section.
+5. Hairline rules (1px) divide everything: lists, specs, cards. No heavy shadows.
+6. Layout: 1280px max content width, 20px side padding on phones, 48px on desktop. Section spacing 72px on phones, 120px on desktop. Full width photo bands break the grid on purpose.
+7. Icons: drawn in code, 1.5px line, round ends.
 
 ## 6. Photography
 
@@ -66,13 +68,14 @@ Photos carry the brand. Every prompt is in "Image Prompts - Vuffi - 2026.11.23.t
 
 Motion only where someone toggles, slides or scrolls, and it should feel expensive.
 
-1. Scroll story: built like the Grüns section. Bottle green fading to moss, big uppercase lines rising one by one, the jar rising from the bottom and running off the screen, the lid popping off in an arc, a chew peeking out, chews drifting and turning around it.
+1. Scroll story: built like the Grüns section. Bottle green fading to moss. The jar rises, the lid pops off in an arc, then chews fly out of the jar one by one, turning as they go, while each big uppercase line slides up with them.
 2. Headlines: every word rises out of its own mask, one after another.
 3. Photos: wipe up from the bottom while the picture settles from a slow zoom. Full width photos drift slower than the page; page title photos settle as they scroll in. Photos zoom slightly on hover.
 4. Buttons: the fill sweeps up on hover, the arrow slides, a small press on click.
 5. Toggles and tabs: the joint switch crossfades and the five numbers pop in one by one; the buy box and dose finder ease between choices; accordions open smoothly.
 6. Sliders: the ticker strip slides slowly; photo rows scroll sideways with arrows.
-7. Numbers count up once. Everything stops for people who ask their device for less motion and in the theme editor.
+7. The 90 day seal turns slowly.
+8. Numbers count up once. Everything stops for people who ask their device for less motion. In the theme editor the scroll story and the seal still move; the other reveals stay still so sections are easy to edit.
 
 ## 8. Voice
 

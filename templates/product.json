@@ -304,7 +304,7 @@
       ],
       "settings": {
         "background_color": "#F3F2EE",
-        "diagram": "shopify://shop_images/vuffi-v2-diagram-chew-cross.jpg"
+        "diagram": "shopify://shop_images/vuffi-v3-diagram-chew-cross.png"
       }
     },
     "dose": {
@@ -544,7 +544,7 @@
           "type": "photo",
           "settings": {
             "slot": "detail-jar",
-            "label": "Nº 01 · The jar",
+            "label": "",
             "title": "30 soft chews",
             "image": "shopify://shop_images/vuffi-v2-detail-jar.jpg"
           }
@@ -553,7 +553,7 @@
           "type": "photo",
           "settings": {
             "slot": "detail-open",
-            "label": "Nº 02 · Inside",
+            "label": "",
             "title": "Soft and easy to chew",
             "image": "shopify://shop_images/vuffi-v2-detail-open.jpg"
           }
@@ -562,7 +562,7 @@
           "type": "photo",
           "settings": {
             "slot": "detail-macro",
-            "label": "Nº 03 · Texture",
+            "label": "",
             "title": "A real chew, not a tablet",
             "image": "shopify://shop_images/vuffi-v2-detail-macro.jpg"
           }
@@ -571,7 +571,7 @@
           "type": "photo",
           "settings": {
             "slot": "detail-hand",
-            "label": "Nº 04 · Serving",
+            "label": "",
             "title": "One a day under 35 lbs",
             "image": "shopify://shop_images/vuffi-v2-detail-hand.jpg"
           }
@@ -580,7 +580,7 @@
           "type": "photo",
           "settings": {
             "slot": "detail-label",
-            "label": "Nº 05 · Label",
+            "label": "",
             "title": "Every ingredient listed",
             "image": "shopify://shop_images/vuffi-v2-detail-label.jpg"
           }
@@ -611,7 +611,7 @@
         "shade": 55,
         "background_color": "#111A16",
         "heading": "Every step, <em>supported.</em>",
-        "caption": "Fig. 01 · Hips, knees, elbows",
+        "caption": "",
         "image_alt": "A dog bounding up a grassy hill in late sun",
         "image": "shopify://shop_images/vuffi-v2-band-pdp.jpg"
       }

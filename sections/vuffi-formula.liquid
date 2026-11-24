@@ -25,7 +25,8 @@
             label: 'diagram-chew-cross',
             ratio: '1 / 1',
             sizes: '(min-width: 990px) 40vw, 92vw',
-            alt: section.settings.diagram_alt
+            alt: section.settings.diagram_alt,
+            class: 'vuffi-melt'
           -%}
           <ul class="vuffi-formula__labels" role="list" aria-hidden="true">
             {%- for block in section.blocks -%}
@@ -53,7 +54,6 @@
             class: 'vuffi-formula__media'
           -%}
           <div class="vuffi-formula__body">
-            <span class="vuffi-formula__n vuffi-label vuffi-num">Nº {{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
             <h3 class="vuffi-h3 vuffi-formula__name">{{ block.settings.name }}</h3>
             {%- if block.settings.tagline != blank -%}
               <p class="vuffi-formula__tag">{{ block.settings.tagline }}</p>
@@ -117,10 +117,6 @@
     gap: 8px;
   }
 
-  .vuffi-formula__n {
-    color: var(--vuffi-accent);
-  }
-
   .vuffi-formula__tag {
     margin: 0;
     font-size: 15px;
@@ -147,7 +143,7 @@
   }
 
   .vuffi-formula__diagram .vuffi-media {
-    background: #ffffff;
+    background: transparent;
   }
 
   .vuffi-formula__labels {
@@ -162,7 +158,7 @@
     top: var(--y);
     padding: 5px 10px;
     border: 1px solid var(--vuffi-line);
-    border-radius: var(--vuffi-radius-sm);
+    border-radius: var(--vuffi-radius-btn);
     background: #ffffff;
     color: var(--vuffi-ink);
     font-family: var(--font-accent--family);
@@ -226,12 +222,18 @@
       font-size: 12px;
     }
 
+    /* The five photos stretch across the whole screen, nearly edge to edge */
     .vuffi-formula__grid {
       grid-auto-flow: row;
       grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr));
-      margin: 0;
+      gap: 12px;
+      margin: 0 calc(var(--vuffi-edge) * -1 + 12px);
       padding: 0;
       overflow: visible;
+    }
+
+    .vuffi-formula__body {
+      padding-inline: 4px;
     }
   }
 {% endstylesheet %}

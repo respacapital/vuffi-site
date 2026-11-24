@@ -99,7 +99,7 @@
       ],
       "settings": {
         "background_color": "#F3F2EE",
-        "diagram": "shopify://shop_images/vuffi-v2-diagram-chew-cross.jpg"
+        "diagram": "shopify://shop_images/vuffi-v3-diagram-chew-cross.png"
       }
     },
     "joint": {
@@ -285,7 +285,7 @@
         "position": "bottom-left",
         "shade": 0,
         "background_color": "#111A16",
-        "caption": "Fig. 03 · Five actives, one chew",
+        "caption": "",
         "image_alt": "A Vuffi soft chew, close up",
         "image": "shopify://shop_images/vuffi-v2-band-chew.jpg"
       }

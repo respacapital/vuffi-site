@@ -4,11 +4,13 @@
 
 :root {
   --vuffi-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --vuffi-radius-sm: 2px;
+  --vuffi-radius-sm: 10px;
   --vuffi-radius-btn: 999px;
-  --vuffi-radius: 4px;
-  --vuffi-radius-lg: 4px;
+  --vuffi-radius: 16px;
+  --vuffi-radius-lg: 24px;
   --vuffi-max: 1280px;
+  /* Distance from the content edge to the edge of the screen, for photos that run off the side */
+  --vuffi-edge: max(var(--vuffi-gutter), calc((100vw - var(--vuffi-max)) / 2));
   --vuffi-gutter: 20px;
   --vuffi-space: 72px;
 }
@@ -311,7 +313,7 @@
   gap: 8px;
   padding: 8px 12px;
   border: 1px solid var(--vuffi-line);
-  border-radius: var(--vuffi-radius-sm);
+  border-radius: var(--vuffi-radius-btn);
   font-size: 13px;
   font-weight: 500;
   line-height: 1.2;
@@ -392,8 +394,8 @@
   fill: none;
   stroke: currentColor;
   stroke-width: 1.5;
-  stroke-linecap: square;
-  stroke-linejoin: miter;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .vuffi-icon .a {
@@ -442,7 +444,7 @@
   height: 32px;
   flex: none;
   border: 1px solid var(--vuffi-line-strong);
-  border-radius: var(--vuffi-radius-sm);
+  border-radius: 50%;
   transition:
     transform 0.4s var(--vuffi-ease),
     background-color 0.3s;
@@ -706,4 +708,106 @@ html.vuffi-design [data-media-reveal] > img {
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Feature photos run to the edge of the screen instead of sitting in a box.
+   Phones and tablets: full width. Computers: off the outer side, soft corners on the inside only.
+   Add vuffi-bleed to the photo wrapper inside a .vuffi-wrap, plus vuffi-bleed--left or --right. */
+@media screen and (max-width: 989px) {
+  .vuffi-bleed {
+    margin-inline: calc(var(--vuffi-gutter) * -1);
+  }
+
+  .vuffi-bleed .vuffi-media,
+  .vuffi-bleed .vuffi-ph {
+    border-radius: 0;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .vuffi-bleed--left {
+    margin-left: calc(var(--vuffi-edge) * -1);
+  }
+
+  .vuffi-bleed--right {
+    margin-right: calc(var(--vuffi-edge) * -1);
+  }
+
+  .vuffi-bleed--left .vuffi-media,
+  .vuffi-bleed--left .vuffi-ph {
+    border-radius: 0 var(--vuffi-radius-lg) var(--vuffi-radius-lg) 0;
+  }
+
+  .vuffi-bleed--right .vuffi-media,
+  .vuffi-bleed--right .vuffi-ph {
+    border-radius: var(--vuffi-radius-lg) 0 0 var(--vuffi-radius-lg);
+  }
+}
+
+/* Diagrams and cutouts: no box around them (use a see through PNG when the section is not white) */
+.vuffi-melt.vuffi-media,
+.vuffi-melt .vuffi-media {
+  border-radius: 0;
+  background: transparent;
+}
+
+/* Cart drawer and cart page: make the deal impossible to miss.
+   The savings bar comes from vuffi-cart.js; the rest styles Horizon's own discount markup. */
+.vuffi-cart-save {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  padding: 12px 16px;
+  border-radius: var(--vuffi-radius-btn);
+  background: var(--vuffi-lime);
+  color: var(--vuffi-ink);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.vuffi-cart-save::before {
+  content: '';
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3L15 6.5' fill='none' stroke='%23C6E35A' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 14px no-repeat,
+    var(--vuffi-ink);
+}
+
+/* Discount names under each line become lime tags */
+.cart-items__variants-wrapper ul.list-unstyled li {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: var(--vuffi-radius-btn);
+  background: color-mix(in srgb, var(--vuffi-lime) 70%, transparent);
+  color: var(--vuffi-ink);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* Sale price in green and bold, the old price struck through beside it */
+.cart-items__unit-price-wrapper > div:has(.compare-at-price) > span:not(.visually-hidden) {
+  color: var(--vuffi-green);
+  font-weight: 700;
+}
+
+.cart-items__unit-price-wrapper .compare-at-price {
+  opacity: 0.6;
+}
+
+/* Order level discounts in the summary */
+.cart-discounts__item {
+  padding: 8px 12px;
+  border-radius: var(--vuffi-radius-btn);
+  background: color-mix(in srgb, var(--vuffi-lime) 45%, transparent);
+  color: var(--vuffi-ink);
+  font-weight: 700;
 }
