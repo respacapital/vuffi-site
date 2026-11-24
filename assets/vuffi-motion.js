@@ -1,180 +1,96 @@
-/* Vuffi motion: headline and photo reveals on scroll, scroll linked progress, count up numbers and sale countdowns.
-   Everything respects the reduced motion setting. In the theme editor things move too, and any section you
-   select shows straight away so it is easy to edit. */
+/* Vuffi motion: scroll linked progress (What to expect), the footer logo rising into place and the sale countdowns.
+   Text and photos do not animate in; they show as soon as the page loads.
+   Everything respects the reduced motion setting. */
 (() => {
-  const root = document.documentElement;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const isDesign = () => Boolean(window.Shopify && window.Shopify.designMode);
 
-  if (isDesign()) root.classList.add('vuffi-design');
+  /* Scroll linked progress: [data-progress] gets --progress from 0 (its top reaches 85% of the screen)
+     to 1 (its bottom reaches 45%). Children with [data-progress-step] get is-reached in turn.
+     [data-progress="track"] draws its line from the first [data-progress-dot] center to the last one
+     (--line-a and --line-b, in px) and lights each step the moment the fill reaches its circle's center.
+     A line running down the screen follows the scroll: its tip sits at 62% of the screen height. */
+  const progressItems = new Set();
+  let frame = 0;
 
-  /* Reveal. An observer does most of the work; a light scroll check backs it up for setups where the
-     observer stays quiet (some desktop previews), so nothing can stay hidden. */
-  const pending = new Set();
-  let checkFrame = 0;
+  const clamp = (n) => Math.min(1, Math.max(0, n));
 
-  const reveal = (el) => {
-    el.classList.add('is-in');
-    pending.delete(el);
-    if (revealObserver) revealObserver.unobserve(el);
-  };
+  function updateProgress(el) {
+    const r = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const steps = el.querySelectorAll('[data-progress-step]');
+    const dots = el.dataset.progress === 'track' ? el.querySelectorAll('[data-progress-dot]') : [];
 
-  const checkPending = () => {
-    checkFrame = 0;
-    const limit = window.innerHeight * 0.94;
-    pending.forEach((el) => {
-      const r = el.getBoundingClientRect();
-      if (r.top < limit && r.bottom > 0) reveal(el);
+    if (dots.length > 1) {
+      const centers = Array.from(dots, (dot) => {
+        const d = dot.getBoundingClientRect();
+        return { x: d.left + d.width / 2 - r.left, y: d.top + d.height / 2 - r.top };
+      });
+      const first = centers[0];
+      const last = centers[centers.length - 1];
+      const down = Math.abs(last.y - first.y) > Math.abs(last.x - first.x);
+      const a = down ? first.y : first.x;
+      const b = down ? last.y : last.x;
+      const span = Math.max(1, b - a);
+      el.style.setProperty('--line-a', `${a.toFixed(1)}px`);
+      el.style.setProperty('--line-b', `${b.toFixed(1)}px`);
+
+      let p;
+      if (reduced.matches) p = 1;
+      else if (down) p = clamp((vh * 0.62 - (r.top + a)) / span);
+      else p = clamp((vh * 0.85 - r.top) / (r.height + vh * 0.4));
+      el.style.setProperty('--progress', p.toFixed(4));
+      steps.forEach((step, i) => {
+        const at = ((down ? centers[i].y : centers[i].x) - a) / span;
+        step.classList.toggle('is-reached', p > 0 && p >= at - 0.002);
+      });
+      return;
+    }
+
+    const start = vh * 0.85;
+    const end = vh * 0.45;
+    const p = reduced.matches ? 1 : clamp((start - r.top) / (r.height + start - end));
+    el.style.setProperty('--progress', p.toFixed(3));
+    steps.forEach((step, i) => {
+      const at = steps.length > 1 ? (i / (steps.length - 1)) * 0.96 : 0;
+      step.classList.toggle('is-reached', p >= at);
     });
+  }
+
+  /* [data-rise] gets is-in once it reaches the screen (the footer logo) */
+  const riseItems = new Set();
+
+  function checkRise(el) {
+    const r = el.getBoundingClientRect();
+    if (reduced.matches || (r.top < window.innerHeight * 0.95 && r.bottom > 0)) {
+      el.classList.add('is-in');
+      riseItems.delete(el);
+    }
+  }
+
+  const tick = () => {
+    frame = 0;
     progressItems.forEach(updateProgress);
+    riseItems.forEach(checkRise);
   };
 
-  const requestCheck = () => {
-    if (!checkFrame) checkFrame = requestAnimationFrame(checkPending);
+  const request = () => {
+    if (!frame) frame = requestAnimationFrame(tick);
   };
 
-  const track = (el) => {
-    pending.add(el);
-    if (revealObserver) revealObserver.observe(el);
-    requestCheck();
-  };
-
-  const revealObserver =
-    'IntersectionObserver' in window
-      ? new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) reveal(entry.target);
-            });
-          },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
-        )
-      : null;
-
-  function initReveal(scope) {
-    scope.querySelectorAll('[data-reveal]:not(.is-in)').forEach((el) => {
-      if (reduced.matches || root.classList.contains('vuffi-still')) {
-        el.classList.add('is-in');
-      } else {
-        track(el);
-      }
+  function init(scope = document) {
+    scope.querySelectorAll('[data-progress]').forEach((el) => {
+      progressItems.add(el);
+      updateProgress(el);
+    });
+    scope.querySelectorAll('[data-rise]:not(.is-in)').forEach((el) => {
+      riseItems.add(el);
+      checkRise(el);
     });
   }
 
-  const still = () => reduced.matches || root.classList.contains('vuffi-still');
-
-  /* Headlines: wrap each word so it can rise out of its own mask. Screen readers get the full line from aria-label. */
-  function splitWords(el) {
-    if (el.dataset.split) return;
-    const label = el.textContent.replace(/\s+/g, ' ').trim();
-    if (!label) return;
-    let n = 0;
-    const walk = (node) => {
-      Array.from(node.childNodes).forEach((child) => {
-        if (child.nodeType === Node.TEXT_NODE) {
-          const frag = document.createDocumentFragment();
-          child.textContent.split(/(\s+)/).forEach((part) => {
-            if (!part) return;
-            if (/^\s+$/.test(part)) {
-              frag.appendChild(document.createTextNode(' '));
-              return;
-            }
-            const outer = document.createElement('span');
-            outer.className = 'vuffi-w';
-            outer.setAttribute('aria-hidden', 'true');
-            const inner = document.createElement('span');
-            inner.className = 'vuffi-w__i';
-            inner.style.setProperty('--w', n++);
-            inner.textContent = part;
-            outer.appendChild(inner);
-            frag.appendChild(outer);
-          });
-          child.replaceWith(frag);
-        } else if (child.nodeType === Node.ELEMENT_NODE && child.tagName !== 'BR') {
-          walk(child);
-        }
-      });
-    };
-    walk(el);
-    el.setAttribute('aria-label', label);
-    el.dataset.split = 'done';
-  }
-
-  function initHeadlines(scope) {
-    if (still()) return;
-    scope
-      .querySelectorAll('.vuffi-section .vuffi-h2, .vuffi-section .vuffi-display')
-      .forEach((el) => {
-        if (el.dataset.split || el.closest('.vuffi-story, .vuffi-pop, .vuffi-pdp')) return;
-        splitWords(el);
-        if (!el.hasAttribute('data-reveal')) {
-          el.setAttribute('data-reveal', '');
-          track(el);
-        }
-      });
-  }
-
-  /* Photos: wipe in once they reach the screen. The first photo on screen and product photos stay as they are. */
-  function initMedia(scope) {
-    scope.querySelectorAll('.vuffi-section .vuffi-media').forEach((media) => {
-      if (media.dataset.mediaReveal) return;
-      if (media.closest('.vuffi-hero, .vuffi-story, .vuffi-pdp, .vuffi-pop, .vuffi-joint__layer')) return;
-      if (media.querySelector('img[fetchpriority="high"]')) return;
-      media.dataset.mediaReveal = 'true';
-      const item = media.closest('li');
-      if (item && item.parentElement) {
-        media.style.setProperty('--d', Array.from(item.parentElement.children).indexOf(item) % 4);
-      }
-      if (still()) {
-        media.classList.add('is-in');
-      } else {
-        track(media);
-      }
-    });
-  }
-
-  /* Count up: <span data-count-to="90" data-count-decimals="0">90</span> */
-  const easeOut = (t) => 1 - Math.pow(1 - t, 4);
-
-  function runCount(el) {
-    const target = parseFloat(el.dataset.countTo);
-    if (Number.isNaN(target)) return;
-    const decimals = parseInt(el.dataset.countDecimals || '0', 10);
-    const duration = 1600;
-    const start = performance.now();
-    const format = (n) =>
-      n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
-    const step = (now) => {
-      const p = Math.min(1, (now - start) / duration);
-      el.textContent = format(target * easeOut(p));
-      if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }
-
-  const countObserver =
-    'IntersectionObserver' in window
-      ? new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) return;
-              runCount(entry.target);
-              countObserver.unobserve(entry.target);
-            });
-          },
-          { threshold: 0.6 }
-        )
-      : null;
-
-  function initCounts(scope) {
-    scope.querySelectorAll('[data-count-to]').forEach((el) => {
-      if (el.dataset.countReady) return;
-      el.dataset.countReady = 'true';
-      if (!countObserver || reduced.matches) return;
-      el.textContent = '0';
-      countObserver.observe(el);
-    });
-  }
+  /* Capture catches scrolls of any container, which some previews use instead of the window */
+  document.addEventListener('scroll', request, { passive: true, capture: true });
+  window.addEventListener('resize', request, { passive: true });
 
   /* Countdown: <vuffi-countdown data-end="2026-11-30T23:59:00-05:00"> with [data-unit] children */
   class VuffiCountdown extends HTMLElement {
@@ -207,73 +123,18 @@
         const el = this.units[key];
         if (!el) return;
         const text = String(value).padStart(2, '0');
-        if (el.textContent === text) return;
-        el.textContent = text;
-        if (!reduced.matches) {
-          el.classList.remove('is-tick');
-          void el.offsetWidth;
-          el.classList.add('is-tick');
-        }
+        if (el.textContent !== text) el.textContent = text;
       });
       if (left === 0) {
         window.clearInterval(this.timer);
         this.classList.add('is-done');
         const hideTarget = this.closest('[data-hide-when-done]');
-        if (hideTarget && !isDesign()) hideTarget.hidden = true;
+        if (hideTarget && !(window.Shopify && window.Shopify.designMode)) hideTarget.hidden = true;
       }
     }
   }
 
   if (!customElements.get('vuffi-countdown')) customElements.define('vuffi-countdown', VuffiCountdown);
-
-  /* Scroll linked progress: [data-progress] gets --progress from 0 (its top reaches 85% of the screen)
-     to 1 (its bottom reaches 45%). Children with [data-progress-step] get is-reached in turn. */
-  const progressItems = new Set();
-
-  function updateProgress(el) {
-    const r = el.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const start = vh * 0.85;
-    const end = vh * 0.45;
-    const p = still() ? 1 : Math.min(1, Math.max(0, (start - r.top) / (r.height + start - end)));
-    el.style.setProperty('--progress', p.toFixed(3));
-    const steps = el.querySelectorAll('[data-progress-step]');
-    steps.forEach((step, i) => {
-      const at = steps.length > 1 ? (i / (steps.length - 1)) * 0.96 : 0;
-      step.classList.toggle('is-reached', p >= at);
-    });
-  }
-
-  function initProgress(scope) {
-    scope.querySelectorAll('[data-progress]').forEach((el) => {
-      progressItems.add(el);
-      updateProgress(el);
-    });
-  }
-
-  function init(scope = document) {
-    initHeadlines(scope);
-    initMedia(scope);
-    initReveal(scope);
-    initCounts(scope);
-    initProgress(scope);
-    requestCheck();
-  }
-
-  document.addEventListener('scroll', requestCheck, { passive: true, capture: true });
-  window.addEventListener('resize', requestCheck, { passive: true });
-
-  /* Theme editor: whatever you select shows at once */
-  const showAll = (event) => {
-    const scope = event.target;
-    if (!scope || !scope.querySelectorAll) return;
-    scope.querySelectorAll('[data-reveal], [data-media-reveal]').forEach(reveal);
-  };
-  document.addEventListener('shopify:section:select', showAll);
-  document.addEventListener('shopify:block:select', (event) => {
-    const section = event.target.closest('.shopify-section') || event.target;
-    showAll({ target: section });
-  });
 
   window.Vuffi = window.Vuffi || {};
   window.Vuffi.init = init;

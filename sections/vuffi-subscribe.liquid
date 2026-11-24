@@ -26,65 +26,66 @@
 {%- render 'vuffi-section-style', section: section -%}
 
 <section class="vuffi-section vuffi-sub color-custom-{{ section.id }}" data-tone="{{ tone }}">
-  <div class="vuffi-wrap vuffi-sub__grid">
-    <div class="vuffi-sub__media vuffi-bleed vuffi-bleed--left" data-reveal="scale">
-      {%- render 'vuffi-image',
-        image: section.settings.image,
-        label: 'subscribe-jar',
-        ratio: '4 / 5',
-        size: '1800 x 2250',
-        sizes: '(min-width: 990px) 52vw, 100vw'
-      -%}
-      {%- if section.settings.show_deal and deal_price -%}
-        <div class="vuffi-sub__sticker" aria-hidden="true">
-          <span>{{ section.settings.deal_percent }}%</span>
-          <small>{{ section.settings.sticker_text }}</small>
-        </div>
-      {%- endif -%}
-    </div>
-
-    <div class="vuffi-sub__copy">
-      <div class="vuffi-head">
-        {%- if section.settings.eyebrow != blank -%}
-          <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+  <div class="vuffi-wrap">
+    {%- comment -%} One rounded panel: the photo fills its half from top to bottom, so there is no empty space beside the copy {%- endcomment -%}
+    <div class="vuffi-sub__panel">
+      <div class="vuffi-sub__media">
+        {%- render 'vuffi-image',
+          image: section.settings.image,
+          label: 'subscribe-jar',
+          ratio: '4 / 3',
+          size: '1800 x 2250',
+          sizes: '(min-width: 990px) 620px, 100vw'
+        -%}
+        {%- if section.settings.show_deal and deal_price -%}
+          <div class="vuffi-sub__sticker" aria-hidden="true">
+            <span>{{ section.settings.deal_percent }}%</span>
+            <small>{{ section.settings.sticker_text }}</small>
+          </div>
         {%- endif -%}
-        <h2 class="vuffi-h2" data-reveal style="--i: 1">{{ section.settings.heading }}</h2>
       </div>
 
-      <ul class="vuffi-sub__perks" role="list">
-        {%- for block in section.blocks -%}
-          <li class="vuffi-sub__perk" data-reveal style="--i: {{ forloop.index | plus: 1 }}" {{ block.shopify_attributes }}>
-            <span class="vuffi-sub__icon">{%- render 'vuffi-icon', name: block.settings.icon -%}</span>
-            <span>
-              <strong>{{ block.settings.title }}</strong>
-              <span class="vuffi-sub__perk-text">{{ block.settings.text }}</span>
-            </span>
-          </li>
-        {%- endfor -%}
-      </ul>
-
-      {%- if one_time_price != nil -%}
-        <div class="vuffi-sub__prices" data-reveal style="--i: 6">
-          <div class="vuffi-sub__price">
-            <span class="vuffi-sub__price-label">{{ section.settings.one_time_label }}</span>
-            <span class="vuffi-sub__price-value vuffi-num">{{ one_time_price | money }}</span>
-          </div>
-          <div class="vuffi-sub__price vuffi-sub__price--best">
-            <span class="vuffi-sub__price-label">{{ section.settings.subscribe_label }}</span>
-            <span class="vuffi-sub__price-value vuffi-num">{{ sub_price | money }}</span>
-          </div>
-          {%- if section.settings.show_deal and deal_price -%}
-            <div class="vuffi-sub__price vuffi-sub__price--deal">
-              <span class="vuffi-sub__price-label">{{ section.settings.deal_label }}</span>
-              <span class="vuffi-sub__price-value vuffi-num">{{ deal_price | money }}</span>
-            </div>
+      <div class="vuffi-sub__copy">
+        <div class="vuffi-head">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
           {%- endif -%}
+          <h2 class="vuffi-h2 vuffi-sub__title">{{ section.settings.heading }}</h2>
         </div>
-      {%- endif -%}
 
-      <div class="vuffi-actions" data-reveal style="--i: 7">
+        <ul class="vuffi-sub__perks" role="list">
+          {%- for block in section.blocks -%}
+            <li class="vuffi-sub__perk" {{ block.shopify_attributes }}>
+              <span class="vuffi-sub__icon">{%- render 'vuffi-icon', name: block.settings.icon -%}</span>
+              <span>
+                <strong>{{ block.settings.title }}</strong>
+                <span class="vuffi-sub__perk-text">{{ block.settings.text }}</span>
+              </span>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        {%- if one_time_price != nil -%}
+          <div class="vuffi-sub__prices">
+            <div class="vuffi-sub__price vuffi-sub__price--was">
+              <span class="vuffi-sub__price-label">{{ section.settings.one_time_label }}</span>
+              <span class="vuffi-sub__price-value vuffi-num">{{ one_time_price | money }}</span>
+            </div>
+            <div class="vuffi-sub__price vuffi-sub__price--best">
+              <span class="vuffi-sub__price-label">{{ section.settings.subscribe_label }}</span>
+              <span class="vuffi-sub__price-value vuffi-num">{{ sub_price | money }}</span>
+            </div>
+            {%- if section.settings.show_deal and deal_price -%}
+              <div class="vuffi-sub__price vuffi-sub__price--deal">
+                <span class="vuffi-sub__price-label">{{ section.settings.deal_label }}</span>
+                <span class="vuffi-sub__price-value vuffi-num">{{ deal_price | money }}</span>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
         {%- if section.settings.button_label != blank -%}
-          {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link -%}
+          {%- render 'vuffi-button', label: section.settings.button_label, url: section.settings.button_link, class: 'vuffi-btn--block' -%}
         {%- endif -%}
       </div>
     </div>
@@ -92,22 +93,41 @@
 </section>
 
 {% stylesheet %}
-  .vuffi-sub__grid {
+  .vuffi-sub__panel {
     display: grid;
-    gap: 44px;
+    overflow: hidden;
+    border-radius: var(--vuffi-radius-lg);
+    background: #ffffff;
+    color: var(--vuffi-ink);
+    box-shadow: 0 30px 80px rgb(11 20 16 / 0.08);
+    --vuffi-accent: var(--vuffi-green);
+    --vuffi-line: rgb(11 20 16 / 0.12);
+  }
+
+  [data-tone='dark'] .vuffi-sub__panel {
+    background: rgb(255 255 255 / 0.05);
+    color: inherit;
+    box-shadow: none;
+    --vuffi-accent: var(--vuffi-lime);
+    --vuffi-line: rgb(255 255 255 / 0.16);
   }
 
   .vuffi-sub__media {
     position: relative;
   }
 
+  .vuffi-sub__media .vuffi-media,
+  .vuffi-sub__media .vuffi-ph {
+    border-radius: 0;
+  }
+
   .vuffi-sub__sticker {
     position: absolute;
-    top: 18px;
-    right: 18px;
+    top: 16px;
+    right: 16px;
     display: grid;
     place-content: center;
-    width: 112px;
+    width: 96px;
     aspect-ratio: 1;
     border-radius: 50%;
     background: var(--vuffi-lime);
@@ -120,12 +140,12 @@
   .vuffi-sub__sticker span {
     font-family: var(--font-subheading--family);
     text-transform: uppercase;
-    font-size: 40px;
+    font-size: 34px;
     line-height: 0.9;
   }
 
   .vuffi-sub__sticker small {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -133,13 +153,18 @@
 
   .vuffi-sub__copy {
     display: grid;
-    gap: 32px;
     align-content: center;
+    gap: 24px;
+    padding: 28px 22px 26px;
+  }
+
+  .vuffi-sub__title {
+    font-size: clamp(30px, 3.3vw, 48px);
   }
 
   .vuffi-sub__perks {
     display: grid;
-    gap: 18px;
+    gap: 14px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -147,11 +172,11 @@
 
   .vuffi-sub__perk {
     display: grid;
-    grid-template-columns: 48px 1fr;
-    align-items: start;
-    gap: 16px;
-    font-size: 16px;
-    line-height: 1.5;
+    grid-template-columns: 40px 1fr;
+    align-items: center;
+    gap: 14px;
+    font-size: 15px;
+    line-height: 1.4;
   }
 
   .vuffi-sub__perk strong {
@@ -160,52 +185,68 @@
   }
 
   .vuffi-sub__perk-text {
+    color: rgb(11 20 16 / 0.62);
+  }
+
+  [data-tone='dark'] .vuffi-sub__perk-text {
     color: var(--color-foreground-muted);
   }
 
   .vuffi-sub__icon {
     display: grid;
     place-items: center;
-    width: 48px;
-    height: 48px;
-    border: 1px solid var(--vuffi-line);
-    border-radius: var(--vuffi-radius);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--vuffi-accent) 12%, transparent);
   }
 
+  .vuffi-sub__icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Prices as rows, the launch deal on a dark row at the bottom */
   .vuffi-sub__prices {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    overflow: hidden;
     border: 1px solid var(--vuffi-line);
     border-radius: var(--vuffi-radius);
-    overflow: hidden;
   }
 
   .vuffi-sub__price {
-    display: grid;
-    gap: 6px;
-    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 18px;
   }
 
   .vuffi-sub__price + .vuffi-sub__price {
-    border-left: 1px solid var(--vuffi-line);
+    border-top: 1px solid var(--vuffi-line);
   }
 
   .vuffi-sub__price-label {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
-    color: var(--color-foreground-muted);
   }
 
   .vuffi-sub__price-value {
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 700;
     letter-spacing: -0.01em;
   }
 
-  .vuffi-sub__price:first-child .vuffi-sub__price-value {
+  .vuffi-sub__price--was .vuffi-sub__price-label,
+  .vuffi-sub__price--was .vuffi-sub__price-value {
+    color: rgb(11 20 16 / 0.5);
+  }
+
+  .vuffi-sub__price--was .vuffi-sub__price-value {
+    font-size: 18px;
+    font-weight: 500;
     text-decoration: line-through;
     text-decoration-thickness: 1.5px;
-    color: var(--color-foreground-muted);
   }
 
   .vuffi-sub__price--best .vuffi-sub__price-value {
@@ -213,49 +254,64 @@
   }
 
   .vuffi-sub__price--deal {
+    border-top-color: transparent !important;
     background: var(--vuffi-ink);
     color: #ffffff;
-  }
-
-  .vuffi-sub__price--deal .vuffi-sub__price-label {
-    color: rgb(255 255 255 / 0.7);
   }
 
   .vuffi-sub__price--deal .vuffi-sub__price-value {
     color: var(--vuffi-lime);
   }
 
-  @media screen and (max-width: 749px) {
-    .vuffi-sub__price + .vuffi-sub__price {
-      border-left: 0;
-      border-top: 1px solid var(--vuffi-line);
+  @media screen and (min-width: 750px) {
+    .vuffi-sub__copy {
+      padding: 40px;
     }
 
-    .vuffi-sub__prices {
-      grid-template-columns: 1fr;
+    .vuffi-sub__perks {
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 24px;
     }
 
-    .vuffi-sub__price {
-      grid-template-columns: 1fr auto;
-      align-items: center;
+    .vuffi-sub__perk {
+      align-items: start;
     }
   }
 
+  /* Computers: photo on the left filling the full height of the panel, copy on the right */
   @media screen and (min-width: 990px) {
-    .vuffi-sub__grid {
+    .vuffi-sub__panel {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      align-items: center;
-      gap: 80px;
+      max-width: 1180px;
+      margin-inline: auto;
+    }
+
+    .vuffi-sub__media {
+      min-height: 560px;
+    }
+
+    .vuffi-sub__media .vuffi-media,
+    .vuffi-sub__media .vuffi-ph {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+
+    .vuffi-sub__copy {
+      gap: 28px;
+      padding: 56px;
     }
 
     .vuffi-sub__sticker {
-      width: 140px;
-      top: 28px;
-      right: 28px;
+      top: 24px;
+      right: 24px;
+      width: 124px;
     }
 
     .vuffi-sub__sticker span {
-      font-size: 52px;
+      font-size: 46px;
     }
   }
 {% endstylesheet %}
@@ -271,7 +327,7 @@
       "type": "image_picker",
       "id": "image",
       "label": "Photo",
-      "info": "1800 x 2250 (4:5)"
+      "info": "1800 x 2250. Fills the left half of the panel on computers and shows wide on phones; set the focal point on the jars."
     },
     {
       "type": "text",

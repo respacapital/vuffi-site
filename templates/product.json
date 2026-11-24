@@ -226,7 +226,7 @@
       "settings": {
         "worn_image": "shopify://shop_images/vuffi-v2-diagram-joint-worn.jpg",
         "supported_image": "shopify://shop_images/vuffi-v2-diagram-joint-ingredients.jpg",
-        "background_color": "#FFFFFF"
+        "background_color": "#0B1411"
       }
     },
     "formula": {
@@ -308,35 +308,6 @@
       "settings": {
         "background_color": "#F3F2EE",
         "diagram": "shopify://shop_images/vuffi-v3-diagram-chew-cross.png"
-      }
-    },
-    "dose": {
-      "type": "vuffi-dose",
-      "blocks": {
-        "tier_1": {
-          "type": "tier",
-          "settings": {
-            "up_to": 35,
-            "result": "1 chew a day",
-            "detail": "One jar lasts 30 days."
-          }
-        },
-        "tier_2": {
-          "type": "tier",
-          "settings": {
-            "up_to": 65,
-            "result": "2 chews a day",
-            "detail": "One jar lasts 15 days. Two jars a month covers it."
-          }
-        }
-      },
-      "block_order": [
-        "tier_1",
-        "tier_2"
-      ],
-      "settings": {
-        "start_weight": 30,
-        "background_color": "#0B1411"
       }
     },
     "timeline": {
@@ -600,10 +571,9 @@
         "photo_5"
       ],
       "settings": {
-        "eyebrow": "Up close",
+        "eyebrow": "",
         "heading": "Made to be <em>given daily.</em>",
         "shape": "1 / 1",
-        "card_width": "regular",
         "padding_top": 96,
         "padding_bottom": 96,
         "background_color": "#F3F2EE"
@@ -631,7 +601,6 @@
     "joint",
     "band_pdp",
     "formula",
-    "dose",
     "timeline",
     "compare",
     "guarantee",

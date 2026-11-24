@@ -120,7 +120,6 @@
   }
 
   .vuffi-compare__row--foot > .vuffi-compare__us {
-    padding: 8px 14px 20px;
     border-radius: 0 0 var(--vuffi-radius) var(--vuffi-radius);
   }
 
@@ -147,15 +146,48 @@
     opacity: 0.45;
   }
 
+  /* Shop button: a lime pill that fills the dark Vuffi column, sized to fit even on small phones */
   .vuffi-compare__row--foot .vuffi-btn {
-    min-height: 48px;
-    padding: 0 16px;
+    --btn-sweep: #ffffff;
+    width: 100%;
+    min-height: 44px;
+    padding: 0 8px;
+    border-color: var(--vuffi-lime);
+    background: var(--vuffi-lime);
+    color: var(--vuffi-ink);
     font-size: 14px;
+  }
+
+  @media (hover: hover) {
+    .vuffi-compare__row--foot .vuffi-btn:hover {
+      color: var(--vuffi-ink);
+      border-color: #ffffff;
+    }
+  }
+
+  .vuffi-compare__row--foot > .vuffi-compare__us {
+    padding: 10px 8px 16px;
+  }
+
+  /* Phones: a little more room for the Vuffi column so the button fits on one line */
+  @media screen and (max-width: 749px) {
+    .vuffi-compare__row {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.08fr) minmax(0, 0.9fr);
+    }
   }
 
   @media screen and (min-width: 750px) {
     .vuffi-compare__row > span {
       padding: 14px 24px;
+      font-size: 16px;
+    }
+
+    .vuffi-compare__row--foot > .vuffi-compare__us {
+      padding: 12px 20px 22px;
+    }
+
+    .vuffi-compare__row--foot .vuffi-btn {
+      min-height: 52px;
       font-size: 16px;
     }
 

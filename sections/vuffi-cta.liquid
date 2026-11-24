@@ -6,7 +6,7 @@
 -%}
 {%- render 'vuffi-section-style', section: section -%}
 
-<section class="vuffi-section vuffi-cta color-custom-{{ section.id }}" data-tone="{{ tone }}">
+<section class="vuffi-section vuffi-cta{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}">
   <div class="vuffi-wrap vuffi-cta__grid">
     <div class="vuffi-cta__copy">
       {%- if section.settings.eyebrow != blank -%}
@@ -195,6 +195,13 @@
       "id": "background_color",
       "label": "Background",
       "default": "#0E3B2C"
+    },
+    {
+      "type": "checkbox",
+      "id": "glow",
+      "label": "Soft light behind, like the hero",
+      "default": true,
+      "info": "Shows on dark and green backgrounds."
     },
     {
       "type": "range",

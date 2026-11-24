@@ -167,7 +167,8 @@
       ],
       "settings": {
         "worn_image": "shopify://shop_images/vuffi-v2-diagram-joint-worn.jpg",
-        "supported_image": "shopify://shop_images/vuffi-v2-diagram-joint-ingredients.jpg"
+        "supported_image": "shopify://shop_images/vuffi-v2-diagram-joint-ingredients.jpg",
+        "background_color": "#0B1411"
       }
     },
     "compare": {

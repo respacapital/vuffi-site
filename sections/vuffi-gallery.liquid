@@ -5,127 +5,73 @@
   assign tone = tone | strip
 -%}
 {%- render 'vuffi-section-style', section: section -%}
-<script src="{{ 'vuffi-rail.js' | asset_url }}" defer></script>
 
 <section
-  class="vuffi-section vuffi-gallery vuffi-gallery--{{ section.settings.card_width }} color-custom-{{ section.id }}"
+  class="vuffi-section vuffi-gallery vuffi-gallery--{{ section.settings.caption_style }} color-custom-{{ section.id }}"
   data-tone="{{ tone }}"
-  style="--card-ratio: {{ section.settings.shape }};"
+  style="--card-ratio: {{ section.settings.shape }}; --cols: {{ section.blocks.size }};"
 >
-  <vuffi-rail class="vuffi-gallery__rail">
-    <div class="vuffi-wrap vuffi-gallery__top">
-      <div class="vuffi-head">
+  {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.text != blank -%}
+    <div class="vuffi-wrap">
+      <div class="vuffi-intro">
         {%- if section.settings.eyebrow != blank -%}
-          <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+          <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
         {%- endif -%}
         {%- if section.settings.heading != blank -%}
-          <h2 class="vuffi-h2" data-reveal style="--i: 1">{{ section.settings.heading }}</h2>
+          <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
         {%- endif -%}
         {%- if section.settings.text != blank -%}
-          <div class="vuffi-lede" data-reveal style="--i: 2">{{ section.settings.text }}</div>
+          <div class="vuffi-lede">{{ section.settings.text }}</div>
         {%- endif -%}
       </div>
-      {%- if section.blocks.size > 1 -%}
-        <div class="vuffi-gallery__controls">
-          <button type="button" class="vuffi-gallery__btn" data-rail-prev aria-label="{{ section.settings.prev_label | escape }}">
-            <svg viewBox="0 0 24 24" aria-hidden="true" class="vuffi-icon"><path d="M15 5l-7 7 7 7"/></svg>
-          </button>
-          <button type="button" class="vuffi-gallery__btn" data-rail-next aria-label="{{ section.settings.next_label | escape }}">
-            <svg viewBox="0 0 24 24" aria-hidden="true" class="vuffi-icon"><path d="M9 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      {%- endif -%}
     </div>
+  {%- endif -%}
 
-    <ul class="vuffi-gallery__track" role="list" data-rail-track tabindex="0" aria-label="{{ section.settings.heading | strip_html | escape }}">
-      {%- for block in section.blocks -%}
-        <li class="vuffi-gallery__item" {{ block.shopify_attributes }}>
-          <figure class="vuffi-gallery__figure">
-            {%- render 'vuffi-image',
-              image: block.settings.image,
-              label: block.settings.slot,
-              ratio: section.settings.shape,
-              size: '2000 x 2500',
-              sizes: '(min-width: 990px) 34vw, 80vw',
-              alt: block.settings.alt
-            -%}
-            {%- if block.settings.label != blank or block.settings.title != blank or block.settings.text != blank -%}
-              <figcaption class="vuffi-gallery__caption">
-                {%- if block.settings.label != blank -%}
-                  <span class="vuffi-label">{{ block.settings.label }}</span>
-                {%- endif -%}
-                {%- if block.settings.title != blank -%}
-                  <span class="vuffi-gallery__title">{{ block.settings.title }}</span>
-                {%- endif -%}
-                {%- if block.settings.text != blank -%}
-                  <span class="vuffi-gallery__text">{{ block.settings.text }}</span>
-                {%- endif -%}
-              </figcaption>
-            {%- endif -%}
-          </figure>
-        </li>
-      {%- endfor -%}
-    </ul>
-  </vuffi-rail>
+  {%- comment -%} Phones and tablets swipe through the photos; computers show them all in one centered row {%- endcomment -%}
+  <ul class="vuffi-gallery__track" role="list" tabindex="0" aria-label="{{ section.settings.heading | strip_html | escape }}">
+    {%- for block in section.blocks -%}
+      <li class="vuffi-gallery__item" {{ block.shopify_attributes }}>
+        <figure class="vuffi-gallery__figure">
+          {%- render 'vuffi-image',
+            image: block.settings.image,
+            label: block.settings.slot,
+            ratio: section.settings.shape,
+            size: '2000 x 2500',
+            sizes: '(min-width: 990px) 25vw, (min-width: 750px) 46vw, 80vw',
+            alt: block.settings.alt
+          -%}
+          {%- if block.settings.label != blank or block.settings.title != blank or block.settings.text != blank -%}
+            <figcaption class="vuffi-gallery__caption">
+              {%- if block.settings.label != blank -%}
+                <span class="vuffi-gallery__label">{{ block.settings.label }}</span>
+              {%- endif -%}
+              {%- if block.settings.title != blank -%}
+                <span class="vuffi-gallery__title">{{ block.settings.title }}</span>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <span class="vuffi-gallery__text">{{ block.settings.text }}</span>
+              {%- endif -%}
+            </figcaption>
+          {%- endif -%}
+        </figure>
+      </li>
+    {%- endfor -%}
+  </ul>
 </section>
 
 {% stylesheet %}
-  .vuffi-gallery {
-    --card-w: 80vw;
-  }
-
-  .vuffi-gallery__top {
-    display: grid;
-    gap: 24px;
-    margin-bottom: 36px;
-  }
-
-  .vuffi-gallery__controls {
-    display: none;
-    gap: 8px;
-  }
-
-  .vuffi-gallery__btn {
-    display: grid;
-    place-items: center;
-    width: 48px;
-    height: 48px;
-    padding: 0;
-    border: 1px solid var(--vuffi-line-strong);
-    border-radius: var(--vuffi-radius-btn);
-    background: transparent;
-    color: inherit;
-    cursor: pointer;
-    transition: border-color 0.3s, background-color 0.3s, opacity 0.3s;
-  }
-
-  .vuffi-gallery__btn:hover {
-    border-color: currentColor;
-  }
-
-  .vuffi-gallery__btn:disabled {
-    opacity: 0.3;
-    cursor: default;
-  }
-
-  .vuffi-gallery__btn .vuffi-icon {
-    width: 20px;
-    height: 20px;
-  }
-
   .vuffi-gallery__track {
-    --edge: max(var(--vuffi-gutter), calc((100vw - var(--vuffi-max)) / 2));
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: var(--card-w);
-    gap: 16px;
+    grid-auto-columns: 80vw;
+    gap: 14px;
     margin: 0;
-    padding: 0 var(--edge) 4px;
+    padding: 0 var(--vuffi-gutter) 4px;
     list-style: none;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--edge);
+    scroll-padding-inline: var(--vuffi-gutter);
     scrollbar-width: none;
   }
 
@@ -139,65 +85,132 @@
   }
 
   .vuffi-gallery__item {
+    display: grid;
     scroll-snap-align: start;
   }
 
   .vuffi-gallery__figure {
     display: grid;
-    gap: 14px;
+    grid-template-rows: auto 1fr;
     margin: 0;
   }
 
   .vuffi-gallery__caption {
     display: grid;
-    gap: 6px;
+    align-content: start;
+    gap: 8px;
+  }
+
+  .vuffi-gallery__label {
+    font-family: var(--font-accent--family);
+    font-size: 12px;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
 
   .vuffi-gallery__title {
     font-family: var(--font-heading--family);
     font-weight: var(--font-heading--weight);
-    font-size: 19px;
-    line-height: 1.25;
+    font-size: clamp(22px, 1.9vw, 27px);
+    line-height: 1.15;
     letter-spacing: -0.02em;
   }
 
   .vuffi-gallery__text {
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.55;
+  }
+
+  /* Green panel: the photo sits on top of a deep green card with the words in white */
+  .vuffi-gallery--panel .vuffi-gallery__figure {
+    overflow: hidden;
+    border-radius: var(--vuffi-radius-lg);
+    background: var(--vuffi-green);
+    color: #ffffff;
+  }
+
+  .vuffi-gallery--panel .vuffi-media,
+  .vuffi-gallery--panel .vuffi-ph {
+    border-radius: 0;
+  }
+
+  .vuffi-gallery--panel .vuffi-gallery__caption {
+    padding: 20px 22px 24px;
+  }
+
+  .vuffi-gallery--panel .vuffi-gallery__label {
+    color: var(--vuffi-lime);
+  }
+
+  .vuffi-gallery--panel .vuffi-gallery__text {
+    color: rgb(255 255 255 / 0.78);
+  }
+
+  [data-tone='dark'].vuffi-gallery--panel .vuffi-gallery__figure {
+    background: rgb(255 255 255 / 0.07);
+  }
+
+  /* Words on the photo, over a green shade */
+  .vuffi-gallery--overlay .vuffi-gallery__figure {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--vuffi-radius-lg);
+  }
+
+  .vuffi-gallery--overlay .vuffi-media,
+  .vuffi-gallery--overlay .vuffi-ph {
+    grid-row: 1 / -1;
+    grid-column: 1;
+    border-radius: 0;
+  }
+
+  .vuffi-gallery--overlay .vuffi-gallery__caption {
+    grid-row: 1 / -1;
+    grid-column: 1;
+    align-content: end;
+    padding: 28% 22px 24px;
+    background: linear-gradient(0deg, rgb(14 59 44 / 0.94) 0%, rgb(14 59 44 / 0.7) 45%, transparent 100%);
+    color: #ffffff;
+    align-self: end;
+  }
+
+  .vuffi-gallery--overlay .vuffi-gallery__label {
+    color: var(--vuffi-lime);
+  }
+
+  .vuffi-gallery--overlay .vuffi-gallery__text {
+    color: rgb(255 255 255 / 0.82);
+  }
+
+  /* Plain words under the photo */
+  .vuffi-gallery--below .vuffi-gallery__figure {
+    gap: 14px;
+  }
+
+  .vuffi-gallery--below .vuffi-gallery__text,
+  .vuffi-gallery--below .vuffi-gallery__label {
     color: var(--color-foreground-muted, currentColor);
   }
 
   @media screen and (min-width: 750px) {
-    .vuffi-gallery {
-      --card-w: 44vw;
-    }
-
     .vuffi-gallery__track {
-      gap: 20px;
+      grid-auto-columns: 44vw;
+      gap: 18px;
+      padding-inline: var(--vuffi-gutter);
+      scroll-padding-inline: var(--vuffi-gutter);
     }
   }
 
   @media screen and (min-width: 990px) {
-    .vuffi-gallery {
-      --card-w: calc((min(100vw, var(--vuffi-max)) - 3 * 20px) / 3.3);
-    }
-
-    .vuffi-gallery--wide {
-      --card-w: calc((min(100vw, var(--vuffi-max)) - 20px) / 1.6);
-    }
-
-    .vuffi-gallery--narrow {
-      --card-w: calc((min(100vw, var(--vuffi-max)) - 4 * 20px) / 4.4);
-    }
-
-    .vuffi-gallery__top {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: end;
-      margin-bottom: 48px;
-    }
-
-    .vuffi-gallery__controls {
-      display: flex;
+    .vuffi-gallery__track {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+      gap: 20px;
+      max-width: calc(var(--vuffi-max) + var(--vuffi-gutter) * 2);
+      margin-inline: auto;
+      padding: 0 var(--vuffi-gutter);
+      overflow: visible;
     }
   }
 {% endstylesheet %}
@@ -240,26 +253,14 @@
     },
     {
       "type": "select",
-      "id": "card_width",
-      "label": "Photo size on computers",
+      "id": "caption_style",
+      "label": "Words on each photo",
       "options": [
-        { "value": "narrow", "label": "Small, about 4 in view" },
-        { "value": "regular", "label": "Medium, about 3 in view" },
-        { "value": "wide", "label": "Large, about 1.5 in view" }
+        { "value": "panel", "label": "On a green card under the photo" },
+        { "value": "overlay", "label": "On the photo, over a green shade" },
+        { "value": "below", "label": "Plain, under the photo" }
       ],
-      "default": "regular"
-    },
-    {
-      "type": "text",
-      "id": "prev_label",
-      "label": "Previous button (screen readers)",
-      "default": "Previous photos"
-    },
-    {
-      "type": "text",
-      "id": "next_label",
-      "label": "Next button (screen readers)",
-      "default": "More photos"
+      "default": "panel"
     },
     {
       "type": "color",
@@ -312,7 +313,7 @@
           "type": "text",
           "id": "label",
           "label": "Small label",
-          "info": "For example: 07:30, breakfast."
+          "info": "Small line above the title, for example: 07:30, breakfast."
         },
         {
           "type": "text",

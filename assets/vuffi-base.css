@@ -547,150 +547,62 @@
   }
 }
 
-/* Motion: content rises in once as it enters the screen */
-html.vuffi-js [data-reveal] {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 0.9s var(--vuffi-ease),
-    transform 0.9s var(--vuffi-ease);
-  transition-delay: calc(var(--i, 0) * 80ms);
-}
-
-html.vuffi-js [data-reveal='fade'] {
-  transform: none;
-}
-
-html.vuffi-js [data-reveal='scale'] {
-  transform: scale(0.96);
-}
-
-html.vuffi-js [data-reveal].is-in {
-  opacity: 1;
-  transform: none;
-}
-
-/* Headlines: each word rises out of its own mask (words are wrapped by vuffi-motion.js) */
-html.vuffi-js [data-split][data-reveal] {
-  opacity: 1;
-  transform: none;
-}
-
-.vuffi-w {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: bottom;
-  padding: 0 0.02em 0.12em;
-  margin: 0 -0.02em -0.12em;
-}
-
-.vuffi-w__i {
-  display: inline-block;
-  transform: translateY(112%);
-  transition: transform 1s var(--vuffi-ease);
-  transition-delay: calc(var(--w, 0) * 45ms + var(--i, 0) * 80ms);
-}
-
-[data-split].is-in .vuffi-w__i {
-  transform: none;
-}
-
-/* Photos: wipe up from the bottom while the picture settles from a slow zoom */
-html.vuffi-js [data-media-reveal] {
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path 1.2s var(--vuffi-ease);
-  transition-delay: calc(var(--d, 0) * 110ms);
-}
-
-html.vuffi-js [data-media-reveal] > img {
-  transform: scale(1.16);
-  transition: transform 1.8s var(--vuffi-ease);
-  transition-delay: calc(var(--d, 0) * 110ms);
-}
-
-html.vuffi-js [data-media-reveal].is-in {
-  clip-path: inset(0 0 0 0);
-}
-
-html.vuffi-js [data-media-reveal].is-in > img {
-  transform: none;
-}
-
-@media (hover: hover) {
-  html.vuffi-js .vuffi-gallery__item:hover [data-media-reveal].is-in > img,
-  html.vuffi-js .vuffi-formula__card:hover [data-media-reveal].is-in > img,
-  html.vuffi-js .vuffi-edit__media:hover [data-media-reveal].is-in > img {
-    transform: scale(1.05);
-    transition-delay: 0s;
-  }
-}
-
-/* Full width photos drift slower than the page as it scrolls */
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    html.vuffi-js:not(.vuffi-still) .vuffi-band__img {
-      scale: 1.16;
-      animation: vuffi-drift linear both;
-      animation-timeline: view();
-    }
-
-    html.vuffi-js:not(.vuffi-still) .vuffi-phero__photo .vuffi-media > img {
-      animation: vuffi-settle linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 60%;
-    }
-
-    @keyframes vuffi-drift {
-      from {
-        translate: 0 -7%;
-      }
-      to {
-        translate: 0 7%;
-      }
-    }
-
-    @keyframes vuffi-settle {
-      from {
-        scale: 1.14;
-      }
-      to {
-        scale: 1;
-      }
-    }
-  }
-}
-
-html.vuffi-still [data-reveal] {
-  opacity: 1 !important;
-  transform: none !important;
-  transition: none !important;
-}
-
-html.vuffi-still .vuffi-w__i,
-html.vuffi-still [data-media-reveal],
-html.vuffi-still [data-media-reveal] > img {
-  clip-path: none !important;
-  transform: none !important;
-  transition: none !important;
-}
+/* No entrance animations on text or photos: they show as soon as the page loads.
+   Motion lives only where people scroll or tap (scroll story, timeline, switches, buy box) and in the footer logo. */
 
 @media (prefers-reduced-motion: reduce) {
-  html.vuffi-js [data-reveal] {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
-  .vuffi-w__i,
-  html.vuffi-js [data-media-reveal],
-  html.vuffi-js [data-media-reveal] > img {
-    clip-path: none;
-    transform: none;
-    transition: none;
-  }
-
   .vuffi-marquee__track {
     animation: none;
+  }
+}
+
+/* Hero light for dark and green sections: a soft warm beam falling from the top left,
+   a gentle lift in the middle and a darker floor, like the light in the hero photo. */
+.vuffi-section.vuffi-glow {
+  isolation: isolate;
+}
+
+.vuffi-glow::before,
+.vuffi-glow::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.vuffi-glow::before {
+  top: -12%;
+  left: -30%;
+  width: 110%;
+  height: min(90%, 1200px);
+  background: radial-gradient(closest-side, rgb(238 224 190 / 0.2), rgb(238 224 190 / 0.07) 55%, transparent);
+  transform: rotate(26deg) scaleY(0.36);
+}
+
+.vuffi-glow::after {
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 62% 48%, rgb(255 255 255 / 0.045), transparent 70%),
+    linear-gradient(180deg, transparent 50%, rgb(0 0 0 / 0.22) 100%);
+}
+
+/* Centered section intro used by the redesigned sections */
+.vuffi-intro {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  max-width: 760px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.vuffi-intro .vuffi-lede {
+  margin-inline: auto;
+}
+
+@media screen and (min-width: 990px) {
+  .vuffi-intro {
+    margin-bottom: 64px;
   }
 }
 

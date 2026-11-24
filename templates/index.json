@@ -246,7 +246,7 @@
       "settings": {
         "worn_image": "shopify://shop_images/vuffi-v2-diagram-joint-worn.jpg",
         "supported_image": "shopify://shop_images/vuffi-v2-diagram-joint-ingredients.jpg",
-        "background_color": "#FFFFFF"
+        "background_color": "#0B1411"
       }
     },
     "formula": {
@@ -328,35 +328,6 @@
       "settings": {
         "background_color": "#F3F2EE",
         "diagram": "shopify://shop_images/vuffi-v3-diagram-chew-cross.png"
-      }
-    },
-    "dose": {
-      "type": "vuffi-dose",
-      "blocks": {
-        "tier_1": {
-          "type": "tier",
-          "settings": {
-            "up_to": 35,
-            "result": "1 chew a day",
-            "detail": "One jar lasts 30 days."
-          }
-        },
-        "tier_2": {
-          "type": "tier",
-          "settings": {
-            "up_to": 65,
-            "result": "2 chews a day",
-            "detail": "One jar lasts 15 days. Two jars a month covers it."
-          }
-        }
-      },
-      "block_order": [
-        "tier_1",
-        "tier_2"
-      ],
-      "settings": {
-        "start_weight": 30,
-        "background_color": "#0B1411"
       }
     },
     "compare": {
@@ -671,31 +642,13 @@
         "photo_4"
       ],
       "settings": {
-        "eyebrow": "Why Vuffi",
+        "eyebrow": "",
         "heading": "One chew. <em>Every joint.</em>",
         "text": "<p>Five actives vets reach for, in a soft chew dogs treat like a reward.</p>",
         "shape": "3 / 4",
-        "card_width": "regular",
         "padding_top": 120,
         "padding_bottom": 120,
         "background_color": "#F3F2EE"
-      }
-    },
-    "band_run": {
-      "type": "vuffi-image-band",
-      "settings": {
-        "slot": "band-run",
-        "height": "full",
-        "position": "bottom-left",
-        "shade": 85,
-        "background_color": "#111A16",
-        "heading": "Built for the <em>long run.</em>",
-        "text": "<p>Daily support for hips, knees and elbows, from the first walk of the day to the last game of fetch.</p>",
-        "button_label": "Shop the chews",
-        "button_link": "/products/hip-and-joint-soft-chews",
-        "caption": "",
-        "image_alt": "A dog running along the shore at golden hour",
-        "image": "shopify://shop_images/vuffi-v2-band-run.jpg"
       }
     },
     "life": {
@@ -755,10 +708,9 @@
         "photo_5"
       ],
       "settings": {
-        "eyebrow": "Life with Vuffi",
+        "eyebrow": "",
         "heading": "Made for dogs who <em>never slow down.</em>",
         "shape": "3 / 4",
-        "card_width": "regular",
         "padding_top": 120,
         "padding_bottom": 120,
         "background_color": "#FFFFFF"
@@ -771,9 +723,7 @@
     "story",
     "why",
     "joint",
-    "band_run",
     "formula",
-    "dose",
     "compare",
     "timeline",
     "subscribe",

@@ -8,140 +8,86 @@
 
 <section class="vuffi-section vuffi-formula color-custom-{{ section.id }}" data-tone="{{ tone }}" id="formula">
   <div class="vuffi-wrap">
-    <div class="vuffi-formula__top{% if section.settings.diagram != blank %} vuffi-formula__top--diagram{% endif %}">
-      <div class="vuffi-head">
-        {%- if section.settings.eyebrow != blank -%}
-          <p class="vuffi-eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
-        {%- endif -%}
-        <h2 class="vuffi-h2" data-reveal style="--i: 1">{{ section.settings.heading }}</h2>
-      </div>
-      {%- if section.settings.text != blank -%}
-        <div class="vuffi-lede" data-reveal style="--i: 2">{{ section.settings.text }}</div>
+    <div class="vuffi-intro">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
       {%- endif -%}
-      {%- if section.settings.diagram != blank -%}
-        <figure class="vuffi-formula__diagram" data-reveal="scale" style="--i: 3">
-          {%- render 'vuffi-image',
-            image: section.settings.diagram,
-            label: 'diagram-chew-cross',
-            ratio: '1 / 1',
-            sizes: '(min-width: 990px) 40vw, 92vw',
-            alt: section.settings.diagram_alt,
-            class: 'vuffi-melt'
-          -%}
-          <ul class="vuffi-formula__labels" role="list" aria-hidden="true">
-            {%- for block in section.blocks -%}
-              <li
-                class="vuffi-formula__label vuffi-formula__label--{{ block.settings.label_side }}"
-                style="--x: {{ block.settings.label_x }}%; --y: {{ block.settings.label_y }}%;"
-              >
-                {{- block.settings.name -}}
-              </li>
-            {%- endfor -%}
-          </ul>
-        </figure>
+      <h2 class="vuffi-h2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}
+        <div class="vuffi-lede">{{ section.settings.text }}</div>
       {%- endif -%}
     </div>
 
-    {%- if section.settings.show_cards -%}
-    <ul class="vuffi-formula__grid" role="list">
-      {%- for block in section.blocks -%}
-        <li class="vuffi-formula__card" data-reveal style="--i: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
-          {%- render 'vuffi-image',
-            image: block.settings.image,
-            label: block.settings.slot,
-            ratio: '4 / 5',
-            size: '2048 x 2048',
-            sizes: '(min-width: 990px) 20vw, (min-width: 750px) 40vw, 72vw',
-            class: 'vuffi-formula__media'
-          -%}
-          <div class="vuffi-formula__body">
-            <h3 class="vuffi-h3 vuffi-formula__name">{{ block.settings.name }}</h3>
-            {%- if block.settings.tagline != blank -%}
-              <p class="vuffi-formula__tag">{{ block.settings.tagline }}</p>
-            {%- endif -%}
-            {%- if block.settings.text != blank -%}
-              <div class="vuffi-formula__text">{{ block.settings.text }}</div>
-            {%- endif -%}
-          </div>
-        </li>
-      {%- endfor -%}
-    </ul>
-    {%- endif -%}
-
-    {%- if section.settings.note != blank -%}
-      <p class="vuffi-small vuffi-formula__note" data-reveal>{{ section.settings.note }}</p>
+    {%- if section.settings.diagram != blank -%}
+      <figure class="vuffi-formula__diagram">
+        {%- render 'vuffi-image',
+          image: section.settings.diagram,
+          label: 'diagram-chew-cross',
+          ratio: '1 / 1',
+          sizes: '(min-width: 750px) 560px, 92vw',
+          alt: section.settings.diagram_alt,
+          class: 'vuffi-melt'
+        -%}
+        <ul class="vuffi-formula__labels" role="list" aria-hidden="true">
+          {%- for block in section.blocks -%}
+            <li
+              class="vuffi-formula__label vuffi-formula__label--{{ block.settings.label_side }}"
+              style="--x: {{ block.settings.label_x }}%; --y: {{ block.settings.label_y }}%;"
+            >
+              {{- block.settings.name -}}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </figure>
     {%- endif -%}
   </div>
+
+  {%- if section.settings.show_cards and section.blocks.size > 0 -%}
+    {%- comment -%} An endless row: three copies of the cards slide left by one copy, then start over without a jump {%- endcomment -%}
+    <div class="vuffi-formula__loop" style="--speed: {{ section.blocks.size | times: section.settings.speed }}s;">
+      <ul class="vuffi-formula__track" role="list">
+        {%- for copy in (1..3) -%}
+          {%- for block in section.blocks -%}
+            <li
+              class="vuffi-formula__card"
+              {% if copy == 1 %}{{ block.shopify_attributes }}{% else %}aria-hidden="true" data-copy{% endif %}
+            >
+              {%- render 'vuffi-image',
+                image: block.settings.image,
+                label: block.settings.slot,
+                ratio: '1 / 1',
+                size: '2048 x 2048',
+                sizes: '(min-width: 990px) 340px, 290px',
+                class: 'vuffi-formula__media'
+              -%}
+              <div class="vuffi-formula__body">
+                {%- if block.settings.tagline != blank -%}
+                  <p class="vuffi-formula__tag">{{ block.settings.tagline }}</p>
+                {%- endif -%}
+                <h3 class="vuffi-formula__name">{{ block.settings.name }}</h3>
+                {%- if block.settings.text != blank -%}
+                  <div class="vuffi-formula__text">{{ block.settings.text }}</div>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.note != blank -%}
+    <div class="vuffi-wrap">
+      <p class="vuffi-small vuffi-formula__note">{{ section.settings.note }}</p>
+    </div>
+  {%- endif -%}
 </section>
 
 {% stylesheet %}
-  .vuffi-formula__top {
-    display: grid;
-    gap: 20px;
-    margin-bottom: 48px;
-  }
-
-  .vuffi-formula__grid {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 74%;
-    gap: 14px;
-    margin: 0 calc(var(--vuffi-gutter) * -1);
-    padding: 0 var(--vuffi-gutter) 8px;
-    list-style: none;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--vuffi-gutter);
-    scrollbar-width: none;
-  }
-
-  .vuffi-formula__grid::-webkit-scrollbar {
-    display: none;
-  }
-
-  .vuffi-formula__card {
-    display: grid;
-    align-content: start;
-    gap: 18px;
-    scroll-snap-align: start;
-  }
-
-  .vuffi-formula__media {
-    transition: transform 0.8s var(--vuffi-ease);
-  }
-
-  .vuffi-formula__card:hover .vuffi-formula__media {
-    transform: translateY(-6px);
-  }
-
-  .vuffi-formula__body {
-    display: grid;
-    gap: 8px;
-  }
-
-  .vuffi-formula__tag {
-    margin: 0;
-    font-size: 15px;
-    font-weight: 600;
-  }
-
-  .vuffi-formula__text {
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--color-foreground-muted);
-  }
-
-  .vuffi-formula__text p {
-    margin: 0;
-  }
-
-  .vuffi-formula__note {
-    margin: 32px 0 0;
-  }
-
   .vuffi-formula__diagram {
     position: relative;
-    margin: 8px 0 0;
+    width: min(100%, 560px);
+    margin: -8px auto 48px;
   }
 
   .vuffi-formula__diagram .vuffi-media {
@@ -158,18 +104,15 @@
   .vuffi-formula__label {
     position: absolute;
     top: var(--y);
-    padding: 5px 10px;
-    border: 1px solid var(--vuffi-line);
+    padding: 6px 12px;
     border-radius: var(--vuffi-radius-btn);
-    background: #ffffff;
-    color: var(--vuffi-ink);
-    font-family: var(--font-accent--family);
-    font-size: 11px;
+    background: var(--vuffi-green);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
     line-height: 1.2;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
     white-space: nowrap;
-    box-shadow: 0 6px 18px rgb(11 20 16 / 0.08);
+    box-shadow: 0 8px 20px rgb(11 20 16 / 0.16);
     transform: translateY(calc(-100% - 6px));
   }
 
@@ -181,61 +124,139 @@
     right: calc(100% - var(--x));
   }
 
-  @media screen and (min-width: 750px) {
-    .vuffi-formula__grid {
-      grid-auto-columns: 40%;
-      gap: 20px;
+  /* The endless row of ingredient cards */
+  .vuffi-formula__loop {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  }
+
+  .vuffi-formula__track {
+    display: flex;
+    width: max-content;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    animation: vuffi-loop var(--speed, 45s) linear infinite;
+  }
+
+  .vuffi-formula__loop:hover .vuffi-formula__track,
+  .vuffi-formula__loop:active .vuffi-formula__track,
+  .vuffi-formula__loop:focus-within .vuffi-formula__track {
+    animation-play-state: paused;
+  }
+
+  @keyframes vuffi-loop {
+    to {
+      transform: translateX(calc(-100% / 3));
     }
   }
 
+  .vuffi-formula__card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    flex: none;
+    width: 290px;
+    margin-right: 14px;
+    overflow: hidden;
+    border-radius: var(--vuffi-radius-lg);
+    background: var(--vuffi-green);
+    color: #ffffff;
+  }
+
+  .vuffi-formula__card .vuffi-media,
+  .vuffi-formula__card .vuffi-ph {
+    border-radius: 0;
+  }
+
+  .vuffi-formula__body {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    padding: 20px 22px 24px;
+  }
+
+  .vuffi-formula__tag {
+    justify-self: start;
+    margin: 0 0 2px;
+    padding: 5px 10px;
+    border-radius: var(--vuffi-radius-btn);
+    background: var(--vuffi-lime);
+    color: var(--vuffi-ink);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .vuffi-formula__name {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: 26px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  .vuffi-formula__text {
+    font-size: 15px;
+    line-height: 1.55;
+    color: rgb(255 255 255 / 0.78);
+  }
+
+  .vuffi-formula__text p {
+    margin: 0;
+  }
+
+  .vuffi-formula__note {
+    margin: 32px auto 0;
+    text-align: center;
+  }
+
+  [data-tone='dark'] .vuffi-formula__card {
+    background: rgb(255 255 255 / 0.07);
+  }
+
   @media screen and (min-width: 990px) {
-    .vuffi-formula__top {
-      grid-template-columns: 1.2fr 1fr;
-      align-items: end;
-      gap: 64px;
+    .vuffi-formula__diagram {
       margin-bottom: 64px;
     }
 
-    .vuffi-formula__top--diagram {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      grid-template-areas: 'head figure' 'lede figure';
-      grid-template-rows: 1fr 1fr;
-      align-items: center;
-      row-gap: 24px;
-    }
-
-    .vuffi-formula__top--diagram > .vuffi-head {
-      grid-area: head;
-      align-self: end;
-    }
-
-    .vuffi-formula__top--diagram > .vuffi-lede {
-      grid-area: lede;
-      align-self: start;
-    }
-
-    .vuffi-formula__diagram {
-      grid-area: figure;
-      margin: 0;
-    }
-
     .vuffi-formula__label {
-      padding: 6px 10px;
-      font-size: 12px;
+      padding: 7px 14px;
+      font-size: 13px;
     }
 
-    /* The five photos stretch across the whole screen, nearly edge to edge */
-    .vuffi-formula__grid {
-      grid-auto-flow: row;
-      grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr));
-      gap: 12px;
-      margin: 0 calc(var(--vuffi-edge) * -1 + 12px);
-      padding: 0;
-      overflow: visible;
+    .vuffi-formula__card {
+      width: 340px;
+      margin-right: 20px;
+    }
+
+    .vuffi-formula__name {
+      font-size: 28px;
     }
 
     .vuffi-formula__body {
-      padding-inline: 4px;
+      padding: 24px 26px 28px;
+    }
+  }
+
+  /* Less motion: the row stands still and can be swiped instead */
+  @media (prefers-reduced-motion: reduce) {
+    .vuffi-formula__loop {
+      overflow-x: auto;
+      -webkit-mask-image: none;
+      mask-image: none;
+      scrollbar-width: none;
+    }
+
+    .vuffi-formula__track {
+      animation: none;
+      padding-inline: var(--vuffi-edge);
+    }
+
+    .vuffi-formula__card[data-copy] {
+      display: none;
     }
   }
 {% endstylesheet %}
@@ -280,9 +301,20 @@
     {
       "type": "checkbox",
       "id": "show_cards",
-      "label": "Show the ingredient photo row",
+      "label": "Show the moving ingredient card row",
       "default": true,
       "info": "Turn off on pages that already list each ingredient in full."
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Card row speed (seconds per card)",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "unit": "s",
+      "default": 9,
+      "info": "Higher is slower. The row stops when someone hovers or touches it."
     },
     {
       "type": "text",
@@ -325,7 +357,7 @@
           "type": "image_picker",
           "id": "image",
           "label": "Photo",
-          "info": "2048 x 2048, shown at 4:5"
+          "info": "2048 x 2048, shown square"
         },
         {
           "type": "text",
