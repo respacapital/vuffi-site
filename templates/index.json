@@ -169,7 +169,8 @@
         "lid_image": "shopify://shop_images/vuffi-lid.png",
         "chew_1": "shopify://shop_images/vuffi-chew-side.png",
         "chew_2": "shopify://shop_images/vuffi-chew-top.png",
-        "chew_3": "shopify://shop_images/vuffi-chew-tilted.png"
+        "chew_3": "shopify://shop_images/vuffi-chew-tilted.png",
+        "background_color_2": "#7DA23A"
       }
     },
     "joint": {

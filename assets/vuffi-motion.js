@@ -1,4 +1,4 @@
-/* Vuffi motion: reveal on scroll, count up numbers and sale countdowns.
+/* Vuffi motion: headline and photo reveals on scroll, count up numbers and sale countdowns.
    Everything respects the reduced motion setting and the theme editor. */
 (() => {
   const root = document.documentElement;
@@ -28,6 +28,78 @@
         el.classList.add('is-in');
       } else {
         revealObserver.observe(el);
+      }
+    });
+  }
+
+  const still = () => reduced.matches || isDesign() || root.classList.contains('vuffi-still') || !revealObserver;
+
+  /* Headlines: wrap each word so it can rise out of its own mask. Screen readers get the full line from aria-label. */
+  function splitWords(el) {
+    if (el.dataset.split) return;
+    const label = el.textContent.replace(/\s+/g, ' ').trim();
+    if (!label) return;
+    let n = 0;
+    const walk = (node) => {
+      Array.from(node.childNodes).forEach((child) => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) {
+              frag.appendChild(document.createTextNode(' '));
+              return;
+            }
+            const outer = document.createElement('span');
+            outer.className = 'vuffi-w';
+            outer.setAttribute('aria-hidden', 'true');
+            const inner = document.createElement('span');
+            inner.className = 'vuffi-w__i';
+            inner.style.setProperty('--w', n++);
+            inner.textContent = part;
+            outer.appendChild(inner);
+            frag.appendChild(outer);
+          });
+          child.replaceWith(frag);
+        } else if (child.nodeType === Node.ELEMENT_NODE && child.tagName !== 'BR') {
+          walk(child);
+        }
+      });
+    };
+    walk(el);
+    el.setAttribute('aria-label', label);
+    el.dataset.split = 'done';
+  }
+
+  function initHeadlines(scope) {
+    if (still()) return;
+    scope
+      .querySelectorAll('.vuffi-section .vuffi-h2, .vuffi-section .vuffi-display')
+      .forEach((el) => {
+        if (el.dataset.split || el.closest('.vuffi-story, .vuffi-pop, .vuffi-pdp')) return;
+        splitWords(el);
+        if (!el.hasAttribute('data-reveal')) {
+          el.setAttribute('data-reveal', '');
+          revealObserver.observe(el);
+        }
+      });
+  }
+
+  /* Photos: wipe in once they reach the screen. The first photo on screen and product photos stay as they are. */
+  function initMedia(scope) {
+    scope.querySelectorAll('.vuffi-section .vuffi-media').forEach((media) => {
+      if (media.dataset.mediaReveal) return;
+      if (media.closest('.vuffi-hero, .vuffi-story, .vuffi-pdp, .vuffi-pop, .vuffi-joint__layer')) return;
+      if (media.querySelector('img[fetchpriority="high"]')) return;
+      media.dataset.mediaReveal = 'true';
+      const item = media.closest('li');
+      if (item && item.parentElement) {
+        media.style.setProperty('--d', Array.from(item.parentElement.children).indexOf(item) % 4);
+      }
+      if (still()) {
+        media.classList.add('is-in');
+      } else {
+        revealObserver.observe(media);
       }
     });
   }
@@ -126,6 +198,8 @@
   if (!customElements.get('vuffi-countdown')) customElements.define('vuffi-countdown', VuffiCountdown);
 
   function init(scope = document) {
+    initHeadlines(scope);
+    initMedia(scope);
     initReveal(scope);
     initCounts(scope);
   }

@@ -1,12 +1,12 @@
 # Vuffi Design System
 
-Version 4, November 23, 2026. Source of truth for color, type, shape, motion, photography and voice on getvuffi.com. Change this file before changing the theme.
+Version 5, November 23, 2026 (night). Source of truth for color, type, shape, motion, photography and voice on getvuffi.com. Change this file before changing the theme.
 
 Earlier versions are saved on branches: `design/serif-v1` (first serif), `design/rounded-v2` (Nunito, rounded), `design/serif-v3` (serif with the still hero and Robin's first images).
 
 ## 1. Feeling
 
-A premium, clinical dog supplement brand that looks like Grüns, Bloom, Pawfy and Apple made something for dogs. Medical confidence without coldness: white space, hairline rules, square corners, specimen style labels, and big, beautifully lit photography of the real jar and real looking dogs. Lots of photos. Nothing cute, nothing rounded, nothing neon.
+A premium, clinical dog supplement brand that looks like Grüns, Bloom, Pawfy and Apple made something for dogs. Medical confidence without coldness: white space, hairline rules, square corners, specimen style labels, and big, beautifully lit photography of the real jar and real looking dogs. Lots of photos. Nothing cute or bubbly, nothing neon. Buttons are the only round shapes.
 
 ## 2. Color
 
@@ -33,20 +33,20 @@ From the Logo Kit (Nov 22): ink letters with the green paw on light, white lette
 
 ## 4. Type
 
-The Grüns and Wuffes system: one clean grotesk for almost everything, a condensed face for labels and big numbers, and a mono for clinical details.
+One family, the one printed on the jar: Figtree (a close match to the label lettering), plus a mono for clinical details.
 
 | Role | Font (Theme settings > Typography) | Notes |
 | --- | --- | --- |
-| Headings | Work Sans SemiBold 600 (Heading) | The Grüns font. Tight tracking (about minus 3 to 4 percent), sentence case. One word can be bottle green or leaf: type it in italics in the editor and it changes color, not slant |
-| Body, buttons | Work Sans Regular 400 (Body) | 16 to 18px body, buttons 15px SemiBold |
-| Labels and big numbers | Barlow Condensed Bold 700 (Subheading) | The Wuffes look. Eyebrows, stats, dose numbers, the scroll story lines, all uppercase |
-| Clinical details | IBM Plex Mono 400 (Accent) | Specimen labels like "Nº 01", ingredient codes, small print, image captions |
+| Headings | Figtree Bold 700 (Heading) | Tight tracking (about minus 3 percent), sentence case. One word can be bottle green or leaf: type it in italics in the editor and it changes color, not slant |
+| Body, buttons | Figtree Regular 400 (Body) | 16 to 18px body, buttons 16px Bold |
+| Labels, big numbers, story lines | Figtree ExtraBold 800 (Subheading), uppercase | Eyebrows, stats, dose numbers, the scroll story lines, like the Grüns section |
+| Clinical details | IBM Plex Mono 400 (Accent) | Specimen labels like "Nº 01", captions like "Fig. 01" |
 | Numbers | Tabular figures | Prices, countdowns, stats |
 
 ## 5. Shape
 
-1. Square. Corners are 2px on buttons, chips, tags and inputs, 4px on cards and photos. No pills, no circles except where something is truly round (a radio dot, the guarantee seal).
-2. Buttons: 52px tall, 2px corners, bottle green with white text on light bands, leaf with ink text on dark bands, a thin arrow that slides 3px on hover.
+1. Square everywhere except buttons. Corners are 2px on chips, tags and inputs, 4px on cards and photos.
+2. Buttons are round: full pills, 54 to 56px tall, bottle green with white text on light bands, leaf with ink text on dark bands. On hover a second color rises from the bottom and fills the pill, and the arrow slides 4px. Toggles, photo arrows and email fields are round too.
 3. Hairline rules (1px) divide everything: lists, specs, cards. No heavy shadows.
 4. Layout: 1280px max content width, 20px side padding on phones, 48px on desktop. Section spacing 72px on phones, 120px on desktop. Full width photo bands break the grid on purpose.
 5. Icons: drawn in code, 1.5px line, square ends.
@@ -64,12 +64,15 @@ Photos carry the brand. Every prompt is in "Image Prompts - Vuffi - 2026.11.23.t
 
 ## 7. Motion
 
-Motion only where someone toggles, slides or scrolls. Nothing moves on its own.
+Motion only where someone toggles, slides or scrolls, and it should feel expensive.
 
-1. Toggles and tabs: the joint switch crossfades, the buy box and dose finder ease between choices, accordions open smoothly.
-2. Sliders: the ticker strip slides slowly and pauses on hover; photo rows scroll sideways.
-3. Scroll: content rises 24px and fades in once as it enters the screen (700ms, cubic-bezier(.16, 1, .3, 1), staggered 80ms); numbers count up once; the scroll story pins like Grüns.
-4. Everything stops for people who ask their device for less motion.
+1. Scroll story: built like the Grüns section. Bottle green fading to moss, big uppercase lines rising one by one, the jar rising from the bottom and running off the screen, the lid popping off in an arc, a chew peeking out, chews drifting and turning around it.
+2. Headlines: every word rises out of its own mask, one after another.
+3. Photos: wipe up from the bottom while the picture settles from a slow zoom. Full width photos drift slower than the page; page title photos settle as they scroll in. Photos zoom slightly on hover.
+4. Buttons: the fill sweeps up on hover, the arrow slides, a small press on click.
+5. Toggles and tabs: the joint switch crossfades and the five numbers pop in one by one; the buy box and dose finder ease between choices; accordions open smoothly.
+6. Sliders: the ticker strip slides slowly; photo rows scroll sideways with arrows.
+7. Numbers count up once. Everything stops for people who ask their device for less motion and in the theme editor.
 
 ## 8. Voice
 

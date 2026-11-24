@@ -5,6 +5,7 @@
 :root {
   --vuffi-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --vuffi-radius-sm: 2px;
+  --vuffi-radius-btn: 999px;
   --vuffi-radius: 4px;
   --vuffi-radius-lg: 4px;
   --vuffi-max: 1280px;
@@ -68,9 +69,9 @@
   margin: 0;
   font-family: var(--font-subheading--family);
   font-weight: var(--font-subheading--weight);
-  font-size: 15px;
+  font-size: 12px;
   line-height: 1.1;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -99,7 +100,7 @@
   font-family: var(--font-subheading--family);
   font-weight: var(--font-subheading--weight);
   line-height: 0.9;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
 }
@@ -116,21 +117,21 @@
 }
 
 .vuffi-display {
-  font-size: clamp(42px, 6.4vw, 92px);
-  line-height: 1;
-  letter-spacing: -0.042em;
+  font-size: clamp(42px, 6.6vw, 96px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
 }
 
 .vuffi-h2 {
-  font-size: clamp(34px, 4.4vw, 60px);
-  line-height: 1.04;
-  letter-spacing: -0.038em;
+  font-size: clamp(34px, 4.6vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.032em;
 }
 
 .vuffi-h3 {
   font-size: clamp(22px, 2vw, 28px);
   line-height: 1.15;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
 }
 
 /* Italic in the editor means "accent color", not a slanted word */
@@ -189,12 +190,15 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 52px;
-  padding: 0 26px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 54px;
+  padding: 0 28px;
   border: 1px solid transparent;
-  border-radius: var(--vuffi-radius-sm);
+  border-radius: var(--vuffi-radius-btn);
   font-family: var(--font-heading--family);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: var(--font-heading--weight);
   line-height: 1;
   letter-spacing: -0.01em;
@@ -209,7 +213,7 @@
 }
 
 .vuffi-btn:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 .vuffi-btn:focus-visible {
@@ -217,49 +221,70 @@
   outline-offset: 3px;
 }
 
+/* Hover: a second color rises from the bottom and fills the pill */
+.vuffi-btn::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--btn-sweep, transparent);
+  transform: translateY(102%);
+  transition: transform 0.55s var(--vuffi-ease);
+}
+
 .vuffi-btn--primary {
+  --btn-sweep: var(--vuffi-ink);
   background: var(--color-primary-button-background);
   color: var(--color-primary-button-text);
   border-color: var(--color-primary-button-border);
 }
 
-.vuffi-btn--primary:hover {
-  background: var(--color-primary-button-hover-background);
-  color: var(--color-primary-button-hover-text);
-  border-color: var(--color-primary-button-hover-border);
-}
-
 .vuffi-btn--ghost {
+  --btn-sweep: var(--color-foreground);
   background: transparent;
   color: inherit;
   border-color: var(--vuffi-line-strong);
 }
 
-.vuffi-btn--ghost:hover {
-  border-color: currentColor;
-}
-
 [data-tone='dark'] .vuffi-btn--primary {
+  --btn-sweep: #ffffff;
   background: var(--vuffi-lime);
   color: var(--vuffi-ink);
   border-color: var(--vuffi-lime);
 }
 
-[data-tone='dark'] .vuffi-btn--primary:hover {
-  background: #ffffff;
-  color: var(--vuffi-ink);
-  border-color: #ffffff;
+@media (hover: hover) {
+  .vuffi-btn:hover::before {
+    transform: translateY(0);
+  }
+
+  .vuffi-btn--primary:hover {
+    color: #ffffff;
+  }
+
+  [data-tone='dark'] .vuffi-btn--primary:hover {
+    color: var(--vuffi-ink);
+    border-color: #ffffff;
+  }
+
+  .vuffi-btn--ghost:hover {
+    color: var(--color-background);
+    border-color: var(--color-foreground);
+  }
 }
 
 .vuffi-btn__arrow {
   width: 18px;
   height: 18px;
   flex: none;
-  transition: transform 0.35s var(--vuffi-ease);
+  transition: transform 0.45s var(--vuffi-ease);
 }
 
-.vuffi-btn:hover .vuffi-btn__arrow {
-  transform: translateX(3px);
+@media (hover: hover) {
+  .vuffi-btn:hover .vuffi-btn__arrow {
+    transform: translateX(4px);
+  }
 }
 
 .vuffi-btn--block {
@@ -268,8 +293,8 @@
 
 @media screen and (min-width: 990px) {
   .vuffi-btn {
-    min-height: 54px;
-    padding: 0 30px;
+    min-height: 56px;
+    padding: 0 32px;
   }
 }
 
@@ -543,6 +568,96 @@ html.vuffi-js [data-reveal].is-in {
   transform: none;
 }
 
+/* Headlines: each word rises out of its own mask (words are wrapped by vuffi-motion.js) */
+html.vuffi-js [data-split][data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+.vuffi-w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0 0.02em 0.12em;
+  margin: 0 -0.02em -0.12em;
+}
+
+.vuffi-w__i {
+  display: inline-block;
+  transform: translateY(112%);
+  transition: transform 1s var(--vuffi-ease);
+  transition-delay: calc(var(--w, 0) * 45ms + var(--i, 0) * 80ms);
+}
+
+[data-split].is-in .vuffi-w__i {
+  transform: none;
+}
+
+/* Photos: wipe up from the bottom while the picture settles from a slow zoom */
+html.vuffi-js [data-media-reveal] {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.2s var(--vuffi-ease);
+  transition-delay: calc(var(--d, 0) * 110ms);
+}
+
+html.vuffi-js [data-media-reveal] > img {
+  transform: scale(1.16);
+  transition: transform 1.8s var(--vuffi-ease);
+  transition-delay: calc(var(--d, 0) * 110ms);
+}
+
+html.vuffi-js [data-media-reveal].is-in {
+  clip-path: inset(0 0 0 0);
+}
+
+html.vuffi-js [data-media-reveal].is-in > img {
+  transform: none;
+}
+
+@media (hover: hover) {
+  html.vuffi-js .vuffi-gallery__item:hover [data-media-reveal].is-in > img,
+  html.vuffi-js .vuffi-formula__card:hover [data-media-reveal].is-in > img,
+  html.vuffi-js .vuffi-edit__media:hover [data-media-reveal].is-in > img {
+    transform: scale(1.05);
+    transition-delay: 0s;
+  }
+}
+
+/* Full width photos drift slower than the page as it scrolls */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    html.vuffi-js:not(.vuffi-still) .vuffi-band__img {
+      scale: 1.16;
+      animation: vuffi-drift linear both;
+      animation-timeline: view();
+    }
+
+    html.vuffi-js:not(.vuffi-still) .vuffi-phero__photo .vuffi-media > img {
+      animation: vuffi-settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 60%;
+    }
+
+    @keyframes vuffi-drift {
+      from {
+        translate: 0 -7%;
+      }
+      to {
+        translate: 0 7%;
+      }
+    }
+
+    @keyframes vuffi-settle {
+      from {
+        scale: 1.14;
+      }
+      to {
+        scale: 1;
+      }
+    }
+  }
+}
+
 html.vuffi-still [data-reveal],
 html.vuffi-js.vuffi-design [data-reveal] {
   opacity: 1 !important;
@@ -550,9 +665,28 @@ html.vuffi-js.vuffi-design [data-reveal] {
   transition: none !important;
 }
 
+html.vuffi-still .vuffi-w__i,
+html.vuffi-design .vuffi-w__i,
+html.vuffi-still [data-media-reveal],
+html.vuffi-design [data-media-reveal],
+html.vuffi-still [data-media-reveal] > img,
+html.vuffi-design [data-media-reveal] > img {
+  clip-path: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html.vuffi-js [data-reveal] {
     opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .vuffi-w__i,
+  html.vuffi-js [data-media-reveal],
+  html.vuffi-js [data-media-reveal] > img {
+    clip-path: none;
     transform: none;
     transition: none;
   }

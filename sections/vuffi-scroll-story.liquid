@@ -16,7 +16,7 @@
 <section
   class="vuffi-section vuffi-story color-custom-{{ section.id }}"
   data-tone="{{ tone }}"
-  style="--story-len: {{ section.settings.scroll_length | divided_by: 100.0 }};"
+  style="--story-len: {{ section.settings.scroll_length | divided_by: 100.0 }}; --story-top: {{ section.settings.background_color }}; --story-bottom: {{ section.settings.background_color_2 | default: section.settings.background_color }};"
 >
   <vuffi-story class="vuffi-story__track">
     <div class="vuffi-story__sticky">
@@ -106,10 +106,8 @@
     --jy: 1;
     --lid: 0;
     --peek: 0;
-    --unit: min(72vw, 46svh, 520px);
-    --rest: -14%;
-    --lid-x: 56%;
-    --lid-y: -36%;
+    --unit: min(80vw, 40svh, 520px);
+    --rest-y: 52svh;
     padding: 0;
     overflow: visible;
   }
@@ -126,6 +124,7 @@
     height: 100svh;
     overflow: hidden;
     isolation: isolate;
+    background: linear-gradient(180deg, var(--story-top, var(--color-background)) 0%, var(--story-bottom, var(--color-background)) 100%);
   }
 
   .vuffi-story__head {
@@ -144,9 +143,9 @@
     margin: 0;
     font-family: var(--font-subheading--family);
     font-weight: var(--font-subheading--weight);
-    font-size: clamp(44px, 12.4vw, 132px);
-    line-height: 0.92;
-    letter-spacing: -0.005em;
+    font-size: clamp(38px, 11vw, 120px);
+    line-height: 0.94;
+    letter-spacing: -0.025em;
     text-transform: uppercase;
     color: var(--color-foreground);
   }
@@ -173,19 +172,23 @@
   }
 
   .vuffi-story.is-live .vuffi-story__line {
-    transform: translateY(calc((1 - var(--r, 0)) * 110%));
-    opacity: calc(0.2 + var(--r, 0) * 0.8);
+    transform: translateY(calc((1 - var(--r, 0)) * 105%)) rotate(calc((1 - var(--r, 0)) * 4deg));
+    transform-origin: 0 100%;
+    opacity: calc(0.15 + var(--r, 0) * 0.85);
     will-change: transform;
   }
 
+  /* The jar rests with its top at --rest-y and runs off the bottom of the screen, like the Grüns pack */
   .vuffi-story__product {
     position: absolute;
     z-index: 2;
     left: 50%;
-    bottom: 0;
+    top: calc(var(--rest-y) - var(--unit) * 0.044);
     width: var(--unit);
     aspect-ratio: 1;
-    transform: translate(-50%, calc(var(--jy) * 86% + var(--rest)));
+    transform:
+      translate(-50%, calc(var(--jy) * (100svh - var(--rest-y) - var(--unit) * 0.16)))
+      rotate(calc(var(--jy) * -5deg));
     will-change: transform;
   }
 
@@ -203,8 +206,9 @@
     right: 7.75%;
     top: -5.9%;
     transform:
-      translate(calc(var(--lid) * var(--lid-x)), calc(var(--lid) * var(--lid-y)))
-      rotate(calc(var(--lid) * 18deg));
+      translate(calc(var(--lid) * 150%), calc(var(--lid) * -90% + var(--lid) * var(--lid) * 80%))
+      rotate(calc(var(--lid) * 62deg));
+    will-change: transform;
   }
 
   .vuffi-story__peek {
@@ -213,7 +217,8 @@
     left: 36%;
     width: 28%;
     top: 4%;
-    transform: translateY(calc((1 - var(--peek)) * 70% - var(--peek) * 46%)) rotate(calc(var(--peek) * -14deg));
+    transform: translateY(calc((1 - var(--peek)) * 70% - var(--peek) * 52%)) rotate(calc(var(--peek) * -16deg));
+    will-change: transform;
   }
 
   .vuffi-story__layer.vuffi-media {
@@ -257,8 +262,9 @@
     transform:
       translate(-50%, calc((0.5 - var(--p)) * var(--depth) * 34svh))
       rotate(calc(var(--r) + var(--p) * var(--depth) * 60deg));
-    opacity: calc(0.35 + var(--depth) * 0.5);
-    filter: blur(calc((1.3 - var(--depth)) * 2px)) drop-shadow(0 16px 20px rgb(0 0 0 / 0.25));
+    opacity: calc(0.55 + var(--depth) * 0.4);
+    filter: blur(calc(max(0, 0.8 - var(--depth)) * 4px)) drop-shadow(0 18px 22px rgb(0 0 0 / 0.28));
+    will-change: transform;
   }
 
   .vuffi-story__floater--desktop {
@@ -303,9 +309,7 @@
 
   .vuffi-story.is-static .vuffi-story__sticky {
     position: relative;
-    height: auto;
-    min-height: 760px;
-    padding-bottom: calc(var(--unit) * 0.9);
+    height: max(100svh, 720px);
   }
 
   @media screen and (min-width: 750px) {
@@ -315,40 +319,23 @@
   }
 
   @media screen and (min-width: 990px) {
-    /* Computers: lines on the left, the jar on the right */
     .vuffi-story {
-      --unit: min(40vw, 62svh, 600px);
-      --rest: -8%;
-      --lid-x: 46%;
-      --lid-y: -62%;
-      --side: max(var(--vuffi-gutter), calc((100% - var(--vuffi-max)) / 2 + var(--vuffi-gutter)));
+      --unit: min(40vw, 62svh, 620px);
+      --rest-y: 60svh;
     }
 
-    .vuffi-story .vuffi-story__head {
-      position: absolute;
-      inset: 0 auto 0 0;
-      z-index: 3;
-      width: 56%;
-      max-width: none;
-      margin: 0;
-      padding: 0 0 0 var(--side);
-      align-content: center;
-      justify-items: start;
-      text-align: left;
+    .vuffi-story__head {
+      padding-top: max(104px, 12svh);
     }
 
     .vuffi-story__lines {
-      justify-items: start;
-      font-size: min(clamp(56px, 8.4vw, 128px), 12svh);
-    }
-
-    .vuffi-story__product {
-      left: 74%;
+      font-size: min(clamp(56px, 7vw, 120px), 9.6svh);
     }
 
     .vuffi-story__cta {
-      left: var(--side);
-      bottom: max(48px, 9svh);
+      left: auto;
+      right: var(--vuffi-gutter);
+      bottom: 48px;
       transform: translate(0, 24px);
     }
 
@@ -368,7 +355,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Pins to the screen while people scroll: the lines slide up one by one, the jar rises from the bottom, the lid pops and a chew peeks out, with chews floating around. People who ask their device for less motion see the finished scene."
+      "content": "Pins to the screen while people scroll, like the Grüns section: the lines slide up one by one, the jar rises from the bottom, the lid pops off and a chew peeks out, with chews drifting and turning around it. People who ask their device for less motion see the finished scene."
     },
     {
       "type": "text",
@@ -443,8 +430,16 @@
     {
       "type": "color",
       "id": "background_color",
-      "label": "Background",
-      "default": "#0E3B2C"
+      "label": "Background, top",
+      "default": "#0E3B2C",
+      "info": "Sets the text color too."
+    },
+    {
+      "type": "color",
+      "id": "background_color_2",
+      "label": "Background, bottom",
+      "default": "#7DA23A",
+      "info": "The background fades from the top color to this one, like the Grüns section."
     }
   ],
   "blocks": [
