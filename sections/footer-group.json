@@ -23,7 +23,8 @@
     "vuffi_popup": {
       "type": "vuffi-popup",
       "settings": {
-        "shop_link": "/products/hip-and-joint-soft-chews"
+        "shop_link": "/products/hip-and-joint-soft-chews",
+        "image": "shopify://shop_images/vuffi-v2-popup-dog.jpg"
       }
     }
   },

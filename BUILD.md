@@ -13,6 +13,12 @@ Working notes for the Nov 2026 launch build. Newest decisions first in each list
 - Pages: Home, Product, Ingredients, FAQ, Our Story, Contact, policies. TPLO landing page after launch.
 - Big logo lockup with slogan at the bottom of the footer. Countdowns, reveal animations, pinned scroll story (text stacks, jar opens, chews rise).
 
+## Photo set 2 (Nov 23, late night)
+- Robin sent all 49 photos from the prompt sheet. 47 placed (the two hero shots match the ones already up, so those stay).
+- Files are `vuffi-v2-<slot>` in Shopify Files. Product media is now pdp-1 to pdp-5; the first batch photos were removed from the product but stay in Files.
+- Joint numbers and formula name tags measured again for the new diagrams. Lid position in the scroll story refitted to the new jar and lid. Photo rows: why and life show 3:4, detail shows 1:1.
+- Seven jar shots have redrawn serif label lettering (listed in PLACEHOLDERS.md). Placed, flagged to Robin to regenerate.
+
 ## Design version 5 (Nov 23, night)
 - Robin sent the Grüns scroll section as the model for ours, asked for the font on the jar, round buttons, good animations and a one sheet prompt for ChatGPT.
 - Jar lettering matched to Figtree (closest in Shopify's library). Buttons are pills with a sweep fill on hover.

@@ -169,7 +169,7 @@
             "name": "Glucosamine",
             "role": "Rebuilds cartilage",
             "text": "<p>The raw material your dog's body uses to build and repair the cushion on the ends of the bones. Dogs make less of it as they age.</p>",
-            "x": 38,
+            "x": 46,
             "y": 42
           }
         },
@@ -179,8 +179,8 @@
             "name": "Chondroitin",
             "role": "Keeps it springy",
             "text": "<p>Pulls water into cartilage so it absorbs every landing, and slows the enzymes that wear it away.</p>",
-            "x": 43,
-            "y": 64
+            "x": 46,
+            "y": 60
           }
         },
         "ingredient_3": {
@@ -189,8 +189,8 @@
             "name": "MSM",
             "role": "Calms swelling",
             "text": "<p>A natural sulfur compound the body uses for cartilage, tendons and ligaments. It helps calm swelling inside sore joints.</p>",
-            "x": 77,
-            "y": 45
+            "x": 71,
+            "y": 49
           }
         },
         "ingredient_4": {
@@ -200,7 +200,7 @@
             "role": "Keeps joints gliding",
             "text": "<p>The main ingredient of joint fluid, the slick cushion that lets bones glide. Older and injured joints run low on it.</p>",
             "x": 48,
-            "y": 55
+            "y": 52
           }
         },
         "ingredient_5": {
@@ -209,8 +209,8 @@
             "name": "Green lipped mussel",
             "role": "Cools inflammation",
             "text": "<p>A New Zealand shellfish rich in omega fats that turn down inflammation, plus natural cartilage building blocks.</p>",
-            "x": 79,
-            "y": 66
+            "x": 82,
+            "y": 16
           }
         }
       },
@@ -222,8 +222,8 @@
         "ingredient_5"
       ],
       "settings": {
-        "worn_image": "shopify://shop_images/vuffi-joint-worn.png",
-        "supported_image": "shopify://shop_images/vuffi-joint-ingredients.png"
+        "worn_image": "shopify://shop_images/vuffi-v2-diagram-joint-worn.jpg",
+        "supported_image": "shopify://shop_images/vuffi-v2-diagram-joint-ingredients.jpg"
       }
     },
     "formula": {
@@ -236,9 +236,9 @@
             "name": "Glucosamine",
             "tagline": "Rebuilds cartilage",
             "text": "<p>Raw material for the cushion on the ends of the bones, so getting up and taking stairs feel easier.</p>",
-            "image": "shopify://shop_images/vuffi-ing-glucosamine.png",
-            "label_x": 3,
-            "label_y": 18,
+            "image": "shopify://shop_images/vuffi-v2-ing-glucosamine.jpg",
+            "label_x": 5,
+            "label_y": 22,
             "label_side": "left"
           }
         },
@@ -249,9 +249,9 @@
             "name": "Chondroitin",
             "tagline": "Keeps it springy",
             "text": "<p>Holds water in cartilage to absorb every landing, and slows the wear.</p>",
-            "image": "shopify://shop_images/vuffi-ing-chondroitin.png",
-            "label_x": 97,
-            "label_y": 18,
+            "image": "shopify://shop_images/vuffi-v2-ing-chondroitin.jpg",
+            "label_x": 95,
+            "label_y": 22,
             "label_side": "right"
           }
         },
@@ -262,9 +262,9 @@
             "name": "MSM",
             "tagline": "Calms swelling",
             "text": "<p>Natural sulfur for cartilage, tendons and ligaments. Less soreness after play and long naps.</p>",
-            "image": "shopify://shop_images/vuffi-ing-msm.png",
-            "label_x": 2,
-            "label_y": 53,
+            "image": "shopify://shop_images/vuffi-v2-ing-msm.jpg",
+            "label_x": 4,
+            "label_y": 52,
             "label_side": "left"
           }
         },
@@ -275,9 +275,9 @@
             "name": "Hyaluronic acid",
             "tagline": "Keeps joints gliding",
             "text": "<p>The main part of joint fluid, so knees and hips bend with less grinding.</p>",
-            "image": "shopify://shop_images/vuffi-ing-hyaluronic.png",
-            "label_x": 98,
-            "label_y": 54,
+            "image": "shopify://shop_images/vuffi-v2-ing-hyaluronic.jpg",
+            "label_x": 96,
+            "label_y": 52,
             "label_side": "right"
           }
         },
@@ -288,9 +288,9 @@
             "name": "Green lipped mussel",
             "tagline": "Cools inflammation",
             "text": "<p>Omega rich New Zealand shellfish that turns down inflammation inside the joint.</p>",
-            "image": "shopify://shop_images/vuffi-ing-mussel.png",
-            "label_x": 16,
-            "label_y": 82,
+            "image": "shopify://shop_images/vuffi-v2-ing-mussel.jpg",
+            "label_x": 5,
+            "label_y": 81,
             "label_side": "left"
           }
         }
@@ -304,7 +304,7 @@
       ],
       "settings": {
         "background_color": "#F3F2EE",
-        "diagram": "shopify://shop_images/vuffi-chew-cross.png"
+        "diagram": "shopify://shop_images/vuffi-v2-diagram-chew-cross.jpg"
       }
     },
     "dose": {
@@ -545,7 +545,8 @@
           "settings": {
             "slot": "detail-jar",
             "label": "Nº 01 · The jar",
-            "title": "30 soft chews"
+            "title": "30 soft chews",
+            "image": "shopify://shop_images/vuffi-v2-detail-jar.jpg"
           }
         },
         "photo_2": {
@@ -553,7 +554,8 @@
           "settings": {
             "slot": "detail-open",
             "label": "Nº 02 · Inside",
-            "title": "Soft and easy to chew"
+            "title": "Soft and easy to chew",
+            "image": "shopify://shop_images/vuffi-v2-detail-open.jpg"
           }
         },
         "photo_3": {
@@ -561,7 +563,8 @@
           "settings": {
             "slot": "detail-macro",
             "label": "Nº 03 · Texture",
-            "title": "A real chew, not a tablet"
+            "title": "A real chew, not a tablet",
+            "image": "shopify://shop_images/vuffi-v2-detail-macro.jpg"
           }
         },
         "photo_4": {
@@ -569,7 +572,8 @@
           "settings": {
             "slot": "detail-hand",
             "label": "Nº 04 · Serving",
-            "title": "One a day under 35 lbs"
+            "title": "One a day under 35 lbs",
+            "image": "shopify://shop_images/vuffi-v2-detail-hand.jpg"
           }
         },
         "photo_5": {
@@ -577,7 +581,8 @@
           "settings": {
             "slot": "detail-label",
             "label": "Nº 05 · Label",
-            "title": "Every ingredient listed"
+            "title": "Every ingredient listed",
+            "image": "shopify://shop_images/vuffi-v2-detail-label.jpg"
           }
         }
       },
@@ -607,7 +612,8 @@
         "background_color": "#111A16",
         "heading": "Every step, <em>supported.</em>",
         "caption": "Fig. 01 · Hips, knees, elbows",
-        "image_alt": "A dog bounding up a grassy hill in late sun"
+        "image_alt": "A dog bounding up a grassy hill in late sun",
+        "image": "shopify://shop_images/vuffi-v2-band-pdp.jpg"
       }
     }
   },

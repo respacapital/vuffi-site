@@ -16,7 +16,8 @@
         "heading": "Questions, <em>answered.</em>",
         "show_photo": true,
         "slot": "page-faq",
-        "image_alt": "A jar of Vuffi on a stone counter in morning light"
+        "image_alt": "A jar of Vuffi on a stone counter in morning light",
+        "image": "shopify://shop_images/vuffi-v2-page-faq.jpg"
       }
     },
     "faq": {
@@ -99,7 +100,7 @@
       "settings": {
         "button_link": "/products/hip-and-joint-soft-chews",
         "background_color": "#0E3B2C",
-        "image": "shopify://shop_images/vuffi-jar-closed.png"
+        "image": "shopify://shop_images/vuffi-v2-bf-banner.jpg"
       }
     }
   },
