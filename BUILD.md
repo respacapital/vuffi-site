@@ -147,3 +147,13 @@ Status: todo, built, PR open, merged.
 - How to give it is now the weight slider again (vuffi-dose, rebuilt in the current look): drag to your dog's weight, the answer rows show chews a day (with chew icons), how long one jar lasts and what to order for a month; over 65 lbs it says to ask your vet. Three habits on hairlines under the headline. vuffi-steps (the table) is no longer on any page.
 - Product gallery: one photo at a time with thumbnails under it (tap to pick a photo), arrows on computers, swipe on phones, counter on phones (vuffi-gallery.js).
 - Scroll story: smoother. The chews' depth blur no longer changes every frame, the open jar and chews stay painted at 1 percent opacity so nothing appears with a hitch, the jar layers have their own layer, and every image in the scene is decoded ahead of time.
+
+## Launch (Nov 24, 4 am)
+- PR #1 merged into main at Robin's request; vuffi-site/main (157145366726) published as the live theme; store taken out of private mode. The old toothbrush theme (vuffi-theme/main) stays in the library, unpublished.
+- Subscriptions: the DSers product (both variants) added to Loop's plan "Vuffi monthly, 15% off" (Loop > Acquire > Selling plans). Tested on the live cart: subscription line on the monthly plan, 25% off everything applied, totals match the page to the cent.
+- Black Friday: Robin kept "25% off everything" (25.02% so $39.99 lands on $29.99; Shopify rounds discounts down to the cent). The bar, hero badge, buy box (25% on both, exact 25.02), sticker, closing offer and FAQ all say 25% off everything. The other two Black Friday discounts stay on but never stack with it (no product discount combining).
+- Product gallery: Robin's ten new product photos (vuffi-photo-01 to 10) with the built dose, actives and subscribe cards. Variant images: 1 jar = main photo, 2 jars = two jars photo.
+- Knee pair and ingredient photos: the Nov 24 set (knee markers measured on the new supported image, card color #091310).
+- Shop app: brand assets set in Settings > General > Brand (ink logo, square paw icon, colors #0E3B2C and #C6E35A, cover vuffi-brand-cover.jpg, slogan, short description). Shop eligibility rechecks within 48 hours now that the store is public.
+- Redo pack for the old photos: "Photos To Redo - Vuffi - 2026.11.24.zip" (22 photos, references, prompts).
+- Left for Robin: home page title and meta description in Online Store > Preferences (still the toothbrush text; the field sits in a frame the agent browser cannot type into), social links, DSers automatic price updates, the empty "Dental Plan" collection.
