@@ -775,3 +775,101 @@
   color: var(--vuffi-ink);
   font-weight: 700;
 }
+
+/* Shopify policy pages (/policies/...), linked from checkout and order emails.
+   Same look as the Vuffi policy pages: a dark title band with the hero light, then the text
+   on white, lined up with the logo. Shopify writes this markup, so it is styled here. */
+.shopify-policy__container {
+  max-width: none;
+  margin: 0;
+  padding: 0 0 clamp(64px, 8vw, 120px);
+}
+
+.shopify-policy__title {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: 0 0 clamp(40px, 5vw, 64px);
+  padding: clamp(64px, 9vw, 128px) 0 clamp(48px, 6vw, 88px);
+  background: var(--vuffi-ink);
+  color: #ffffff;
+  text-align: left;
+}
+
+.shopify-policy__title::before,
+.shopify-policy__title::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.shopify-policy__title::before {
+  top: -12%;
+  left: -30%;
+  width: 110%;
+  height: min(90%, 1200px);
+  background: radial-gradient(closest-side, rgb(238 224 190 / 0.2), rgb(238 224 190 / 0.07) 55%, transparent);
+  transform: rotate(26deg) scaleY(0.36);
+}
+
+.shopify-policy__title::after {
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgb(0 0 0 / 0.22) 100%);
+}
+
+.shopify-policy__title h1,
+.shopify-policy__body {
+  width: 100%;
+  max-width: calc(var(--vuffi-max) + var(--vuffi-gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--vuffi-gutter);
+}
+
+.shopify-policy__title h1 {
+  margin-block: 0;
+  font-family: var(--font-heading--family);
+  font-weight: var(--font-heading--weight);
+  font-size: clamp(42px, 6.6vw, 96px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: #ffffff;
+  text-wrap: balance;
+}
+
+.shopify-policy__body .rte {
+  max-width: 720px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--color-foreground-muted);
+}
+
+.shopify-policy__body h2,
+.shopify-policy__body h3 {
+  margin: 40px 0 12px;
+  font-family: var(--font-heading--family);
+  font-weight: var(--font-heading--weight);
+  font-size: 32px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-foreground);
+}
+
+.shopify-policy__body h3 {
+  font-size: 24px;
+}
+
+.shopify-policy__body p,
+.shopify-policy__body ul,
+.shopify-policy__body ol {
+  margin: 0 0 16px;
+}
+
+.shopify-policy__body strong {
+  color: var(--color-foreground);
+}
+
+.shopify-policy__body a {
+  color: var(--vuffi-green);
+  text-underline-offset: 3px;
+}

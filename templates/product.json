@@ -16,21 +16,24 @@
           "type": "chip",
           "settings": {
             "icon": "vet",
-            "text": "Vet recommended"
+            "text": "Vet recommended",
+            "detail": "Built on the actives vets use most"
           }
         },
         "chip_2": {
           "type": "chip",
           "settings": {
             "icon": "chew",
-            "text": "Pork flavor"
+            "text": "Pork flavor",
+            "detail": "Taken like a treat"
           }
         },
         "chip_3": {
           "type": "chip",
           "settings": {
             "icon": "joint",
-            "text": "Hips, knees, elbows"
+            "text": "Hips, knees, elbows",
+            "detail": "Support for every major joint"
           }
         },
         "tab_1": {

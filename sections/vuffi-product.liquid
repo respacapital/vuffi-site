@@ -165,15 +165,16 @@
           <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
         {%- endif -%}
         <h1 class="vuffi-h2 vuffi-pdp__title">{{ product.title }}</h1>
-        {%- if section.settings.show_rating -%}
-          {%- comment -%} Judge.me star rating; hidden by Judge.me until the first review arrives {%- endcomment -%}
+        {%- liquid
+          assign review_count = product.metafields.reviews.rating_count.value | default: 0
+          if review_count == 0
+            assign review_count = product.metafields.judgeme.review_widget_data.value.number_of_reviews | default: 0
+          endif
+        -%}
+        {%- if section.settings.show_rating and review_count > 0 -%}
+          {%- comment -%} Judge.me Star Rating Badge (Judge.me's own code), shown once the first review arrives {%- endcomment -%}
           <div class="vuffi-pdp__rating">
-            <div
-              class="jdgm-widget jdgm-preview-badge"
-              data-id="{{ product.id }}"
-              data-template="product"
-              data-auto-install="false"
-            >
+            <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
               {{- product.metafields.judgeme.badge -}}
             </div>
           </div>
@@ -182,13 +183,25 @@
           <p class="vuffi-pdp__subtitle">{{ section.settings.subtitle }}</p>
         {%- endif -%}
 
-        {%- if section.blocks.size > 0 -%}
-          <ul class="vuffi-pdp__chips" role="list">
+        {%- liquid
+          assign chip_count = 0
+          for block in section.blocks
+            if block.type == 'chip'
+              assign chip_count = chip_count | plus: 1
+            endif
+          endfor
+        -%}
+        {%- if chip_count > 0 -%}
+          {%- comment -%} Three proof points as one stone strip: a green seal with the icon, a title and a short line {%- endcomment -%}
+          <ul class="vuffi-pdp__proof" role="list" style="--proof: {{ chip_count }};">
             {%- for block in section.blocks -%}
               {%- if block.type == 'chip' -%}
-                <li class="vuffi-chip" {{ block.shopify_attributes }}>
-                  {%- render 'vuffi-icon', name: block.settings.icon -%}
-                  {{ block.settings.text }}
+                <li class="vuffi-pdp__proof-item" {{ block.shopify_attributes }}>
+                  <span class="vuffi-pdp__proof-seal">{%- render 'vuffi-icon', name: block.settings.icon -%}</span>
+                  <span class="vuffi-pdp__proof-title">{{ block.settings.text }}</span>
+                  {%- if block.settings.detail != blank -%}
+                    <span class="vuffi-pdp__proof-text">{{ block.settings.detail }}</span>
+                  {%- endif -%}
                 </li>
               {%- endif -%}
             {%- endfor -%}
@@ -546,13 +559,63 @@
     color: var(--color-foreground-muted);
   }
 
-  .vuffi-pdp__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 0;
+  .vuffi-pdp__proof {
+    display: grid;
+    grid-template-columns: repeat(var(--proof, 3), minmax(0, 1fr));
+    margin: 2px 0 0;
     padding: 0;
     list-style: none;
+    border: 1px solid var(--vuffi-line);
+    border-radius: var(--vuffi-radius-ui);
+    background: var(--vuffi-paper);
+    overflow: hidden;
+  }
+
+  .vuffi-pdp__proof-item {
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 4px;
+    padding: 16px 8px 14px;
+    text-align: center;
+  }
+
+  .vuffi-pdp__proof-item + .vuffi-pdp__proof-item {
+    border-left: 1px solid var(--vuffi-line);
+  }
+
+  .vuffi-pdp__proof-seal {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    margin-bottom: 6px;
+    border-radius: 50%;
+    background:
+      radial-gradient(120% 120% at 20% 10%, rgb(255 255 255 / 0.18), transparent 55%),
+      linear-gradient(145deg, color-mix(in srgb, var(--vuffi-green) 86%, #ffffff), var(--vuffi-green) 50%, color-mix(in srgb, var(--vuffi-green) 72%, #000000));
+    color: var(--vuffi-lime);
+    box-shadow:
+      0 6px 16px color-mix(in srgb, var(--vuffi-green) 28%, transparent),
+      inset 0 0 0 4px rgb(255 255 255 / 0.06);
+  }
+
+  .vuffi-pdp__proof-seal .vuffi-icon,
+  .vuffi-pdp__proof-seal svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .vuffi-pdp__proof-title {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .vuffi-pdp__proof-text {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--color-foreground-muted);
   }
 
   .vuffi-pdp__form {
@@ -588,11 +651,45 @@
     position: relative;
     display: grid;
     gap: 2px;
-    padding: 14px 16px;
+    padding: 14px 48px 14px 16px;
     border: 1px solid var(--vuffi-line-strong);
     border-radius: var(--vuffi-radius-ui);
+    background-color: var(--color-background);
     cursor: pointer;
-    transition: border-color 0.25s, box-shadow 0.25s;
+    transition: border-color 0.25s, background-color 0.25s, box-shadow 0.25s, color 0.25s;
+  }
+
+  .vuffi-pdp__size:hover {
+    border-color: var(--vuffi-green);
+  }
+
+  /* The lime check that shows on the picked jar option */
+  .vuffi-pdp__size::after,
+  .vuffi-pdp__size::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    opacity: 0;
+    transition: opacity 0.25s, transform 0.25s;
+  }
+
+  .vuffi-pdp__size::after {
+    right: 16px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--vuffi-lime);
+    transform: translateY(-50%) scale(0.6);
+  }
+
+  .vuffi-pdp__size::before {
+    z-index: 1;
+    right: 24px;
+    width: 6px;
+    height: 10px;
+    border: solid var(--vuffi-ink);
+    border-width: 0 2px 2px 0;
+    transform: translateY(-65%) rotate(45deg) scale(0.6);
   }
 
   .vuffi-pdp__size input,
@@ -602,9 +699,30 @@
     pointer-events: none;
   }
 
+  /* Picked jar option: bottle green with a soft light from the top corner and white words */
   .vuffi-pdp__size:has(input:checked) {
-    border-color: var(--color-foreground);
-    box-shadow: inset 0 0 0 1px var(--color-foreground);
+    border-color: transparent;
+    background:
+      radial-gradient(120% 160% at 0% 0%, rgb(255 255 255 / 0.16), transparent 55%),
+      linear-gradient(140deg, color-mix(in srgb, var(--vuffi-green) 86%, #ffffff) 0%, var(--vuffi-green) 50%, color-mix(in srgb, var(--vuffi-green) 70%, #000000) 100%);
+    color: #ffffff;
+    box-shadow:
+      0 12px 28px color-mix(in srgb, var(--vuffi-green) 30%, transparent),
+      inset 0 1px 0 rgb(255 255 255 / 0.14);
+  }
+
+  .vuffi-pdp__size:has(input:checked) .vuffi-pdp__size-sub {
+    color: rgb(255 255 255 / 0.72);
+  }
+
+  .vuffi-pdp__size:has(input:checked)::after {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+
+  .vuffi-pdp__size:has(input:checked)::before {
+    opacity: 1;
+    transform: translateY(-65%) rotate(45deg) scale(1);
   }
 
   .vuffi-pdp__size:has(input:focus-visible),
@@ -895,6 +1013,14 @@
 
     .vuffi-pdp__count {
       display: none;
+    }
+
+    .vuffi-pdp__proof-item {
+      padding: 20px 12px 18px;
+    }
+
+    .vuffi-pdp__proof-title {
+      font-size: 14px;
     }
 
     .vuffi-pdp__thumbs {
@@ -1262,8 +1388,14 @@
         {
           "type": "text",
           "id": "text",
-          "label": "Text",
+          "label": "Title",
           "default": "Vet recommended"
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Short line under the title",
+          "default": "Built on the actives vets use most"
         }
       ]
     },
@@ -1295,8 +1427,8 @@
     {
       "name": "Vuffi product",
       "blocks": [
-        { "type": "chip", "settings": { "icon": "vet", "text": "Vet recommended" } },
-        { "type": "chip", "settings": { "icon": "chew", "text": "Pork flavor" } },
+        { "type": "chip", "settings": { "icon": "vet", "text": "Vet recommended", "detail": "Built on the actives vets use most" } },
+        { "type": "chip", "settings": { "icon": "chew", "text": "Pork flavor", "detail": "Taken like a treat" } },
         { "type": "tab", "settings": { "title": "Description", "use_description": true } }
       ]
     }
