@@ -120,3 +120,13 @@ Status: todo, built, PR open, merged.
 - Pages: no repeated sections. Product: main, detail, band_pdp, reviews. Ingredients: hero, list, band_ing (with Shop button). About: hero, why, band_about (with Shop button), prevent. FAQ: hero, faq. Contact: hero, contact. Home FAQ trimmed to four questions with a link to the full FAQ.
 - Image prompts: one new sheet, "Image Prompts - Vuffi - 2026.11.24.txt", 46 images with a packaging rule, plus Jar Reference 1 to 3.
 - Preview copies for screenshots: 157195403462, 157195501766, 157196288198 (safe to delete).
+
+## Design version 10 (Nov 24, 3 am)
+- Natural light on every dark band (window light with leaf shadows, film grain), never animated.
+- Buy box options and the comparison column are round again (--vuffi-radius-ui 18px, comparison 24px).
+- Product page: new sections vuffi-label (The jar, explained: numbered points on the real jar, ink with light) and vuffi-steps (How to give it). Order: main, detail, label, steps, band_pdp, reviews.
+- Home: new vuffi-social section (Follow along) between the FAQ and the closing offer. Links and handle are settings; waiting on Robin's links.
+- Cart: payment icons and a trust line under the checkout button in the drawer and on the cart page (template in vuffi-site-styles, placed by vuffi-cart.js, tested with jsdom).
+- Ingredients page: the small print now sits inside the last row, so there is no white strip before the photo band.
+- Checkout (Settings > Checkout > Customize, saved in the admin): ink Vuffi logo, palette green #0E3B2C for accents and buttons, Figtree headings and body. The old sage logo and Fredoka headings are gone.
+- Preview copies for screenshots: 157195403462, 157195501766, 157196288198, 157196484806, 157197205702 (safe to delete).

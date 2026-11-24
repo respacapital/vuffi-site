@@ -1,6 +1,6 @@
 # Vuffi Design System
 
-Version 9, November 24, 2026. Source of truth for color, type, shape, motion, photography and voice on getvuffi.com. Change this file before changing the theme.
+Version 10, November 24, 2026. Source of truth for color, type, shape, motion, photography and voice on getvuffi.com. Change this file before changing the theme.
 
 Earlier versions are saved on branches: `design/serif-v1` (first serif), `design/rounded-v2` (Nunito, rounded), `design/serif-v3` (serif with the still hero and Robin's first images).
 
@@ -25,7 +25,7 @@ Rules:
 1. Bottle green is the jar label green. White text on it passes contrast easily.
 2. Leaf is the jar's lime, softened so it reads natural on screen. It never sits on white and never fills large areas.
 3. Dark bands are bottle green or ink, never bright green.
-4. No saturated color fields or neon. The one glow allowed is the hero light: on ink and bottle green bands (How it works, What to expect, the closing offer) a soft warm beam falls from the top left with a gentle lift in the middle and a slightly darker floor, like the light in the hero photo. Each of those sections has a switch for it.
+4. No saturated color fields or neon. Dark bands get natural light: warm sun through a window with leaf shadows falling across the wall (assets/vuffi-light.jpg, built by scripts/light.py in the work folder), a faint film grain and a slightly darker floor. It never moves. It is on the scroll story, How it works, What to expect (mirrored), the guarantee (mirrored), the jar explained, the closing offer, the footer, the plain page titles and the dark ingredient rows; each section has a switch for it.
 
 ## 3. Logo
 
@@ -54,7 +54,7 @@ Every section appears once on the whole site. The home page carries the main poi
 Luxury and clinical: no rounded tiles anywhere.
 1. Photos, panels, cards and lists have square corners. Photo rows sit flush, edge to edge, split only by a 2px hairline, with the words laid over the bottom of each photo on a deep green shade. Page titles fill the screen with a photo and put the headline at the bottom left.
 2. Information sits on hairlines (1px rules) instead of in boxes: the joint ingredient list, perks, prices, questions, the ingredient index row. Generous space around everything.
-3. Only things you press stay round: buttons (full pills, 54 to 56px tall, bottle green with white text on light bands, leaf with ink text on dark bands), switches, chips, inputs, accordion signs, the numbered joint markers and the 90 day seal.
+3. Only things you press or choose between stay round: buy box options and the comparison column (18 to 24px corners), buttons (full pills, 54 to 56px tall, bottle green with white text on light bands, leaf with ink text on dark bands), switches, chips, inputs, accordion signs, the numbered joint markers and the 90 day seal.
 4. On hover a second color rises from the bottom and fills a button, and the arrow slides 4px.
 5. Layout: content width 1440px with 16px side margins on phones and 40px from 750px up, matching Horizon's narrow page width so every section lines up with the logo and the cart icon. Section spacing about 72px on phones and 120px on desktop.
 6. Pages that open on a page title get an ink header with the white logo, so the header runs straight into the dark title like the home page.

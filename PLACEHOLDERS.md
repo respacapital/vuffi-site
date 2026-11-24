@@ -22,6 +22,7 @@ Words over photos: the Why Vuffi, Life with Vuffi and Up close rows put their wo
 | 21 | subscribe-jar | Subscribe and save, left half on computers, wide crop on phones | 2:3 | Vuffi subscribe and save | Filled |
 | 22 to 26 | life-walk, life-car, life-couch, life-beach, life-stairs | Life with Vuffi photo row | 2:3, shown 3:4 | Vuffi photo row (life) | Filled |
 | 27 | bf-banner | Closing offer; on phones it melts into the footer | 2:3 | Vuffi closing offer | Filled (label check) |
+| (none yet) | social-1 to social-6 | Follow along grid above the closing offer | 1:1, 1080 | Vuffi social > each Photo | Filled for now with popup-dog, detail-hand, story-2, pdp-5, band-about and band-pdp. Replace with real posts once the accounts are live |
 
 ## Product page
 
@@ -30,7 +31,8 @@ Words over photos: the Why Vuffi, Life with Vuffi and Up close rows put their wo
 | 28 to 32 | pdp-1 to pdp-5 | Product gallery, between the five built images | 1:1 | Products > Advanced Hip & Joint Support > Media | Filled |
 | (built) | vuffi-product-01 to 05 | Product gallery: jar on stone, five actives, how much to give, subscribe, the chew | 1:1, 2048 | Product media | Filled. Built from the real jar cutout by scripts/product_images.py, so the label is exact |
 | 33 to 37 | detail-jar, detail-open, detail-macro, detail-hand, detail-label | Up close photo row | 1:1 | Vuffi photo row (detail) | Filled (33, 34, 37: label check) |
-| 38 | band-pdp | Full width photo after the close ups | 16:9 | Vuffi photo band (band_pdp) | Filled |
+| (cutout) | label-jar | The jar, explained | 1:1, see through PNG | Vuffi jar explained > Jar photo | Filled with vuffi-jar-closed.png (the hero jar). The five numbers are placed on its label; a new jar photo needs them placed again |
+| 38 | band-pdp | Full width photo after How to give it | 16:9 | Vuffi photo band (band_pdp) | Filled |
 
 ## Other pages
 
