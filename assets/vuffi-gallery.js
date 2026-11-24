@@ -45,8 +45,21 @@
       this.mark(target);
     }
 
+    /* Start loading the photos either side of the one on show, so a swipe never lands on a blank frame */
+    warm(i) {
+      if (!this.slides) this.slides = Array.from(this.rail.querySelectorAll('[data-slide]'));
+      [i - 1, i + 1, i + 2].forEach((k) => {
+        const slide = this.slides[k];
+        if (!slide) return;
+        slide.querySelectorAll('img[loading="lazy"]').forEach((img) => {
+          img.loading = 'eager';
+        });
+      });
+    }
+
     mark(i) {
       this.index = i;
+      this.warm(i);
       this.thumbs.forEach((thumb, k) => {
         if (k === i) thumb.setAttribute('aria-current', 'true');
         else thumb.removeAttribute('aria-current');

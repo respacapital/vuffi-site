@@ -701,6 +701,31 @@
     var(--vuffi-ink);
 }
 
+/* Sale countdown above the cart total: the same ink bar as the buy box */
+.vuffi-cart-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 10px;
+  padding: 12px 16px;
+  border-radius: var(--vuffi-radius-ui, 18px);
+  background: var(--vuffi-ink);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.vuffi-cart-count .vuffi-count {
+  color: var(--vuffi-lime);
+  font-weight: 700;
+}
+
+.vuffi-cart-count[hidden] {
+  display: none;
+}
+
 /* Trust line and payment icons under the checkout button */
 .vuffi-cart-trust {
   --vuffi-accent: currentColor;
@@ -872,4 +897,56 @@
 .shopify-policy__body a {
   color: var(--vuffi-green);
   text-underline-offset: 3px;
+}
+
+/* The menu uses the heading font (header menu block > Font: Heading); the large phone menu is set tight like the headlines */
+.menu-drawer__menu-item--mainlist {
+  letter-spacing: -0.02em;
+}
+
+/* Phones: the logo sits in the middle of the header, so headlines, intro text, countdowns and buttons
+   sit centered under it on every page. Long legal text, list rows and the buy box stay left aligned. */
+@media screen and (max-width: 749px) {
+  .vuffi-phero__head,
+  .vuffi-cta__copy,
+  .vuffi-band__content,
+  .vuffi-edit__copy,
+  .vuffi-contact__aside,
+  .vuffi-ings__copy,
+  .vuffi-sub__copy > .vuffi-head {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .vuffi-jarx__copy > .vuffi-h2,
+  .vuffi-jarx__copy > .vuffi-lede {
+    text-align: center;
+    justify-self: center;
+  }
+
+  .vuffi-phero__head .vuffi-lede,
+  .vuffi-cta__copy .vuffi-lede,
+  .vuffi-band__content .vuffi-lede,
+  .vuffi-edit__text,
+  .vuffi-ings__text,
+  .vuffi-jarx__copy > .vuffi-lede {
+    margin-inline: auto;
+  }
+
+  .vuffi-cta__copy .vuffi-actions,
+  .vuffi-band__content .vuffi-actions,
+  .vuffi-edit__copy .vuffi-actions,
+  .vuffi-cta__count {
+    justify-content: center;
+  }
+
+  .vuffi-contact__email {
+    justify-self: center;
+  }
+
+  /* Checklists keep their ticks lined up, as one centered block */
+  .vuffi-ings__points {
+    justify-self: center;
+    text-align: left;
+  }
 }

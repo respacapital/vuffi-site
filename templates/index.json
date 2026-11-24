@@ -180,7 +180,8 @@
         "chew_3": "shopify://shop_images/vuffi-v2-scroll-chew-3.png",
         "chew_4": "shopify://shop_images/vuffi-v2-scroll-chew-4.png",
         "background_color": "#0E3B2C",
-        "background_color_2": "#7DA23A"
+        "background_color_2": "#7DA23A",
+        "blend_color": "#F3F2EE"
       }
     },
     "joint": {

@@ -28,7 +28,7 @@
   {%- endif -%}
 
   {%- comment -%} Phones and tablets swipe through the photos; computers show them all in one centered row {%- endcomment -%}
-  <ul class="vuffi-gallery__track" role="list" tabindex="0" aria-label="{{ section.settings.heading | strip_html | escape }}">
+  <ul class="vuffi-gallery__track" role="list" tabindex="0" data-preload aria-label="{{ section.settings.heading | strip_html | escape }}">
     {%- for block in section.blocks -%}
       <li class="vuffi-gallery__item" {{ block.shopify_attributes }}>
         <figure class="vuffi-gallery__figure">

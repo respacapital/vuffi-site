@@ -176,3 +176,20 @@ Status: todo, built, PR open, merged.
 - Email popup: the photo no longer covers the headline on computers (it fills its column instead of sizing it); rounded corners; on phones a short photo strip sits above the form.
 - Judge.me: the review widget uses Judge.me's current code (data-auto-install false plus the review data script), the star badge uses Judge.me's badge code, and both stay off the store until the product has a review ("Hide until the first review" setting on Vuffi reviews; the editor still shows the section with a note).
 - Socials: on hold, Follow along section kept as is.
+
+## Launch round 4 (Nov 24, 5:30 am)
+- Scroll story rebuilt for phones: the script moves each layer (jar, lid, chews, lines) with transform and opacity only, glides toward the scroll position so momentum scrolling stays even, writes only changed values and sleeps off screen. The pinned scene fills the large screen height and the motion is measured on the small one, so a phone toolbar sliding away no longer leaves a band or moves the jar. Chew blur and shadows only on computers; the jar shadow only from tablets up. Images are sized for phones and load after the photos on screen.
+- The story's bottom melts into the stone of "One chew. Every joint." as it finishes (new "Blend the bottom into this color" setting, set to #F3F2EE).
+- Ingredient card row: rebuilt as vuffi-marquee.js. It drifts, can be swiped or dragged, carries on after a flick and resumes by itself; page scrolling over it works as usual. The old CSS animation froze after a tap on phones (sticky hover).
+- Joint switch: the numbers ride on the supported photo and arrive with it (no one by one delay); the switch waits until that photo is loaded and decoded.
+- Photos: swipe rows (Why Vuffi, Life with Vuffi, ingredient cards, joint pair) load every photo as the row comes within a screen of view ([data-preload] in vuffi-motion.js); the product gallery loads the photos either side of the one on show.
+- Product thumbnails: the picked one has a bottle green ring drawn inside its edge, so the row no longer clips it.
+- Start my plan / Add to cart opens the cart drawer as soon as the item is in (cart page when there is no drawer).
+- Sale countdown in the cart drawer and on the cart page, above the savings line (Vuffi site styles > Cart countdown; hides itself when the sale ends).
+- Header menu font set to Heading (header group, header menu block).
+
+## Launch round 5 (Nov 24, 5:30 am)
+- Joint: opens on the supported joint with its numbers in place from the first paint (new "Joint shown first" setting, Supported by default). The worn joint is one tap away; choosing Worn brings back the automatic switch.
+- Ingredient row: never stops (no pause on hover, tap or focus); a swipe nudges it and it drifts on straight away. A tap or click on any card opens that ingredient bigger in a window (larger photo, tagline, name, text; vuffi-formula.js). A small + in the photo corner hints at it.
+- The jar, explained on phones and tablets: the photo starts at the top of the section and fades in and out, so there is no hard edge across the light; headline and intro centered under it.
+- Phones: headlines, intro text, countdowns and buttons centered on every page (page titles, closing offer, Subscribe and save, photo bands, Our story text, ingredient rows with their checklist as one centered block, contact). Long legal text, list rows and the buy box stay left aligned. Computers unchanged.

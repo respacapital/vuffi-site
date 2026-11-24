@@ -21,8 +21,10 @@
       const first = this.ings.find((b) => b.getAttribute('aria-expanded') === 'true') || this.ings[0];
       if (first) this.select(first, true);
 
-      if (reduced.matches) {
-        this.setState('supported');
+      /* Starting on the supported joint: the numbers are there from the start, nothing to wait for */
+      if (reduced.matches || this.dataset.start !== 'worn') {
+        this.setState(this.dataset.state || 'supported');
+        this.classList.remove('is-switched');
         return;
       }
 
@@ -32,13 +34,28 @@
         const r = this.visual.getBoundingClientRect();
         if (r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.2) {
           this.stopWatching();
+          /* Switch only once the supported photo is ready, so it and its numbers arrive together */
+          const ready = this.supportedReady();
           this.timer = window.setTimeout(() => {
-            if (!this.touched) this.setState('supported');
-          }, 900);
+            ready.then(() => {
+              if (!this.touched) this.setState('supported');
+            });
+          }, 700);
         }
       };
       document.addEventListener('scroll', this.onScroll, { passive: true, capture: true });
       this.onScroll();
+    }
+
+    supportedReady() {
+      const img = this.querySelector('.vuffi-joint__layer--supported img');
+      if (!img) return Promise.resolve();
+      img.loading = 'eager';
+      if (img.complete && img.naturalWidth) return img.decode ? img.decode().catch(() => {}) : Promise.resolve();
+      return new Promise((resolve) => {
+        img.addEventListener('load', () => (img.decode ? img.decode().catch(() => {}).then(resolve) : resolve()), { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      });
     }
 
     stopWatching() {

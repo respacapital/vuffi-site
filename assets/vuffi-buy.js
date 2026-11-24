@@ -151,7 +151,11 @@ class VuffiBuy extends HTMLElement {
         },
       });
 
-      if (!document.querySelector('cart-drawer-component')) {
+      /* Take the shopper straight to the cart: the cart drawer slides open, or the cart page loads */
+      const drawer = document.getElementById('cart-drawer');
+      if (drawer && document.querySelector('cart-drawer-component') && typeof drawer.open === 'function') {
+        if (!drawer.isOpen) drawer.open();
+      } else {
         window.location.href = routes.cart_url || '/cart';
       }
     } catch (error) {

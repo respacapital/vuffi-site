@@ -77,6 +77,24 @@
     if (!frame) frame = requestAnimationFrame(tick);
   };
 
+  /* [data-preload]: rows that scroll sideways (and the joint switch) load every photo inside as soon as
+     the row comes within about a screen of view, so cards are filled before anyone swipes to them */
+  const preloader =
+    'IntersectionObserver' in window
+      ? new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.querySelectorAll('img[loading="lazy"]').forEach((img) => {
+                img.loading = 'eager';
+              });
+              preloader.unobserve(entry.target);
+            });
+          },
+          { rootMargin: '1000px 0px' }
+        )
+      : null;
+
   /* Re-measure when a track changes size (fonts loading, images arriving, the window turning) */
   const resizer = 'ResizeObserver' in window ? new ResizeObserver(() => request()) : null;
 
@@ -85,6 +103,9 @@
       progressItems.add(el);
       updateProgress(el);
       if (resizer) resizer.observe(el);
+    });
+    scope.querySelectorAll('[data-preload]').forEach((el) => {
+      if (preloader) preloader.observe(el);
     });
     scope.querySelectorAll('[data-rise]:not(.is-in)').forEach((el) => {
       riseItems.add(el);

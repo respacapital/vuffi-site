@@ -8,7 +8,15 @@
 <script src="{{ 'vuffi-joint.js' | asset_url }}" defer></script>
 
 <section class="vuffi-section vuffi-joint{% if section.settings.glow and tone == 'dark' %} vuffi-glow{% endif %} color-custom-{{ section.id }}" data-tone="{{ tone }}" id="how-it-works">
-  <vuffi-joint class="vuffi-wrap" data-state="worn" style="--joint-card: {{ section.settings.card_color | default: '#ffffff' }};">
+  {%- liquid
+    assign start_state = section.settings.start_state | default: 'supported'
+  -%}
+  <vuffi-joint
+    class="vuffi-wrap"
+    data-state="{{ start_state }}"
+    data-start="{{ start_state }}"
+    style="--joint-card: {{ section.settings.card_color | default: '#ffffff' }};"
+  >
     <div class="vuffi-intro">
       {%- if section.settings.eyebrow != blank -%}
         <p class="vuffi-eyebrow">{{ section.settings.eyebrow }}</p>
@@ -20,14 +28,15 @@
     </div>
 
     <div class="vuffi-joint__stage">
-      <div class="vuffi-joint__visual">
+      <div class="vuffi-joint__visual" data-preload>
         <div class="vuffi-joint__layer vuffi-joint__layer--worn">
           {%- render 'vuffi-image',
             image: section.settings.worn_image,
             label: 'diagram-joint-worn',
             ratio: '1 / 1',
             size: '1600 x 1600',
-            sizes: '(min-width: 990px) 600px, 92vw'
+            sizes: '(min-width: 990px) 600px, 92vw',
+            widths: '360, 540, 720, 960, 1200'
           -%}
         </div>
         <div class="vuffi-joint__layer vuffi-joint__layer--supported">
@@ -36,7 +45,8 @@
             label: 'diagram-joint-ingredients',
             ratio: '1 / 1',
             size: '1600 x 1600',
-            sizes: '(min-width: 990px) 600px, 92vw'
+            sizes: '(min-width: 990px) 600px, 92vw',
+            widths: '360, 540, 720, 960, 1200'
           -%}
           <ol class="vuffi-joint__marks" role="list" aria-hidden="true">
             {%- for block in section.blocks -%}
@@ -52,10 +62,10 @@
         </div>
 
         <div class="vuffi-joint__toggle" role="group" aria-label="{{ section.settings.toggle_label | escape }}">
-          <button type="button" class="vuffi-joint__switch" data-set="worn" aria-pressed="true">
+          <button type="button" class="vuffi-joint__switch" data-set="worn" aria-pressed="{% if start_state == 'worn' %}true{% else %}false{% endif %}">
             {{- section.settings.worn_label -}}
           </button>
-          <button type="button" class="vuffi-joint__switch" data-set="supported" aria-pressed="false">
+          <button type="button" class="vuffi-joint__switch" data-set="supported" aria-pressed="{% if start_state == 'supported' %}true{% else %}false{% endif %}">
             {{- section.settings.supported_label -}}
           </button>
           <span class="vuffi-joint__thumb" aria-hidden="true"></span>
@@ -120,10 +130,12 @@
     mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 58%, transparent 100%);
   }
 
-  /* A plain crossfade between the two joints */
+  /* A plain crossfade between the two joints. The numbers ride on the supported photo,
+     so they arrive with it instead of one by one after it */
   .vuffi-joint__layer--supported {
     opacity: 1;
-    transition: opacity 0.7s var(--vuffi-ease);
+    transition: opacity 0.5s var(--vuffi-ease);
+    will-change: opacity;
   }
 
   [data-state='worn'] .vuffi-joint__layer--supported {
@@ -216,12 +228,7 @@
     transition:
       background-color 0.3s,
       color 0.3s,
-      box-shadow 0.3s,
-      opacity 0.4s var(--vuffi-ease) calc(0.25s + var(--n, 0) * 0.08s);
-  }
-
-  [data-state='worn'] .vuffi-joint__mark {
-    opacity: 0;
+      box-shadow 0.3s;
   }
 
   .vuffi-joint__mark.is-active {
@@ -393,6 +400,17 @@
       "id": "text",
       "label": "Text",
       "default": "<p>Cartilage cushions the ends of the bones and joint fluid keeps them gliding. Age, weight and years of play wear both down. Vuffi gives the joint what it needs to rebuild, protect and calm.</p>"
+    },
+    {
+      "type": "select",
+      "id": "start_state",
+      "label": "Joint shown first",
+      "options": [
+        { "value": "supported", "label": "Supported, with the numbers" },
+        { "value": "worn", "label": "Worn, then it switches by itself" }
+      ],
+      "default": "supported",
+      "info": "Supported shows the numbers the moment the section appears. People can still switch to the worn joint."
     },
     {
       "type": "text",
