@@ -109,4 +109,4 @@ Status: todo, built, PR open, merged.
 - Timeline: centered intro, line measured from the first circle center to the last, circles centered over each card on computers, hero light.
 - Comparison: Shop Vuffi button is a lime pill that fits the dark column on phones.
 - Templates: removed band_run and dose (home) and dose (product); joint set to ink on home, product and ingredients; last eyebrows cleared (home, product, about).
-- Preview copy for screenshots: 157195403462 (safe to delete).
+- Preview copies for screenshots: 157195403462, 157195501766 (safe to delete).
