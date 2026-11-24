@@ -76,7 +76,7 @@
       const unit = this.product.offsetWidth;
       const mouthX = w / 2;
       const mouthY = this.product.offsetTop + unit * 0.24;
-      this.lift = h * 0.16;
+      this.lift = h * 0.1;
       this.drift = h * 0.05;
       this.visible = this.chews.filter((chew) => chew.offsetParent !== null);
       this.visible.forEach((chew, i) => {
