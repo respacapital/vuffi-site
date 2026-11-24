@@ -110,3 +110,13 @@ Status: todo, built, PR open, merged.
 - Comparison: Shop Vuffi button is a lime pill that fits the dark column on phones.
 - Templates: removed band_run and dose (home) and dose (product); joint set to ink on home, product and ingredients; last eyebrows cleared (home, product, about).
 - Preview copies for screenshots: 157195403462, 157195501766 (safe to delete).
+
+## Design version 9 and product switch (Nov 24, night)
+- Product: the DSers import (gid Product/9215799722182) is now the live product, handle hip-and-joint-soft-chews, title, description, SEO, Size option (1 jar, 2 jars), prices $39.99 and $79.98, published to Online Store and Shop. DSers SKUs untouched so orders route to the supplier. The old hand made product (9210731724998) is archived as hip-and-joint-soft-chews-original. Both Black Friday product discounts and the Shop menu links point at the new product. Shopify had moved two theme links (countdown bar, subscribe product) to the old product when its handle changed; both fixed.
+- Loop: the new product is not in the Loop plan yet (only Loop can attach products to its plan). Until Robin adds it in Loop, the buy box shows one time only and the subscribe section shows the 15% fallback price.
+- Product media: five gallery images built from the real jar cutout (scripts/product_images.py in the work folder: jar on stone, five actives, how much to give, subscribe and save, the chew) mixed with pdp-1 to 5. Supplier images removed from the product (still in Files).
+- Judge.me: app embed on (settings_data blocks.judgeme_core), star rating under the product name, new vuffi-reviews section on the product page, @app blocks allowed in the buy box and the reviews section.
+- Look: square corners everywhere (radius tokens 0), flush photo rows with words over a green shade, hairline lists (joint, FAQ, perks, prices, ingredient row), split screen subscribe, timeline without boxes, photo page titles, ink header on pages, CTA photo melts into the footer on phones, content width 1440 with Horizon page margins (theme setting page width now narrow).
+- Pages: no repeated sections. Product: main, detail, band_pdp, reviews. Ingredients: hero, list, band_ing (with Shop button). About: hero, why, band_about (with Shop button), prevent. FAQ: hero, faq. Contact: hero, contact. Home FAQ trimmed to four questions with a link to the full FAQ.
+- Image prompts: one new sheet, "Image Prompts - Vuffi - 2026.11.24.txt", 46 images with a packaging rule, plus Jar Reference 1 to 3.
+- Preview copies for screenshots: 157195403462, 157195501766, 157196288198 (safe to delete).

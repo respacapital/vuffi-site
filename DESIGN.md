@@ -1,6 +1,6 @@
 # Vuffi Design System
 
-Version 8, November 24, 2026. Source of truth for color, type, shape, motion, photography and voice on getvuffi.com. Change this file before changing the theme.
+Version 9, November 24, 2026. Source of truth for color, type, shape, motion, photography and voice on getvuffi.com. Change this file before changing the theme.
 
 Earlier versions are saved on branches: `design/serif-v1` (first serif), `design/rounded-v2` (Nunito, rounded), `design/serif-v3` (serif with the still hero and Robin's first images).
 
@@ -45,16 +45,19 @@ One family, the one printed on the jar: Figtree (a close match to the label lett
 
 ## 4b. Rhythm
 
-Pages alternate dark and light bands so the energy of the hero carries all the way down. Dark: ink (#0B1411) and bottle green (#0E3B2C, also the scroll story gradient). Light: white and stone (#F3F2EE). Never two of the same next to each other when it can be helped. Home: hero ink, ticker ink, scroll story green, why stone, How it works ink, formula stone, comparison white, what to expect green, subscribe stone, guarantee ink, life white, FAQ stone, closing offer green. How it works is ink on every page. Page titles on every other page are ink. On dark bands accents are leaf green; on light bands bottle green.
+Pages alternate dark and light bands so the energy of the hero carries all the way down. Dark: ink (#0B1411) and bottle green (#0E3B2C, also the scroll story gradient). Light: white and stone (#F3F2EE). Never two of the same next to each other when it can be helped. Home: hero ink, ticker ink, scroll story green, why stone, How it works ink, formula stone, comparison white, what to expect green, subscribe stone, guarantee ink, life white, FAQ stone, closing offer green. On dark bands accents are leaf green; on light bands bottle green.
+
+Every section appears once on the whole site. The home page carries the main points (how it works, formula, comparison, what to expect, subscribe, guarantee, FAQ). Other pages only hold their own content: product (buy box, close ups, photo band, reviews), ingredients (each ingredient in depth), our story, FAQ (every question), contact.
 
 ## 5. Shape
 
-1. Everything you can press is round: buttons, chips, tags, toggles, email fields and the slider handle are full pills; icon buttons, the joint numbers, accordion signs and photo arrows are circles.
-2. Buttons are full pills, 54 to 56px tall, bottle green with white text on light bands, leaf with ink text on dark bands. On hover a second color rises from the bottom and fills the pill, and the arrow slides 4px.
-3. Cards and panels (buy box options, subscribe panel, question cards, ingredient cards, photo cards, popup) have soft 16 to 24px corners; small boxes 10px. Section intros are centered: headline, then one line of text.
-4. Photos never sit in a hard edged box. Feature photos run to the edge of the screen: full width on phones, and on computers they run off the outer side with soft 24px corners only on the inside. Photo rows sit on deep green cards (photo on top, words in white below, bigger titles), all in one centered row on computers and swiped on phones. No arrows. Diagrams and product cutouts have no box at all; their white background melts into the section.
-5. Hairline rules (1px) divide everything: lists, specs, cards. No heavy shadows.
-6. Layout: 1280px max content width, 20px side padding on phones, 48px on desktop. Section spacing 72px on phones, 120px on desktop. Full width photo bands break the grid on purpose.
+Luxury and clinical: no rounded tiles anywhere.
+1. Photos, panels, cards and lists have square corners. Photo rows sit flush, edge to edge, split only by a 2px hairline, with the words laid over the bottom of each photo on a deep green shade. Page titles fill the screen with a photo and put the headline at the bottom left.
+2. Information sits on hairlines (1px rules) instead of in boxes: the joint ingredient list, perks, prices, questions, the ingredient index row. Generous space around everything.
+3. Only things you press stay round: buttons (full pills, 54 to 56px tall, bottle green with white text on light bands, leaf with ink text on dark bands), switches, chips, inputs, accordion signs, the numbered joint markers and the 90 day seal.
+4. On hover a second color rises from the bottom and fills a button, and the arrow slides 4px.
+5. Layout: content width 1440px with 16px side margins on phones and 40px from 750px up, matching Horizon's narrow page width so every section lines up with the logo and the cart icon. Section spacing about 72px on phones and 120px on desktop.
+6. Pages that open on a page title get an ink header with the white logo, so the header runs straight into the dark title like the home page.
 7. Icons: drawn in code, 1.5px line, round ends.
 
 ## 6. Photography
