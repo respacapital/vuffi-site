@@ -187,3 +187,9 @@ Status: todo, built, PR open, merged.
 - Start my plan / Add to cart opens the cart drawer as soon as the item is in (cart page when there is no drawer).
 - Sale countdown in the cart drawer and on the cart page, above the savings line (Vuffi site styles > Cart countdown; hides itself when the sale ends).
 - Header menu font set to Heading (header group, header menu block).
+
+## Launch round 5 (Nov 24, 5:30 am)
+- Joint: opens on the supported joint with its numbers in place from the first paint (new "Joint shown first" setting, Supported by default). The worn joint is one tap away; choosing Worn brings back the automatic switch.
+- Ingredient row: never stops (no pause on hover, tap or focus); a swipe nudges it and it drifts on straight away. A tap or click on any card opens that ingredient bigger in a window (larger photo, tagline, name, text; vuffi-formula.js). A small + in the photo corner hints at it.
+- The jar, explained on phones and tablets: the photo starts at the top of the section and fades in and out, so there is no hard edge across the light; headline and intro centered under it.
+- Phones: headlines, intro text, countdowns and buttons centered on every page (page titles, closing offer, Subscribe and save, photo bands, Our story text, ingredient rows with their checklist as one centered block, contact). Long legal text, list rows and the buy box stay left aligned. Computers unchanged.
