@@ -176,3 +176,14 @@ Status: todo, built, PR open, merged.
 - Email popup: the photo no longer covers the headline on computers (it fills its column instead of sizing it); rounded corners; on phones a short photo strip sits above the form.
 - Judge.me: the review widget uses Judge.me's current code (data-auto-install false plus the review data script), the star badge uses Judge.me's badge code, and both stay off the store until the product has a review ("Hide until the first review" setting on Vuffi reviews; the editor still shows the section with a note).
 - Socials: on hold, Follow along section kept as is.
+
+## Launch round 4 (Nov 24, 5:30 am)
+- Scroll story rebuilt for phones: the script moves each layer (jar, lid, chews, lines) with transform and opacity only, glides toward the scroll position so momentum scrolling stays even, writes only changed values and sleeps off screen. The pinned scene fills the large screen height and the motion is measured on the small one, so a phone toolbar sliding away no longer leaves a band or moves the jar. Chew blur and shadows only on computers; the jar shadow only from tablets up. Images are sized for phones and load after the photos on screen.
+- The story's bottom melts into the stone of "One chew. Every joint." as it finishes (new "Blend the bottom into this color" setting, set to #F3F2EE).
+- Ingredient card row: rebuilt as vuffi-marquee.js. It drifts, can be swiped or dragged, carries on after a flick and resumes by itself; page scrolling over it works as usual. The old CSS animation froze after a tap on phones (sticky hover).
+- Joint switch: the numbers ride on the supported photo and arrive with it (no one by one delay); the switch waits until that photo is loaded and decoded.
+- Photos: swipe rows (Why Vuffi, Life with Vuffi, ingredient cards, joint pair) load every photo as the row comes within a screen of view ([data-preload] in vuffi-motion.js); the product gallery loads the photos either side of the one on show.
+- Product thumbnails: the picked one has a bottle green ring drawn inside its edge, so the row no longer clips it.
+- Start my plan / Add to cart opens the cart drawer as soon as the item is in (cart page when there is no drawer).
+- Sale countdown in the cart drawer and on the cart page, above the savings line (Vuffi site styles > Cart countdown; hides itself when the sale ends).
+- Header menu font set to Heading (header group, header menu block).

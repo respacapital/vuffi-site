@@ -898,3 +898,8 @@
   color: var(--vuffi-green);
   text-underline-offset: 3px;
 }
+
+/* The menu uses the heading font (header menu block > Font: Heading); the large phone menu is set tight like the headlines */
+.menu-drawer__menu-item--mainlist {
+  letter-spacing: -0.02em;
+}
