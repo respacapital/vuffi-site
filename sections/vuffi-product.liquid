@@ -717,8 +717,10 @@
     pointer-events: none;
   }
 
-  /* Picked jar option: bottle green with a soft light from the top corner and white words */
-  .vuffi-pdp__size:has(input:checked) {
+  /* Picked jar option and the buy buttons: bottle green with a soft light from the top corner and white words */
+  .vuffi-pdp__size:has(input:checked),
+  .vuffi-pdp .vuffi-pdp__submit.vuffi-btn--primary,
+  .vuffi-pdp .vuffi-pdp__sticky .vuffi-btn--primary {
     border-color: transparent;
     background:
       radial-gradient(120% 160% at 0% 0%, rgb(255 255 255 / 0.16), transparent 55%),
