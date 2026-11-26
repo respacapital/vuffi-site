@@ -83,7 +83,7 @@
         "tab_5"
       ],
       "settings": {
-        "default_subscribe": true,
+        "default_subscribe": false,
         "eyebrow": "",
         "deal_one_percent": 25,
         "deal_sub_percent": 25,
