@@ -201,3 +201,7 @@ Status: todo, built, PR open, merged.
 - New square logo for the Shop app: the full vuffi wordmark (white letters, lime paw) on bottle green, in Files as vuffi-shop-square-logo.jpg. Set as the Brand square logo. Shop Store header now uses the white logo (vuffi-logo-white) on a bottle green #0E3B2C background, saved Nov 24 at noon.
 - New collection "Hip and Joint Support" (hip-and-joint-support) with the chews, a photo and a description, published to Shop and the online store, so the Shop Store has a proper collection row. The old "Home page" collection only holds the archived toothbrush.
 - Social files in the work folder (social/): Profile Picture, X Header 1500x500, Facebook Cover 1640x624, all dated 2026.11.24.
+
+## Product page (Nov 26)
+- Opens with One time purchase selected (product template setting "Start with the subscription selected" off). PR #5.
+- Add to cart and the sticky "Get Vuffi" button use the picked jar gradient. PR #6. Both live.
